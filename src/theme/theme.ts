@@ -11,6 +11,7 @@ export const theme: ThemeConfig = {
     sizeUnit: 4,
     sizeStep: 4,
     wireframe: false,
+    fontFamily: "var(--font-inter)",
   },
   components: {
     Layout: {

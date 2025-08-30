@@ -46,7 +46,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased font-inter`}>
         <AntdRegistry>
           <ConfigProvider>{children}</ConfigProvider>
         </AntdRegistry>

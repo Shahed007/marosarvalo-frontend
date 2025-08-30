@@ -47,16 +47,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   themeConfig = defultTheme, // Use default theme if none provided
 }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const screens = useBreakpoint(); 
+  const screens = useBreakpoint();
 
   // Responsive collapse based on screen size
   React.useEffect(() => {
-    if (!screens.lg) {
+    if (!screens.xl) {
       setCollapsed(true);
     } else {
       setCollapsed(false);
     }
-  }, [screens.lg]);
+  }, [screens.xl]);
 
   // Dropdown menu items for user profile
   const userMenuItems: MenuProps["items"] = [
@@ -81,67 +81,38 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     },
   ];
 
-  // Custom menu item renderer with connecting lines
-  const renderMenuItem = (item: MenuItem) => {
+  // Transform custom menuItems into AntD v5 `items`
+  const formattedMenuItems: MenuProps["items"] = menuItems.map((item) => {
     if (item.children) {
-      return (
-        <Menu.SubMenu
-          key={item.key}
-          icon={item.icon}
-          title={
-            <span style={{ display: "flex", alignItems: "center" }}>
-              {item.label}
-              {item.checked && (
-                <CheckOutlined
-                  style={{
-                    marginLeft: "auto",
-                    fontSize: "12px",
-                    color: themeConfig.token?.colorPrimary || "#1890ff",
-                  }}
-                />
+      return {
+        key: item.key,
+        icon: item.icon,
+        label: item.label,
+        children: item.children.map((child, index) => ({
+          key: child.key,
+          label: (
+            <div className="submenu-item-container">
+              {/* connector line except last item */}
+              {index < item.children!.length - 1 && (
+                <div className="submenu-connector-line" />
               )}
-            </span>
-          }
-          popupClassName="submenu-with-lines"
-        >
-          {item.children.map((child, index) => (
-            <Menu.Item key={child.key}>
-              <div className="submenu-item-container">
-                {/* Vertical line for all items except last */}
-                {index < item.children!.length - 1 && (
-                  <div className="submenu-connector-line" />
-                )}
-                {/* Dot indicator */}
-                <div className="submenu-dot" />
-                {child.label}
-              </div>
-            </Menu.Item>
-          ))}
-        </Menu.SubMenu>
-      );
+              <div className="submenu-dot" />
+              {child.label}
+            </div>
+          ),
+        })),
+      };
     }
-
-    return (
-      <Menu.Item key={item.key} icon={item.icon}>
-        <span style={{ display: "flex", alignItems: "center" }}>
-          {item.label}
-          {item.checked && (
-            <CheckOutlined
-              style={{
-                marginLeft: "auto",
-                fontSize: "12px",
-                color: themeConfig.token?.colorPrimary || "#1890ff",
-              }}
-            />
-          )}
-        </span>
-      </Menu.Item>
-    );
-  };
+    return {
+      key: item.key,
+      icon: item.icon,
+      label: item.label,
+    };
+  });
 
   return (
     <ConfigProvider theme={themeConfig}>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ height: "100vh", overflow: "hidden" }}>
         {/* Sidebar */}
         <Sider
           trigger={null}
@@ -192,9 +163,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["2"]}
             style={{ borderRight: 0, marginTop: "16px" }}
-          >
-            {menuItems.map((item) => renderMenuItem(item))}
-          </Menu>
+            items={formattedMenuItems}
+          ></Menu>
 
           {/* Logout Button */}
           <div
@@ -221,7 +191,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         {/* Main Content Area */}
         <Layout>
           {/* Header */}
-          <Header
+          {/* <Header
             style={{
               padding: "0 16px",
               background: "#fff",
@@ -243,22 +213,24 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             />
 
             {/* User Profile Dropdown */}
-            <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+          {/* <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
               <Space style={{ cursor: "pointer" }}>
                 <Avatar icon={<UserOutlined />} />
                 <Text>Dr. John Smith</Text>
                 <DownOutlined />
               </Space>
             </Dropdown>
-          </Header>
+          </Header>  */}
 
           {/* Page Content */}
           <Content
+            className="lg:pt-[54px] pt-[40px] pr-[20px] lg:pr-[40px] pb-[40px] pl-[20px] lg:pl-[40px]"
             style={{
-              margin: "24px 16px",
-              padding: 24,
+              // margin: "54px 40px",
+              padding: "",
               background: "#fff",
-              minHeight: 280,
+              overflowY: "auto",
+              height: "100%",
               overflow: "initial",
             }}
           >
