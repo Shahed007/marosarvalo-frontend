@@ -122,8 +122,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           width={250}
           style={{
             // background: "#fff",
-            overflow: "auto",
-            height: "100vh",
+            overflowY: "auto",
+            height: "100%",
             position: screens.xs ? "absolute" : "relative",
             zIndex: 10,
             left: screens.xs && collapsed ? -250 : 0,
@@ -231,7 +231,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               background: "#fff",
               overflowY: "auto",
               height: "100%",
-              overflow: "initial",
             }}
           >
             {children}
