@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -13,6 +14,7 @@ import {
   Row,
   Col,
   Space,
+  Typography,
 } from "antd";
 import { InboxOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import type { FormProps } from "antd";
@@ -21,7 +23,11 @@ import Title from "antd/es/typography/Title";
 
 import { Image, Upload } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";
+import { LiaUserPlusSolid } from "react-icons/lia";
+import DocumentUploader from "@/components/documentUploader/DocumentUploader";
 const { Dragger } = Upload;
+
+const { TextArea } = Input;
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -280,7 +286,7 @@ const PatientRegistrationForm: React.FC = () => {
           <Form layout="vertical" requiredMark={false} size="large">
             <div>
               <Title level={5}>Patients Name</Title>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Form.Item
                   name={"firstName"}
                   rules={[
@@ -303,7 +309,7 @@ const PatientRegistrationForm: React.FC = () => {
                 </Form.Item>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Form.Item
                 name={"address"}
                 label={
@@ -337,7 +343,7 @@ const PatientRegistrationForm: React.FC = () => {
                 <Input placeholder="1234556781" />
               </Form.Item>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Form.Item
                 label={
                   <Title
@@ -378,13 +384,19 @@ const PatientRegistrationForm: React.FC = () => {
             </div>
             <div className="bg-[#F1F4F6] p-4 rounded-xl">
               <Title level={5}>If patient Under 18</Title>
-              <div className="grid grid-cols-2 gap-6">
-                <Form.Item name="fullName" required={false}>
-                  <Input placeholder="Guardian Full Name" />
-                </Form.Item>
-                <Form.Item name="relations" required={false}>
-                  <Input placeholder="Relations" />
-                </Form.Item>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid col-span-2 grid-cols-1 sm:grid-cols-2 gap-6 ">
+                  <div>
+                    <Form.Item name="fullName" required={false}>
+                      <Input placeholder="Guardian Full Name" />
+                    </Form.Item>
+                  </div>
+                  <div>
+                    <Form.Item name="relations" required={false}>
+                      <Input placeholder="Relations" />
+                    </Form.Item>
+                  </div>
+                </div>
                 <div className="col-span-2">
                   <Form.Item>
                     <Dragger {...props}>
@@ -403,7 +415,7 @@ const PatientRegistrationForm: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Form.Item
                 name={"contactNumber"}
                 label={
@@ -481,9 +493,57 @@ const PatientRegistrationForm: React.FC = () => {
                   </Title>
                 }
               >
-                <Input />
+                <Input placeholder="Patient Note" />
               </Form.Item>
             </div>
+            <Form.Item label={null}>
+              <Button
+                style={{
+                  minWidth: 220,
+                }}
+                type="primary"
+                htmlType="submit"
+              >
+                Continue
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      ),
+    },
+
+    {
+      key: "medical-history",
+      label: "Medical History",
+      children: (
+        <div className=" ">
+          <Form requiredMark={false} layout="vertical">
+            <Form.Item
+              required={true}
+              label={<Title level={5}>Medical Condition</Title>}
+            >
+              <TextArea
+                rows={5}
+                placeholder="List any exiting medical conditions"
+              />
+            </Form.Item>
+            <Form.Item
+              required={true}
+              label={<Title level={5}>Allergies</Title>}
+            >
+              <TextArea rows={5} placeholder="List any allergies" />
+            </Form.Item>
+            <Form.Item
+              required={true}
+              label={<Title level={5}>Medications</Title>}
+            >
+              <TextArea rows={5} placeholder="Current Medications" />
+            </Form.Item>
+            <Form.Item>
+              <Button size="large" type="primary" icon={<LiaUserPlusSolid />}>
+                Save
+              </Button>
+            </Form.Item>
           </Form>
         </div>
       ),
@@ -492,35 +552,29 @@ const PatientRegistrationForm: React.FC = () => {
       key: "attachments",
       label: "Attachments",
       children: (
-        <div className="text-center py-12">
-          <p className="text-gray-500">
-            Attachments functionality can be implemented here
-          </p>
-          <p className="text-sm text-gray-400 mt-2">
-            This would typically include medical records, insurance documents,
-            etc.
-          </p>
-        </div>
-      ),
-    },
-    {
-      key: "medical-history",
-      label: "Medical History",
-      children: (
-        <div className="text-center py-12">
-          <p className="text-gray-500">
-            Medical history form can be implemented here
-          </p>
-          <p className="text-sm text-gray-400 mt-2">
-            This would include previous conditions, allergies, medications, etc.
-          </p>
+        <div className="">
+          <div>
+            <Title level={5}>Mandatory Documents*</Title>
+            <Typography>
+              For a smooth clinic visit, please bring your valid photo ID (e.g.,
+              passport or driver’s license), insurance card, any required
+              referral letter, relevant medical records or test results, and
+              payment method for any out-of-pocket costs. If applicable, bring
+              prescription details and completed consent forms for specific
+              procedures. Ensuring all documents are with you will help avoid
+              any delays, but feel free to contact us if you have any questions.
+            </Typography>
+          </div>
+          <div>
+            <DocumentUploader />
+          </div>
         </div>
       ),
     },
   ];
 
   return (
-    <div className="max-w-4xl p-6 bg-white">
+    <div className="max-w-4xl  bg-white">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">New Patients</h1>
         <div className="border-b border-gray-200">
@@ -571,9 +625,8 @@ const PatientRegistrationForm: React.FC = () => {
         </Form>
       )}
       */}
-      {activeTab !== "patient-info" &&
-        tabItems.find((item) => item.key === activeTab)?.children}{" "}
-      
+      {/* {activeTab !== "patient-info" &&
+        tabItems.find((item) => item.key === activeTab)?.children}{" "} */}
     </div>
   );
 };
