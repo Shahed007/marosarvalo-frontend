@@ -12,7 +12,11 @@ const ContactUs = () => {
     {
       id: 1,
       title: "Location",
-      description: "Location, 3456, Lore ipsum USA",
+      description: (
+        <>
+          Location, 3456, Lore ipsum <br/>USA
+        </>
+      ),
       icon: location,
       bgColor: "#EFF6FF", // bg-blue-50
     },

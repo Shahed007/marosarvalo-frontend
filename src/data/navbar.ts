@@ -1,4 +1,9 @@
-export const navItems = [
+export type NavItemTypes = {
+  label: string;
+  href: string;
+};
+
+export const navItems: NavItemTypes[] = [
   {
     label: "Home",
     href: "/",

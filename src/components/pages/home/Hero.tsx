@@ -24,7 +24,7 @@ const Hero = () => {
               There for you when you need real help, your local practitioner.{" "}
             </Typography>
             <div>
-              <Button size="large">Book an Appointment</Button>
+              <Button size="large" className="hover:!text-white hover:!border-primary hover:!bg-accent">Book an Appointment</Button>
             </div>
           </div>
         </div>

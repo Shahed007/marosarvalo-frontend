@@ -43,6 +43,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
           key: "2-3",
           icon: null,
           label: "Add Appointment",
+          href: "/clinic/appointment/add-appointment",
         },
       ],
     },
@@ -58,6 +59,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <CreditCardOutlined />,
       label: "Bonds",
       checked: false,
+      href: "/clinic/bonds",
     },
     {
       key: "5",

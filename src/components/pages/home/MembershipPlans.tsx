@@ -4,11 +4,13 @@ import { useState } from "react";
 import { Card, Switch, Button } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
+import Link from "next/link";
 
 const MembershipPlans = () => {
   const [isYearlyBilling, setIsYearlyBilling] = useState(true);
   const plans = [
     {
+      id: 1,
       title: "",
       price: isYearlyBilling ? "$49 / yearly" : "$5 / monthly",
       originalPrice: isYearlyBilling ? "$60" : undefined,
@@ -25,6 +27,7 @@ const MembershipPlans = () => {
       isPopular: true,
     },
     {
+      id: 2,
       title: "",
       price: isYearlyBilling ? "$129 / yearly" : "$13 / monthly",
       originalPrice: isYearlyBilling ? "$155" : undefined,
@@ -75,7 +78,7 @@ const MembershipPlans = () => {
         </div>
 
         <div className="grid grid-cols-1 max-w-3xl mx-auto  md:grid-cols-2  gap-[120px]">
-          {plans.map((plan, index) => (
+          {plans?.map((plan, index) => (
             <Card
               key={index}
               className={`relative border  rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md ${
@@ -113,14 +116,16 @@ const MembershipPlans = () => {
                   ))}
                 </ul>
 
-                <Button
-                  className="!border-0 !rounded-full"
-                  type="primary"
-                  size="large"
-                  block
-                >
-                  Buy Now
-                </Button>
+                <Link href={`/order-description/${plan.id}`} prefetch>
+                  <Button
+                    className="!border-0 !rounded-full !bg-primary"
+                    type="primary"
+                    size="large"
+                    block
+                  >
+                    Buy Now
+                  </Button>
+                </Link>
               </div>
             </Card>
           ))}

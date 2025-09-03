@@ -5,9 +5,9 @@ import GetInTouch from "@/components/pages/home/GetInTouch";
 import Hero from "@/components/pages/home/Hero";
 import MembershipPlans from "@/components/pages/home/MembershipPlans";
 
-export default function Home() {
+export default function page() {
   return (
-    <div className="">
+    <div>
       <Hero />
       <AboutUs />
       <MembershipPlans />
