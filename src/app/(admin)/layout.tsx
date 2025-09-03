@@ -1,6 +1,4 @@
-import DashboardLayout, {
-  MenuItem,
-} from "@/components/dashboardLayout/DashboardLayout";
+import DashboardLayout, { MenuItem } from "@/components/dashboardLayout/DashboardLayout";
 import {
   BarChartOutlined,
   CalendarOutlined,
@@ -11,35 +9,36 @@ import {
   SettingOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
+// Define your menu items using the correct MenuItem interface
+// Only use valid properties: key, icon, label, children, href
 const menuItems: MenuItem[] = [
   {
     key: "1",
     icon: <DashboardOutlined />,
     label: "Dashboard",
-    checked: false,
+    href: "/admin", // Main dashboard page
   },
   {
     key: "2",
     icon: <CalendarOutlined />,
     label: "Appointments",
-    checked: true,
     children: [
       {
         key: "2-1",
-        icon: null,
         label: "Calendar",
+        href: "/admin/appointments/calendar",
       },
       {
         key: "2-2",
-        icon: null,
         label: "Appointment List",
+        href: "/admin/appointments/list",
       },
       {
         key: "2-3",
-        icon: null,
         label: "Add Appointment",
+        href: "/admin/appointments/add",
       },
     ],
   },
@@ -47,51 +46,51 @@ const menuItems: MenuItem[] = [
     key: "3",
     icon: <TeamOutlined />,
     label: "Patients",
-    checked: true,
+    href: "/admin/patients",
   },
   {
     key: "4",
     icon: <CreditCardOutlined />,
     label: "Bonds",
-    checked: false,
+    href: "/admin/bonds",
   },
   {
     key: "5",
     icon: <CreditCardOutlined />,
     label: "Billing",
-    checked: false,
+    href: "/admin/billing",
   },
   {
     key: "6",
     icon: <MessageOutlined />,
     label: "Communications",
-    checked: false,
+    href: "/admin/communications",
   },
   {
     key: "7",
     icon: <GiftOutlined />,
     label: "Voucher",
-    checked: false,
+    href: "/admin/voucher",
   },
   {
     key: "8",
     icon: <BarChartOutlined />,
     label: "Report",
-    checked: true,
+    href: "/admin/reports",
   },
   {
     key: "9",
     icon: <SettingOutlined />,
     label: "Settings",
-    checked: false,
+    href: "/admin/settings",
   },
 ];
 
 const AdminLayout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <div>
-      <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>
-    </div>
+    <DashboardLayout menuItems={menuItems}>
+      {children}
+    </DashboardLayout>
   );
 };
 
