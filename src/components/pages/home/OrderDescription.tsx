@@ -3,9 +3,12 @@
 import { Card, Input, Button, Form, Row, Col, Typography, Divider } from "antd";
 import Image from "next/image";
 import img from "@/assets/order/order-details.png";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 const { Title, Text } = Typography;
 
 export default function OrderDescription() {
+  const id = useParams().id;
   return (
     <div>
       <div className="custom-container ">
@@ -349,18 +352,20 @@ export default function OrderDescription() {
                   </Text>
                 </div>
 
-                <Button
-                  type="primary"
-                  size="large"
-                  style={{
-                    width: "100%",
-                    backgroundColor: "#225A7F",
-                    borderColor: "#225A7F",
-                    height: 48,
-                  }}
-                >
-                  Request Order
-                </Button>
+                <Link href={`/checkout/${id}`}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "#225A7F",
+                      borderColor: "#225A7F",
+                      height: 48,
+                    }}
+                  >
+                    Request Order
+                  </Button>
+                </Link>
               </div>
             </Card>
           </Col>
