@@ -1,3 +1,6 @@
+import { Footer } from "@/components/shared/footer/Footer";
+import Navbar from "@/components/shared/navbar/Navbar";
+
 export default function HomeLayout({
   children,
 }: Readonly<{
@@ -5,8 +8,9 @@ export default function HomeLayout({
 }>) {
   return (
     <div>
-      {/* <Navbar /> */}
+      <Navbar />
       {children}
+      <Footer />
     </div>
   );
 }

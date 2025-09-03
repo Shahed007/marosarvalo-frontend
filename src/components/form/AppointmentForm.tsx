@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
 import {
@@ -6,7 +7,7 @@ import {
   Select,
   DatePicker,
   Radio,
-  Checkbox,
+  // Checkbox,
   Upload,
   Button,
   Card,
@@ -37,7 +38,7 @@ interface Specialist {
 
 const AppointmentForm: React.FC = () => {
   const [form] = Form.useForm();
-  const [selectedDate, setSelectedDate] = useState<string>("");
+  // const [setSelectedDate] = useState<string>("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   // Mock data - in a real app this would come from an API
@@ -65,9 +66,9 @@ const AppointmentForm: React.FC = () => {
     // Here you would handle form submission, e.g., send to API
   };
 
-  const handleDateSelect = (date: any, selectInfo?: any) => {
-    setSelectedDate(date.format("YYYY-MM-DD"));
-  };
+  // const handleDateSelect = (date: any, selectInfo?: any) => {
+  //   setSelectedDate(date.format("YYYY-MM-DD"));
+  // };
 
   const uploadProps = {
     onRemove: (file: UploadFile) => {
@@ -162,7 +163,7 @@ const AppointmentForm: React.FC = () => {
               >
                 <DatePicker
                   style={{ width: "100%" }}
-                  onChange={handleDateSelect}
+                  // onChange={handleDateSelect}
                 />
               </Form.Item>
 
@@ -177,7 +178,7 @@ const AppointmentForm: React.FC = () => {
               <div style={{ border: "1px solid #d9d9d9", borderRadius: "4px" }}>
                 <Calendar
                   fullscreen={false}
-                  onSelect={handleDateSelect}
+                  // onSelect={handleDateSelect}
                   headerRender={() => null}
                 />
               </div>

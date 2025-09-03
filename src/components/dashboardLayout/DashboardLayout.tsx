@@ -1,30 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Layout,
-  Menu,
-  Button,
-  Typography,
-  Dropdown,
-  Avatar,
-  Space,
-  Grid,
-  ConfigProvider,
-} from "antd";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  LogoutOutlined,
-  UserOutlined,
-  DownOutlined,
-  CheckOutlined,
-} from "@ant-design/icons";
+import { Layout, Menu, Button, Grid, ConfigProvider } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import type { MenuProps, ThemeConfig } from "antd";
 import { theme as defultTheme } from "@/theme/theme";
+import Link from "next/link"; // Import Next.js Link
 import logo from "@/assets/logo.svg";
-
-const { Header, Sider, Content } = Layout;
-const { Text } = Typography;
+import Image from "next/image";
+const { Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
 
 export interface MenuItem {
@@ -33,6 +16,7 @@ export interface MenuItem {
   label: React.ReactNode;
   children?: MenuItem[];
   checked?: boolean;
+  href?: string; // Add href property for links
 }
 
 interface DashboardLayoutProps {
@@ -44,7 +28,7 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   menuItems,
-  themeConfig = defultTheme, // Use default theme if none provided
+  themeConfig = defultTheme,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
   const screens = useBreakpoint();
@@ -58,55 +42,68 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     }
   }, [screens.xl]);
 
-  // Dropdown menu items for user profile
-  const userMenuItems: MenuProps["items"] = [
-    {
-      key: "1",
-      label: "Profile",
-      icon: <UserOutlined />,
-    },
-    {
-      key: "2",
-      label: "Settings",
-      icon: <UserOutlined />,
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "3",
-      label: "Logout",
-      icon: <LogoutOutlined />,
-      danger: true,
-    },
-  ];
-
-  // Transform custom menuItems into AntD v5 `items`
+  // Transform custom menuItems into AntD v5 `items` with Next.js Links
   const formattedMenuItems: MenuProps["items"] = menuItems.map((item) => {
+    const menuItemProps = item.href
+      ? {
+          label: (
+            <Link href={item.href} passHref legacyBehavior>
+              <a style={{ textDecoration: "none", color: "inherit" }}>
+                {item.label}
+              </a>
+            </Link>
+          ),
+        }
+      : { label: item.label };
+
     if (item.children) {
       return {
         key: item.key,
         icon: item.icon,
-        label: item.label,
-        children: item.children.map((child, index) => ({
-          key: child.key,
-          label: (
-            <div className="submenu-item-container">
-              {/* connector line except last item */}
-              {index < item.children!.length - 1 && (
-                <div className="submenu-connector-line" />
-              )}
-              <div className="submenu-dot" />
-              {child.label}
-            </div>
-          ),
-        })),
+        ...menuItemProps,
+        children: item.children.map((child, index) => {
+          const childProps = child.href
+            ? {
+                label: (
+                  <Link href={child.href} passHref legacyBehavior>
+                    <a
+                      style={{ textDecoration: "none", color: "inherit" }}
+                      className="submenu-item-container"
+                    >
+                      {/* connector line except last item */}
+                      {index < item.children!.length - 1 && (
+                        <div className="submenu-connector-line" />
+                      )}
+                      <div className="submenu-dot" />
+                      {child.label}
+                    </a>
+                  </Link>
+                ),
+              }
+            : {
+                label: (
+                  <div className="submenu-item-container">
+                    {index < item.children!.length - 1 && (
+                      <div className="submenu-connector-line" />
+                    )}
+                    <div className="submenu-dot" />
+                    {child.label}
+                  </div>
+                ),
+              };
+
+          return {
+            key: child.key,
+            ...childProps,
+          };
+        }),
       };
     }
+
     return {
       key: item.key,
       icon: item.icon,
-      label: item.label,
+      ...menuItemProps,
     };
   });
 
@@ -121,7 +118,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           collapsedWidth={screens.xs ? 0 : 80}
           width={250}
           style={{
-            // background: "#fff",
             overflowY: "auto",
             height: "100%",
             position: screens.xs ? "absolute" : "relative",
@@ -129,7 +125,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             left: screens.xs && collapsed ? -250 : 0,
           }}
         >
-          {/* Logo */}
+          {/* Logo with Link */}
           <div
             style={{
               padding: "16px",
@@ -137,34 +133,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               borderBottom: "1px solid #f0f0f0",
             }}
           >
-            <h3
-              style={{
-                margin: 0,
-                color: themeConfig.token?.colorPrimary || "#1890ff",
-                display: collapsed ? "none" : "block",
-              }}
-            >
-              DoctorQ
-            </h3>
-            <h3
-              style={{
-                margin: 0,
-                color: themeConfig.token?.colorPrimary || "#1890ff",
-                display: collapsed ? "block" : "none",
-              }}
-            >
-              DQ
-            </h3>
+            <Link href="/" passHref legacyBehavior>
+              <Image src={logo} alt="Logo" />
+            </Link>
           </div>
 
-          {/* Navigation Menu */}
+          {/* Navigation Menu with Links */}
           <Menu
             mode="inline"
             defaultSelectedKeys={["1"]}
             defaultOpenKeys={["2"]}
             style={{ borderRight: 0, marginTop: "16px" }}
             items={formattedMenuItems}
-          ></Menu>
+          />
 
           {/* Logout Button */}
           <div
@@ -190,44 +171,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         {/* Main Content Area */}
         <Layout>
-          {/* Header */}
-          {/* <Header
-            style={{
-              padding: "0 16px",
-              background: "#fff",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              boxShadow: "0 1px 4px rgba(0,21,41,0.08)",
-            }}
-          >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-
-            {/* User Profile Dropdown */}
-          {/* <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-              <Space style={{ cursor: "pointer" }}>
-                <Avatar icon={<UserOutlined />} />
-                <Text>Dr. John Smith</Text>
-                <DownOutlined />
-              </Space>
-            </Dropdown>
-          </Header>  */}
-
           {/* Page Content */}
           <Content
             className="lg:pt-[54px] pt-[40px] pr-[20px] lg:pr-[40px] pb-[40px] pl-[20px] lg:pl-[40px]"
             style={{
-              // margin: "54px 40px",
-              padding: "",
               background: "#fff",
               overflowY: "auto",
               height: "100%",

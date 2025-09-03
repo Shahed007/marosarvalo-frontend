@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -11,68 +10,68 @@ import {
   Button,
   message,
   Tabs,
-  Row,
-  Col,
-  Space,
+  // Row,
+  // Col,
+  // Space,
   Typography,
 } from "antd";
-import { InboxOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import type { FormProps } from "antd";
-import dayjs from "dayjs";
+import { InboxOutlined } from "@ant-design/icons";
+// import type { FormProps } from "antd";
+// import dayjs from "dayjs";
 import Title from "antd/es/typography/Title";
 
-import { Image, Upload } from "antd";
-import type { GetProp, UploadFile, UploadProps } from "antd";
+import { Upload } from "antd";
+import type { UploadProps } from "antd";
 import { LiaUserPlusSolid } from "react-icons/lia";
 import DocumentUploader from "@/components/documentUploader/DocumentUploader";
 const { Dragger } = Upload;
 
 const { TextArea } = Input;
 
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+// type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+// const getBase64 = (file: FileType): Promise<string> =>
+//   new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result as string);
+//     reader.onerror = (error) => reject(error);
+//   });
 
 // TypeScript interfaces
-interface PatientFormData {
-  firstName: string;
-  lastName: string;
-  address: string;
-  patientId: string;
-  dateOfBirth: dayjs.Dayjs;
-  gender: "male" | "female" | "others";
-  guardianName?: string;
-  relation?: string;
-  contactNumber: string;
-  emailAddress: string;
-  contactPreferences: string[];
-  patientNote?: string;
-  legalDocuments?: UploadFile[];
-  // Medical History fields
-  allergies?: string;
-  medications?: string;
-  // Attachments fields
-  mandatoryDocuments?: UploadFile[];
-  otherDocuments?: UploadFile[];
-}
+// interface PatientFormData {
+//   firstName: string;
+//   lastName: string;
+//   address: string;
+//   patientId: string;
+//   dateOfBirth: dayjs.Dayjs;
+//   gender: "male" | "female" | "others";
+//   guardianName?: string;
+//   relation?: string;
+//   contactNumber: string;
+//   emailAddress: string;
+//   contactPreferences: string[];
+//   patientNote?: string;
+//   legalDocuments?: UploadFile[];
+//   // Medical History fields
+//   allergies?: string;
+//   medications?: string;
+//   // Attachments fields
+//   mandatoryDocuments?: UploadFile[];
+//   otherDocuments?: UploadFile[];
+// }
 
-interface FormErrors {
-  [key: string]: string;
-}
+// interface FormErrors {
+//   [key: string]: string;
+// }
 
 const PatientRegistrationForm: React.FC = () => {
-  const [form] = Form.useForm<PatientFormData>();
-  const [loading, setLoading] = useState(false);
+  // const [form] = Form.useForm<PatientFormData>();
+  // const [, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("patient-info");
-  const [isMinor, setIsMinor] = useState(false);
-  const [mandatoryFileList, setMandatoryFileList] = useState<UploadFile[]>([]);
-  const [otherFileList, setOtherFileList] = useState<UploadFile[]>([]);
+  // const [isMinor, setIsMinor] = useState(false);
+  // const [, setMandatoryFileList] = useState<UploadFile[]>([]);
+  // const [, setOtherFileList] = useState<UploadFile[]>([]);
   const props: UploadProps = {
     name: "file",
     multiple: true,
@@ -94,36 +93,36 @@ const PatientRegistrationForm: React.FC = () => {
   };
 
   // Custom validation functions
-  const validateAge = (dateOfBirth: dayjs.Dayjs): boolean => {
-    const age = dayjs().diff(dateOfBirth, "year");
-    return age < 18;
-  };
+  // const validateAge = (dateOfBirth: dayjs.Dayjs): boolean => {
+  //   const age = dayjs().diff(dateOfBirth, "year");
+  //   return age < 18;
+  // };
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // const validateEmail = (email: string): boolean => {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // };
 
-  const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^\+?[\d\s-()]+$/;
-    return phoneRegex.test(phone) && phone.replace(/\D/g, "").length >= 10;
-  };
+  // const validatePhone = (phone: string): boolean => {
+  //   const phoneRegex = /^\+?[\d\s-()]+$/;
+  //   return phoneRegex.test(phone) && phone.replace(/\D/g, "").length >= 10;
+  // };
 
   // Handle date of birth change to determine if patient is minor
-  const handleDateOfBirthChange = (date: dayjs.Dayjs | null) => {
-    if (date) {
-      const isUnder18 = validateAge(date);
-      setIsMinor(isUnder18);
+  // const handleDateOfBirthChange = (date: dayjs.Dayjs | null) => {
+  //   if (date) {
+  //     const isUnder18 = validateAge(date);
+  //     setIsMinor(isUnder18);
 
-      // Clear guardian fields if patient becomes adult
-      if (!isUnder18) {
-        form.setFieldsValue({
-          guardianName: undefined,
-          relation: undefined,
-        });
-      }
-    }
-  };
+  //     // Clear guardian fields if patient becomes adult
+  //     if (!isUnder18) {
+  //       form.setFieldsValue({
+  //         guardianName: undefined,
+  //         relation: undefined,
+  //       });
+  //     }
+  //   }
+  // };
 
   // Handle file upload
   //   const handleUpload = {
@@ -154,128 +153,128 @@ const PatientRegistrationForm: React.FC = () => {
   //   };
 
   // Handle mandatory documents upload
-  const handleMandatoryUpload = {
-    beforeUpload: (file: File) => {
-      const isValidType =
-        file.type === "application/pdf" ||
-        file.type.startsWith("image/") ||
-        file.type === "application/msword" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  // const handleMandatoryUpload = {
+  //   beforeUpload: (file: File) => {
+  //     const isValidType =
+  //       file.type === "application/pdf" ||
+  //       file.type.startsWith("image/") ||
+  //       file.type === "application/msword" ||
+  //       file.type ===
+  //         "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-      if (!isValidType) {
-        message.error("Please upload PDF, image, or Word documents only");
-        return false;
-      }
+  //     if (!isValidType) {
+  //       message.error("Please upload PDF, image, or Word documents only");
+  //       return false;
+  //     }
 
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        message.error("File must be smaller than 10MB");
-        return false;
-      }
+  //     const isLt10M = file.size / 1024 / 1024 < 10;
+  //     if (!isLt10M) {
+  //       message.error("File must be smaller than 10MB");
+  //       return false;
+  //     }
 
-      return false;
-    },
-    onChange: (info: any) => {
-      setMandatoryFileList(info.fileList);
-    },
-  };
+  //     return false;
+  //   },
+  //   onChange: (info: any) => {
+  //     setMandatoryFileList(info.fileList);
+  //   },
+  // };
 
   // Handle other documents upload
-  const handleOtherUpload = {
-    beforeUpload: (file: File) => {
-      const isValidType =
-        file.type === "application/pdf" ||
-        file.type.startsWith("image/") ||
-        file.type === "application/msword" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  // const handleOtherUpload = {
+  //   beforeUpload: (file: File) => {
+  //     const isValidType =
+  //       file.type === "application/pdf" ||
+  //       file.type.startsWith("image/") ||
+  //       file.type === "application/msword" ||
+  //       file.type ===
+  //         "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-      if (!isValidType) {
-        message.error("Please upload PDF, image, or Word documents only");
-        return false;
-      }
+  //     if (!isValidType) {
+  //       message.error("Please upload PDF, image, or Word documents only");
+  //       return false;
+  //     }
 
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        message.error("File must be smaller than 10MB");
-        return false;
-      }
+  //     const isLt10M = file.size / 1024 / 1024 < 10;
+  //     if (!isLt10M) {
+  //       message.error("File must be smaller than 10MB");
+  //       return false;
+  //     }
 
-      return false;
-    },
-    onChange: (info: any) => {
-      setOtherFileList(info.fileList);
-    },
-  };
+  //     return false;
+  //   },
+  //   onChange: (info: any) => {
+  //     setOtherFileList(info.fileList);
+  //   },
+  // };
 
   // Form submission handler
-  const onFinish: FormProps<PatientFormData>["onFinish"] = async (values) => {
-    try {
-      setLoading(true);
+  // const onFinish: FormProps<PatientFormData>["onFinish"] = async (values) => {
+  //   try {
+  //     setLoading(true);
 
-      // Additional validation
-      const errors: FormErrors = {};
+  //     // Additional validation
+  //     const errors: FormErrors = {};
 
-      if (!validateEmail(values.emailAddress)) {
-        errors.emailAddress = "Please enter a valid email address";
-      }
+  //     if (!validateEmail(values.emailAddress)) {
+  //       errors.emailAddress = "Please enter a valid email address";
+  //     }
 
-      if (!validatePhone(values.contactNumber)) {
-        errors.contactNumber =
-          "Please enter a valid phone number (at least 10 digits)";
-      }
+  //     if (!validatePhone(values.contactNumber)) {
+  //       errors.contactNumber =
+  //         "Please enter a valid phone number (at least 10 digits)";
+  //     }
 
-      if (isMinor && (!values.guardianName || !values.relation)) {
-        if (!values.guardianName)
-          errors.guardianName =
-            "Guardian name is required for patients under 18";
-        if (!values.relation)
-          errors.relation = "Relation is required for patients under 18";
-      }
+  //     if (isMinor && (!values.guardianName || !values.relation)) {
+  //       if (!values.guardianName)
+  //         errors.guardianName =
+  //           "Guardian name is required for patients under 18";
+  //       if (!values.relation)
+  //         errors.relation = "Relation is required for patients under 18";
+  //     }
 
-      if (Object.keys(errors).length > 0) {
-        // Set form errors
-        form.setFields(
-          Object.entries(errors).map(([name, error]) => ({
-            name: name as keyof PatientFormData,
-            errors: [error],
-          }))
-        );
-        setLoading(false);
-        return;
-      }
+  //     if (Object.keys(errors).length > 0) {
+  //       // Set form errors
+  //       form.setFields(
+  //         Object.entries(errors).map(([name, error]) => ({
+  //           name: name as keyof PatientFormData,
+  //           errors: [error],
+  //         }))
+  //       );
+  //       setLoading(false);
+  //       return;
+  //     }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+  //     // Simulate API call
+  //     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Success handling
-      message.success("Patient registered successfully!");
-      //   console.log("Form submitted:", {
-      //     ...values,
-      //     legalDocuments: fileList,
-      //     isMinor,
-      //   });
+  //     // Success handling
+  //     message.success("Patient registered successfully!");
+  //     //   console.log("Form submitted:", {
+  //     //     ...values,
+  //     //     legalDocuments: fileList,
+  //     //     isMinor,
+  //     //   });
 
-      // Reset form
-      form.resetFields();
-      //   setFileList([]);
-      setIsMinor(false);
-      setActiveTab("patient-info");
-    } catch (error) {
-      message.error("Registration failed. Please try again.");
-      console.error("Submission error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Reset form
+  //     form.resetFields();
+  //     //   setFileList([]);
+  //     setIsMinor(false);
+  //     setActiveTab("patient-info");
+  //   } catch (error) {
+  //     message.error("Registration failed. Please try again.");
+  //     console.error("Submission error:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const onFinishFailed: FormProps<PatientFormData>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
-    message.error("Please check all required fields");
-  };
+  // const onFinishFailed: FormProps<PatientFormData>["onFinishFailed"] = (
+  //   errorInfo
+  // ) => {
+  //   console.log("Failed:", errorInfo);
+  //   message.error("Please check all required fields");
+  // };
 
   const tabItems = [
     {

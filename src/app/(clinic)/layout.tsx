@@ -19,13 +19,14 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "1",
       icon: <DashboardOutlined />,
       label: "Dashboard",
-      checked: false,
+      href: "/clinic",
     },
     {
       key: "2",
       icon: <CalendarOutlined />,
-      label: "Appointments",
+      label: "Appointment",
       checked: true,
+      href: "/clinic/appointment/appointment-list",
       children: [
         {
           key: "2-1",
@@ -36,6 +37,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
           key: "2-2",
           icon: null,
           label: "Appointment List",
+          href: "/clinic/appointment/appointment-list",
         },
         {
           key: "2-3",
@@ -49,6 +51,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <TeamOutlined />,
       label: "Patients",
       checked: true,
+      href: "/clinic/patient",
     },
     {
       key: "4",
@@ -67,18 +70,21 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <MessageOutlined />,
       label: "Communications",
       checked: false,
+      href: "/clinic/communications",
     },
     {
       key: "7",
       icon: <GiftOutlined />,
       label: "Voucher",
       checked: false,
+      href: "/clinic/voucher",
     },
     {
       key: "8",
       icon: <BarChartOutlined />,
       label: "Report",
       checked: true,
+      href: "/clinic/report",
     },
     {
       key: "9",
