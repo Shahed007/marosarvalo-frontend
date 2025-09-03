@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Row, Col, Space, Tag } from "antd";
+import { Card, Typography, Row, Col, Space } from "antd";
 
 
 interface UserInfoProps {

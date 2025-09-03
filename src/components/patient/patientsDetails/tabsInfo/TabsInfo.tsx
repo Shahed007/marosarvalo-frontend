@@ -9,7 +9,7 @@ import { useState } from "react";
 import { IoMdDownload } from "react-icons/io";
 
 const TabsInfo = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   // Sample data - this would typically come from an API
   const appointmentData: AppointmentTableTypes[] = [
@@ -39,10 +39,10 @@ const TabsInfo = () => {
     },
   ];
 
-  const handleViewDetails = (record: AppointmentTableTypes) => {
-    console.log("View details for:", record);
-    // You can implement navigation or a modal here
-  };
+  // const handleViewDetails = (record: AppointmentTableTypes) => {
+  //   console.log("View details for:", record);
+  //   // You can implement navigation or a modal here
+  // };
 
   const bondsData: BondDataType[] = [
     {
