@@ -66,6 +66,20 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <CreditCardOutlined />,
       label: "Billing",
       checked: false,
+      href: "/clinic/billing",
+      children: [
+        {
+          key: "5-1",
+          icon: null,
+          label: "Create Invoice",
+        },
+        {
+          key: "5-2",
+          icon: null,
+          label: "Receipt History",
+          href: "/clinic/appointment/appointment-list",
+        },
+      ],
     },
     {
       key: "6",
