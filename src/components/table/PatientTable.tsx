@@ -15,6 +15,7 @@ import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import { EyeOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { LiaUserPlusSolid } from "react-icons/lia";
+import Link from "next/link";
 
 const { RangePicker } = DatePicker;
 
@@ -139,10 +140,11 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           style={{ width: 280 }}
           allowClear
         />
-
-        <Button type="primary" icon={<LiaUserPlusSolid />}>
-          New Patients
-        </Button>
+        <Link href={"/clinic/patient/add-patient"}>
+          <Button type="primary" icon={<LiaUserPlusSolid />}>
+            New Patients
+          </Button>
+        </Link>
       </div>
       {/* Filters */}
       <div
