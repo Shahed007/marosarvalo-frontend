@@ -229,9 +229,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             border-radius: 50%;
             background-color: ${themeConfig.token?.colorPrimary || "#1890ff"};
             margin-right: 12px;
-            position: relative;
+            position: relative; 
             z-index: 2;
-            flex-shrink: 0;
+            flex-shrink: 0; 
           }
 
           /* Adjust the submenu to show the lines properly */
