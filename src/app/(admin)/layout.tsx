@@ -1,3 +1,4 @@
+
 import DashboardLayout, { MenuItem } from "@/components/dashboardLayout/DashboardLayout";
 import {
   BarChartOutlined,
@@ -10,6 +11,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { FC, ReactNode } from "react";
+import { CiCirclePlus } from "react-icons/ci";
 
 // Define your menu items using the correct MenuItem interface
 // Only use valid properties: key, icon, label, children, href
@@ -23,42 +25,26 @@ const menuItems: MenuItem[] = [
   {
     key: "2",
     icon: <CalendarOutlined />,
-    label: "Appointments",
-    children: [
-      {
-        key: "2-1",
-        label: "Calendar",
-        href: "/admin/appointments/calendar",
-      },
-      {
-        key: "2-2",
-        label: "Appointment List",
-        href: "/admin/appointments/list",
-      },
-      {
-        key: "2-3",
-        label: "Add Appointment",
-        href: "/admin/appointments/add",
-      },
-    ],
+    label: "Booking List",
+    href: "/admin/booking-list",
   },
   {
     key: "3",
     icon: <TeamOutlined />,
-    label: "Patients",
-    href: "/admin/patients",
+    label: "Clinic List",
+    href: "/admin/clinic-list",
   },
   {
     key: "4",
-    icon: <CreditCardOutlined />,
+    icon: <CiCirclePlus />,
     label: "Bonds",
-    href: "/admin/bonds",
+    href: "/admin/add-clinic",
   },
   {
     key: "5",
     icon: <CreditCardOutlined />,
-    label: "Billing",
-    href: "/admin/billing",
+    label: "Payment",
+    href: "/admin/payment",
   },
   {
     key: "6",
