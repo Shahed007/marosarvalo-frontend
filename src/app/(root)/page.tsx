@@ -1,4 +1,5 @@
 import AboutUs from "@/components/pages/home/AboutUs";
+import ContactUs from "@/components/pages/home/ContactUs";
 import FAQ from "@/components/pages/home/FAQ";
 import GetInTouch from "@/components/pages/home/GetInTouch";
 import Hero from "@/components/pages/home/Hero";
@@ -11,6 +12,7 @@ export default function page() {
       <AboutUs />
       <MembershipPlans />
       <FAQ />
+      <ContactUs />
       <GetInTouch />
     </div>
   );

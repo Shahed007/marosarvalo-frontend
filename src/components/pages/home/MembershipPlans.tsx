@@ -114,7 +114,7 @@ const MembershipPlans = () => {
                 </ul>
 
                 <Button
-                  className="!border-0 !rounded-full"
+                  className="!border-0 !rounded-full !bg-primary"
                   type="primary"
                   size="large"
                   block

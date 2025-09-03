@@ -70,7 +70,7 @@ const GetInTouch = () => {
                 name="fullName"
                 rules={[{ required: true }]}
               >
-                <Input placeholder="Enter your name" />
+                <Input placeholder="Enter your name" className="!p-3 focus:!border-primary hover:!border-primary" />
               </Form.Item>
 
               <Form.Item
@@ -84,7 +84,7 @@ const GetInTouch = () => {
                   },
                 ]}
               >
-                <Input placeholder="Enter your email" />
+                <Input placeholder="Enter your email" className="!p-3 focus:!border-primary hover:!border-primary"/>
               </Form.Item>
 
               <Form.Item
@@ -92,7 +92,7 @@ const GetInTouch = () => {
                 name="subject"
                 rules={[{ required: true }]}
               >
-                <Input placeholder="Subject" />
+                <Input placeholder="Subject" className="!p-3 focus:!border-primary hover:!border-primary"/>
               </Form.Item>
 
               <Form.Item
@@ -100,14 +100,14 @@ const GetInTouch = () => {
                 name="message"
                 rules={[{ required: true }]}
               >
-                <TextArea rows={6} placeholder="Write your message" />
+                <TextArea rows={6} placeholder="Write your message" className="focus:!border-primary hover:!border-primary"/>
               </Form.Item>
 
               <Form.Item>
                 <Button
                   type="primary"
                   htmlType="submit"
-                  className="w-full bg-[#225A7F]"
+                  className="w-full !bg-[#225A7F] !p-5"
                   loading={loading}
                 >
                   Send Now

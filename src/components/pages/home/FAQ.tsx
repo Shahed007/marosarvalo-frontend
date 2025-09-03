@@ -36,7 +36,7 @@ const FAQ = () => {
 
     return (
         <div className="custom-container mt-[116px]">
-            <h2 className="text-[44px] font-bold mb-4 text-center">
+            <h2 className="text-[44px] font-bold !mb-8 text-center">
                 Your Questions are Answered
             </h2>
 
