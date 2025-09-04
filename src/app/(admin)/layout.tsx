@@ -48,28 +48,11 @@ const menuItems: MenuItem[] = [
   },
   {
     key: "6",
-    icon: <MessageOutlined />,
-    label: "Communications",
-    href: "/admin/communications",
-  },
-  {
-    key: "7",
-    icon: <GiftOutlined />,
-    label: "Voucher",
-    href: "/admin/voucher",
-  },
-  {
-    key: "8",
-    icon: <BarChartOutlined />,
-    label: "Report",
-    href: "/admin/reports",
-  },
-  {
-    key: "9",
     icon: <SettingOutlined />,
     label: "Settings",
     href: "/admin/settings",
-  },
+  }
+
 ];
 
 const AdminLayout: FC<{ children: ReactNode }> = ({ children }) => {
