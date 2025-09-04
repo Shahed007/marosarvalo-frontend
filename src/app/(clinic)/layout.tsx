@@ -120,7 +120,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
           key: "9-2",
           icon: null,
           label: "User/Our Staff",
-          href: "/clinic/receipt-history",
+          href: "/clinic/all-staff",
         },
         {
           key: "9-3",

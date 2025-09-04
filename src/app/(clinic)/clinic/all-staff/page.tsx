@@ -1,0 +1,35 @@
+import AllStaff from "@/components/pages/clinic/Settings/AllStaff";
+import { AllStaffs } from "@/types/global";
+import Title from "antd/es/typography/Title";
+
+export default function page() {
+  const serviceData: AllStaffs[] = [
+    {
+      name: "Premium Package",
+      discipline: "Operation",
+      email: "emily.carter@example.com",
+      role: "Specialist",
+      status: "Active",
+    },
+    {
+      name: "Premium Package",
+      discipline: "Operation",
+      email: "emily.carter@example.com",
+      role: "Specialist",
+      status: "Active",
+    },
+    {
+      name: "Premium Package",
+      discipline: "Operation",
+      email: "emily.carter@example.com",
+      role: "Specialist",
+      status: "Inactive",
+    },
+  ];
+  return (
+    <div>
+      <Title level={2}>Settings-User Management</Title>
+      <AllStaff data={serviceData} />
+    </div>
+  );
+}

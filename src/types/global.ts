@@ -73,3 +73,11 @@ export interface SettingService {
   services: string;
   price: string
 }
+
+export interface AllStaffs {
+  name: string;
+  email: string;
+  discipline: string;
+  role: string;
+  status: "Active" | "Inactive"
+}
