@@ -1,12 +1,9 @@
 
 import DashboardLayout, { MenuItem } from "@/components/dashboardLayout/DashboardLayout";
 import {
-  BarChartOutlined,
   CalendarOutlined,
   CreditCardOutlined,
   DashboardOutlined,
-  GiftOutlined,
-  MessageOutlined,
   SettingOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
