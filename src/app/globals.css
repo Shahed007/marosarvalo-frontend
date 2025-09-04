@@ -14,3 +14,13 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active {
+    font-weight: 600 !important;
+    background-color: #225A7F !important;
+    border-color: #225a7f !important;
+}
+
+:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active a {
+    color: #fff !important;
+}
