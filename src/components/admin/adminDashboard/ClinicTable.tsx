@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, Table, Button, Input, Space, Typography, Dropdown } from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
@@ -102,7 +101,7 @@ export const ClinicTableCard = () => {
     {
       title: "Action",
       key: "action",
-      render: (_: string, record: any) => (
+      render: () => (
         <Space>
           <Dropdown
             menu={{
