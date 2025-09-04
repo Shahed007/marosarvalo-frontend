@@ -29,6 +29,7 @@ import {
 } from "@ant-design/icons";
 import { AllStaffs } from "@/types/global";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 
 interface ProductTabelProps {
   data: AllStaffs[];
@@ -41,7 +42,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
-
+  const router = useRouter();
   const [form] = Form.useForm();
 
   // ✅ Apply filters
@@ -87,29 +88,12 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
 
   // Handle view details
   const handleViewDetails = (record: AllStaffs) => {
-    Modal.info({
-      title: "Staff Details",
-      content: (
-        <div>
-          <p>
-            <strong>Name:</strong> {record.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {record.email}
-          </p>
-          <p>
-            <strong>Discipline:</strong> {record.discipline}
-          </p>
-          <p>
-            <strong>Role:</strong> {record.role}
-          </p>
-          <p>
-            <strong>Status:</strong> {record.status}
-          </p>
-        </div>
-      ),
-      width: 500,
-    });
+    const staffId = record.id;
+    if (!staffId) {
+      console.error("No ID found for record:", record);
+      return;
+    }
+    router.push(`/clinic/single-staff/${staffId}`);
   };
 
   // Handle remove staff

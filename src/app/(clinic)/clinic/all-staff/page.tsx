@@ -5,6 +5,7 @@ import Title from "antd/es/typography/Title";
 export default function page() {
   const serviceData: AllStaffs[] = [
     {
+      id: "1",
       name: "Premium Package",
       discipline: "Operation",
       email: "emily.carter@example.com",
@@ -12,6 +13,7 @@ export default function page() {
       status: "Active",
     },
     {
+      id: "2",
       name: "Premium Package",
       discipline: "Operation",
       email: "emily.carter@example.com",
@@ -19,6 +21,7 @@ export default function page() {
       status: "Active",
     },
     {
+      id: "3",
       name: "Premium Package",
       discipline: "Operation",
       email: "emily.carter@example.com",

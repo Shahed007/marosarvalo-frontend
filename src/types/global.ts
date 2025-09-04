@@ -75,6 +75,7 @@ export interface SettingService {
 }
 
 export interface AllStaffs {
+  id?: string;
   name: string;
   email: string;
   discipline: string;
