@@ -1,9 +1,11 @@
 "use client";
 
 import BasicInformation from "@/components/pages/clinic/Settings/BasicInformation";
+import ProductTable from "@/components/table/ProductTable";
 import ReminderTable, {
   ReminderRecord,
 } from "@/components/table/ReminderTable";
+import { ProductTab } from "@/types/global";
 import { Tabs } from "antd";
 import Title from "antd/es/typography/Title";
 import React, { useState } from "react";
@@ -23,7 +25,20 @@ const Communications = () => {
       status: "Delivered",
     },
   ];
-
+const bondsData: ProductTab[] = [
+  {
+    id: "#1254",
+    discipline: "Operation",
+  },
+  {
+    id: "#1255",
+    discipline: "Operation",
+  },
+  {
+    id: "#1256",
+    discipline: "Operation",
+  },
+];
   const tabItems = [
     {
       key: "basicInfo",
@@ -35,11 +50,11 @@ const Communications = () => {
       ),
     },
     {
-      key: "service",
-      label: "Services",
+      key: "product",
+      label: "Product",
       children: (
         <div>
-          <ReminderTable loading={loading} data={mockData} />
+            <ProductTable data={bondsData}/>
         </div>
       ),
     },

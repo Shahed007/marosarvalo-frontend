@@ -24,3 +24,7 @@
 :where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active a {
     color: #fff !important;
 }
+
+.table-id-column {
+  padding-left: 50px !important; /* override default AntD padding */
+}

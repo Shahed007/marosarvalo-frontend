@@ -164,8 +164,8 @@ export default function InvoiceDrawer({
             type: item.type,
             length: "N/A",
             qty: item.quantity,
-            unitPrice: `$${item.price.toFixed(2)}`,
-            total: `$${item.total.toFixed(2)}`,
+            unitPrice: `$${Number(item.price).toFixed(2)}`,
+            total: `$${Number(item.total).toFixed(2)}`,
           }))}
           columns={[
             {
