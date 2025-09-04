@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// Updated BillingPayments component
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Input,
@@ -13,84 +14,283 @@ import {
   Select,
   Table,
   Space,
-  Modal,
-  Drawer,
   Form,
-  DatePicker,
+  message,
 } from "antd";
 import {
   SearchOutlined,
   PlusOutlined,
   DeleteOutlined,
   MinusOutlined,
-  PrinterOutlined,
-  DownloadOutlined,
-  MailOutlined,
 } from "@ant-design/icons";
 import visaCardIcon from "@/assets/icons/visacard.png";
 import masterCardIcon from "@/assets/icons/mastercard.png";
 import Image from "next/image";
+
+// Import components
+
+
+// Import types
+import {
+  Patient,
+  Product,
+  Voucher,
+  Bond,
+  Service,
+  InvoiceItem,
+  PaymentMethod
+} from "@/types/global";
+import AddBondDrawer from "./AddBondDrawer";
+import AddServiceDrawer from "./AddServiceDrawer";
+import AddVoucherDrawer from "./AddVoucherDrawer";
+import InvoiceDrawer from "./InvoiceDrawer";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
 
 export default function BillingPayments() {
+  // State for UI controls
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
-  const [drawerVisibleVoucer, setDrawerVisibleVoucer] =
-    useState<boolean>(false);
-  const [drawerVisibleService, setDrawerVisibleService] =
-    useState<boolean>(false);
+  const [drawerVisibleVoucher, setDrawerVisibleVoucher] = useState<boolean>(false);
+  const [drawerVisibleService, setDrawerVisibleService] = useState<boolean>(false);
   const [drawerVisibleInvoice, setDrawerVisibleInvoice] = useState(false);
-  const [, setSelectedPayment] = useState("cash");
-  const [quantity, setQuantity] = useState(1);
-  const [discount, setDiscount] = useState(0);
-  const [taxPercent, setTaxPercent] = useState(0);
-  const [form] = Form.useForm(); // Add form instance
+  const [confirmPayment, setConfirmPayment] = useState(false);
+  
+  // State for data
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [vouchers, setVouchers] = useState<Voucher[]>([]);
+  const [bonds, setBonds] = useState<Bond[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [cartItems, setCartItems] = useState<InvoiceItem[]>([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
+  const [appliedVoucher, setAppliedVoucher] = useState<Voucher | null>(null);
+  const [amountPaid, setAmountPaid] = useState<number>(0);
+  const [note, setNote] = useState<string>("");
+  
+  // Form instances
+  const [bondForm] = Form.useForm();
+  const [serviceForm] = Form.useForm();
+  const [voucherForm] = Form.useForm();
+  
+  // Tax and discount rates
+  const [taxRate, setTaxRate] = useState<number>(0);
+  const [discountRate, setDiscountRate] = useState<number>(0);
 
-  const productPrice = 120;
-  const subTotal = productPrice * quantity;
-  const discountAmount = (subTotal * discount) / 100;
-  const tax = ((subTotal - discountAmount) * taxPercent) / 100;
-  const total = subTotal - discountAmount + tax;
-  const voucherAmount = 0;
-  const finalTotal = total - voucherAmount;
+  // Mock data initialization
+  useEffect(() => {
+    // Initialize mock data
+    const mockPatients: Patient[] = [
+      { id: "1", name: "Emily Carter", email: "emily@example.com", phone: "555-1234" },
+      { id: "2", name: "John Smith", email: "john@example.com", phone: "555-5678" },
+      { id: "3", name: "Sarah Johnson", email: "sarah@example.com", phone: "555-9012" },
+    ];
+    
+    const mockProducts: Product[] = [
+      { id: "1", name: "Email Consultation", type: "Service", price: 120, quantity: 1 },
+      { id: "2", name: "Physical Therapy Session", type: "Service", price: 85, quantity: 1 },
+    ];
+    
+    const mockVouchers: Voucher[] = [
+      { id: "1", name: "Summer Discount", amount: 20, expireDate: "2023-12-31" },
+      { id: "2", name: "New Patient Offer", amount: 15, expireDate: "2023-10-15" },
+    ];
+    
+    const mockBonds: Bond[] = [
+      { id: "1", name: "W2", discipline: "Physiotherapy", service: "Therapy", sessions: 5, price: 450 },
+      { id: "2", name: "X5", discipline: "Cardiology", service: "Consultation", sessions: 3, price: 300 },
+    ];
+    
+    const mockServices: Service[] = [
+      { id: "1", name: "Surgery", discipline: "Operation", price: 1200 },
+      { id: "2", name: "Therapy", discipline: "Physiotherapy", price: 85 },
+    ];
+    
+    setPatients(mockPatients);
+    setFilteredPatients(mockPatients);
+    setProducts(mockProducts);
+    setVouchers(mockVouchers);
+    setBonds(mockBonds);
+    setServices(mockServices);
+    
+    // Initialize cart with one product
+    setCartItems([{
+      id: "1",
+      name: "Email Consultation",
+      type: "Service",
+      quantity: 1,
+      price: 120,
+      total: 120
+    }]);
+  }, []);
 
-  // Handle new bond form submission
-  const handleFormSubmit = (values: any) => {
-    console.log("New bond form values:", values);
-    Modal.success({
-      title: "Success",
-      content: "Bond added successfully!",
-    });
+  // Calculate invoice totals
+  const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+  const discountAmount = (subtotal * discountRate) / 100;
+  const taxAmount = ((subtotal - discountAmount) * taxRate) / 100;
+  const voucherDiscount = appliedVoucher ? appliedVoucher.amount : 0;
+  const total = subtotal - discountAmount + taxAmount - voucherDiscount;
+  const balanceDue = total - amountPaid;
+
+  // Patient search handler
+  const handlePatientSearch = (value: string) => {
+    if (!value) {
+      setFilteredPatients(patients);
+    } else {
+      const filtered = patients.filter(patient =>
+        patient.name.toLowerCase().includes(value.toLowerCase()) ||
+        patient.email.toLowerCase().includes(value.toLowerCase()) ||
+        patient.phone.includes(value)
+      );
+      setFilteredPatients(filtered);
+    }
+  };
+
+  // Add to cart function
+  const addToCart = (item: Product | Service | Bond, type: string) => {
+    const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
+    
+    if (existingItem) {
+      // Update quantity if item already in cart
+      setCartItems(cartItems.map(cartItem =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: cartItem.quantity + 1, total: cartItem.price * (cartItem.quantity + 1) }
+          : cartItem
+      ));
+    } else {
+      // Add new item to cart
+      setCartItems([
+        ...cartItems,
+        {
+          id: item.id,
+          name: item.name,
+          type,
+          quantity: 1,
+          price: item.price,
+          total: item.price
+        }
+      ]);
+    }
+    
+    message.success(`${item.name} added to cart`);
+  };
+
+  // Remove from cart function
+  const removeFromCart = (id: string) => {
+    setCartItems(cartItems.filter(item => item.id !== id));
+    message.info("Item removed from cart");
+  };
+
+  // Update item quantity in cart
+  const updateQuantity = (id: string, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    
+    setCartItems(cartItems.map(item =>
+      item.id === id
+        ? { ...item, quantity: newQuantity, total: item.price * newQuantity }
+        : item
+    ));
+  };
+
+  // Handle bond form submission
+  const handleBondSubmit = (values: any) => {
+    const newBond: Bond = {
+      id: `bond-${Date.now()}`,
+      name: values.bondName,
+      discipline: values.discipline,
+      service: values.service,
+      sessions: values.session,
+      price: values.price,
+    };
+    
+    setBonds([...bonds, newBond]);
+    addToCart(newBond, "Bond");
+    
+    bondForm.resetFields();
     setDrawerVisible(false);
-    form.resetFields();
-  };
-  const handleServiceSubmit = (values: any) => {
-    console.log("New bond form values:", values);
-    Modal.success({
-      title: "Success",
-      content: "Bond added successfully!",
-    });
-    setDrawerVisibleService(false);
-    form.resetFields();
-  };
-  const handleVoucerSubmit = (values: any) => {
-    console.log("New bond form values:", values);
-    Modal.success({
-      title: "Success",
-      content: "Bond added successfully!",
-    });
-    setDrawerVisibleService(false);
-    form.resetFields();
+    message.success("Bond added successfully!");
   };
 
-  // Table columns
-  const columns = [
+  // Handle service form submission
+  const handleServiceSubmit = (values: any) => {
+    const newService: Service = {
+      id: `service-${Date.now()}`,
+      name: values.service,
+      discipline: values.discipline,
+      price: values.serviceAmount,
+    };
+    
+    setServices([...services, newService]);
+    addToCart(newService, "Service");
+    
+    serviceForm.resetFields();
+    setDrawerVisibleService(false);
+    message.success("Service added successfully!");
+  };
+
+  // Handle voucher form submission
+  const handleVoucherSubmit = (values: any) => {
+    const newVoucher: Voucher = {
+      id: `voucher-${Date.now()}`,
+      name: values.voucherName,
+      amount: values.voucherAmount,
+      expireDate: values.expireDate.format("YYYY-MM-DD"),
+    };
+    
+    setVouchers([...vouchers, newVoucher]);
+    voucherForm.resetFields();
+    setDrawerVisibleVoucher(false);
+    message.success("Voucher created successfully!");
+  };
+
+  // Apply voucher to invoice
+  const applyVoucher = (voucherId: string) => {
+    const voucher = vouchers.find(v => v.id === voucherId);
+    if (voucher) {
+      setAppliedVoucher(voucher);
+      message.success(`Voucher "${voucher.name}" applied`);
+    }
+  };
+
+  // Handle payment
+  const handlePayment = () => {
+    if (balanceDue > 0 && amountPaid < total) {
+      message.warning(`Please pay the remaining balance of $${balanceDue.toFixed(2)}`);
+      return;
+    }
+    
+    if (!selectedPaymentMethod) {
+      message.warning("Please select a payment method");
+      return;
+    }
+    
+    setConfirmPayment(true);
+    message.success("Payment processed successfully!");
+    
+    // Reset form after successful payment
+    setTimeout(() => {
+      setCartItems([]);
+      setSelectedPatient(null);
+      setAppliedVoucher(null);
+      setAmountPaid(0);
+      setNote("");
+      setTaxRate(0);
+      setDiscountRate(0);
+      setSelectedPaymentMethod(null);
+      setConfirmPayment(false);
+      setDrawerVisibleInvoice(false);
+    }, 2000);
+  };
+
+  // Table columns for cart items
+  const cartColumns = [
     {
       title: "Product",
-      dataIndex: "product",
-      key: "product",
+      dataIndex: "name",
+      key: "name",
       render: (text: string) => <Text style={{ color: "#000" }}>{text}</Text>,
     },
     {
@@ -102,18 +302,18 @@ export default function BillingPayments() {
       title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
-      render: () => (
+      render: (quantity: number, record: InvoiceItem) => (
         <Space>
           <Button
             size="small"
             icon={<MinusOutlined />}
-            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            onClick={() => updateQuantity(record.id, quantity - 1)}
           />
           <span style={{ width: 30, textAlign: "center" }}>{quantity}</span>
           <Button
             size="small"
             icon={<PlusOutlined />}
-            onClick={() => setQuantity(quantity + 1)}
+            onClick={() => updateQuantity(record.id, quantity + 1)}
           />
         </Space>
       ),
@@ -122,290 +322,319 @@ export default function BillingPayments() {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text: string) => `$${text}`,
+      render: (price: number) => `$${price.toFixed(2)}`,
     },
     {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text: string) => `$${text}`,
+      render: (total: number) => `$${total.toFixed(2)}`,
     },
     {
       title: "Action",
       key: "action",
-      render: () => (
-        <Button type="text" icon={<DeleteOutlined />} size="small" />
+      render: (_: any, record: InvoiceItem) => (
+        <Button 
+          type="text" 
+          icon={<DeleteOutlined />} 
+          size="small" 
+          onClick={() => removeFromCart(record.id)}
+        />
       ),
     },
   ];
 
-  // Table data
-  const data = [
-    {
-      key: "1",
-      product: "Email Consultation",
-      type: "Service",
-      quantity: quantity,
-      price: productPrice,
-      total: subTotal,
-    },
-  ];
-
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
-      <div>
-        <Title level={2} style={{ marginBottom: 24 }}>
-          Billing & Payments
-        </Title>
+    <div style={{ minHeight: "100vh", backgroundColor: "#fff", padding: 24 }}>
+      <Title level={2} style={{ marginBottom: 24 }}>
+        Billing & Payments
+      </Title>
 
-        <Row gutter={24}>
-          {/* Left Column */}
-          <Col xs={24} lg={16}>
-            {/* Invoice Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Invoice
-                </Title>
-              }
-            >
-              <Space direction="vertical" style={{ width: "100%" }} size={16}>
-                <div>
-                  <Text strong style={{ display: "block", marginBottom: 8 }}>
-                    Patient
-                  </Text>
-                  <Input
-                    placeholder="Search Patients"
-                    suffix={
-                      <SearchOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-                    }
-                    size="large"
-                  />
-                </div>
-
-                <Space wrap>
-                  <Button size="middle">Emily carter</Button>
-                  <Button size="middle">Emily carter</Button>
-                  <Button size="middle">Emily carter</Button>
-                  <Button size="middle">Emily carter</Button>
-                  <Button size="middle">Emily carter</Button>
-                </Space>
-              </Space>
-            </Card>
-
-            {/* Product Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Title level={4} style={{ margin: 0 }}>
-                    Product
-                  </Title>
-                  <Space>
-                    <Button
-                      className="hover:!bg-primary hover:!text-white"
-                      size="middle"
-                      onClick={() => setDrawerVisibleVoucer(true)}
-                    >
-                      Add Voucher
-                    </Button>
-                    <Button
-                      className="hover:!bg-primary hover:!text-white"
-                      size="middle"
-                      onClick={() => setDrawerVisible(true)}
-                    >
-                      Add Bonds
-                    </Button>
-                    <Button
-                      type="primary"
-                      size="middle"
-                      onClick={() => setDrawerVisibleService(true)}
-                    >
-                      Add Services
-                    </Button>
-                  </Space>
-                </div>
-              }
-            >
-              <Table
-                columns={columns}
-                dataSource={data}
-                pagination={false}
-                size="middle"
-              />
-
-              <div className="flex gap-4 mt-4">
-                <Text
-                  type="secondary"
-                  style={{
-                    display: "block",
-                    border: "1px solid #CCCCCC",
-                    padding: "4px 8px",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Suggest Top services
+      <Row gutter={24}>
+        {/* Left Column */}
+        <Col xs={24} lg={16}>
+          {/* Invoice Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Invoice
+              </Title>
+            }
+          >
+            <Space direction="vertical" style={{ width: "100%" }} size={16}>
+              <div>
+                <Text strong style={{ display: "block", marginBottom: 8 }}>
+                  Patient
                 </Text>
-                <Text
-                  type="secondary"
-                  style={{
-                    display: "block",
-                    border: "1px solid #CCCCCC",
-                    padding: "4px 8px",
-                    borderRadius: "8px",
-                  }}
-                >
-                  Suggest Top services
-                </Text>
+                <Input
+                  placeholder="Search Patients"
+                  suffix={<SearchOutlined style={{ color: "rgba(0,0,0,.45)" }} />}
+                  size="large"
+                  onChange={(e) => handlePatientSearch(e.target.value)}
+                />
               </div>
-            </Card>
 
-            {/* Taxes Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Taxes
-                </Title>
-              }
-            >
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Select
-                  value={taxPercent.toString()}
-                  onChange={(value) => setTaxPercent(Number(value))}
-                  style={{ width: "100%" }}
-                  size="middle"
-                >
-                  <Option value="0">Percentage</Option>
-                  <Option value="5">5%</Option>
-                  <Option value="10">10%</Option>
-                  <Option value="15">15%</Option>
-                  <Option value="20">20%</Option>
-                </Select>
-              </div>
-            </Card>
-
-            {/* Discount Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Discount
-                </Title>
-              }
-            >
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <Select
-                  value={discount.toString()}
-                  onChange={(value) => setDiscount(Number(value))}
-                  style={{ width: "100%" }}
-                  size="middle"
-                >
-                  <Option value="0">Percentage</Option>
-                  <Option value="5">5%</Option>
-                  <Option value="10">10%</Option>
-                  <Option value="15">15%</Option>
-                  <Option value="20">20%</Option>
-                </Select>
-              </div>
-            </Card>
-
-            {/* Payment Method Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Payment Method
-                </Title>
-              }
-            >
               <Space wrap>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Button
-                    style={{
-                      width: 153,
-                      height: 100,
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: 12,
-                      border: "1px solid #CCCCCC",
-                    }}
+                {filteredPatients.map(patient => (
+                  <Button 
+                    key={patient.id} 
+                    size="middle"
+                    type={selectedPatient?.id === patient.id ? "primary" : "default"}
+                    onClick={() => setSelectedPatient(patient)}
                   >
-                    <Image
-                      src={masterCardIcon}
-                      width={50}
-                      height={50}
-                      alt="visacard"
-                    />
+                    {patient.name}
                   </Button>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Button
-                    style={{
-                      width: 153,
-                      height: 100,
-                      backgroundColor: "#fff",
-                      borderRadius: 10,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: 12,
-                      border: "1px solid #CCCCCC",
-                    }}
-                  >
-                    <Image
-                      src={visaCardIcon}
-                      width={50}
-                      height={50}
-                      alt="visacard"
-                    />
-                  </Button>
-                </div>
-
-                <Button
-                  onClick={() => setSelectedPayment("cash")}
-                  size="middle"
-                  style={{ width: 153, height: 100 }}
-                  className="!font-bold"
-                >
-                  Cash
-                </Button>
-
-                <Button
-                  onClick={() => setSelectedPayment("voucher")}
-                  size="middle"
-                  style={{ width: 153, height: 100 }}
-                  className="!font-bold"
-                >
-                  Voucher
-                </Button>
-
-                <Button
-                  onClick={() => setSelectedPayment("bond")}
-                  size="middle"
-                  style={{ width: 153, height: 100 }}
-                  className="!font-bold"
-                >
-                  Bond
-                </Button>
+                ))}
               </Space>
-            </Card>
+            </Space>
+          </Card>
 
-            {/* Voucher Pay Section */}
+          {/* Product Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: 8,
+                }}
+              >
+                <Title level={4} style={{ margin: 0 }}>
+                  Product
+                </Title>
+                <Space>
+                  <Button
+                    className="hover:!bg-primary hover:!text-white"
+                    size="middle"
+                    onClick={() => setDrawerVisibleVoucher(true)}
+                  >
+                    Add Voucher
+                  </Button>
+                  <Button
+                    className="hover:!bg-primary hover:!text-white"
+                    size="middle"
+                    onClick={() => setDrawerVisible(true)}
+                  >
+                    Add Bonds
+                  </Button>
+                  <Button
+                    type="primary"
+                    size="middle"
+                    onClick={() => setDrawerVisibleService(true)}
+                  >
+                    Add Services
+                  </Button>
+                </Space>
+              </div>
+            }
+          >
+            <Table
+              columns={cartColumns}
+              dataSource={cartItems}
+              pagination={false}
+              size="middle"
+              locale={{ emptyText: "No items in cart. Add products or services." }}
+            />
+
+            <div className="flex gap-4 mt-4 flex-wrap">
+              {products.slice(0, 3).map(product => (
+                <Text
+                  key={product.id}
+                  onClick={() => addToCart(product, product.type)}
+                  style={{
+                    display: "block",
+                    border: "1px solid #CCCCCC",
+                    padding: "4px 8px",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {product.name} (${product.price})
+                </Text>
+              ))}
+            </div>
+          </Card>
+
+          {/* Taxes Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Taxes
+              </Title>
+            }
+          >
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Select
+                value={taxRate.toString()}
+                onChange={(value) => setTaxRate(Number(value))}
+                style={{ width: "100%" }}
+                size="middle"
+              >
+                <Option value="0">0%</Option>
+                <Option value="5">5%</Option>
+                <Option value="10">10%</Option>
+                <Option value="15">15%</Option>
+                <Option value="20">20%</Option>
+              </Select>
+            </div>
+          </Card>
+
+          {/* Discount Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Discount
+              </Title>
+            }
+          >
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Select
+                value={discountRate.toString()}
+                onChange={(value) => setDiscountRate(Number(value))}
+                style={{ width: "100%" }}
+                size="middle"
+              >
+                <Option value="0">0%</Option>
+                <Option value="5">5%</Option>
+                <Option value="10">10%</Option>
+                <Option value="15">15%</Option>
+                <Option value="20">20%</Option>
+              </Select>
+            </div>
+          </Card>
+
+          {/* Payment Method Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Payment Method
+              </Title>
+            }
+          >
+            <Space wrap>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Button
+                  style={{
+                    width: 153,
+                    height: 100,
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    border: selectedPaymentMethod?.name === "MasterCard" ? "2px solid #1890ff" : "1px solid #CCCCCC",
+                  }}
+                  onClick={() => setSelectedPaymentMethod({
+                    id: "1",
+                    name: "MasterCard",
+                    type: "card",
+                    icon: masterCardIcon
+                  })}
+                >
+                  <Image
+                    src={masterCardIcon}
+                    width={50}
+                    height={50}
+                    alt="mastercard"
+                  />
+                </Button>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Button
+                  style={{
+                    width: 153,
+                    height: 100,
+                    backgroundColor: "#fff",
+                    borderRadius: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    border: selectedPaymentMethod?.name === "Visa" ? "2px solid #1890ff" : "1px solid #CCCCCC",
+                  }}
+                  onClick={() => setSelectedPaymentMethod({
+                    id: "2",
+                    name: "Visa",
+                    type: "card",
+                    icon: visaCardIcon
+                  })}
+                >
+                  <Image
+                    src={visaCardIcon}
+                    width={50}
+                    height={50}
+                    alt="visacard"
+                  />
+                </Button>
+              </div>
+
+              <Button
+                onClick={() => setSelectedPaymentMethod({
+                  id: "3",
+                    name: "Cash",
+                    type: "cash"
+                })}
+                size="middle"
+                style={{ 
+                  width: 153, 
+                  height: 100,
+                  border: selectedPaymentMethod?.name === "Cash" ? "2px solid #1890ff" : "1px solid #d9d9d9",
+                }}
+                className="!font-bold"
+              >
+                Cash
+              </Button>
+
+              <Button
+                onClick={() => setSelectedPaymentMethod({
+                  id: "4",
+                  name: "Voucher",
+                  type: "voucher"
+                })}
+                size="middle"
+                style={{ 
+                  width: 153, 
+                  height: 100,
+                  border: selectedPaymentMethod?.name === "Voucher" ? "2px solid #1890ff" : "1px solid #d9d9d9",
+                }}
+                className="!font-bold"
+              >
+                Voucher
+              </Button>
+
+              <Button
+                onClick={() => setSelectedPaymentMethod({
+                  id: "5",
+                  name: "Bond",
+                  type: "bond"
+                })}
+                size="middle"
+                style={{ 
+                  width: 153, 
+                  height: 100,
+                  border: selectedPaymentMethod?.name === "Bond" ? "2px solid #1890ff" : "1px solid #d9d9d9",
+                }}
+                className="!font-bold"
+              >
+                Bond
+              </Button>
+            </Space>
+          </Card>
+
+          {/* Voucher Pay Section */}
+          {selectedPaymentMethod?.type === "voucher" && (
             <Card
               style={{ marginBottom: 24, borderRadius: 8 }}
               title={
@@ -419,665 +648,239 @@ export default function BillingPayments() {
                   placeholder="Select Voucher"
                   size="middle"
                   style={{ width: "100%" }}
+                  onChange={applyVoucher}
                 >
-                  <Option value="voucher1">Voucher 1</Option>
-                  <Option value="voucher2">Voucher 2</Option>
+                  {vouchers.map(voucher => (
+                    <Option key={voucher.id} value={voucher.id}>
+                      {voucher.name} (${voucher.amount})
+                    </Option>
+                  ))}
                 </Select>
 
-                <Space>
-                  <Button size="middle">SUBJECT</Button>
-                  <Button size="middle">SUBJECT</Button>
-                </Space>
+                {appliedVoucher && (
+                  <Text>
+                    Applied: {appliedVoucher.name} (${appliedVoucher.amount})
+                  </Text>
+                )}
               </Space>
             </Card>
+          )}
 
-            {/* Amount Paid Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8, width: "100%" }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Amount Paid
-                </Title>
-              }
+          {/* Amount Paid Section */}
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8, width: "100%" }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Amount Paid
+              </Title>
+            }
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 12,
+                width: "100%",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 12,
-                  width: "100%",
-                }}
+              <Input
+                placeholder="Amount"
+                size="middle"
+                style={{ width: "100%" }}
+                type="number"
+                value={amountPaid || undefined}
+                onChange={(e) => setAmountPaid(Number(e.target.value))}
+              />
+              <Button 
+                type="primary" 
+                style={{ width: "20%" }}
+                onClick={() => setAmountPaid(total)}
               >
-                <Input
-                  placeholder="Amount"
-                  size="middle"
-                  style={{ width: "100%" }}
-                />
-                <Button type="primary" style={{ width: "20%" }}>
-                  Add Amount
-                </Button>
-              </div>
-            </Card>
-
-            {/* Note Section */}
-            <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Note
-                </Title>
-              }
-            >
-              <TextArea placeholder="Write Note" rows={3} />
-            </Card>
-
-            {/* Action Buttons */}
-            <Space>
-              <Button
-                onClick={() => setDrawerVisibleInvoice(true)}
-                type="primary"
-                size="large"
-                icon={<PlusOutlined />}
-              >
-                Create Invoice
+                Add All Amount
               </Button>
-              <Button size="large">Cancel</Button>
-            </Space>
-          </Col>
-
-          {/* Right Column - Invoice Summary */}
-          <Col xs={24} lg={8}>
-            <Card
-              style={{ borderRadius: 8, position: "sticky", top: 24 }}
-              title={
-                <Title level={4} style={{ margin: 0 }}>
-                  Invoice Summary
-                </Title>
-              }
-            >
-              <Space direction="vertical" style={{ width: "100%" }} size={12}>
-                <Row justify="space-between">
-                  <Col>Sub Total</Col>
-                  <Col>:</Col>
-                  <Col>${subTotal}</Col>
-                </Row>
-
-                <Row justify="space-between">
-                  <Col>Discount</Col>
-                  <Col>:</Col>
-                  <Col>${discountAmount.toFixed(0)}</Col>
-                </Row>
-
-                <Row justify="space-between">
-                  <Col>Tax</Col>
-                  <Col>:</Col>
-                  <Col>${tax.toFixed(2)}</Col>
-                </Row>
-
-                <Divider style={{ margin: "8px 0" }} />
-
-                <Row justify="space-between">
-                  <Col>
-                    <Text strong>Total</Text>
-                  </Col>
-                  <Col>:</Col>
-                  <Col>
-                    <Text strong>${total.toFixed(2)}</Text>
-                  </Col>
-                </Row>
-
-                <Row justify="space-between">
-                  <Col>Voucher</Col>
-                  <Col>:</Col>
-                  <Col>${voucherAmount}</Col>
-                </Row>
-
-                <Divider style={{ margin: "8px 0" }} />
-
-                <Row justify="space-between">
-                  <Col>
-                    <Text strong style={{ fontSize: 16 }}>
-                      Total
-                    </Text>
-                  </Col>
-                  <Col>:</Col>
-                  <Col>
-                    <Text strong style={{ fontSize: 16 }}>
-                      ${finalTotal.toFixed(2)}
-                    </Text>
-                  </Col>
-                </Row>
-              </Space>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-
-      {/* Drawer for adding bonds */}
-      <Drawer
-        title="Add Bonds"
-        placement="right"
-        onClose={() => setDrawerVisible(false)}
-        open={drawerVisible}
-        width={500}
-        styles={{
-          body: { padding: 24 },
-          header: {
-            borderBottom: "1px solid #e5e7eb",
-            padding: "16px 24px",
-            textAlign: "center",
-            fontSize: 32,
-          },
-        }}
-        footer={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
-            }}
-          >
-            <Button
-              type="primary"
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => form.submit()}
-            >
-              Add Now
-            </Button>
-            <Button
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => setDrawerVisible(false)}
-            >
-              Not Now
-            </Button>
-          </div>
-        }
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleFormSubmit}
-          requiredMark={false}
-        >
-          {/* Discipline Field */}
-          <Form.Item
-            label="Discipline"
-            name="discipline"
-            rules={[{ required: true, message: "Please select discipline" }]}
-          >
-            <Select placeholder="Select Discipline" size="large">
-              <Option value="cardiology">Cardiology</Option>
-              <Option value="neurology">Neurology</Option>
-              <Option value="orthopedics">Orthopedics</Option>
-              <Option value="pediatrics">Pediatrics</Option>
-              <Option value="surgery">Surgery</Option>
-            </Select>
-          </Form.Item>
-
-          {/* Service Field */}
-          <Form.Item
-            label="Service"
-            name="service"
-            rules={[{ required: true, message: "Please select service" }]}
-          >
-            <Select placeholder="Select Services" size="large">
-              <Option value="consultation">Consultation</Option>
-              <Option value="surgery">Surgery</Option>
-              <Option value="therapy">Therapy</Option>
-              <Option value="diagnostics">Diagnostics</Option>
-              <Option value="emergency">Emergency Care</Option>
-            </Select>
-          </Form.Item>
-
-          {/* Search Bond Field */}
-          <Form.Item label="Search Bond" name="searchBond">
-            <Input
-              placeholder="Search Bonds"
-              size="large"
-              suffix={<SearchOutlined />}
-            />
-          </Form.Item>
-
-          {/* Session Field */}
-          <Form.Item
-            label="Session"
-            name="session"
-            rules={[{ required: true, message: "Please enter session count" }]}
-          >
-            <Input
-              placeholder="05"
-              size="large"
-              type="number"
-              min={1}
-              max={99}
-            />
-          </Form.Item>
-
-          {/* Bond Name Field */}
-          <Form.Item
-            label="Bond Name"
-            name="bondName"
-            rules={[{ required: true, message: "Please enter bond name" }]}
-          >
-            <Input placeholder="W2" size="large" />
-          </Form.Item>
-
-          {/* Price Field */}
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please enter price" }]}
-          >
-            <Input
-              placeholder="$1245"
-              size="large"
-              prefix="$"
-              type="number"
-              min={0}
-            />
-          </Form.Item>
-        </Form>
-      </Drawer>
-      {/* Drawer for adding services */}
-      <Drawer
-        title="Add Services"
-        placement="right"
-        onClose={() => setDrawerVisibleService(false)}
-        open={drawerVisibleService}
-        width={500}
-        styles={{
-          body: { padding: 24 },
-          header: {
-            borderBottom: "1px solid #e5e7eb",
-            padding: "16px 24px",
-          },
-        }}
-        footer={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
-            }}
-          >
-            <Button
-              type="primary"
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => form.submit()}
-            >
-              Add here
-            </Button>
-            <Button
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => setDrawerVisibleService(false)}
-            >
-              Not here
-            </Button>
-          </div>
-        }
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleServiceSubmit}
-          requiredMark={false}
-        >
-          {/* Select Discipline Field */}
-          <Form.Item
-            label="Select Discipline"
-            name="discipline"
-            rules={[{ required: true, message: "Please select discipline" }]}
-          >
-            <Select placeholder="Operation" size="large">
-              <Option value="operation">Operation</Option>
-              <Option value="consultation">Consultation</Option>
-              <Option value="emergency">Emergency</Option>
-              <Option value="therapy">Therapy</Option>
-              <Option value="diagnostics">Diagnostics</Option>
-            </Select>
-          </Form.Item>
-
-          {/* Services Field */}
-          <Form.Item
-            label="Services"
-            name="service"
-            rules={[{ required: true, message: "Please select service" }]}
-          >
-            <Select placeholder="Surgery" size="large">
-              <Option value="surgery">Surgery</Option>
-              <Option value="consultation">Consultation</Option>
-              <Option value="therapy">Therapy</Option>
-              <Option value="diagnostics">Diagnostics</Option>
-              <Option value="emergency">Emergency Care</Option>
-            </Select>
-          </Form.Item>
-          {/* Service Amount Field */}
-          <Form.Item
-            label="Amount of the service"
-            name="serviceAmount"
-            rules={[{ required: true, message: "Please enter service amount" }]}
-          >
-            <Input
-              placeholder="$1245"
-              size="large"
-              prefix="$"
-              type="number"
-              min={0}
-            />
-          </Form.Item>
-        </Form>
-      </Drawer>
-      {/* Drawer for adding vouchers */}
-      <Drawer
-        title="Sell Voucher"
-        placement="right"
-        onClose={() => setDrawerVisibleVoucer(false)}
-        open={drawerVisibleVoucer}
-        width={500}
-        styles={{
-          body: { padding: 24 },
-          header: {
-            borderBottom: "1px solid #e5e7eb",
-            padding: "16px 24px",
-            textAlign: "center",
-            fontSize: "40px",
-          },
-        }}
-        footer={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
-            }}
-          >
-            <Button
-              type="primary"
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => form.submit()}
-            >
-              Add Now
-            </Button>
-            <Button
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => setDrawerVisibleVoucer(false)}
-            >
-              Not Now
-            </Button>
-          </div>
-        }
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleVoucerSubmit}
-          requiredMark={false}
-        >
-          {/* Voucher Name Field */}
-          <Form.Item
-            label="Voucher Name"
-            name="voucherName"
-            rules={[{ required: true, message: "Please enter voucher name" }]}
-          >
-            <Input placeholder="Xyz" size="large" />
-          </Form.Item>
-
-          {/* Voucher Amount Field */}
-          <Form.Item
-            label="Voucher Amount"
-            name="voucherAmount"
-            rules={[{ required: true, message: "Please enter voucher amount" }]}
-          >
-            <Input
-              placeholder="$1245"
-              size="large"
-              prefix="$"
-              type="number"
-              min={0}
-            />
-          </Form.Item>
-
-          {/* Expire Date Field */}
-          <Form.Item
-            label="Expire Date"
-            name="expireDate"
-            rules={[{ required: true, message: "Please select expire date" }]}
-          >
-            <DatePicker
-              placeholder="12 April, 2025"
-              size="large"
-              style={{ width: "100%" }}
-              format="DD MMMM, YYYY"
-            />
-          </Form.Item>
-        </Form>
-      </Drawer>
-      {/* Drawer for crate invoice */}
-      <Drawer
-        title="Patient Invoice"
-        placement="right"
-        onClose={() => setDrawerVisibleInvoice(false)}
-        open={drawerVisibleInvoice}
-        width={700}
-        styles={{
-          body: { padding: 24 },
-          header: {
-            borderBottom: "1px solid #e5e7eb",
-            padding: "16px 24px",
-          },
-        }}
-        footer={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
-            }}
-          >
-            <Button
-              type="primary"
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => setDrawerVisibleInvoice(false)}
-            >
-              Enter
-            </Button>
-            <Button
-              size="large"
-              style={{ minWidth: 120, height: 44 }}
-              onClick={() => setDrawerVisibleInvoice(false)}
-            >
-              Clear
-            </Button>
-          </div>
-        }
-      >
-        <div style={{ padding: 16 }}>
-          {/* Header with Logo and Clinic Info */}
-          <div style={{ textAlign: "center", marginBottom: 24 }}>
-            <Title level={2} style={{ margin: 0 }}>
-              Fisio/Well Clinic
-            </Title>
-            <Title level={3} style={{ margin: "16px 0" }}>
-              Patient Invoice
-            </Title>
-
-            <div style={{ marginBottom: 16 }}>
-              <Text>123 Health Steer Sydney NSW</Text>
-              <br />
-              <Text>2308, Australia</Text>
             </div>
-
-            <div>
-              <Text>Email: john.verco@health.com</Text>
-              <br />
-              <Text>Contact: +58 16 88 584</Text>
-            </div>
-          </div>
-
-          <Divider />
-
-          {/* Patient Information */}
-          <div style={{ marginBottom: 24 }}>
-            <Title level={4} style={{ marginBottom: 16 }}>
-              Bill Tye
-            </Title>
-            <Text strong>Juan Pace</Text>
-            <br />
-            <Text>Corridor: +126 510 1102</Text>
-            <br />
-            <Text>juan.pacer@corrpcie.com</Text>
-          </div>
-
-          <Divider />
-
-          {/* Invoice Table */}
-          <Table
-            dataSource={[
-              {
-                key: "1",
-                product: "Physiotherapy",
-                type: "Service",
-                length: "2h, 30min",
-                qty: 1,
-                unitPrice: "$200",
-                total: "$210",
-              },
-              {
-                key: "2",
-                product: "Physiotherapy",
-                type: "Weather",
-                length: "Null",
-                qty: 1,
-                unitPrice: "$200",
-                total: "$210",
-              },
-            ]}
-            columns={[
-              {
-                title: "Product",
-                dataIndex: "product",
-                key: "product",
-              },
-              {
-                title: "Type",
-                dataIndex: "type",
-                key: "type",
-              },
-              {
-                title: "Length",
-                dataIndex: "length",
-                key: "length",
-              },
-              {
-                title: "Qty",
-                dataIndex: "qty",
-                key: "qty",
-              },
-              {
-                title: "Unit Price",
-                dataIndex: "unitPrice",
-                key: "unitPrice",
-              },
-              {
-                title: "Total",
-                dataIndex: "total",
-                key: "total",
-              },
-            ]}
-            pagination={false}
-            style={{ marginBottom: 24 }}
-          />
-
-          {/* Summary Section */}
-          <div style={{ marginBottom: 24 }}>
-            <Row justify="space-between" style={{ marginBottom: 8 }}>
-              <Col>
-                <Text>Total Amount :</Text>
-              </Col>
-              <Col>
-                <Text>$420</Text>
-              </Col>
-            </Row>
-            <Row justify="space-between" style={{ marginBottom: 8 }}>
-              <Col>
-                <Text>VAT/TAX$</Text>
-              </Col>
-              <Col>
-                <Text>$00</Text>
-              </Col>
-            </Row>
-            <Row justify="space-between" style={{ marginBottom: 8 }}>
-              <Col>
-                <Text>Paid Amount :</Text>
-              </Col>
-              <Col>
-                <Text>$220</Text>
-              </Col>
-            </Row>
-            <Row justify="space-between" style={{ marginBottom: 16 }}>
-              <Col>
-                <Text strong>Due Amount :</Text>
-              </Col>
-              <Col>
-                <Text strong>$200</Text>
-              </Col>
-            </Row>
-          </div>
-
-          <Divider />
+            {amountPaid > 0 && (
+              <Text style={{ display: "block", marginTop: 8 }}>
+                Paid: ${amountPaid.toFixed(2)} | Due: ${(total - amountPaid).toFixed(2)}
+              </Text>
+            )}
+          </Card>
 
           {/* Note Section */}
-          <div style={{ marginBottom: 24 }}>
-            <Title level={5}>Note:</Title>
-            <Text>
-              Tween hours older at amit, comorbator adjuncting all. More
-              voluptate illness or will interfere, or adjust club malls. Often
-              spent total scoliosis at time tangent per ovarian ocular, per
-              hospital themselves. Cardiac trenops are at large condensation
-              blocks.
-            </Text>
-            <br />
-            <br />
-            <Text>
-              Tween hours older at amit, comorbator adjuncting menus urine at.
-              Months.
-            </Text>
-          </div>
+          <Card
+            style={{ marginBottom: 24, borderRadius: 8 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Note
+              </Title>
+            }
+          >
+            <TextArea 
+              placeholder="Write Note" 
+              rows={3} 
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+          </Card>
 
           {/* Action Buttons */}
-          <Space
-            direction="vertical"
-            style={{ width: "100%" }}
-            size={12}
-            className="!flex !flex-row"
-          >
-            <Button type="primary" block icon={<DownloadOutlined />}>
-              Download invoice
+          <Space>
+            <Button
+              onClick={() => {
+                if (cartItems.length === 0) {
+                  message.warning("Please add at least one item to the cart");
+                  return;
+                }
+                setDrawerVisibleInvoice(true);
+              }}
+              type="primary"
+              size="large"
+              icon={<PlusOutlined />}
+            >
+              Create Invoice
             </Button>
-            <Button block icon={<PrinterOutlined />}>
-              Print invoice
-            </Button>
-            <Button block icon={<MailOutlined />}>
-              Send via email
+            <Button 
+              size="large"
+              onClick={() => {
+                setCartItems([]);
+                setSelectedPatient(null);
+                setAppliedVoucher(null);
+                setAmountPaid(0);
+                setNote("");
+                setTaxRate(0);
+                setDiscountRate(0);
+                setSelectedPaymentMethod(null);
+              }}
+            >
+              Cancel
             </Button>
           </Space>
-        </div>
-      </Drawer>
+        </Col>
+
+        {/* Right Column - Invoice Summary */}
+        <Col xs={24} lg={8}>
+          <Card
+            style={{ borderRadius: 8, position: "sticky", top: 24 }}
+            title={
+              <Title level={4} style={{ margin: 0 }}>
+                Invoice Summary
+              </Title>
+            }
+          >
+            <Space direction="vertical" style={{ width: "100%" }} size={12}>
+              <Row justify="space-between">
+                <Col>Sub Total</Col>
+                <Col>:</Col>
+                <Col>${subtotal.toFixed(2)}</Col>
+              </Row>
+
+              {discountRate > 0 && (
+                <Row justify="space-between">
+                  <Col>Discount ({discountRate}%)</Col>
+                  <Col>:</Col>
+                  <Col>-${discountAmount.toFixed(2)}</Col>
+                </Row>
+              )}
+
+              {taxRate > 0 && (
+                <Row justify="space-between">
+                  <Col>Tax ({taxRate}%)</Col>
+                  <Col>:</Col>
+                  <Col>${taxAmount.toFixed(2)}</Col>
+                </Row>
+              )}
+
+              {appliedVoucher && (
+                <Row justify="space-between">
+                  <Col>Voucher ({appliedVoucher.name})</Col>
+                  <Col>:</Col>
+                  <Col>-${voucherDiscount.toFixed(2)}</Col>
+                </Row>
+              )}
+
+              <Divider style={{ margin: "8px 0" }} />
+
+              <Row justify="space-between">
+                <Col>
+                  <Text strong>Total</Text>
+                </Col>
+                <Col>:</Col>
+                <Col>
+                  <Text strong>${total.toFixed(2)}</Text>
+                </Col>
+              </Row>
+
+              {amountPaid > 0 && (
+                <>
+                  <Row justify="space-between">
+                    <Col>Amount Paid</Col>
+                    <Col>:</Col>
+                    <Col>${amountPaid.toFixed(2)}</Col>
+                  </Row>
+                  
+                  <Divider style={{ margin: "8px 0" }} />
+
+                  <Row justify="space-between">
+                    <Col>
+                      <Text strong style={{ fontSize: 16, color: balanceDue > 0 ? "#F45B69" : "#0BABB7" }}>
+                        {balanceDue > 0 ? "Balance Due" : "Change Due"}
+                      </Text>
+                    </Col>
+                    <Col>:</Col>
+                    <Col>
+                      <Text strong style={{ fontSize: 16, color: balanceDue > 0 ? "#F45B69" : "#0BABB7" }}>
+                        ${Math.abs(balanceDue).toFixed(2)}
+                      </Text>
+                    </Col>
+                  </Row>
+                </>
+              )}
+            </Space>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Drawer Components */}
+      <AddBondDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+        onSubmit={handleBondSubmit}
+        form={bondForm}
+      />
+      
+      <AddServiceDrawer
+        visible={drawerVisibleService}
+        onClose={() => setDrawerVisibleService(false)}
+        onSubmit={handleServiceSubmit}
+        form={serviceForm}
+      />
+      
+      <AddVoucherDrawer
+        visible={drawerVisibleVoucher}
+        onClose={() => setDrawerVisibleVoucher(false)}
+        onSubmit={handleVoucherSubmit}
+        form={voucherForm}
+      />
+      
+      <InvoiceDrawer
+        visible={drawerVisibleInvoice}
+        onClose={() => setDrawerVisibleInvoice(false)}
+        cartItems={cartItems}
+        selectedPatient={selectedPatient}
+        subtotal={subtotal}
+        discountRate={discountRate}
+        discountAmount={discountAmount}
+        taxRate={taxRate}
+        taxAmount={taxAmount}
+        appliedVoucher={appliedVoucher}
+        voucherDiscount={voucherDiscount}
+        total={total}
+        amountPaid={amountPaid}
+        balanceDue={balanceDue}
+        note={note}
+        onPayment={handlePayment}
+        confirmPayment={confirmPayment}
+      />
     </div>
   );
 }
