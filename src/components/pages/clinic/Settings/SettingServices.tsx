@@ -31,6 +31,70 @@ interface ProductTabelProps {
 
 const { Title } = Typography;
 
+// Service options by discipline
+const serviceOptions = {
+  Operation: [
+    {
+      value: "surgery",
+      label: "Surgery (0.9 - $1000)",
+      price: "1000",
+      lengthTime: "02:00",
+    },
+    {
+      value: "minor_surgery",
+      label: "Minor Surgery (0.7 - $600)",
+      price: "600",
+      lengthTime: "01:00",
+    },
+    {
+      value: "post_op",
+      label: "Post-Op Care (0.5 - $300)",
+      price: "300",
+      lengthTime: "00:30",
+    },
+  ],
+  Consultation: [
+    {
+      value: "general",
+      label: "General Consultation (0.6 - $200)",
+      price: "200",
+      lengthTime: "00:30",
+    },
+    {
+      value: "specialist",
+      label: "Specialist Consultation (0.8 - $400)",
+      price: "400",
+      lengthTime: "00:45",
+    },
+    {
+      value: "follow_up",
+      label: "Follow-up (0.4 - $150)",
+      price: "150",
+      lengthTime: "00:20",
+    },
+  ],
+  Emergency: [
+    {
+      value: "emergency_visit",
+      label: "Emergency Visit (1.0 - $800)",
+      price: "800",
+      lengthTime: "01:30",
+    },
+    {
+      value: "urgent_care",
+      label: "Urgent Care (0.9 - $600)",
+      price: "600",
+      lengthTime: "01:00",
+    },
+    {
+      value: "triage",
+      label: "Triage (0.3 - $100)",
+      price: "100",
+      lengthTime: "00:15",
+    },
+  ],
+};
+
 const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -38,6 +102,8 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingService] = useState<SettingService | null>(null);
+  const [selectedDiscipline, setSelectedDiscipline] = useState<string>("");
+  const [, setSelectedService] = useState<string>("");
 
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
@@ -72,6 +138,29 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
     setCurrentPage(1);
   };
 
+  // Handle discipline change
+  const handleDisciplineChange = (value: string) => {
+    setSelectedDiscipline(value);
+    setSelectedService("");
+    form.setFieldsValue({ service: "", price: "", lengthTime: "" });
+  };
+
+  // Handle service change
+  const handleServiceChange = (value: string) => {
+    setSelectedService(value);
+    if (selectedDiscipline && value) {
+      const service = serviceOptions[
+        selectedDiscipline as keyof typeof serviceOptions
+      ].find((s) => s.value === value);
+      if (service) {
+        form.setFieldsValue({
+          price: service.price,
+          lengthTime: service.lengthTime,
+        });
+      }
+    }
+  };
+
   // Handle new service form submission
   const handleFormSubmit = (values: any) => {
     console.log("New service form values:", values);
@@ -81,6 +170,8 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
     });
     setDrawerVisible(false);
     form.resetFields();
+    setSelectedDiscipline("");
+    setSelectedService("");
   };
 
   // Handle edit service form submission
@@ -102,7 +193,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
       discipline: record.discipline,
       serviceName: record.services,
       price: record.price,
-      // Add lengthTime field if needed
+      lengthTime: "30 mins",
     });
     setEditDrawerVisible(true);
   };
@@ -196,7 +287,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
         }}
-        rowKey="name" // Using name as key since there's no id in SettingService
+        rowKey="name"
         columns={columns}
         dataSource={paginatedData}
         pagination={false}
@@ -228,7 +319,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
         }}
       />
 
-      {/* Custom Pagination - matches the screenshot design */}
+      {/* Custom Pagination */}
       <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
         <Col>
           <Space>
@@ -310,42 +401,65 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
 
       {/* New Service Drawer */}
       <Drawer
-        title="Add New Service"
+        title="Add Service"
         placement="right"
-        onClose={() => setDrawerVisible(false)}
+        onClose={() => {
+          setDrawerVisible(false);
+          setSelectedDiscipline("");
+          setSelectedService("");
+          form.resetFields();
+        }}
         open={drawerVisible}
         width={500}
         styles={{
           body: { padding: 24 },
-          header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
+          header: {
+            borderBottom: "1px solid #e5e7eb",
+            padding: "16px 24px",
+          },
         }}
         footer={
           <div
             style={{
-              textAlign: "right",
               padding: "16px 24px",
               borderTop: "1px solid #e5e7eb",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
-                <Button
-                  type="primary"
-                  style={{ padding: "20px 70px" }}
-                  onClick={() => form.submit()}
-                >
-                  Add Service
-                </Button>
-              </div>
-              <div>
-                <Button
-                  style={{ padding: "20px 70px" }}
-                  onClick={() => setDrawerVisible(false)}
-                >
-                  Not Now
-                </Button>
-              </div>
-            </Space>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "16px",
+              }}
+            >
+              <Button
+                type="primary"
+                style={{
+                  padding: "20px 40px",
+                  flex: "1 1 200px",
+                  minWidth: "150px",
+                }}
+                onClick={() => form.submit()}
+              >
+                Add Now
+              </Button>
+              <Button
+                style={{
+                  padding: "20px 40px",
+                  flex: "1 1 200px",
+                  minWidth: "150px",
+                }}
+                onClick={() => {
+                  setDrawerVisible(false);
+                  setSelectedDiscipline("");
+                  setSelectedService("");
+                  form.resetFields();
+                }}
+              >
+                Not Now
+              </Button>
+            </div>
           </div>
         }
       >
@@ -360,7 +474,11 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
             name="discipline"
             rules={[{ required: true, message: "Please select discipline" }]}
           >
-            <Select placeholder="Select discipline">
+            <Select
+              placeholder="Select Discipline"
+              onChange={handleDisciplineChange}
+              size="large"
+            >
               <Select.Option value="Operation">Operation</Select.Option>
               <Select.Option value="Consultation">Consultation</Select.Option>
               <Select.Option value="Emergency">Emergency</Select.Option>
@@ -368,28 +486,39 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           </Form.Item>
 
           <Form.Item
-            label="Service Name"
-            name="serviceName"
-            rules={[{ required: true, message: "Please enter service name" }]}
+            label="Service"
+            name="service"
+            rules={[{ required: true, message: "Please select service" }]}
           >
-            <Input placeholder="Service name" />
+            <Select
+              placeholder="Select Service"
+              onChange={handleServiceChange}
+              disabled={!selectedDiscipline}
+              size="large"
+            >
+              {selectedDiscipline &&
+                serviceOptions[
+                  selectedDiscipline as keyof typeof serviceOptions
+                ].map((option) => (
+                  <Select.Option key={option.value} value={option.value}>
+                    {option.label}
+                  </Select.Option>
+                ))}
+            </Select>
           </Form.Item>
 
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please enter price" }]}
-          >
-            <Input placeholder="e.g $200" />
-          </Form.Item>
-
-          <Form.Item
-            label="Length & Time"
-            name="lengthTime"
-            rules={[{ required: true, message: "Please enter length & time" }]}
-          >
-            <Input placeholder="e.g 30 minutes" />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="Length & Time" name="lengthTime">
+                <Input placeholder="00:00" size="large" disabled />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Price" name="price">
+                <Input placeholder="0.00" size="large" prefix="$" disabled />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Drawer>
 
@@ -405,38 +534,51 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
         width={500}
         styles={{
           body: { padding: 24 },
-          header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
+          header: {
+            borderBottom: "1px solid #e5e7eb",
+            padding: "16px 24px",
+          },
         }}
         footer={
           <div
             style={{
-              textAlign: "right",
               padding: "16px 24px",
               borderTop: "1px solid #e5e7eb",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
-                <Button
-                  style={{ padding: "20px 70px" }}
-                  type="primary"
-                  onClick={() => editForm.submit()}
-                >
-                  Save
-                </Button>
-              </div>
-              <div>
-                <Button
-                  style={{ padding: "20px 70px" }}
-                  onClick={() => {
-                    setEditDrawerVisible(false);
-                    setEditingService(null);
-                  }}
-                >
-                  Not Now
-                </Button>
-              </div>
-            </Space>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "16px",
+              }}
+            >
+              <Button
+                type="primary"
+                style={{
+                  padding: "20px 40px",
+                  flex: "1 1 200px",
+                  minWidth: "150px",
+                }}
+                onClick={() => editForm.submit()}
+              >
+                Save
+              </Button>
+              <Button
+                style={{
+                  padding: "20px 40px",
+                  flex: "1 1 200px",
+                  minWidth: "150px",
+                }}
+                onClick={() => {
+                  setEditDrawerVisible(false);
+                  setEditingService(null);
+                }}
+              >
+                Not Now
+              </Button>
+            </div>
           </div>
         }
       >
@@ -466,21 +608,28 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
             <Input placeholder="Service name" />
           </Form.Item>
 
-          <Form.Item
-            label="Price"
-            name="price"
-            rules={[{ required: true, message: "Please enter price" }]}
-          >
-            <Input placeholder="e.g $200" />
-          </Form.Item>
-
-          <Form.Item
-            label="Length & Time"
-            name="lengthTime"
-            rules={[{ required: true, message: "Please enter length & time" }]}
-          >
-            <Input placeholder="e.g 30 minutes" />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Price"
+                name="price"
+                rules={[{ required: true, message: "Please enter price" }]}
+              >
+                <Input placeholder="e.g $200" />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Length & Time"
+                name="lengthTime"
+                rules={[
+                  { required: true, message: "Please enter length & time" },
+                ]}
+              >
+                <Input placeholder="e.g 30 minutes" />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Drawer>
     </div>
