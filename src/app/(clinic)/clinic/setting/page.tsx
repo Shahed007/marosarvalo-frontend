@@ -2,10 +2,9 @@
 
 import BasicInformation from "@/components/pages/clinic/Settings/BasicInformation";
 import SettingBranding from "@/components/pages/clinic/Settings/SettingBranding";
+import SettingIntegration from "@/components/pages/clinic/Settings/SettingIntegration";
 import ProductTable from "@/components/table/ProductTable";
-import ReminderTable, {
-  ReminderRecord,
-} from "@/components/table/ReminderTable";
+
 import { ProductTab } from "@/types/global";
 import { Tabs } from "antd";
 import Title from "antd/es/typography/Title";
@@ -13,19 +12,7 @@ import React, { useState } from "react";
 
 const Communications = () => {
   const [activeTab, setActiveTab] = useState("reminders");
-  const [loading] = useState(false);
 
-  const mockData: ReminderRecord[] = [
-    {
-      key: "1",
-      patientName: "Emily Carter",
-      reminderType: "Appointment",
-      communicationType: "Email, SMS",
-      subject: "Appointment Reminder",
-      sentDateTime: "2024-07-26 10:00 AM",
-      status: "Delivered",
-    },
-  ];
 const bondsData: ProductTab[] = [
   {
     id: "#1254",
@@ -73,7 +60,7 @@ const bondsData: ProductTab[] = [
       label: "Integration",
       children: (
         <div>
-          <ReminderTable loading={loading} data={mockData} />
+          <SettingIntegration />
         </div>
       ),
     },
