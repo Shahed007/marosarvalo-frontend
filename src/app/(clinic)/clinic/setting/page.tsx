@@ -1,6 +1,7 @@
 "use client";
 
 import BasicInformation from "@/components/pages/clinic/Settings/BasicInformation";
+import SettingBranding from "@/components/pages/clinic/Settings/SettingBranding";
 import ProductTable from "@/components/table/ProductTable";
 import ReminderTable, {
   ReminderRecord,
@@ -63,7 +64,7 @@ const bondsData: ProductTab[] = [
       label: "Branding",
       children: (
         <div>
-          <ReminderTable loading={loading} data={mockData} />
+          <SettingBranding/>
         </div>
       ),
     },
