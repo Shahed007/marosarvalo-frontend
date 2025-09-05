@@ -5,6 +5,9 @@ import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import ProfileEditDrawer from "./ProfileEditDrawer";
 import { useState } from "react";
+import AddWorkingHourStaff from "./AddWorkingHourStaff";
+import EditWorkingHourStaff from "./EditWorkingHourStaff";
+import dayjs, { Dayjs } from 'dayjs';
 
 const { TabPane } = Tabs;
 
@@ -13,27 +16,94 @@ interface WorkingDay {
   day: string;
   time: string;
   hours: string;
+  startTime?: Dayjs | null;
+  endTime?: Dayjs | null;
+}
+
+interface WorkingHoursData {
+  profession: string;
+  workingHours: {
+    [key: string]: [Dayjs | null, Dayjs | null];
+  };
 }
 
 export default function SingleStaff() {
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [drawerOpenForAddWorkingHour, setDrawerOpenForAddWorkingHour] = useState(false);
+  const [editDrawerForWorkingHour, setEditDrawerForWorkingHour] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<WorkingDay | null>(null);
+  const [workingDays, setWorkingDays] = useState<WorkingDay[]>([
+    { key: "1", day: "Sunday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "2", day: "Monday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "3", day: "Tuesday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "4", day: "Wednesday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "5", day: "Thursday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "6", day: "Friday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+    { key: "7", day: "Saturday", time: "09:00 AM-5:00 PM", hours: "8 Hours", startTime: dayjs('09:00', 'HH:mm'), endTime: dayjs('17:00', 'HH:mm') },
+  ]);
+
+  const handleOpenAddWorkingHour = () => setDrawerOpenForAddWorkingHour(true);
+  const handleCloseAddWorkingHour = () => setDrawerOpenForAddWorkingHour(false);
 
   const handleOpenDrawer = () => setDrawerVisible(true);
   const handleCloseDrawer = () => setDrawerVisible(false);
-  const workingDays: WorkingDay[] = [
-    { key: "1", day: "Sunday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-    { key: "2", day: "Monday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-    { key: "3", day: "Tuesday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-    {
-      key: "4",
-      day: "Wednesday",
-      time: "09:00 AM-5 Pm",
-      hours: "5Hour 30 Min",
-    },
-    { key: "5", day: "Thursday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-    { key: "6", day: "Friday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-    { key: "7", day: "Saturday", time: "09:00 AM-5 Pm", hours: "5Hour 30 Min" },
-  ];
+
+  const handleOpenEditDrawer = (day: WorkingDay) => {
+    setSelectedDay(day);
+    setEditDrawerForWorkingHour(true);
+  };
+
+  const handleCloseEditDrawer = () => {
+    setEditDrawerForWorkingHour(false);
+    setSelectedDay(null);
+  };
+
+  const handleSaveWorkingHours = (data: WorkingHoursData) => {
+    if (selectedDay) {
+      // Update the specific day's working hours
+      const dayKey = selectedDay.day.toLowerCase();
+      const dayTimes = data.workingHours[dayKey];
+      
+      if (dayTimes && dayTimes.length === 2) {
+        const [startTime, endTime] = dayTimes;
+        
+        // Calculate hours difference
+        let hours = "0 Hours";
+        if (startTime && endTime) {
+          const diffInHours = endTime.diff(startTime, 'hour', true);
+          const hoursInt = Math.floor(diffInHours);
+          const minutesInt = Math.round((diffInHours - hoursInt) * 60);
+          hours = `${hoursInt} Hour${hoursInt !== 1 ? 's' : ''} ${minutesInt > 0 ? `${minutesInt} Min` : ''}`.trim();
+        }
+        
+        // Format time string
+        const timeStr = `${startTime?.format('h:mm A')}-${endTime?.format('h:mm A')}`;
+        
+        // Update the working days array
+        const updatedDays = workingDays.map(dayItem => 
+          dayItem.key === selectedDay.key 
+            ? { 
+                ...dayItem, 
+                time: timeStr, 
+                hours: hours,
+                startTime,
+                endTime
+              }
+            : dayItem
+        );
+        
+        setWorkingDays(updatedDays);
+      }
+    }
+    handleCloseEditDrawer();
+  };
+
+  const handleAddWorkingHours = (data: WorkingHoursData) => {
+    // This would typically add multiple days at once
+    console.log("Add working hours:", data);
+    // You would implement logic to update all days based on the form data
+    handleCloseAddWorkingHour();
+  };
 
   const columns: ColumnsType<WorkingDay> = [
     {
@@ -55,9 +125,9 @@ export default function SingleStaff() {
       title: "Actions",
       key: "actions",
       align: "end",
-
-      render: () => (
+      render: (_, record) => (
         <Button
+          onClick={() => handleOpenEditDrawer(record)}
           type="text"
           icon={<EditOutlined />}
           size="small"
@@ -66,6 +136,29 @@ export default function SingleStaff() {
       ),
     },
   ];
+
+  // Prepare initial data for the edit drawer
+  const getInitialEditData = (): WorkingHoursData | null => {
+    if (!selectedDay) return null;
+    
+    const dayKey = selectedDay.day.toLowerCase();
+    return {
+      profession: "Receptionist",
+      workingHours: {
+        [dayKey]: [
+          selectedDay.startTime ?? null,
+          selectedDay.endTime ?? null
+        ],
+        saturday: [null, null],
+        sunday: [null, null],
+        monday: [null, null],
+        tuesday: [null, null],
+        wednesday: [null, null],
+        thursday: [null, null],
+        friday: [null, null],
+      }
+    };
+  };
 
   return (
     <div>
@@ -283,7 +376,11 @@ export default function SingleStaff() {
             <TabPane tab="Working Hour" key="working-hour" />
             <TabPane tab="Unavailability" key="unavailability" />
           </Tabs>
-          <Button type="primary" className="bg-primary border-primary">
+          <Button
+            onClick={handleOpenAddWorkingHour}
+            type="primary"
+            className="bg-primary border-primary"
+          >
             Add Hours
           </Button>
         </div>
@@ -333,6 +430,22 @@ export default function SingleStaff() {
       </div>
       {/* Drawer for Editing */}
       <ProfileEditDrawer visible={drawerVisible} onClose={handleCloseDrawer} />
+      {/* Drawer for Add Working Hour For Staff */}
+      <AddWorkingHourStaff
+        visible={drawerOpenForAddWorkingHour}
+        onClose={handleCloseAddWorkingHour}
+        onSave={handleAddWorkingHours}
+      />
+      {/* Edit drawer for edit the working time */}
+      {selectedDay && (
+        <EditWorkingHourStaff
+          visible={editDrawerForWorkingHour}
+          onClose={handleCloseEditDrawer}
+          mode="edit"
+          initialData={getInitialEditData()}
+          onSave={handleSaveWorkingHours}
+        />
+      )}
     </div>
   );
 }
