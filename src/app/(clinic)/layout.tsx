@@ -108,6 +108,27 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <SettingOutlined />,
       label: "Settings",
       checked: false,
+      href: "/clinic/setting",
+      children: [
+        {
+          key: "9-1",
+          icon: null,
+          label: "General",
+          href: "/clinic/billing",
+        },
+        {
+          key: "9-2",
+          icon: null,
+          label: "User/Our Staff",
+          href: "/clinic/all-staff",
+        },
+        {
+          key: "9-3",
+          icon: null,
+          label: "Subscription",
+          href: "/clinic/subscription",
+        },
+      ],
     },
   ];
   return <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>;

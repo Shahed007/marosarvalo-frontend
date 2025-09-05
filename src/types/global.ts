@@ -29,12 +29,14 @@ export interface Voucher {
 }
 
 export interface Bond {
-  id: string;
-  name: string;
-  discipline: string;
-  service: string;
-  sessions: number;
-  price: number;
+  id?: string;
+  name?: string;
+  discipline?: string;
+  services?: string;
+  service?: string;
+  sessions?: number;
+  price?: string | number;
+  status?: "Active" | "Inactive";
 }
 
 export interface Service {
@@ -45,12 +47,12 @@ export interface Service {
 }
 
 export interface InvoiceItem {
-  id: string;
-  name: string;
-  type: string;
-  quantity: number;
-  price: number;
-  total: number;
+  id?: string;
+  name?: string;
+  type?: string;
+  quantity?: number | string;
+  price?: number | string;
+  total?: number | string;
 }
 
 export interface PaymentMethod {
@@ -58,4 +60,25 @@ export interface PaymentMethod {
   name: string;
   type: "card" | "cash" | "voucher" | "bond";
   icon?: any;
+}
+
+export interface ProductTab {
+  id: string;
+  discipline: string;
+}
+
+export interface SettingService {
+  name: string;
+  discipline: string;
+  services: string;
+  price: string
+}
+
+export interface AllStaffs {
+  id?: string;
+  name: string;
+  email: string;
+  discipline: string;
+  role: string;
+  status: "Active" | "Inactive"
 }
