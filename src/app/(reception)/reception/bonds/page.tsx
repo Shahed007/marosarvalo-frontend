@@ -1,10 +1,35 @@
-import { BondTable } from '@/components/reception/Bonds/BondsTable'
-import React from 'react'
+import BondTable, { Bond } from "@/components/table/BondTable";
 
-export default function BondPage() {
-  return (
-    <div>
-        <BondTable/>
-    </div>
-  )
+const bondsData: Bond[] = [
+  {
+    id: "#1254",
+    name: "Premium Package",
+    discipline: "Operation",
+    services: "Surgery",
+    sessions: 5,
+    price: "$250",
+    status: "Active",
+  },
+  {
+    id: "#1255",
+    name: "Standard Package",
+    discipline: "Operation",
+    services: "Surgery",
+    sessions: 5,
+    price: "$200",
+    status: "Active",
+  },
+  {
+    id: "#1256",
+    name: "Trial Package",
+    discipline: "Operation",
+    services: "Surgery",
+    sessions: 5,
+    price: "$100",
+    status: "Inactive",
+  },
+];
+
+export default function ParentPage() {
+  return <BondTable data={bondsData} />;
 }

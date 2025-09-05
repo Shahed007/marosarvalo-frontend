@@ -3,7 +3,7 @@ import DashboardLayout, {
   MenuItem,
 } from "@/components/dashboardLayout/DashboardLayout";
 import {
-  BarChartOutlined,
+
   CalendarOutlined,
   CreditCardOutlined,
   DashboardOutlined,
@@ -97,20 +97,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       label: "Voucher",
       checked: false,
       href: "/reception/voucher",
-      children: [
-        {
-          key: "7-1",
-          icon: null,
-          label: "Voucher List",
-          href: "/reception/voucher/voucher-list",
-        },
-        {
-          key: "7-2",
-          icon: null,
-          label: "Add Voucher",
-          href: "/reception/voucher/add-voucher",
-        },
-      ],
+  
     },
 
     {
