@@ -129,7 +129,7 @@ export default function ReceptionPayments() {
   }, []);
 
   // Calculate invoice totals
-  const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + Number(item.total ?? 0), 0);
   const discountAmount = (subtotal * discountRate) / 100;
   const taxAmount = ((subtotal - discountAmount) * taxRate) / 100;
   const voucherDiscount = appliedVoucher ? appliedVoucher.amount : 0;
@@ -158,7 +158,11 @@ export default function ReceptionPayments() {
       // Update quantity if item already in cart
       setCartItems(cartItems.map(cartItem =>
         cartItem.id === item.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1, total: cartItem.price * (cartItem.quantity + 1) }
+          ? { 
+              ...cartItem, 
+              quantity: Number(cartItem.quantity ?? 0) + 1, 
+              total: Number(cartItem.price) * (Number(cartItem.quantity ?? 0) + 1) 
+            }
           : cartItem
       ));
     } else {
@@ -191,7 +195,7 @@ export default function ReceptionPayments() {
     
     setCartItems(cartItems.map(item =>
       item.id === id
-        ? { ...item, quantity: newQuantity, total: item.price * newQuantity }
+        ? { ...item, quantity: newQuantity, total: (item.price as number) * newQuantity }
         : item
     ));
   };
@@ -308,13 +312,13 @@ export default function ReceptionPayments() {
           <Button
             size="small"
             icon={<MinusOutlined />}
-            onClick={() => updateQuantity(record.id, quantity - 1)}
+    onClick={() => updateQuantity(record.id as string, quantity - 1)}
           />
           <span style={{ width: 30, textAlign: "center" }}>{quantity}</span>
           <Button
             size="small"
             icon={<PlusOutlined />}
-            onClick={() => updateQuantity(record.id, quantity + 1)}
+   onClick={() => updateQuantity(record.id as string, quantity + 1)}
           />
         </Space>
       ),
@@ -333,15 +337,20 @@ export default function ReceptionPayments() {
     },
     {
       title: "Action",
-      key: "action",
-      render: (_: any, record: InvoiceItem) => (
-        <Button 
-          type="text" 
-          icon={<DeleteOutlined />} 
-          size="small" 
-          onClick={() => removeFromCart(record.id)}
-        />
-      ),
+      key: "action",render: (_: any, record: InvoiceItem) => {
+  if (record.id) {
+    return (
+      <Button 
+        type="text" 
+        icon={<DeleteOutlined />} 
+        size="small" 
+  onClick={() => record.id && removeFromCart(record.id)}
+      />
+    );
+  } else {
+    return null; // or some other fallback component
+  }
+},
     },
   ];
 

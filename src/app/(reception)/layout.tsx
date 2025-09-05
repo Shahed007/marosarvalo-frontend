@@ -464,7 +464,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
        {
          key: "9-1",
          label: (
-           <Link href="/reception/settings/profile">Personal Info</Link>
+           <Link href="/reception/settings/personal-info">Personal Info</Link>
          ),
        }
         ,
