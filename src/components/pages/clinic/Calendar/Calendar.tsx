@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   Layout,
   Button,
@@ -12,6 +12,7 @@ import {
   Table,
   Space,
   Spin,
+  Input,
 } from "antd";
 import {
   UserOutlined,
@@ -21,7 +22,6 @@ import {
   LeftOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import Search from "antd/es/input/Search";
 import dayjs from "dayjs";
 import Link from "next/link";
 
@@ -55,14 +55,27 @@ export default function Calendar() {
   const [filterSpecialist, setFilterSpecialist] = useState<string>("all");
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setSpecialists([
-        { id: "1", name: "Drg Soap Mactavish", avatar: "../../../../assets/1.png" },
-        { id: "2", name: "Drg Jerald O'Hara", avatar: "../../../../assets/2.png" },
-        { id: "3", name: "Drg Putri Larasati", avatar: "../../../../assets/3.png" },
+        {
+          id: "1",
+          name: "Drg Soap Mactavish",
+          avatar: "../../../../assets/1.png",
+        },
+        {
+          id: "2",
+          name: "Drg Jerald O'Hara",
+          avatar: "../../../../assets/2.png",
+        },
+        {
+          id: "3",
+          name: "Drg Putri Larasati",
+          avatar: "../../../../assets/3.png",
+        },
       ]);
 
       setAppointments([
@@ -118,6 +131,19 @@ export default function Calendar() {
     }, 800);
   }, []);
 
+  // Dynamic filtered appointments
+  const filteredAppointments = useMemo(() => {
+    return appointments.filter((apt) => {
+      const matchesSpecialist =
+        filterSpecialist === "all" || apt.specialistId === filterSpecialist;
+      const matchesSearch =
+        apt.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        apt.type.toLowerCase().includes(searchQuery.toLowerCase());
+      // Here you can also filter by date if you have a date field for appointment
+      return matchesSpecialist && matchesSearch;
+    });
+  }, [appointments, filterSpecialist, searchQuery]);
+
   const getAppointmentColorClasses = (color: string) => {
     switch (color) {
       case "red":
@@ -135,20 +161,16 @@ export default function Calendar() {
     specialistId: string,
     time: string
   ) => {
-    return appointments.filter(
-      (apt) =>
-        (filterSpecialist === "all" || apt.specialistId === filterSpecialist) &&
-        apt.specialistId === specialistId &&
-        apt.time === time
+    return filteredAppointments.filter(
+      (apt) => apt.specialistId === specialistId && apt.time === time
     );
   };
 
   const getTotalAppointmentsForSpecialist = (specialistId: string) =>
-    appointments.filter((apt) => apt.specialistId === specialistId).length;
+    filteredAppointments.filter((apt) => apt.specialistId === specialistId)
+      .length;
 
-  const totalAppointments = appointments.filter(
-    (apt) => filterSpecialist === "all" || apt.specialistId === filterSpecialist
-  ).length;
+  const totalAppointments = filteredAppointments.length;
 
   const handleViewChange = (view: string) => {
     setFilterView(view);
@@ -225,7 +247,20 @@ export default function Calendar() {
                   <div style={{ fontSize: 11 }}>
                     {apt.time} - {apt.endTime}
                   </div>
-                  <div style={{ fontSize: 11 }}>{apt.type}</div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      backgroundColor: "#fff",
+                      color: "black",
+                      padding: "4px",
+                      borderRadius: "14px",
+                      width: 120,
+                      textAlign: "center",
+                      marginTop: "7px",
+                    }}
+                  >
+                    {apt.type}
+                  </div>
                   {apt.hasActions && (
                     <Button
                       type="text"
@@ -281,13 +316,19 @@ export default function Calendar() {
         className="flex flex-wrap gap-2 justify-between items-center"
         style={{ padding: "16px 24px" }}
       >
-        <Search
-          placeholder="Search"
+        <Input
+          placeholder="Search patient or type"
           allowClear
-          style={{ width: "100%", maxWidth: 500, height: 44 }}
+          style={{ width: "100%", maxWidth: 500, height: 37 }}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
         <Link href={"/clinic/appointment/add-appointment"}>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            className="!p-4 border-primary"
+            type="primary"
+            icon={<PlusOutlined />}
+          >
             Add New Appointment
           </Button>
         </Link>
@@ -298,7 +339,15 @@ export default function Calendar() {
         <div className="flex flex-wrap justify-between items-center gap-4">
           {/* Left */}
           <Space size={16} wrap>
-            <CalendarOutlined style={{ color: "#2563eb", fontSize: 18 }} />
+            <CalendarOutlined
+              style={{
+                color: "#80889E",
+                fontSize: 18,
+                backgroundColor: "#E9EAEC",
+                padding: "8px",
+                borderRadius: "7px",
+              }}
+            />
             <Text strong style={{ fontSize: 16 }}>
               {totalAppointments}
             </Text>
@@ -355,7 +404,7 @@ export default function Calendar() {
             dataSource={dataSource}
             bordered
             pagination={false}
-            scroll={{ x: "max-content" }} // ✅ mobile horizontal scroll
+            scroll={{ x: "max-content" }}
           />
         </Card>
       </Content>
