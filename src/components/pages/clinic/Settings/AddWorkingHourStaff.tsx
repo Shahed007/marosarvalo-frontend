@@ -44,7 +44,11 @@ const AddWorkingHourStaff: React.FC<AddWorkingHourStaffProps> = ({
 
   return (
     <Drawer
-      title="Add Working Hour"
+      title={
+        <div className="text-3xl font-semibold text-center">
+          Add Working Hour
+        </div>
+      }
       placement="right"
       onClose={onClose}
       open={visible}

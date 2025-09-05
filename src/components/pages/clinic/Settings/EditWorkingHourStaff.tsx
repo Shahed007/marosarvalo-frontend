@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { Drawer, Form, Button, Select, TimePicker } from "antd";
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from "dayjs";
 
 interface WorkingHoursData {
   profession: string;
@@ -14,7 +14,7 @@ interface WorkingHoursData {
 interface EditWorkingHourStaffProps {
   visible: boolean;
   onClose: () => void;
-  mode: 'add' | 'edit';
+  mode: "add" | "edit";
   initialData?: WorkingHoursData | null;
   onSave: (data: WorkingHoursData) => void;
 }
@@ -23,13 +23,13 @@ interface EditWorkingHourStaffProps {
 const defaultWorkingHoursData: WorkingHoursData = {
   profession: "Receptionist",
   workingHours: {
-    saturday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    sunday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    monday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    tuesday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    wednesday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    thursday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
-    friday: [dayjs('10:00', 'HH:mm'), dayjs('17:00', 'HH:mm')],
+    saturday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    sunday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    monday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    tuesday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    wednesday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    thursday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
+    friday: [dayjs("10:00", "HH:mm"), dayjs("17:00", "HH:mm")],
   },
 };
 
@@ -46,7 +46,7 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
     if (visible) {
       if (initialData) {
         form.setFieldsValue(initialData);
-      } else if (mode === 'add') {
+      } else if (mode === "add") {
         // Use default data for add mode
         form.setFieldsValue(defaultWorkingHoursData);
       }
@@ -70,7 +70,11 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
 
   return (
     <Drawer
-      title={mode === 'add' ? "Add Working Hour" : "Edit Working Hour"}
+      title={
+        <div className="text-3xl text-center font-semibold ">
+          {mode === "add" ? "Add Working Hour" : "Edit Working Hour"}
+        </div>
+      }
       placement="right"
       onClose={onClose}
       open={visible}
@@ -93,16 +97,12 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
             style={{ flex: 1 }}
             onClick={() => form.submit()}
           >
-            {mode === 'add' ? 'Save Now' : 'Update Now'}
+            {mode === "add" ? "Save Now" : "Update Now"}
           </Button>
         </div>
       }
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-      >
+      <Form form={form} layout="vertical" onFinish={handleFinish}>
         <div style={{ marginBottom: 24 }}>
           <h3 style={{ marginBottom: 16 }}>Working Days & Time</h3>
           <div style={{ border: "1px solid #d9d9d9", borderRadius: 6 }}>

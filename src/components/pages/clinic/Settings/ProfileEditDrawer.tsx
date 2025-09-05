@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import { Drawer, Form, Input, Button, Space, Select, DatePicker } from "antd";
+import { Drawer, Form, Input, Button, Select, DatePicker } from "antd";
 
 interface ProfileEditDrawerProps {
   visible: boolean;
   onClose: () => void;
 }
 
-const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({ visible, onClose }) => {
+const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
+  visible,
+  onClose,
+}) => {
   const [form] = Form.useForm();
 
   const handleFinish = (values: any) => {
@@ -18,19 +21,31 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({ visible, onClose 
 
   return (
     <Drawer
-      title="Edit Profile"
+      title={<div className="text-3xl font-semibold text-center">Edit Profile</div>}
       placement="right"
       onClose={onClose}
       open={visible}
       width={480}
       footer={
-        <div style={{ textAlign: "right" }}>
-          <Space>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button type="primary" onClick={() => form.submit()}>
-              Save
-            </Button>
-          </Space>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "16px",
+            marginTop: "24px",
+          }}
+        >
+          <Button style={{ flex: 1 }} onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            type="primary"
+            style={{ flex: 1 }}
+            onClick={() => form.submit()}
+          >
+            Save Now
+          </Button>
         </div>
       }
     >
@@ -46,15 +61,29 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({ visible, onClose 
           gender: "Male",
         }}
       >
-        <Form.Item label="Full Name" name="name" rules={[{ required: true, message: "Enter full name" }]}>
+        <Form.Item
+          label="Full Name"
+          name="name"
+          rules={[{ required: true, message: "Enter full name" }]}
+        >
           <Input placeholder="Enter full name" />
         </Form.Item>
 
-        <Form.Item label="Email" name="email" rules={[{ type: "email", required: true, message: "Enter a valid email" }]}>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { type: "email", required: true, message: "Enter a valid email" },
+          ]}
+        >
           <Input placeholder="Enter email" />
         </Form.Item>
 
-        <Form.Item label="Phone" name="phone" rules={[{ required: true, message: "Enter phone number" }]}>
+        <Form.Item
+          label="Phone"
+          name="phone"
+          rules={[{ required: true, message: "Enter phone number" }]}
+        >
           <Input placeholder="Enter phone number" />
         </Form.Item>
 
