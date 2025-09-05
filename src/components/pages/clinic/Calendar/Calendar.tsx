@@ -8,11 +8,12 @@ import {
   Card,
   Select,
   Typography,
-  Avatar,
   Table,
   Space,
   Spin,
   Input,
+  Dropdown,
+  Menu,
 } from "antd";
 import {
   UserOutlined,
@@ -24,7 +25,10 @@ import {
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Link from "next/link";
-
+import img1 from "@/assets/1.png";
+import img2 from "@/assets/2.png";
+import img3 from "@/assets/3.png";
+import Image from "next/image";
 const { Header, Content } = Layout;
 const { Option } = Select;
 const { Text } = Typography;
@@ -40,10 +44,12 @@ interface Appointment {
   hasActions?: boolean;
 }
 
+import type { StaticImageData } from "next/image";
+
 interface Specialist {
   id: string;
   name: string;
-  avatar: string;
+  avatar: string | StaticImageData;
 }
 
 export default function Calendar() {
@@ -56,6 +62,15 @@ export default function Calendar() {
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const handleViewDetails = (id: string) => {
+    // Navigate to detail page or show modal
+    console.log("View details for appointment", id);
+  };
+
+  const handleCancelAppointment = (id: string) => {
+    // Show confirmation modal before cancel
+    console.log("Cancel appointment", id);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -64,17 +79,17 @@ export default function Calendar() {
         {
           id: "1",
           name: "Drg Soap Mactavish",
-          avatar: "../../../../assets/1.png",
+          avatar: img1,
         },
         {
           id: "2",
           name: "Drg Jerald O'Hara",
-          avatar: "../../../../assets/2.png",
+          avatar: img2,
         },
         {
           id: "3",
           name: "Drg Putri Larasati",
-          avatar: "../../../../assets/3.png",
+          avatar: img3,
         },
       ]);
 
@@ -147,7 +162,7 @@ export default function Calendar() {
   const getAppointmentColorClasses = (color: string) => {
     switch (color) {
       case "red":
-        return { background: "#FEF7F7", text: "#991b1b" };
+        return { background: "#FEF7F7", text: "#991b1b", border: "#991b1b" };
       case "green":
         return { background: "#dcfce7", border: "#22c55e", text: "#14532d" };
       case "blue":
@@ -210,13 +225,28 @@ export default function Calendar() {
       )
       .map((spec) => ({
         title: (
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Avatar src={spec.avatar} icon={<UserOutlined />} />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              height: "80px",
+            }}
+          >
+            <Image
+              src={spec?.avatar || "img1"}
+              width={52}
+              height={52}
+              alt="avatar"
+            />
+
             <div>
-              <div style={{ fontWeight: "bold" }}>{spec.name}</div>
-              <div style={{ fontSize: 12, color: "#6b7280" }}>
-                Today‘s appointment:{" "}
-                {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
+              <div>{spec.name}</div>
+              <div style={{ fontSize: 12, color: "#6b7280", marginTop: "5px" }}>
+                <span className="text-[#AEB3C1]">Today‘s appointment: </span>
+                <span>
+                  {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
+                </span>
               </div>
             </div>
           </div>
@@ -257,17 +287,38 @@ export default function Calendar() {
                       width: 120,
                       textAlign: "center",
                       marginTop: "7px",
+                      border: `1px solid ${colorStyle.border}`,
                     }}
                   >
                     {apt.type}
                   </div>
                   {apt.hasActions && (
-                    <Button
-                      type="text"
-                      icon={<MoreOutlined />}
-                      size="small"
-                      style={{ position: "absolute", top: 4, right: 4 }}
-                    />
+                    <Dropdown
+                      overlay={
+                        <Menu>
+                          <Menu.Item
+                            key="view"
+                            onClick={() => handleViewDetails(apt.id)}
+                          >
+                            View Details
+                          </Menu.Item>
+                          <Menu.Item
+                            key="cancel"
+                            onClick={() => handleCancelAppointment(apt.id)}
+                          >
+                            Cancel Appointment
+                          </Menu.Item>
+                        </Menu>
+                      }
+                      trigger={["click"]}
+                    >
+                      <Button
+                        type="text"
+                        icon={<MoreOutlined />}
+                        size="small"
+                        style={{ position: "absolute", top: 4, right: 4 }}
+                      />
+                    </Dropdown>
                   )}
                 </Card>
               );
