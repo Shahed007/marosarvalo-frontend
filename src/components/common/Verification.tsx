@@ -6,6 +6,7 @@ import type { InputRef } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
+import Link from "next/link";
 const { Title, Text } = Typography;
 
 export default function Verification() {
@@ -67,9 +68,9 @@ export default function Verification() {
     >
       {/* Logo */}
       <div style={{ marginBottom: "64px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <Link href='/' style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Image src={logo} width={170} height={40} alt="logo" />
-        </div>
+        </Link>
       </div>
 
       {/* Main Content */}
