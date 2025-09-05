@@ -24,7 +24,7 @@ export default function NewPassword() {
           maxWidth: "400px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center", // ✅ centers logo & card
+          alignItems: "center", 
         }}
       >
         {/* Logo */}
