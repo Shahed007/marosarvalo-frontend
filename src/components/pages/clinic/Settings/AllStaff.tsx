@@ -30,6 +30,8 @@ import {
 import { AllStaffs } from "@/types/global";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import { FiEdit2 } from "react-icons/fi";
+import EditStaffDrawer from "./EditStaffDrawer"; // Import the component
 
 interface ProductTabelProps {
   data: AllStaffs[];
@@ -42,6 +44,8 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
+  const [editStaffDrawer, setEditStaffDrawer] = useState(false);
+  const [, setSelectedStaff] = useState<AllStaffs | null>(null);
   const router = useRouter();
   const [form] = Form.useForm();
 
@@ -64,6 +68,16 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   const endIndex = Math.min(startIndex + pageSize, totalRecords);
   const paginatedData = filteredData.slice(startIndex, endIndex);
 
+  const handleEditStaffOpen = (record: AllStaffs) => {
+    setSelectedStaff(record);
+    setEditStaffDrawer(true);
+  };
+
+  const handleEditStaffClose = () => {
+    setEditStaffDrawer(false);
+    setSelectedStaff(null);
+  };
+
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -84,6 +98,16 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
     });
     setDrawerVisible(false);
     form.resetFields();
+  };
+
+  // Handle edit staff form submission
+  const handleEditStaffSubmit = (values: any) => {
+    console.log("Edit staff form values:", values);
+    Modal.success({
+      title: "Success",
+      content: "Staff updated successfully!",
+    });
+    setEditStaffDrawer(false);
   };
 
   // Handle view details
@@ -115,6 +139,12 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
 
   // Dropdown menu items
   const getMenuItems = (record: AllStaffs): MenuProps["items"] => [
+    {
+      key: "edit",
+      label: "Edit Staff",
+      icon: <FiEdit2 />,
+      onClick: () => handleEditStaffOpen(record),
+    },
     {
       key: "view",
       label: "View Details",
@@ -340,15 +370,17 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
       </Row>
 
       {/* New Staff Drawer */}
-      <Drawer
-        title="Add Staff"
+     <Drawer
+        title={
+          <div className="text-2xl font-semibold text-center">Add Staff</div>
+        }
         placement="right"
         onClose={() => {
           setDrawerVisible(false);
           form.resetFields();
         }}
         open={drawerVisible}
-        width={500}
+        width={700} // ✅ make responsive
         styles={{
           body: { padding: 24 },
           header: {
@@ -363,31 +395,16 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
               borderTop: "1px solid #e5e7eb",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                gap: "16px",
-              }}
-            >
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button
                 type="primary"
-                style={{
-                  padding: "20px 40px",
-                  flex: "1 1 200px",
-                  minWidth: "150px",
-                }}
+                className="flex-1 min-w-[150px] py-5"
                 onClick={() => form.submit()}
               >
-                Add Staff
+                Submit
               </Button>
               <Button
-                style={{
-                  padding: "20px 40px",
-                  flex: "1 1 200px",
-                  minWidth: "150px",
-                }}
+                className="flex-1 min-w-[150px] py-5"
                 onClick={() => {
                   setDrawerVisible(false);
                   form.resetFields();
@@ -405,57 +422,97 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
           onFinish={handleFormSubmit}
           requiredMark={false}
         >
-          <Form.Item
-            label="Name"
-            name="name"
-            rules={[{ required: true, message: "Please enter name" }]}
-          >
-            <Input placeholder="Full name" size="large" />
-          </Form.Item>
+          {/* ✅ Responsive grid: 1 col on mobile, 2 cols from md */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="New Staff Name"
+              name="name"
+              rules={[{ required: true, message: "Please enter name" }]}
+            >
+              <Input placeholder="Full name" size="large" />
+            </Form.Item>
+            <Form.Item
+              label="User ID"
+              name="userId"
+              rules={[{ required: true, message: "Please enter user ID" }]}
+            >
+              <Input placeholder="User ID" size="large" />
+            </Form.Item>
+          </div>
 
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please enter email" },
-              { type: "email", message: "Please enter a valid email" },
-            ]}
-          >
-            <Input placeholder="Email address" size="large" />
-          </Form.Item>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Please enter email" },
+                { type: "email", message: "Please enter a valid email" },
+              ]}
+            >
+              <Input placeholder="Email address" size="large" />
+            </Form.Item>
+            <Form.Item
+              label="Number"
+              name="number"
+              rules={[{ required: true, message: "Please enter number" }]}
+            >
+              <Input placeholder="Enter number" size="large" />
+            </Form.Item>
+          </div>
 
-          <Form.Item
-            label="Discipline"
-            name="discipline"
-            rules={[{ required: true, message: "Please select discipline" }]}
-          >
-            <Select placeholder="Select discipline" size="large">
-              <Select.Option value="Operation">Operation</Select.Option>
-              <Select.Option value="Consultation">Consultation</Select.Option>
-              <Select.Option value="Emergency">Emergency</Select.Option>
-            </Select>
-          </Form.Item>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="Discipline"
+              name="discipline"
+              rules={[{ required: true, message: "Please select discipline" }]}
+            >
+              <Select placeholder="Select discipline" size="large">
+                <Select.Option value="Operation">Operation</Select.Option>
+                <Select.Option value="Consultation">Consultation</Select.Option>
+                <Select.Option value="Emergency">Emergency</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Role"
+              name="role"
+              rules={[{ required: true, message: "Please enter role" }]}
+            >
+              <Select placeholder="Select role" size="large">
+                <Select.Option value="Cleaner">Cleaner</Select.Option>
+                <Select.Option value="Consultation">Consultation</Select.Option>
+                <Select.Option value="Emergency">Emergency</Select.Option>
+              </Select>
+            </Form.Item>
+          </div>
 
-          <Form.Item
-            label="Role"
-            name="role"
-            rules={[{ required: true, message: "Please enter role" }]}
-          >
-            <Input placeholder="Staff role" size="large" />
-          </Form.Item>
-
-          <Form.Item
-            label="Status"
-            name="status"
-            rules={[{ required: true, message: "Please select status" }]}
-          >
-            <Select placeholder="Select status" size="large">
-              <Select.Option value="Active">Active</Select.Option>
-              <Select.Option value="Inactive">Inactive</Select.Option>
-            </Select>
-          </Form.Item>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="Gender"
+              name="gender"
+              rules={[{ required: true, message: "Please select gender" }]}
+            >
+              <Select placeholder="Select gender" size="large">
+                <Select.Option value="Male">Male</Select.Option>
+                <Select.Option value="Female">Female</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              label="Address"
+              name="address"
+              rules={[{ required: true, message: "Please enter address" }]}
+            >
+              <Input placeholder="Address" size="large" />
+            </Form.Item>
+          </div>
         </Form>
       </Drawer>
+
+      {/* Edit Staff Drawer */}
+      <EditStaffDrawer
+        visible={editStaffDrawer}
+        onClose={handleEditStaffClose}
+        onSave={handleEditStaffSubmit}
+      />
     </div>
   );
 };
