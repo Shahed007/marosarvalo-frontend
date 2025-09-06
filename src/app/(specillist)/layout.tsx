@@ -1,13 +1,10 @@
 "use client";
 
-import React, { FC, ReactNode} from "react";
-
-
+import React, { FC, ReactNode } from "react";
 
 import Link from "next/link";
-;
-
 import {
+  BarChartOutlined,
   CalendarOutlined,
   CreditCardOutlined,
   DashboardOutlined,
@@ -17,8 +14,6 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import DashboardLayout from "@/components/dashboardLayout/DashboardLayout";
-
-
 
 // Define MenuItem interface
 export interface MenuItem {
@@ -42,7 +37,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
       icon: <CalendarOutlined />,
       label: "My Appointments",
       href: "/specillist/appointment-list",
-     
     },
     {
       key: "3",
@@ -67,99 +61,81 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
         {
           key: "4-2",
           label: (
-            <Link href="/specillist/voucher/voucher-list">
-              Voucher List
-            </Link>
+            <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
           ),
         },
       ],
     },
+  
     {
       key: "5",
-      icon: <CreditCardOutlined />,
-      label: "Billing",
-      children: [
-        {
-          key: "5-1",
-          label: (
-            <Link href="/specillist/billings/create-invoice">
-              Create Invoice
-            </Link>
-          ),
-        },
-        {
-          key: "5-2",
-          label: (
-            <Link href="/specillist/billings/receipt-history">
-              Receipt History
-            </Link>
-          ),
-        },
-      ],
-    },
-    {
-      key: "6",
       icon: <MessageIcon />,
       label: "Communications",
       href: "/specillist/communications",
     },
     {
-      key: "7",
+      key: "6",
       icon: <GiftOutlined />,
       label: "Voucher",
       href: "/specillist/voucher",
     },
+
+
+        {
+      key: "7",
+      icon: <BarChartOutlined />,
+      label: "Report",
+      href: "/specillist/report",
+    },
     {
-      key: "9",
+      key: "8",
       icon: <SettingOutlined />,
       label: "Settings",
       children: [
-       {
-         key: "9-1",
-         label: (
-           <Link href="/specillist/settings/personal-info">Personal Info</Link>
-         ),
-       },{
-         key: "9-2",
-         label: (
-           <Link href="/specillist/settings/setting-service">Setting Service</Link>
-         ),
-       },
-       {
-         key: "9-3",
-         label: (
-           <Link href="/specillist/settings/setting-user-management">
-             User Management
-           </Link>
-         ),
-       },
-       {
-         key: "9-4",
-         label: (
-           <Link href="/specillist/settings/setting-working-hour">
-             Working Hour
-           </Link>
-         ),
-       },
-       {
-         key: "9-5",
-         label: (
-           <Link href="/specillist/settings/setting-unavailability">
-             Unavailability
-           </Link>
-         ),
-       }
-       
-        ,
+        {
+          key: "8-1",
+          label: (
+            <Link href="/specillist/settings/personal-info">Personal Info</Link>
+          ),
+        },
+        {
+          key: "8-2",
+          label: (
+            <Link href="/specillist/settings/setting-service">
+              Setting Service
+            </Link>
+          ),
+        },
+        {
+          key: "8-3",
+          label: (
+            <Link href="/specillist/settings/setting-user-management">
+              User Management
+            </Link>
+          ),
+        },
+        {
+          key: "8-4",
+          label: (
+            <Link href="/specillist/settings/setting-working-hour">
+              Working Hour
+            </Link>
+          ),
+        },
+        {
+          key: "8-5",
+          label: (
+            <Link href="/specillist/settings/setting-unavailability">
+              Unavailability
+            </Link>
+          ),
+        },
       ],
     },
+
   ];
 
-  return (
-    <DashboardLayout menuItems={menuItems}>
-      {children}
-    </DashboardLayout>
-  );
+  return <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>;
 };
 
 export default SpecillistLayout;
