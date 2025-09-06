@@ -466,7 +466,37 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
          label: (
            <Link href="/reception/settings/personal-info">Personal Info</Link>
          ),
+       },{
+         key: "9-2",
+         label: (
+           <Link href="/reception/settings/setting-service">Setting Service</Link>
+         ),
+       },
+       {
+         key: "9-3",
+         label: (
+           <Link href="/reception/settings/setting-user-management">
+             User Management
+           </Link>
+         ),
+       },
+       {
+         key: "9-4",
+         label: (
+           <Link href="/reception/settings/setting-working-hour">
+             Working Hour
+           </Link>
+         ),
+       },
+       {
+         key: "9-5",
+         label: (
+           <Link href="/reception/settings/setting-unavailability">
+             Unavailability
+           </Link>
+         ),
        }
+       
         ,
       ],
     },
