@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from "react";
 import DashboardLayout, {
-  MenuItem,
 } from "@/components/dashboardLayout/DashboardLayout";
 import {
   BarChartOutlined,
@@ -14,7 +13,7 @@ import {
 } from "@ant-design/icons";
 
 const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
-  const menuItems: MenuItem[] = [
+  const menuItems= [
     {
       key: "1",
       icon: <DashboardOutlined />,
@@ -32,7 +31,6 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
           key: "2-1",
           icon: null,
           label: "Calendar",
-          href: "/clinic/calendar",
         },
         {
           key: "2-2",

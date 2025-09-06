@@ -32,7 +32,8 @@ import Image from "next/image";
 
 const { Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
-
+import user from "@/assets/user.png";
+import { IoCheckmarkCircle } from "react-icons/io5";
 export interface MenuItem {
   key: string;
   icon?: React.ReactNode;
@@ -325,6 +326,35 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             items={formattedMenuItems}
             className="submenu-with-lines"
           />
+          {/* Logout Button */}
+          <div
+            style={{
+              padding: "16px",
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              borderTop: "1px solid #f0f0f0",
+            }}
+          >
+            <Button
+              icon={<LogoutOutlined />}
+              block
+              style={{ textAlign: "left" }}
+              onClick={handleLogout}
+            >
+              {!collapsed && "Logout Now"}
+            </Button>
+
+            <div className="flex justify-start items-center gap-2 mt-6">
+              <Image src={user} width={40} height={40} alt="user" />
+              <div>
+                <h1 className="flex items-center gap-1">
+                  Jhon Son <IoCheckmarkCircle className="text-[#225A7F]" />{" "}
+                </h1>
+                <p>Admin</p>
+              </div>
+            </div>
+          </div>
         </Sider>
 
         {/* Main Layout: Header + Content */}
