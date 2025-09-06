@@ -447,7 +447,7 @@ export default function Calendar() {
         </div>
       </Header>
 
-      {/* 📊 Table */}
+      {/* Table */}
       <Content style={{ padding: "24px" }}>
         <Card style={{ borderColor: "#e5e7eb", borderRadius: "8px" }}>
           <Table
