@@ -41,7 +41,7 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "2",
       icon: <CalendarOutlined />,
       label: "My Appointments",
-      href: "/specillist/appointments",
+      href: "/specillist/appointment-list",
      
     },
     {
