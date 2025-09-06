@@ -16,6 +16,13 @@ import {
   LogoutOutlined,
   UserOutlined,
   MessageOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  DashboardOutlined,
+  FileTextOutlined,
+  NotificationOutlined,
+  WalletOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import type { MenuProps, ThemeConfig } from "antd";
 import { theme as defaultTheme } from "@/theme/theme";
@@ -132,55 +139,126 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     },
   ];
 
+  // Menu items based on the screenshot
+  const screenshotMenuItems: MenuItem[] = [
+    {
+      key: "dashboard",
+      icon: <DashboardOutlined />,
+      label: "Dashboard",
+      href: "/dashboard",
+    },
+    {
+      key: "agioomnews",
+      icon: <NotificationOutlined />,
+      label: "Agioomnews",
+      href: "/agioomnews",
+    },
+    {
+      key: "papers",
+      icon: <FileTextOutlined />,
+      label: "Papers",
+      href: "/papers",
+    },
+    {
+      key: "briefs",
+      icon: <FileTextOutlined />,
+      label: "Briefs",
+      href: "/briefs",
+    },
+    {
+      key: "others",
+      icon: <FileTextOutlined />,
+      label: "Others",
+      href: "/others",
+    },
+    {
+      key: "communications",
+      icon: <MessageOutlined />,
+      label: "Communications",
+      href: "/communications",
+    },
+    {
+      key: "voucher",
+      icon: <WalletOutlined />,
+      label: "Voucher",
+      href: "/voucher",
+    },
+    {
+      key: "report",
+      icon: <FileTextOutlined />,
+      label: "Report",
+      href: "/report",
+    },
+    {
+      key: "settings",
+      icon: <SettingOutlined />,
+      label: "Settings",
+      href: "/settings",
+    },
+  ];
+
   // Transform menuItems for Ant Design with Links
-  const formattedMenuItems: MenuProps["items"] = menuItems.map((item) => {
-    const menuItemProps = item.href
-      ? {
+  const formattedMenuItems: MenuProps["items"] =
+    menuItems.length > 0
+      ? menuItems.map((item) => {
+          const menuItemProps = item.href
+            ? {
+                label: (
+                  <Link href={item.href} passHref legacyBehavior>
+                    <a style={{ textDecoration: "none", color: "inherit" }}>
+                      {item.label}
+                    </a>
+                  </Link>
+                ),
+              }
+            : { label: item.label };
+
+          if (item.children) {
+            return {
+              key: item.key,
+              icon: item.icon,
+              ...menuItemProps,
+              children: item.children.map((child) => {
+                const childProps = child.href
+                  ? {
+                      label: (
+                        <Link href={child.href} passHref legacyBehavior>
+                          <a
+                            style={{ textDecoration: "none", color: "inherit" }}
+                            className="submenu-item-container"
+                          >
+                            {child.label}
+                          </a>
+                        </Link>
+                      ),
+                    }
+                  : { label: child.label };
+
+                return {
+                  key: child.key,
+                  ...childProps,
+                };
+              }),
+            };
+          }
+
+          return {
+            key: item.key,
+            icon: item.icon,
+            ...menuItemProps,
+          };
+        })
+      : screenshotMenuItems.map((item) => ({
+          key: item.key,
+          icon: item.icon,
           label: (
-            <Link href={item.href} passHref legacyBehavior>
+            <Link href={item.href || "#"} passHref legacyBehavior>
               <a style={{ textDecoration: "none", color: "inherit" }}>
                 {item.label}
               </a>
             </Link>
           ),
-        }
-      : { label: item.label };
-
-    if (item.children) {
-      return {
-        key: item.key,
-        icon: item.icon,
-        ...menuItemProps,
-        children: item.children.map((child) => {
-          const childProps = child.href
-            ? {
-                label: (
-                  <Link href={child.href} passHref legacyBehavior>
-                    <a
-                      style={{ textDecoration: "none", color: "inherit" }}
-                      className="submenu-item-container"
-                    >
-                      {child.label}
-                    </a>
-                  </Link>
-                ),
-              }
-            : { label: child.label };
-
-          return {
-            key: child.key,
-            ...childProps,
-          };
-        }),
-      };
-    }
-
-    return {
-      key: item.key,
-      icon: item.icon,
-      ...menuItemProps,
-    };
-  });
+        }));
 
   return (
     <ConfigProvider theme={themeConfig}>
@@ -198,63 +276,65 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             position: screens.xs ? "absolute" : "relative",
             zIndex: 10,
             left: screens.xs && collapsed ? -250 : 0,
-            transition: "left 0.2s ease",
+            transition: "all 0.3s ease",
           }}
         >
-          {/* Logo */}
+          {/* Logo and Collapse Button */}
           <div
             style={{
               padding: "16px",
-              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
               borderBottom: "1px solid #f0f0f0",
+              transition: "all 0.3s ease",
             }}
           >
             <Link href="/" passHref legacyBehavior>
-              <a style={{ display: "inline-block" }}>
-                <Image src={logo} alt="Logo" width={120} />
+              <a
+                style={{ display: "inline-block", transition: "all 0.3s ease" }}
+              >
+                <Image
+                  src={logo}
+                  alt="Logo"
+                  width={collapsed ? 32 : 120}
+                  style={{ transition: "all 0.3s ease" }}
+                />
               </a>
             </Link>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                marginLeft: collapsed ? 0 : "auto",
+                transition: "all 0.3s ease",
+              }}
+            />
           </div>
 
           {/* Navigation Menu */}
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ borderRight: 0, marginTop: "16px" }}
+            defaultSelectedKeys={["dashboard"]}
+            style={{
+              borderRight: 0,
+              marginTop: "16px",
+              transition: "all 0.3s ease",
+            }}
             items={formattedMenuItems}
             className="submenu-with-lines"
           />
-
-          {/* Logout Button */}
-          <div
-            style={{
-              padding: "16px",
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              borderTop: "1px solid #f0f0f0",
-            }}
-          >
-            <Button
-              type="primary"
-              danger
-              icon={<LogoutOutlined />}
-              block
-              style={{ textAlign: "left" }}
-              onClick={handleLogout}
-            >
-              {!collapsed && "Logout"}
-            </Button>
-          </div>
         </Sider>
 
         {/* Main Layout: Header + Content */}
         <Layout>
           {/* Sticky Header */}
           <header className="sticky top-0 z-50 bg-white shadow px-4 lg:px-8 h-16 flex items-center justify-between">
-            {/* Page Title */}
-            <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
+            {/* Page Title - Show only when sidebar is collapsed on mobile */}
+            {screens.xs && !collapsed ? null : (
+              <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
+            )}
 
             {/* Right Side: Notifications & Profile */}
             <div className="flex items-center gap-4">
@@ -285,7 +365,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               >
                 <div className="flex items-center gap-2 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
                   <Avatar icon={<UserOutlined />} size="small" />
-                  <span className="text-gray-700 text-sm font-medium">Admin</span>
+                  <span className="text-gray-700 text-sm font-medium">
+                    Admin
+                  </span>
                   <DownOutlined className="text-gray-500 text-xs" />
                 </div>
               </Dropdown>
