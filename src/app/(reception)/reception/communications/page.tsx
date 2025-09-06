@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Tabs,
   Radio,
@@ -17,39 +17,40 @@ import {
   Descriptions,
   Pagination,
   DatePicker,
-} from "antd"
-import { SendOutlined, SearchOutlined, EyeOutlined } from "@ant-design/icons"
-import type { ColumnsType } from "antd/es/table"
+  Drawer,
+} from "antd";
+import { SendOutlined, SearchOutlined, EyeOutlined } from "@ant-design/icons";
+import type { ColumnsType } from "antd/es/table";
 
-const { TabPane } = Tabs
-const { TextArea } = Input
-const { Title, Text } = Typography
-const { Option } = Select
+const { TabPane } = Tabs;
+const { TextArea } = Input;
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 interface CommunicationRecord {
-  key: string
-  patientName: string
-  communicationType: string
-  subject: string
-  sentDateTime: string
-  status: "Delivered" | "Sent" | "Failed"
-  message?: string
-  recipientGroup?: string
-  time?: string
+  key: string;
+  patientName: string;
+  communicationType: string;
+  subject: string;
+  sentDateTime: string;
+  status: "Delivered" | "Sent" | "Failed";
+  message?: string;
+  recipientGroup?: string;
+  time?: string;
 }
 
 const mockData: CommunicationRecord[] = [
   {
     key: "1",
     patientName: "Emily Carter",
-    communicationType: "Email",
+    communicationType: "WhatsApp",
     subject: "Appointment Reminder",
     sentDateTime: "2024-07-26 10:00 AM",
     status: "Delivered",
     message:
-      "Hello Emily! I hope you're doing well I just want to remind you that today is your appoint for Brain Surgery with DR. Liee at 05:00Pm. Please stay in time Thank you!",
+      "Hello Emily! I hope you're doing well. I just want to remind you that today is your appointment for Brain Surgery with Dr. Lee at 05:00 PM. Please stay on time. Thank you!",
     recipientGroup: "Surgery",
-    time: "12april, 2025 12:00Am",
+    time: "12 April, 2025 12:00 AM",
   },
   {
     key: "2",
@@ -75,12 +76,12 @@ const mockData: CommunicationRecord[] = [
     sentDateTime: "2024-07-23 09:15 AM",
     status: "Delivered",
   },
-]
+];
 
 export default function PatientCommunication() {
-  const [form] = Form.useForm()
-  const [selectedRecord, setSelectedRecord] = useState<CommunicationRecord | null>(null)
-  const [showDetails, setShowDetails] = useState(false)
+  const [form] = Form.useForm();
+  const [selectedRecord, setSelectedRecord] = useState<CommunicationRecord | null>(null);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false); // Control drawer visibility
 
   const columns: ColumnsType<CommunicationRecord> = [
     {
@@ -113,7 +114,9 @@ export default function PatientCommunication() {
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag color={status === "Delivered" ? "green" : status === "Sent" ? "blue" : "red"}>{status}</Tag>
+        <Tag color={status === "Delivered" ? "green" : status === "Sent" ? "blue" : "red"}>
+          {status}
+        </Tag>
       ),
     },
     {
@@ -124,20 +127,20 @@ export default function PatientCommunication() {
           type="link"
           icon={<EyeOutlined />}
           onClick={() => {
-            setSelectedRecord(record)
-            setShowDetails(true)
+            setSelectedRecord(record);
+            setIsDrawerVisible(true);
           }}
         >
           View Details
         </Button>
       ),
     },
-  ]
+  ];
 
   const onFinish = (values: any) => {
-    console.log("Form values:", values)
+    console.log("Form values:", values);
     // Handle form submission
-  }
+  };
 
   const ComposeTab = () => (
     <div style={{ maxWidth: 800, margin: "0 auto", padding: "20px" }}>
@@ -147,17 +150,24 @@ export default function PatientCommunication() {
           <Radio.Group>
             <Radio value="email">Email</Radio>
             <Radio value="sms">SMS</Radio>
-            <Radio value="whatsapp">Whatsapp</Radio>
+            <Radio value="whatsapp">WhatsApp</Radio>
           </Radio.Group>
         </Form.Item>
 
         <Title level={4}>Compose Message</Title>
-        <Form.Item label="Subject:" name="subject" rules={[{ required: true, message: "Please enter subject" }]}>
+        <Form.Item
+          label="Subject:"
+          name="subject"
+          rules={[{ required: true, message: "Please enter subject" }]}
+        >
           <Input placeholder="Enter Subject" />
         </Form.Item>
 
         <Title level={4}>Message</Title>
-        <Form.Item name="message" rules={[{ required: true, message: "Please enter message" }]}>
+        <Form.Item
+          name="message"
+          rules={[{ required: true, message: "Please enter message" }]}
+        >
           <TextArea rows={6} placeholder="Write message here" style={{ resize: "none" }} />
         </Form.Item>
 
@@ -203,6 +213,7 @@ export default function PatientCommunication() {
             size="large"
             style={{
               backgroundColor: "#1890ff",
+              borderColor: "#1890ff",
               borderRadius: "6px",
               fontWeight: "bold",
             }}
@@ -212,60 +223,38 @@ export default function PatientCommunication() {
         </Form.Item>
       </Form>
     </div>
-  )
+  );
 
   const HistoryTab = () => (
     <div style={{ padding: "20px" }}>
-      {showDetails && selectedRecord ? (
-        <Card
-          title={
-            <Space>
-              <Button type="link" onClick={() => setShowDetails(false)} style={{ padding: 0 }}>
-                ← Back to History
-              </Button>
-              <Text>Communication Details</Text>
-            </Space>
-          }
-          style={{ marginBottom: 20 }}
-        >
-          <Descriptions column={2} bordered>
-            <Descriptions.Item label="Patient Name">{selectedRecord.patientName}</Descriptions.Item>
-            <Descriptions.Item label="Communication Channel">{selectedRecord.communicationType}</Descriptions.Item>
-            <Descriptions.Item label="Subject">{selectedRecord.subject}</Descriptions.Item>
-            <Descriptions.Item label="Recipient Group">{selectedRecord.recipientGroup || "N/A"}</Descriptions.Item>
-            <Descriptions.Item label="Status">
-              <Tag color={selectedRecord.status === "Delivered" ? "green" : "blue"}>{selectedRecord.status}</Tag>
-            </Descriptions.Item>
-            <Descriptions.Item label="Time">{selectedRecord.time || selectedRecord.sentDateTime}</Descriptions.Item>
-            <Descriptions.Item label="Message" span={2}>
-              {selectedRecord.message || "No message content available"}
-            </Descriptions.Item>
-          </Descriptions>
-        </Card>
-      ) : (
-        <>
-          <Input placeholder="Search by name" prefix={<SearchOutlined />} style={{ marginBottom: 20, maxWidth: 300 }} />
+      {/* Search Bar */}
+      <Input
+        placeholder="Search by name"
+        prefix={<SearchOutlined />}
+        style={{ marginBottom: 20, maxWidth: 300 }}
+      />
 
-          <Table columns={columns} dataSource={mockData} pagination={false} style={{ marginBottom: 20 }} />
+      {/* Table */}
+      <Table columns={columns} dataSource={mockData} pagination={false} style={{ marginBottom: 20 }} />
 
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Space>
-              <Text>Showing</Text>
-              <Select defaultValue={10} style={{ width: 60 }}>
-                <Option value={10}>10</Option>
-                <Option value={25}>25</Option>
-                <Option value={50}>50</Option>
-              </Select>
-            </Space>
-            <Space>
-              <Text>Showing 1 to 10 out of 60 records</Text>
-              <Pagination current={1} total={60} pageSize={10} showSizeChanger={false} size="small" />
-            </Space>
-          </div>
-        </>
-      )}
+      {/* Pagination Controls */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Space>
+          <Text>Showing</Text>
+          <Select defaultValue={10} style={{ width: 60 }}>
+            <Option value={10}>10</Option>
+            <Option value={25}>25</Option>
+            <Option value={50}>50</Option>
+          </Select>
+          <Text>entries</Text>
+        </Space>
+        <Space>
+          <Text>Showing 1 to 10 out of 60 records</Text>
+          <Pagination current={1} total={60} pageSize={10} showSizeChanger={false} size="small" />
+        </Space>
+      </div>
     </div>
-  )
+  );
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f5f5f5", padding: "20px" }}>
@@ -281,6 +270,71 @@ export default function PatientCommunication() {
           </Tabs>
         </Card>
       </div>
+
+      {/* Right Sidebar (Drawer) */}
+      <Drawer
+        title={
+          <Space>
+            <Text strong style={{ fontSize: "16px" }}>
+              Communication Details
+            </Text>
+          </Space>
+        }
+        placement="right"
+        width={400}
+        closable={true}
+        onClose={() => setIsDrawerVisible(false)}
+        open={isDrawerVisible}
+        maskClosable={true}
+        style={{
+          borderRadius: "8px 0 0 8px",
+          boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        {selectedRecord ? (
+          <Descriptions
+            column={1}
+            layout="vertical"
+            size="middle"
+            bordered
+            style={{ marginTop: "8px" }}
+          >
+            <Descriptions.Item label="Patient Name">
+              <Text strong>{selectedRecord.patientName}</Text>
+            </Descriptions.Item>
+            <Descriptions.Item label="Communication Channel">
+              {selectedRecord.communicationType}
+            </Descriptions.Item>
+            <Descriptions.Item label="Subject">
+              {selectedRecord.subject}
+            </Descriptions.Item>
+            <Descriptions.Item label="Recipient Group">
+              {selectedRecord.recipientGroup || "N/A"}
+            </Descriptions.Item>
+            <Descriptions.Item label="Status">
+              <Tag
+                color={
+                  selectedRecord.status === "Delivered"
+                    ? "green"
+                    : selectedRecord.status === "Sent"
+                    ? "blue"
+                    : "red"
+                }
+              >
+                {selectedRecord.status}
+              </Tag>
+            </Descriptions.Item>
+            <Descriptions.Item label="Time">
+              {selectedRecord.time || selectedRecord.sentDateTime}
+            </Descriptions.Item>
+            <Descriptions.Item label="Message" style={{ whiteSpace: "pre-wrap" }}>
+              <Text style={{ fontSize: "14px", lineHeight: "1.6" }}>
+                {selectedRecord.message || "No message content available."}
+              </Text>
+            </Descriptions.Item>
+          </Descriptions>
+        ) : null}
+      </Drawer>
     </div>
-  )
+  );
 }

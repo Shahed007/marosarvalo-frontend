@@ -138,7 +138,7 @@ export const ClinicTableCard = () => {
           type="primary"
           icon={<PlusOutlined />}
           style={{
-            backgroundColor: "#3B82F6",
+            backgroundColor: "#225A7F",
             borderColor: "#3B82F6",
             height: "36px",
             borderRadius: "6px",

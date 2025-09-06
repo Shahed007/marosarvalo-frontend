@@ -183,7 +183,7 @@ export default function AddClinicPage() {
               className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
                 errors.userName
                   ? "border-red-500 focus:border-red-500"
-                  : "border-gray-300 focus:border-blue-500"
+                  : "border-gray-300 focus:border-blue-500"   
               }`}
             />
             {errors.userName && (
