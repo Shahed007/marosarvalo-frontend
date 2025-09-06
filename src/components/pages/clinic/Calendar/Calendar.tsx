@@ -172,7 +172,7 @@ export default function Calendar() {
     }
   };
 
-  const getAppointmentForSpecialistAndTime = (
+  const getAppointmentForSpecialistAndTime = ( 
     specialistId: string,
     time: string
   ) => {

@@ -1,10 +1,9 @@
-import ReceptionPayments from '@/components/reception/Billings/RecepTionBillings'
-import React from 'react'
+import BillingPayments from "@/components/pages/clinic/BillingPayments/BillingPayments";
 
 export default function page() {
   return (
     <div>
-<ReceptionPayments/>
+       <BillingPayments/> 
     </div>
   )
 }

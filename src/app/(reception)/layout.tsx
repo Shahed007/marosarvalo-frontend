@@ -41,11 +41,12 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "2",
       icon: <CalendarOutlined />,
       label: "Appointments",
+    
       children: [
         {
           key: "2-1",
           label: (
-            <Link href="/reception/appointment/calendar">Calendar</Link>
+            <Link href="/reception/appointment/calender">Calendar</Link>
           ),
         },
         {
@@ -82,6 +83,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "5",
       icon: <CreditCardOutlined />,
       label: "Billing",
+      href: "/reception/billings",
       children: [
         {
           key: "5-1",

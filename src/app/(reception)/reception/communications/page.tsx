@@ -143,7 +143,7 @@ export default function PatientCommunication() {
   };
 
   const ComposeTab = () => (
-    <div style={{ maxWidth: 800, margin: "0 auto", padding: "20px" }}>
+    <div style={{ margin: "0 auto", padding: "" }}>
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Title level={4}>Select Communication Channel</Title>
         <Form.Item name="channel" initialValue="email">
@@ -257,8 +257,8 @@ export default function PatientCommunication() {
   );
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f5f5f5", padding: "20px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <div style={{ minHeight: "", backgroundColor: "", padding: "" }}>
+      <div style={{  margin: "0 auto" }}>
         <Card>
           <Tabs defaultActiveKey="compose" size="large">
             <TabPane tab="Compose" key="compose">
@@ -272,69 +272,117 @@ export default function PatientCommunication() {
       </div>
 
       {/* Right Sidebar (Drawer) */}
-      <Drawer
-        title={
-          <Space>
-            <Text strong style={{ fontSize: "16px" }}>
-              Communication Details
-            </Text>
-          </Space>
-        }
-        placement="right"
-        width={400}
-        closable={true}
-        onClose={() => setIsDrawerVisible(false)}
-        open={isDrawerVisible}
-        maskClosable={true}
-        style={{
-          borderRadius: "8px 0 0 8px",
-          boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        {selectedRecord ? (
-          <Descriptions
-            column={1}
-            layout="vertical"
-            size="middle"
-            bordered
-            style={{ marginTop: "8px" }}
+  <Drawer
+  title={
+    <Space>
+      <Text className="text-center" strong style={{ fontSize: "26px",alignItems: "center" }}>
+        Compose Info
+      </Text>
+    </Space>
+  }
+  placement="right"
+  width={600}
+  closable={true}
+  onClose={() => setIsDrawerVisible(false)}
+  open={isDrawerVisible}
+  maskClosable={true}
+  style={{
+    borderRadius: "8px 0 0 8px",
+    boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.1)",
+  }}
+>
+  {selectedRecord ? (
+    <div className="p-6 space-y-4">
+      {/* Patient Name & Communication Channel */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Text type="secondary" className="text-xs">Patient Name:</Text>
+          <Text strong className="block mt-1">{selectedRecord.patientName}</Text>
+        </div>
+        <div>
+          <Text type="secondary" className="text-xs">Communication Channel:</Text>
+          <Text strong className="block mt-1">{selectedRecord.communicationType}</Text>
+        </div>
+      </div>
+
+      {/* Subject & Recipient Group */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Text type="secondary" className="text-xs">Subject:</Text>
+          <Text strong className="block mt-1">{selectedRecord.subject}</Text>
+        </div>
+        <div>
+          <Text type="secondary" className="text-xs">Recipient Group:</Text>
+          <Text strong className="block mt-1">{selectedRecord.recipientGroup || "N/A"}</Text>
+        </div>
+      </div>
+
+      {/* Status & Time */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Text type="secondary" className="text-xs">Status:</Text>
+          <Tag
+            color={
+              selectedRecord.status === "Delivered"
+                ? "green"
+                : selectedRecord.status === "Sent"
+                ? "blue"
+                : "red"
+            }
+            className="mt-1"
           >
-            <Descriptions.Item label="Patient Name">
-              <Text strong>{selectedRecord.patientName}</Text>
-            </Descriptions.Item>
-            <Descriptions.Item label="Communication Channel">
-              {selectedRecord.communicationType}
-            </Descriptions.Item>
-            <Descriptions.Item label="Subject">
-              {selectedRecord.subject}
-            </Descriptions.Item>
-            <Descriptions.Item label="Recipient Group">
-              {selectedRecord.recipientGroup || "N/A"}
-            </Descriptions.Item>
-            <Descriptions.Item label="Status">
-              <Tag
-                color={
-                  selectedRecord.status === "Delivered"
-                    ? "green"
-                    : selectedRecord.status === "Sent"
-                    ? "blue"
-                    : "red"
-                }
-              >
-                {selectedRecord.status}
-              </Tag>
-            </Descriptions.Item>
-            <Descriptions.Item label="Time">
-              {selectedRecord.time || selectedRecord.sentDateTime}
-            </Descriptions.Item>
-            <Descriptions.Item label="Message" style={{ whiteSpace: "pre-wrap" }}>
-              <Text style={{ fontSize: "14px", lineHeight: "1.6" }}>
-                {selectedRecord.message || "No message content available."}
-              </Text>
-            </Descriptions.Item>
-          </Descriptions>
-        ) : null}
-      </Drawer>
+            {selectedRecord.status}
+          </Tag>
+        </div>
+        <div>
+          <Text type="secondary" className="text-xs">Time:</Text>
+          <Text strong className="block mt-1">
+            {selectedRecord.time || selectedRecord.sentDateTime}
+          </Text>
+        </div>
+      </div>
+
+      {/* Message */}
+      <div>
+        <Text type="secondary" className="text-xs">Message:</Text>
+        <Text className="block mt-1 text-sm leading-relaxed">
+          {selectedRecord.message || "No message content available."}
+        </Text>
+      </div>
+
+      {/* Buttons */}
+    <div className="flex flex-col h-full">
+  <div className="flex-1 overflow-y-auto">
+    {/* All your content here — patient info, message, etc. */}
+  </div>
+
+  <div className="flex gap-3 w-full pt-4 border-t border-gray-200 absolute bottom-4">
+        <button
+
+      className="flex-1 bg-[#225A7F] text-white px-4 py-2 rounded-md font-medium"
+    >
+      Delete
+    </button>
+    <Button
+      type="default"
+      onClick={() => setIsDrawerVisible(false)}
+      className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md font-medium"
+    >
+      Close
+    </Button>
+
+  </div>
+</div>
+    </div>
+  ) : null}
+</Drawer>
     </div>
   );
 }
+
+
+
+
+  // <ReminderTable loading={loading} data={mockData} />
+
+
