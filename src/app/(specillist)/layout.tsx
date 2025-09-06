@@ -29,54 +29,50 @@ export interface MenuItem {
   href?: string;
 }
 
-const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
+const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const menuItems: MenuItem[] = [
     {
       key: "1",
       icon: <DashboardOutlined />,
       label: "Dashboard",
-      href: "/reception",
+      href: "/specillist",
     },
     {
       key: "2",
       icon: <CalendarOutlined />,
-      label: "Appointments",
-      children: [
-        {
-          key: "2-1",
-          label: (
-            <Link href="/reception/appointment/calendar">Calendar</Link>
-          ),
-        },
-        {
-          key: "2-2",
-          label: (
-            <Link href="/reception/appointment/appointment-list">
-              Appointment List
-            </Link>
-          ),
-        },
-        {
-          key: "2-3",
-          label: (
-            <Link href="/reception/appointment/add-appointment">
-              Add Appointment
-            </Link>
-          ),
-        },
-      ],
+      label: "My Appointments",
+      href: "/specillist/appointments",
+     
     },
     {
       key: "3",
       icon: <TeamOutlined />,
-      label: "Patients",
-      href: "/reception/patients",
+      label: "Communications",
+      href: "/specillist/communications",
     },
     {
       key: "4",
       icon: <CreditCardOutlined />,
-      label: "Bonds",
-      href: "/reception/bonds",
+      label: "Voucher",
+      href: "/specillist/voucher",
+      children: [
+        {
+          key: "4-1",
+          label: (
+            <Link href="/specillist/voucher/create-voucher">
+              Create Voucher
+            </Link>
+          ),
+        },
+        {
+          key: "4-2",
+          label: (
+            <Link href="/specillist/voucher/voucher-list">
+              Voucher List
+            </Link>
+          ),
+        },
+      ],
     },
     {
       key: "5",
@@ -86,7 +82,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
         {
           key: "5-1",
           label: (
-            <Link href="/reception/billings/create-invoice">
+            <Link href="/specillist/billings/create-invoice">
               Create Invoice
             </Link>
           ),
@@ -94,7 +90,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
         {
           key: "5-2",
           label: (
-            <Link href="/reception/billings/receipt-history">
+            <Link href="/specillist/billings/receipt-history">
               Receipt History
             </Link>
           ),
@@ -105,13 +101,13 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "6",
       icon: <MessageIcon />,
       label: "Communications",
-      href: "/reception/communications",
+      href: "/specillist/communications",
     },
     {
       key: "7",
       icon: <GiftOutlined />,
       label: "Voucher",
-      href: "/reception/voucher",
+      href: "/specillist/voucher",
     },
     {
       key: "9",
@@ -121,18 +117,18 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
        {
          key: "9-1",
          label: (
-           <Link href="/reception/settings/personal-info">Personal Info</Link>
+           <Link href="/specillist/settings/personal-info">Personal Info</Link>
          ),
        },{
          key: "9-2",
          label: (
-           <Link href="/reception/settings/setting-service">Setting Service</Link>
+           <Link href="/specillist/settings/setting-service">Setting Service</Link>
          ),
        },
        {
          key: "9-3",
          label: (
-           <Link href="/reception/settings/setting-user-management">
+           <Link href="/specillist/settings/setting-user-management">
              User Management
            </Link>
          ),
@@ -140,7 +136,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
        {
          key: "9-4",
          label: (
-           <Link href="/reception/settings/setting-working-hour">
+           <Link href="/specillist/settings/setting-working-hour">
              Working Hour
            </Link>
          ),
@@ -148,7 +144,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
        {
          key: "9-5",
          label: (
-           <Link href="/reception/settings/setting-unavailability">
+           <Link href="/specillist/settings/setting-unavailability">
              Unavailability
            </Link>
          ),
@@ -166,4 +162,4 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default ReceptionLayout;
+export default SpecillistLayout;
