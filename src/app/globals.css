@@ -17,7 +17,7 @@
 
 :where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active {
     font-weight: 600 !important;
-    background-color: #225A7F !important;
+    background-color:  !important;
     border-color: #225a7f !important;
 }
 
@@ -29,5 +29,99 @@
   padding-left: 50px !important; /* override default AntD padding */
 }
 
+
+:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline .ant-menu-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline .ant-menu-item-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item-selected::after {
+    transform: scaleY(1) !important;
+    /* opacity: 1; */
+    transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+}
+
+.ant-menu-item-selected {
+  border-right: none !important;
+}
+
+.ant-menu-item-selected {
+    background-color: #225a7f !important;
+    color: #fff !important;
+  }
+
+  /* 👇 REMOVE THE BLUE LINE ON RIGHT */
+  .ant-menu-item-selected::after {
+    display: none !important;
+  }
+
+
+  /* Add left-side indicator for active menu item */
+.ant-menu-item-selected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #225A7F; /* Match your primary color */
+  border-radius: 2px 0 0 2px; /* Optional: rounded corners */
+}
+ 
+
+  /* Optional: Fix padding if needed */
+  .ant-menu-item {
+    padding-left: 30px !important;
+  }
+
+
+
+/* Connector line from parent to child */
+.ant-menu-submenu-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #d9d9d9;
+  border-radius: 0 0 0 2px;
+}
+
+/* First child: show "├" */
+.ant-menu-submenu-title .ant-menu-item:first-child::before {
+  content: "├";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #d9d9d9;
+  font-family: monospace;
+  margin-right: 8px;
+}
+
+/* Last child: show "└" */
+.ant-menu-submenu-title .ant-menu-item:last-child::before {
+  content: "└";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #d9d9d9;
+  font-family: monospace;
+  margin-right: 8px;
+}
+
+/* All children: add indentation */
+.ant-menu-submenu-title .ant-menu-item {
+  padding-left: 40px !important;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+
+.ant-menu-item:hover ~ svg line,
+.ant-menu-submenu-title:hover + div svg line {
+  stroke: #225A7F;
+  stroke-width: 3;
+  transition: all 0.2s ease;
+}
 
 

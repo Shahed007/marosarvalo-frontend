@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState } from "react";
 import {
@@ -47,6 +48,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
   menuItems: MenuItem[];
   themeConfig?: ThemeConfig;
+  renderMenuItem?: (item: any, defaultItem: React.ReactNode) => React.ReactNode; // ← Add this
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -278,6 +280,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             zIndex: 10,
             left: screens.xs && collapsed ? -250 : 0,
             transition: "all 0.3s ease",
+            backgroundColor: "#F1F4F",
           }}
         >
           {/* Logo and Collapse Button */}
@@ -325,6 +328,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             }}
             items={formattedMenuItems}
             className="submenu-with-lines"
+        
           />
           {/* Logout Button */}
           <div
@@ -436,9 +440,34 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Global Styles */}
       <style jsx global>{`
         .ant-menu-item-selected {
-          background-color: #225a7f !important;
-          color: #fff !important;
+          background-color: #FFFFFF !important;
+          color: #225A7F !important;
+          font-weight: 800 !important;
+          font-size: 16px !important;
+
+          .ant-menu-item-selected {
+    background-color: #225a7f !important;
+    color: #fff !important;
+  }
+
+  /* 👇 REMOVE THE BLUE LINE ON RIGHT */
+  .ant-menu-item-selected::after {
+    display: none !important;
+  }
+
+  .ant-menu-item-selected {
+  border-right: none !important;
+}
+
+  /* Optional: Fix padding if needed */
+  .ant-menu-item {
+    padding-left: 24px !important;
+  }
         }
+
+ /* 👇 REMOVE THE BLUE ACTIVE INDICATOR LINE */
+  .ant-menu-item-selected::after {
+    
 
         .submenu-with-lines .ant-menu-item,
         .submenu-with-lines .ant-menu-submenu-title {
@@ -451,6 +480,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           display: flex;
           align-items: center;
         }
+
+.ant-menu-title-content>a::before {
+    content: none !important;
+}
 
         .submenu-connector-line {
           position: absolute;
