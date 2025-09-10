@@ -1,4 +1,5 @@
 "use client";
+
 import AppointmentListTable, {
   AppointmentListProps,
 } from "@/components/table/AppointmentListTable";
@@ -174,23 +175,36 @@ export const appointmentList: AppointmentListProps[] = [
 
 const AppointmentListPage = () => {
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Appointment list</Title>
-      <div className="flex items-center justify-between">
+
+      {/* Search + Add Button */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <Input
           size="large"
-          style={{
-            maxWidth: 420,
-          }}
+          className="w-full sm:w-auto sm:flex-1"
+          placeholder="Search appointments..."
           addonAfter={<SearchOutlined />}
         />
-        <Link href={"/clinic/appointment/add-appointment"}>
-          <Button type="primary" size="large" icon={<FaPlus />}>
+        <Link
+          href={"/clinic/appointment/add-appointment"}
+          className="w-full sm:w-auto"
+        >
+          <Button
+            type="primary"
+            size="large"
+            icon={<FaPlus />}
+            className="w-full sm:w-auto"
+          >
             Add New Appointment
           </Button>
         </Link>
       </div>
-      <AppointmentListTable data={appointmentList} />
+
+      {/* Table wrapper for horizontal scroll on mobile */}
+      <div className="overflow-x-auto">
+        <AppointmentListTable data={appointmentList} />
+      </div>
     </div>
   );
 };
