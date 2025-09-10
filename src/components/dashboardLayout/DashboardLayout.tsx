@@ -19,14 +19,14 @@ import user from "@/assets/user.png";
 import logo from "@/assets/logo.svg";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
-interface MenuItem {
+export interface MenuItem {
   key: string;
   icon?: React.ReactNode;
   label: React.ReactNode;
   children?: MenuItem[];
-  href?: string;
+  href?: string; 
+  checked?: boolean;
 }
-
 interface DashboardLayoutProps {
   children: React.ReactNode;
   menuItems: MenuItem[];

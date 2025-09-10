@@ -130,22 +130,29 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 w-full">
         {/* Search Input */}
         <Input
           placeholder="Search by name, email, or phone"
           prefix={<SearchOutlined />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 280 }}
           allowClear
+          className="w-full sm:!w-96"
         />
-        <Link href={"/clinic/patient/add-patient"}>
-          <Button type="primary" icon={<LiaUserPlusSolid />}>
+
+        {/* New Patient Button */}
+        <Link href={"/clinic/patient/add-patient"} className="w-full sm:w-auto">
+          <Button
+            type="primary"
+            icon={<LiaUserPlusSolid />}
+            className="w-full sm:w-auto"
+          >
             New Patients
           </Button>
         </Link>
       </div>
+
       {/* Filters */}
       <div
         style={{ marginBottom: 16, display: "flex", gap: 12, flexWrap: "wrap" }}

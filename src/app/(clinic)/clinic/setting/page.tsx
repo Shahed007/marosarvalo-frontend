@@ -11,7 +11,7 @@ import Title from "antd/es/typography/Title";
 import React, { useState } from "react";
 
 const Communications = () => {
-  const [activeTab, setActiveTab] = useState("reminders");
+  const [activeTab, setActiveTab] = useState("basicInfo");
 
 const bondsData: ProductTab[] = [
   {
