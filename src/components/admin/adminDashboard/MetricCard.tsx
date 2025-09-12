@@ -21,7 +21,7 @@ export const MetricCardsRow = () => {
           >
             <path
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
               d="M3.45508 78C8.02151 78 11.153 44.312 23.2473 44.312C35.3417 44.312 38.1464 24.793 46.1639 24.793C54.1815 24.793 53.0134 40.7566 68.194 40.7566C77.034 40.7566 77.034 24.793 84.1851 24.793C92.4451 24.793 91.3186 39.6345 106.706 39.6345C124.467 39.6345 120.079 1 130.593 1C143.025 1 144.5 78 163.001 78"
               fill="url(#paint0_linear_97_6082)"
             />
@@ -39,7 +39,7 @@ export const MetricCardsRow = () => {
                 gradientUnits="userSpaceOnUse"
               >
                 <stop stopColor="#8AB3CF" />
-                <stop offset="1" stopColor="white" stop-opacity="0.01" />
+                <stop offset="1" stopColor="white" stopOpacity="0.01" />
               </linearGradient>
             </defs>
           </svg>
@@ -62,7 +62,7 @@ export const MetricCardsRow = () => {
           >
             <path
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
               d="M3.45508 78C8.02151 78 11.153 44.312 23.2473 44.312C35.3417 44.312 38.1464 24.793 46.1639 24.793C54.1815 24.793 53.0134 40.7566 68.194 40.7566C77.034 40.7566 77.034 24.793 84.1851 24.793C92.4451 24.793 91.3186 39.6345 106.706 39.6345C124.467 39.6345 120.079 1 130.593 1C143.025 1 144.5 78 163.001 78"
               fill="url(#paint0_linear_97_6082)"
             />
@@ -80,7 +80,7 @@ export const MetricCardsRow = () => {
                 gradientUnits="userSpaceOnUse"
               >
                 <stop stopColor="#8AB3CF" />
-                <stop offset="1" stopColor="white" stop-opacity="0.01" />
+                <stop offset="1" stopColor="white" stopOpacity="0.01" />
               </linearGradient>
             </defs>
           </svg>
@@ -104,7 +104,7 @@ export const MetricCardsRow = () => {
           >
             <path
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
               d="M3.45508 78C8.02151 78 11.153 44.312 23.2473 44.312C35.3417 44.312 38.1464 24.793 46.1639 24.793C54.1815 24.793 53.0134 40.7566 68.194 40.7566C77.034 40.7566 77.034 24.793 84.1851 24.793C92.4451 24.793 91.3186 39.6345 106.706 39.6345C124.467 39.6345 120.079 1 130.593 1C143.025 1 144.5 78 163.001 78"
               fill="url(#paint0_linear_97_6082)"
             />
@@ -122,7 +122,7 @@ export const MetricCardsRow = () => {
                 gradientUnits="userSpaceOnUse"
               >
                 <stop stopColor="#8AB3CF" />
-                <stop offset="1" stopColor="white" stop-opacity="0.01" />
+                <stop offset="1" stopColor="white" stopOpacity="0.01" />
               </linearGradient>
             </defs>
           </svg>

@@ -53,7 +53,7 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
     datasets: [
       {
         data: timeFrameData.map((item) => item.value),
-        backgroundColor: "rgba(59, 130, 246, 0.5)", // light blue
+        backgroundColor: "#8AB3CF", // light blue
         borderRadius: 6, // rounded bars
         barThickness: 40,
       },

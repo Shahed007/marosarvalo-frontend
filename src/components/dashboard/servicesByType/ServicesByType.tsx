@@ -41,7 +41,7 @@ const ServicesByType: React.FC<ServicesByTypeProps> = ({
       {
         label: "Services",
         data: data.map((d) => d.value),
-        backgroundColor: "rgba(96,165,250,0.7)", // Tailwind blue-400
+        backgroundColor: "#8AB3CF", // Tailwind blue-400
         borderRadius: 8,
       },
     ],
