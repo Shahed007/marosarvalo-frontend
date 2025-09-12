@@ -1,49 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { Button, Grid, ConfigProvider } from "antd";
 import {
-  Layout,
-  Menu,
-  Button,
-  Grid,
-  ConfigProvider,
-  Avatar,
-  Dropdown,
-  Badge,
-} from "antd";
-import {
-  BellOutlined,
-  DownOutlined,
   LogoutOutlined,
-  UserOutlined,
-  MessageOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  DashboardOutlined,
-  FileTextOutlined,
-  NotificationOutlined,
-  WalletOutlined,
-  SettingOutlined,
 } from "@ant-design/icons";
-import type { MenuProps, ThemeConfig } from "antd";
+import type { ThemeConfig } from "antd";
 import { theme as defaultTheme } from "@/theme/theme";
 import Link from "next/link";
-import logo from "@/assets/logo.svg";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
-const { Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
 import user from "@/assets/user.png";
+import logo from "@/assets/logo.svg";
 import { IoCheckmarkCircle } from "react-icons/io5";
+
 export interface MenuItem {
   key: string;
   icon?: React.ReactNode;
   label: React.ReactNode;
   children?: MenuItem[];
-  href?: string; // Optional link
+  href?: string; 
   checked?: boolean;
 }
-
 interface DashboardLayoutProps {
   children: React.ReactNode;
   menuItems: MenuItem[];
@@ -57,461 +41,276 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   themeConfig = defaultTheme,
 }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [notificationOpen, setNotificationOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>(
+    {}
+  );
+  const pathname = usePathname();
   const screens = useBreakpoint();
+  const router = useRouter();
 
-  // Responsive collapse
-  React.useEffect(() => {
-    if (!screens.xl) {
-      setCollapsed(true);
-    } else {
-      setCollapsed(false);
-    }
+  // Always expanded on mobile
+  useEffect(() => {
+    if (!screens.xl) setCollapsed(false);
   }, [screens.xl]);
 
-  // Handle logout
-  const handleLogout = () => {
-    console.log("User logged out");
-    // Replace with real auth logic, e.g., router.push('/login')
-    // auth.signOut();
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    if (sidebarOpen) setSidebarOpen(false);
+  }, [pathname]);
+
+  const toggleDropdown = (key: string) => {
+    setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Mock notifications
-  const notificationItems: MenuProps["items"] = [
-    {
-      key: "1",
-      icon: <MessageOutlined />,
-      label: (
-        <div>
-          <div>New user registered</div>
-          <small className="text-gray-500">2 min ago</small>
-        </div>
-      ),
-    },
-    {
-      key: "2",
-      icon: <MessageOutlined />,
-      label: (
-        <div>
-          <div>Server reboot completed</div>
-          <small className="text-gray-500">10 min ago</small>
-        </div>
-      ),
-    },
-    {
-      key: "3",
-      icon: <MessageOutlined />,
-      label: (
-        <div>
-          <div>Payment received</div>
-          <small className="text-gray-500">1 hour ago</small>
-        </div>
-      ),
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "all",
-      label: <Link href="/notifications">View all notifications</Link>,
-    },
-  ];
+  const handleLogout = () => {
+    console.log("User logged out");
+  };
 
-  // Profile dropdown items
-  const profileItems: MenuProps["items"] = [
-    {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: <Link href="/profile">Profile</Link>,
-    },
-    {
-      key: "settings",
-      icon: <MessageOutlined />,
-      label: "Settings",
-    },
-    {
-      type: "divider",
-    },
-    {
-      key: "logout",
-      icon: <LogoutOutlined />,
-      danger: true,
-      label: "Logout",
-      onClick: handleLogout,
-    },
-  ];
+  const isActiveParent = (item: MenuItem) => {
+    if (item.children) {
+      return item.children.some(
+        (child) => child.href && pathname === child.href
+      );
+    }
+    return item.href && pathname === item.href;
+  };
 
-  // Menu items based on the screenshot
-  const screenshotMenuItems: MenuItem[] = [
-    {
-      key: "dashboard",
-      icon: <DashboardOutlined />,
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      key: "agioomnews",
-      icon: <NotificationOutlined />,
-      label: "Agioomnews",
-      href: "/agioomnews",
-    },
-    {
-      key: "papers",
-      icon: <FileTextOutlined />,
-      label: "Papers",
-      href: "/papers",
-    },
-    {
-      key: "briefs",
-      icon: <FileTextOutlined />,
-      label: "Briefs",
-      href: "/briefs",
-    },
-    {
-      key: "others",
-      icon: <FileTextOutlined />,
-      label: "Others",
-      href: "/others",
-    },
-    {
-      key: "communications",
-      icon: <MessageOutlined />,
-      label: "Communications",
-      href: "/communications",
-    },
-    {
-      key: "voucher",
-      icon: <WalletOutlined />,
-      label: "Voucher",
-      href: "/voucher",
-    },
-    {
-      key: "report",
-      icon: <FileTextOutlined />,
-      label: "Report",
-      href: "/report",
-    },
-    {
-      key: "settings",
-      icon: <SettingOutlined />,
-      label: "Settings",
-      href: "/settings",
-    },
-  ];
+  const isActiveChild = (href?: string) => href && pathname === href;
 
-  // Transform menuItems for Ant Design with Links
-  const formattedMenuItems: MenuProps["items"] =
-    menuItems.length > 0
-      ? menuItems.map((item) => {
-          const menuItemProps = item.href
-            ? {
-                label: (
-                  <Link href={item.href} passHref legacyBehavior>
-                    <a style={{ textDecoration: "none", color: "inherit" }}>
-                      {item.label}
-                    </a>
-                  </Link>
-                ),
-              }
-            : { label: item.label };
+  const handleOverlayClick = () => setSidebarOpen(false);
 
-          if (item.children) {
-            return {
-              key: item.key,
-              icon: item.icon,
-              ...menuItemProps,
-              children: item.children.map((child) => {
-                const childProps = child.href
-                  ? {
-                      label: (
-                        <Link href={child.href} passHref legacyBehavior>
-                          <a
-                            style={{ textDecoration: "none", color: "inherit" }}
-                            className="submenu-item-container"
-                          >
-                            {child.label}
-                          </a>
-                        </Link>
-                      ),
-                    }
-                  : { label: child.label };
-
-                return {
-                  key: child.key,
-                  ...childProps,
-                };
-              }),
-            };
-          }
-
-          return {
-            key: item.key,
-            icon: item.icon,
-            ...menuItemProps,
-          };
-        })
-      : screenshotMenuItems.map((item) => ({
-          key: item.key,
-          icon: item.icon,
-          label: (
-            <Link href={item.href || "#"} passHref legacyBehavior>
-              <a style={{ textDecoration: "none", color: "inherit" }}>
-                {item.label}
-              </a>
-            </Link>
-          ),
-        }));
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && sidebarOpen) setSidebarOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [sidebarOpen]);
 
   return (
     <ConfigProvider theme={themeConfig}>
-      <Layout style={{ height: "100vh", overflow: "hidden" }}>
-        {/* Sidebar */}
-        <Sider
-          trigger={null}
-          collapsible
-          collapsed={collapsed}
-          collapsedWidth={screens.xs ? 0 : 80}
-          width={250}
-          style={{
-            overflowY: "auto",
-            height: "100%",
-            position: screens.xs ? "absolute" : "relative",
-            zIndex: 10,
-            left: screens.xs && collapsed ? -250 : 0,
-            transition: "all 0.3s ease",
-            backgroundColor: "#F1F4F",
-          }}
-        >
-          {/* Logo and Collapse Button */}
+      <div className="flex h-screen bg-white relative">
+        {/* Mobile overlay */}
+        {sidebarOpen && (
           <div
-            style={{
-              padding: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "1px solid #f0f0f0",
-              transition: "all 0.3s ease",
-            }}
+            className="fixed inset-0 bg-opacity-50 z-40 lg:hidden"
+            onClick={handleOverlayClick}
+          />
+        )}
+
+        {/* Sidebar */}
+        <div
+          className={`
+            fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-gray-700
+            transform transition-all duration-300 ease-in-out
+            ${collapsed ? "w-20" : "w-64"}
+            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+            lg:translate-x-0 lg:static lg:inset-0 lg:z-30
+            shadow-lg lg:shadow-none
+          `}
+        >
+          {/* Mobile close button */}
+          <button
+            className="lg:hidden absolute top-4 right-4 z-50 p-1 rounded-full bg-gray-200 hover:bg-gray-300"
+            onClick={() => setSidebarOpen(false)}
           >
-            <Link href="/" passHref legacyBehavior>
-              <a
-                style={{ display: "inline-block", transition: "all 0.3s ease" }}
-              >
-                <Image
-                  src={logo}
-                  alt="Logo"
-                  width={collapsed ? 32 : 120}
-                  style={{ transition: "all 0.3s ease" }}
-                />
-              </a>
+            <X size={20} className="text-gray-700" />
+          </button>
+
+          {/* Logo and Collapse Button */}
+          <div className="flex items-center justify-between px-3 py-4 border-b border-gray-200">
+            <Link
+              href="/"
+              className="flex justify-center flex-1"
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Image
+                className={`transition-all duration-300 ${
+                  collapsed ? "w-10" : "w-32"
+                }`}
+                src={logo}
+                alt="Logo"
+                priority
+              />
             </Link>
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setCollapsed(!collapsed)}
-              style={{
-                marginLeft: collapsed ? 0 : "auto",
-                transition: "all 0.3s ease",
-              }}
+              className="lg:block hidden"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             />
           </div>
 
-          {/* Navigation Menu */}
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["dashboard"]}
-            style={{
-              borderRight: 0,
-              marginTop: "16px",
-              transition: "all 0.3s ease",
-            }}
-            items={formattedMenuItems}
-            className="submenu-with-lines"
-        
-          />
-          {/* Logout Button */}
-          <div
-            style={{
-              padding: "16px",
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              borderTop: "1px solid #f0f0f0",
-            }}
-          >
-            <Button
-              icon={<LogoutOutlined />}
-              block
-              style={{ textAlign: "left" }}
-              onClick={handleLogout}
-            >
-              {!collapsed && "Logout Now"}
-            </Button>
+          {/* Sidebar Items */}
+          <nav className="flex-1 p-2 space-y-2 mt-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+            {menuItems.map((item) => {
+              const isActive = isActiveParent(item);
 
-            <div className="flex justify-start items-center gap-2 mt-6">
-              <Image src={user} width={40} height={40} alt="user" />
-              <div>
-                <h1 className="flex items-center gap-1">
-                  Jhon Son <IoCheckmarkCircle className="text-[#225A7F]" />{" "}
-                </h1>
-                <p>Admin</p>
-              </div>
-            </div>
-          </div>
-        </Sider>
+              const baseClasses = `
+                flex items-center gap-3 px-3 py-2 rounded-md transition relative
+                ${
+                  isActive
+                    ? "bg-white text-[#225A7F] border-l-4 border-[#225A7F]"
+                    : "text-gray-700 hover:bg-gray-100"
+                }
+                ${collapsed ? "justify-center" : "justify-between"}
+              `;
 
-        {/* Main Layout: Header + Content */}
-        <Layout>
-          {/* Sticky Header */}
-          <header className="sticky top-0 z-50 bg-white shadow px-4 lg:px-8 h-16 flex items-center justify-between">
-            {/* Page Title - Show only when sidebar is collapsed on mobile */}
-            {screens.xs && !collapsed ? null : (
-              <h1 className="text-lg font-semibold text-gray-800">Dashboard</h1>
-            )}
+              return (
+                <div key={item.key} className="relative">
+                  {item.children ? (
+                    <>
+                      <button
+                        onClick={() => {
+                          toggleDropdown(item.key);
+                          if (item.href) router.push(item.href); // navigate parent if href exists
+                        }}
+                        className={baseClasses + " w-full"}
+                      >
+                        <div
+                          className={`flex items-center ${
+                            collapsed ? "justify-center w-full" : "gap-3"
+                          }`}
+                        >
+                          <span className="flex-shrink-0">{item.icon}</span>
+                          {(!collapsed || !screens.xl) && (
+                            <span className="text-sm">{item.label}</span>
+                          )}
+                        </div>
+                        {!collapsed && (
+                          <ChevronRight
+                            className={`transition-transform ${
+                              openDropdowns[item.key] ? "rotate-90" : ""
+                            }`}
+                            size={16}
+                          />
+                        )}
+                      </button>
 
-            {/* Right Side: Notifications & Profile */}
-            <div className="flex items-center gap-4">
-              {/* Notifications */}
-              <Dropdown
-                menu={{ items: notificationItems }}
-                open={notificationOpen}
-                onOpenChange={setNotificationOpen}
-                trigger={["click"]}
-                placement="bottomRight"
-                arrow
-              >
-                <button className="p-2 rounded hover:bg-gray-100 transition relative">
-                  <Badge dot offset={[8, 4]} color="red">
-                    <BellOutlined className="text-gray-700 text-lg" />
-                  </Badge>
-                </button>
-              </Dropdown>
-
-              {/* Profile */}
-              <Dropdown
-                menu={{ items: profileItems }}
-                open={profileOpen}
-                onOpenChange={setProfileOpen}
-                trigger={["click"]}
-                placement="bottomRight"
-                arrow
-              >
-                <div className="flex items-center gap-2 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
-                  <Avatar icon={<UserOutlined />} size="small" />
-                  <span className="text-gray-700 text-sm font-medium">
-                    Admin
-                  </span>
-                  <DownOutlined className="text-gray-500 text-xs" />
+                      {openDropdowns[item.key] && !collapsed && (
+                        <div className="ml-6 mt-1 flex flex-col relative">
+                          <span className="absolute left-0 top-0 bottom-0 w-[1px] bg-gray-300"></span>
+                          {item.children.map((child) => {
+                            const isChildActive = isActiveChild(child.href);
+                            return (
+                              <Link
+                                key={child.key}
+                                href={child.href || "#"}
+                                className={`relative pl-5 py-2 text-sm rounded-md transition ${
+                                  isChildActive
+                                    ? "text-[#225A7F] font-medium"
+                                    : "text-gray-500 hover:text-gray-700"
+                                }`}
+                                onClick={() => setSidebarOpen(false)}
+                              >
+                                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-[1px] bg-gray-300"></span>
+                                {child.label}
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
+                  ) : item.href ? (
+                    <Link
+                      href={item.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={baseClasses}
+                    >
+                      <div
+                        className={`flex items-center ${
+                          collapsed ? "justify-center w-full" : "gap-3"
+                        }`}
+                      >
+                        <span className="flex-shrink-0">{item.icon}</span>
+                        {(!collapsed || !screens.xl) && (
+                          <span className="text-sm">{item.label}</span>
+                        )}
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className={baseClasses}>
+                      <span className="flex-shrink-0">{item.icon}</span>
+                      {(!collapsed || !screens.xl) && (
+                        <span className="text-sm">{item.label}</span>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </Dropdown>
-            </div>
-          </header>
+              );
+            })}
+          </nav>
 
-          {/* Main Content Area */}
-          <Content
-            className="lg:pt-5 pt-4 pr-5 lg:pr-10 pb-10 pl-5 lg:pl-10 bg-white"
-            style={{
-              minHeight: "calc(100vh - 64px)",
-              overflowY: "auto",
-            }}
+          {/* User Info and Logout */}
+          <div className="absolute bottom-0 w-full p-4 border-t border-gray-200 bg-[#F1F4F6]">
+            {!collapsed && (
+              <>
+                <Button
+                  icon={<LogoutOutlined />}
+                  block
+                  style={{ textAlign: "left", marginBottom: "16px" }}
+                  onClick={handleLogout}
+                  className="text-sm"
+                >
+                  Logout Now
+                </Button>
+
+                <div className="flex justify-start items-center gap-2">
+                  <Image
+                    src={user}
+                    width={40}
+                    height={40}
+                    alt="user"
+                    className="rounded-full"
+                  />
+                  <div>
+                    <h1 className="flex items-center gap-1 text-sm font-medium">
+                      Jhon Son <IoCheckmarkCircle className="text-[#225A7F]" />
+                    </h1>
+                    <p className="text-xs text-gray-500">Admin</p>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Collapse Button (desktop only) */}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="
+              absolute top-24 -right-3 transform -translate-y-1/2
+              w-6 h-6  items-center justify-center
+              rounded-full bg-white border border-gray-200 shadow-sm
+              lg:flex hidden z-10
+              hover:bg-gray-50 transition-colors
+            "
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {children}
-          </Content>
-        </Layout>
+            {collapsed ? (
+              <ChevronRight size={14} className="text-gray-700" />
+            ) : (
+              <ChevronLeft size={14} className="text-gray-700" />
+            )}
+          </button>
+        </div>
 
-        {/* Mobile Overlay */}
-        {screens.xs && !collapsed && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 9,
-            }}
-            onClick={() => setCollapsed(true)}
-          />
-        )}
-      </Layout>
+        {/* Main Content */}
+        <div className="flex-1 p-4 lg:p-5 overflow-y-auto bg-white relative">
+          {/* Mobile menu button */}
+          <button
+            className="lg:hidden p-2 text-gray-700 mb-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+          >
+            <ChevronRight size={20} />
+          </button>
 
-      {/* Global Styles */}
-      <style jsx global>{`
-        .ant-menu-item-selected {
-          background-color: #FFFFFF !important;
-          color: #225A7F !important;
-          font-weight: 800 !important;
-          font-size: 16px !important;
-
-          .ant-menu-item-selected {
-    background-color: #225a7f !important;
-    color: #fff !important;
-  }
-
-  /* 👇 REMOVE THE BLUE LINE ON RIGHT */
-  .ant-menu-item-selected::after {
-    display: none !important;
-  }
-
-  .ant-menu-item-selected {
-  border-right: none !important;
-}
-
-  /* Optional: Fix padding if needed */
-  .ant-menu-item {
-    padding-left: 24px !important;
-  }
-        }
-
- /* 👇 REMOVE THE BLUE ACTIVE INDICATOR LINE */
-  .ant-menu-item-selected::after {
-    
-
-        .submenu-with-lines .ant-menu-item,
-        .submenu-with-lines .ant-menu-submenu-title {
-          position: relative;
-          padding-left: 24px !important;
-        }
-
-        .submenu-item-container {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-.ant-menu-title-content>a::before {
-    content: none !important;
-}
-
-        .submenu-connector-line {
-          position: absolute;
-          left: 6px;
-          top: 16px;
-          bottom: -8px;
-          width: 2px;
-          background-color: #d9d9d9;
-          z-index: 1;
-        }
-
-        .submenu-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: ${themeConfig.token?.colorPrimary || "#1890ff"};
-          margin-right: 12px;
-          position: relative;
-          z-index: 2;
-          flex-shrink: 0;
-        }
-
-        @media (max-width: 768px) {
-          .submenu-with-lines .ant-menu-item {
-            padding-left: 20px !important;
-          }
-        }
-      `}</style>
+          {/* Content */}
+          <div className="min-h-[calc(100vh-80px)]">{children}</div>
+        </div>
+      </div>
     </ConfigProvider>
   );
 };

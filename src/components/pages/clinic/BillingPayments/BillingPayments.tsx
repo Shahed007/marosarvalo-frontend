@@ -183,7 +183,10 @@ export default function BillingPayments() {
   }, []);
 
   // Calculate invoice totals
-  const subtotal = cartItems.reduce((sum, item) => sum + Number(item.total ?? 0), 0);
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + Number(item.total ?? 0),
+    0
+  );
   const discountAmount = (subtotal * discountRate) / 100;
   const taxAmount = ((subtotal - discountAmount) * taxRate) / 100;
   const voucherDiscount = appliedVoucher ? appliedVoucher.amount : 0;
@@ -254,7 +257,11 @@ export default function BillingPayments() {
     setCartItems(
       cartItems.map((item) =>
         item.id === id
-          ? { ...item, quantity: newQuantity, total: Number(item.price) * newQuantity }
+          ? {
+              ...item,
+              quantity: newQuantity,
+              total: Number(item.price) * newQuantity,
+            }
           : item
       )
     );
@@ -477,19 +484,14 @@ export default function BillingPayments() {
                 <Title level={4} style={{ margin: 0 }}>
                   Product
                 </Title>
-                <Space>
+                <Space wrap>
                   <Button
-                    className="hover:!bg-primary hover:!text-white"
                     size="middle"
                     onClick={() => setDrawerVisibleVoucher(true)}
                   >
                     Add Voucher
                   </Button>
-                  <Button
-                    className="hover:!bg-primary hover:!text-white"
-                    size="middle"
-                    onClick={() => setDrawerVisible(true)}
-                  >
+                  <Button size="middle" onClick={() => setDrawerVisible(true)}>
                     Add Bonds
                   </Button>
                   <Button
@@ -504,6 +506,7 @@ export default function BillingPayments() {
             }
           >
             <Table
+              className="overflow-x-auto"
               columns={cartColumns}
               dataSource={cartItems}
               pagination={false}
@@ -773,30 +776,27 @@ export default function BillingPayments() {
               </Title>
             }
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 12,
-                width: "100%",
-              }}
-            >
-              <Input
-                placeholder="Amount"
-                size="middle"
-                style={{ width: "100%" }}
-                type="number"
-                value={amountPaid || undefined}
-                onChange={(e) => setAmountPaid(Number(e.target.value))}
-              />
-              <Button
-                type="primary"
-                style={{ width: "20%" }}
-                onClick={() => setAmountPaid(total)}
-              >
-                Add All Amount
-              </Button>
-            </div>
+            <Row gutter={[12, 12]} align="middle">
+              <Col xs={24} sm={16}>
+                <Input
+                  placeholder="Amount"
+                  size="middle"
+                  type="number"
+                  value={amountPaid || undefined}
+                  onChange={(e) => setAmountPaid(Number(e.target.value))}
+                />
+              </Col>
+              <Col xs={24} sm={8}>
+                <Button
+                  type="primary"
+                  style={{ width: "100%" }}
+                  onClick={() => setAmountPaid(total)}
+                >
+                  Add All Amount
+                </Button>
+              </Col>
+            </Row>
+
             {amountPaid > 0 && (
               <Text style={{ display: "block", marginTop: 8 }}>
                 Paid: ${amountPaid.toFixed(2)} | Due: $
@@ -859,7 +859,7 @@ export default function BillingPayments() {
         {/* Right Column - Invoice Summary */}
         <Col xs={24} lg={8}>
           <Card
-            style={{ borderRadius: 8, position: "sticky", top: 24 }}
+            style={{ borderRadius: 8, position: "sticky", top: 24, marginTop: "12px", marginBottom: "20px" }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Invoice Summary

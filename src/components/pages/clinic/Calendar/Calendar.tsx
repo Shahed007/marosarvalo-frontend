@@ -9,11 +9,11 @@ import {
   Select,
   Typography,
   Table,
-  Space,
   Spin,
   Input,
   Dropdown,
   Menu,
+  Switch,
 } from "antd";
 import {
   UserOutlined,
@@ -28,7 +28,8 @@ import Link from "next/link";
 import img1 from "@/assets/1.png";
 import img2 from "@/assets/2.png";
 import img3 from "@/assets/3.png";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
+
 const { Header, Content } = Layout;
 const { Option } = Select;
 const { Text } = Typography;
@@ -41,10 +42,9 @@ interface Appointment {
   type: string;
   color: string;
   specialistId: string;
+  date: string;
   hasActions?: boolean;
 }
-
-import type { StaticImageData } from "next/image";
 
 interface Specialist {
   id: string;
@@ -62,13 +62,12 @@ export default function Calendar() {
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const handleViewDetails = (id: string) => {
-    // Navigate to detail page or show modal
     console.log("View details for appointment", id);
   };
 
   const handleCancelAppointment = (id: string) => {
-    // Show confirmation modal before cancel
     console.log("Cancel appointment", id);
   };
 
@@ -76,23 +75,12 @@ export default function Calendar() {
     setLoading(true);
     setTimeout(() => {
       setSpecialists([
-        {
-          id: "1",
-          name: "Drg Soap Mactavish",
-          avatar: img1,
-        },
-        {
-          id: "2",
-          name: "Drg Jerald O'Hara",
-          avatar: img2,
-        },
-        {
-          id: "3",
-          name: "Drg Putri Larasati",
-          avatar: img3,
-        },
+        { id: "1", name: "Drg Soap Mactavish", avatar: img1 },
+        { id: "2", name: "Drg Jerald O'Hara", avatar: img2 },
+        { id: "3", name: "Drg Putri Larasati", avatar: img3 },
       ]);
 
+      // Added date field dynamically
       setAppointments([
         {
           id: "1",
@@ -102,6 +90,7 @@ export default function Calendar() {
           type: "General Checkup",
           color: "red",
           specialistId: "1",
+          date: dayjs().format("YYYY-MM-DD"),
           hasActions: true,
         },
         {
@@ -112,6 +101,7 @@ export default function Calendar() {
           type: "Scaling",
           color: "green",
           specialistId: "2",
+          date: dayjs().format("YYYY-MM-DD"),
         },
         {
           id: "3",
@@ -121,6 +111,7 @@ export default function Calendar() {
           type: "Bleaching",
           color: "blue",
           specialistId: "1",
+          date: dayjs().add(1, "day").format("YYYY-MM-DD"),
         },
         {
           id: "4",
@@ -130,6 +121,7 @@ export default function Calendar() {
           type: "Extraction",
           color: "blue",
           specialistId: "3",
+          date: dayjs().add(2, "day").format("YYYY-MM-DD"),
         },
       ]);
 
@@ -146,7 +138,7 @@ export default function Calendar() {
     }, 800);
   }, []);
 
-  // Dynamic filtered appointments
+  // Dynamic filtered appointments (date + search + specialist)
   const filteredAppointments = useMemo(() => {
     return appointments.filter((apt) => {
       const matchesSpecialist =
@@ -154,10 +146,19 @@ export default function Calendar() {
       const matchesSearch =
         apt.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
         apt.type.toLowerCase().includes(searchQuery.toLowerCase());
-      // Here you can also filter by date if you have a date field for appointment
-      return matchesSpecialist && matchesSearch;
+
+      // Filter by date
+      let matchesDate = true;
+      if (filterView === "Today")
+        matchesDate = dayjs(apt.date).isSame(dayjs(), "day");
+      else if (filterView === "Day")
+        matchesDate = dayjs(apt.date).isSame(currentDate, "day");
+      else if (filterView === "Week")
+        matchesDate = dayjs(apt.date).isSame(currentDate, "week");
+
+      return matchesSpecialist && matchesSearch && matchesDate;
     });
-  }, [appointments, filterSpecialist, searchQuery]);
+  }, [appointments, filterSpecialist, searchQuery, currentDate, filterView]);
 
   const getAppointmentColorClasses = (color: string) => {
     switch (color) {
@@ -175,11 +176,10 @@ export default function Calendar() {
   const getAppointmentForSpecialistAndTime = ( 
     specialistId: string,
     time: string
-  ) => {
-    return filteredAppointments.filter(
+  ) =>
+    filteredAppointments.filter(
       (apt) => apt.specialistId === specialistId && apt.time === time
     );
-  };
 
   const getTotalAppointmentsForSpecialist = (specialistId: string) =>
     filteredAppointments.filter((apt) => apt.specialistId === specialistId)
@@ -192,17 +192,14 @@ export default function Calendar() {
     if (view === "Today") setCurrentDate(dayjs());
   };
 
-  const handlePrev = () => {
+  const handlePrev = () =>
     setCurrentDate((prev) =>
       filterView === "Week" ? prev.subtract(1, "week") : prev.subtract(1, "day")
     );
-  };
-
-  const handleNext = () => {
+  const handleNext = () =>
     setCurrentDate((prev) =>
       filterView === "Week" ? prev.add(1, "week") : prev.add(1, "day")
     );
-  };
 
   const formattedDate =
     filterView === "Week"
@@ -225,25 +222,18 @@ export default function Calendar() {
       )
       .map((spec) => ({
         title: (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              height: "80px",
-            }}
-          >
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 items-center">
             <Image
-              src={spec?.avatar || "img1"}
-              width={52}
-              height={52}
+              src={spec.avatar || img1}
+              width={48}
+              height={48}
               alt="avatar"
+              className="rounded-full"
             />
-
-            <div>
+            <div className="text-center sm:text-left">
               <div>{spec.name}</div>
-              <div style={{ fontSize: 12, color: "#6b7280", marginTop: "5px" }}>
-                <span className="text-[#AEB3C1]">Today‘s appointment: </span>
+              <div className="text-xs text-gray-500 mt-1">
+                <span className="text-gray-400">Today‘s appointment: </span>
                 <span>
                   {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
                 </span>
@@ -261,34 +251,20 @@ export default function Calendar() {
                 <Card
                   key={apt.id}
                   size="small"
+                  className="mb-2 relative rounded-md"
                   style={{
-                    marginBottom: 6,
-                    padding: "8px",
                     borderLeft: `4px solid ${colorStyle.border}`,
                     background: colorStyle.background,
                     color: colorStyle.text,
-                    borderRadius: 6,
-                    position: "relative",
                   }}
                 >
-                  <div style={{ fontSize: 13, fontWeight: 600 }}>
-                    {apt.patient}
-                  </div>
-                  <div style={{ fontSize: 11 }}>
+                  <div className="font-semibold text-sm">{apt.patient}</div>
+                  <div className="text-xs">
                     {apt.time} - {apt.endTime}
                   </div>
                   <div
-                    style={{
-                      fontSize: 11,
-                      backgroundColor: "#fff",
-                      color: "black",
-                      padding: "4px",
-                      borderRadius: "14px",
-                      width: 120,
-                      textAlign: "center",
-                      marginTop: "7px",
-                      border: `1px solid ${colorStyle.border}`,
-                    }}
+                    className="text-[11px] bg-white text-black px-2 py-0.5 rounded-full mt-1 w-fit border"
+                    style={{ borderColor: colorStyle.border }}
                   >
                     {apt.type}
                   </div>
@@ -316,7 +292,7 @@ export default function Calendar() {
                         type="text"
                         icon={<MoreOutlined />}
                         size="small"
-                        style={{ position: "absolute", top: 4, right: 4 }}
+                        className="absolute top-1 right-1"
                       />
                     </Dropdown>
                   )}
@@ -324,16 +300,7 @@ export default function Calendar() {
               );
             })
           ) : (
-            <div
-              style={{
-                fontSize: 12,
-                textAlign: "center",
-                color: "#9ca3af",
-                padding: "8px",
-                border: "1px dashed #d1d5db",
-                borderRadius: 6,
-              }}
-            >
+            <div className="text-xs text-center text-gray-400 p-2 border border-dashed rounded-md">
               Not Available
             </div>
           ),
@@ -352,33 +319,32 @@ export default function Calendar() {
     return row;
   });
 
-  if (loading) {
+  if (loading)
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Spin size="large" />
       </div>
     );
-  }
 
   return (
-    <Layout style={{ minHeight: "100vh", background: "#fff" }}>
+    <Layout className="min-h-screen bg-white">
       {/* 🔎 Search + Add */}
-      <div
-        className="flex flex-wrap gap-2 justify-between items-center"
-        style={{ padding: "16px 24px" }}
-      >
+      <div className="flex flex-wrap gap-2 justify-between items-center p-4 sm:p-6">
         <Input
           placeholder="Search patient or type"
           allowClear
-          style={{ width: "100%", maxWidth: 500, height: 37 }}
+          className="flex-1 max-w-full sm:max-w-xs"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <Link href={"/clinic/appointment/add-appointment"}>
+        <Link
+          href={"/clinic/appointment/add-appointment"}
+          className="w-full sm:w-auto"
+        >
           <Button
-            className="!p-4 border-primary"
             type="primary"
             icon={<PlusOutlined />}
+            className="w-full sm:w-auto mt-2 sm:mt-0"
           >
             Add New Appointment
           </Button>
@@ -386,58 +352,65 @@ export default function Calendar() {
       </div>
 
       {/* 📅 Filters */}
-      <Header style={{ background: "#fff", padding: "16px 24px" }}>
-        <div className="flex flex-wrap justify-between items-center gap-4">
-          {/* Left */}
-          <Space size={16} wrap>
-            <CalendarOutlined
-              style={{
-                color: "#80889E",
-                fontSize: 18,
-                backgroundColor: "#E9EAEC",
-                padding: "8px",
-                borderRadius: "7px",
-              }}
-            />
-            <Text strong style={{ fontSize: 16 }}>
-              {totalAppointments}
-            </Text>
-            <Text>total appointments</Text>
-          </Space>
+      <Header className="bg-white p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
+        {/* Left: Total appointments */}
 
-          {/* Middle */}
-          <div className="flex flex-wrap gap-2 items-center">
+        <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
+          <CalendarOutlined className="bg-gray-200 text-gray-600 p-2 rounded-md text-lg" />
+          <div className="flex flex-col">
+            <Text strong className="text-lg whitespace-nowrap leading-none">
+              {totalAppointments} <span>total appointments</span>
+            </Text>
+          </div>
+        </div>
+
+        {/* Center: View buttons + switch */}
+        <div className="flex flex-wrap sm:flex-row items-center justify-center gap-2 w-full">
+          {/* Buttons + Date */}
+          <div className="flex flex-wrap items-center justify-center gap-2 w-full sm:w-auto">
             <Button
+              className="!ms-1"
               type={filterView === "Today" ? "primary" : "default"}
               onClick={() => handleViewChange("Today")}
             >
               Today
             </Button>
-            <Button icon={<LeftOutlined />} onClick={handlePrev} />
-            <Button icon={<RightOutlined />} onClick={handleNext} />
-            <Text strong>{formattedDate}</Text>
             <Button
-              type={filterView === "Day" ? "primary" : "default"}
-              onClick={() => handleViewChange("Day")}
-            >
-              Day
-            </Button>
+              className="!ms-1"
+              icon={<LeftOutlined />}
+              onClick={handlePrev}
+            />
             <Button
-              type={filterView === "Week" ? "primary" : "default"}
-              onClick={() => handleViewChange("Week")}
-            >
-              Week
-            </Button>
+              className="!ms-1"
+              icon={<RightOutlined />}
+              onClick={handleNext}
+            />
+            <Text strong className="px-2 whitespace-nowrap">
+              {formattedDate}
+            </Text>
           </div>
 
-          {/* Right */}
+          {/* Switch */}
+          <div className="w-full sm:w-auto flex justify-center mt-2 sm:mt-0">
+            <Switch
+              checked={filterView === "Week"}
+              onChange={(checked) => handleViewChange(checked ? "Week" : "Day")}
+              checkedChildren="Week"
+              unCheckedChildren="Day"
+            />
+          </div>
+        </div>
+
+        {/* Right: Specialist select */}
+        <div className="w-full sm:w-auto flex justify-center sm:justify-end mt-2 sm:mt-0">
           <Select
             value={filterSpecialist}
-            style={{ width: "100%", maxWidth: 200 }}
+            className="w-full sm:w-64 min-w-[160px]"
             onChange={(value) => setFilterSpecialist(value)}
             suffixIcon={<UserOutlined />}
+            placeholder="Select Specialist"
           >
-            <Option value="all">Specialist</Option>
+            <Option value="all">All Specialists</Option>
             {specialists.map((spec) => (
               <Option key={spec.id} value={spec.id}>
                 {spec.name}
@@ -448,16 +421,18 @@ export default function Calendar() {
       </Header>
 
       {/* Table */}
-      <Content style={{ padding: "24px" }}>
-        <Card style={{ borderColor: "#e5e7eb", borderRadius: "8px" }}>
-          <Table
-            columns={columns}
-            dataSource={dataSource}
-            bordered
-            pagination={false}
-            scroll={{ x: "max-content" }}
-          />
-        </Card>
+      <Content className="p-4 sm:p-6 mt-38 sm:mt-0 mb-12">
+        <div className="overflow-x-auto">
+          <Card className="rounded-lg border-gray-200">
+            <Table
+              columns={columns}
+              dataSource={dataSource}
+              bordered
+              pagination={false}
+              scroll={{ x: "max-content" }}
+            />
+          </Card>
+        </div>
       </Content>
     </Layout>
   );
