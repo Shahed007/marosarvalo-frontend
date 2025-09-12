@@ -3,64 +3,100 @@
 import { Card, Table, Button, Input, Space, Typography, Dropdown, Modal } from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import Link from "next/link";
+import EditClinicModal from "./EditCliclModal";
+
+// ✅ Import your EditClinicModal
+
 
 const { Title, Text } = Typography;
 
 export const ClickingListTable = () => {
-  // Mock data updated to match image
+  // ✅ Enhanced mock data with user fields for editing
   const clinicData = [
     {
       key: "1",
       clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
+      contact: "+91 9876543210",
+      email: "clinic.rochester@mayo.com",
       countdown: "162 Day, 17 Hours, 24 min",
       status: "Active",
+      userName: "Dr. Henry Evans",
+      userEmail: "henry.evans@mayo.com",
+      userPhone: "+91 9876501234",
+      userAddress: "123 Medical Lane, Rochester, MN",
+      clinicAddress: "1 Mayo Blvd, Rochester, MN 55905",
     },
     {
       key: "2",
-      clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
-      countdown: "162 Day, 17 Hours, 24 min",
+      clinicName: "Cleveland Clinic Main Campus",
+      contact: "+91 9876543211",
+      email: "info@clevelandclinic.org",
+      countdown: "120 Day, 5 Hours, 10 min",
       status: "Active",
+      userName: "Dr. Sarah Lin",
+      userEmail: "sarah.lin@cleveland.org",
+      userPhone: "+91 9876501235",
+      userAddress: "45 Health Ave, Cleveland, OH",
+      clinicAddress: "9500 Euclid Ave, Cleveland, OH 44195",
     },
     {
       key: "3",
-      clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
-      countdown: "162 Day, 17 Hours, 24 min",
+      clinicName: "Johns Hopkins Hospital",
+      contact: "+91 9876543212",
+      email: "admissions@jh.edu",
+      countdown: "90 Day, 2 Hours, 30 min",
       status: "Inactive",
+      userName: "Dr. Michael Rao",
+      userEmail: "michael.rao@jh.edu",
+      userPhone: "+91 9876501236",
+      userAddress: "78 Care Blvd, Baltimore, MD",
+      clinicAddress: "1800 Orleans St, Baltimore, MD 21287",
     },
     {
       key: "4",
-      clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
-      countdown: "162 Day, 17 Hours, 24 min",
+      clinicName: "Massachusetts General Hospital",
+      contact: "+91 9876543213",
+      email: "info@mgh.harvard.edu",
+      countdown: "200 Day, 10 Hours, 15 min",
       status: "Active",
+      userName: "Dr. Lisa Wong",
+      userEmail: "lisa.wong@mgh.org",
+      userPhone: "+91 9876501237",
+      userAddress: "32 Healing St, Boston, MA",
+      clinicAddress: "55 Fruit St, Boston, MA 02114",
     },
     {
       key: "5",
-      clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
-      countdown: "162 Day, 17 Hours, 24 min",
+      clinicName: "Stanford Health Care",
+      contact: "+91 9876543214",
+      email: "contact@stanfordhealth.org",
+      countdown: "85 Day, 22 Hours, 55 min",
       status: "Active",
+      userName: "Dr. Robert Chen",
+      userEmail: "robert.chen@stanford.edu",
+      userPhone: "+91 9876501238",
+      userAddress: "66 Wellness Rd, Palo Alto, CA",
+      clinicAddress: "300 Pasteur Dr, Palo Alto, CA 94304",
     },
     {
       key: "6",
-      clinicName: "The Mayo Clinic in Rochester",
-      contact: "+91*******",
-      email: "name@email.com",
-      countdown: "162 Day, 17 Hours, 24 min",
+      clinicName: "UCLA Medical Center",
+      contact: "+91 9876543215",
+      email: "info@uclahealth.org",
+      countdown: "130 Day, 8 Hours, 40 min",
       status: "Active",
+      userName: "Dr. Amanda Ruiz",
+      userEmail: "amanda.ruiz@med.ucla.edu",
+      userPhone: "+91 9876501239",
+      userAddress: "99 Care Circle, Los Angeles, CA",
+      clinicAddress: "757 Westwood Plaza, Los Angeles, CA 90095",
     },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false); // ✅ New state for Edit Modal
   const [selectedRecord, setSelectedRecord] = useState<any>(null);
 
   const filteredData = clinicData.filter((item) =>
@@ -98,11 +134,19 @@ export const ClickingListTable = () => {
     setIsModalVisible(true);
   };
 
-  // Handle Edit / Reminder / Remove
+  // ✅ Handle Edit Click → Open Edit Modal
+  const handleEditClick = (record: any) => {
+    setSelectedRecord(record);
+    setIsEditModalVisible(true);
+  };
+
+  // Handle Reminder / Remove
   const handleActionClick = (action: string, record: any) => {
     console.log(`${action} clicked for:`, record);
     if (action === "Remove") {
       alert(`Removed: ${record.clinicName}`);
+    } else if (action === "Reminder") {
+      alert(`Reminder sent to: ${record.email}`);
     }
   };
 
@@ -144,7 +188,7 @@ export const ClickingListTable = () => {
             menu={{
               items: [
                 { key: "1", label: "Details", onClick: () => handleDetailsClick(record) },
-                { key: "2", label: "Edit", onClick: () => handleActionClick("Edit", record) },
+                { key: "2", label: "Edit", onClick: () => handleEditClick(record) }, // ✅ Updated to open modal
                 { key: "3", label: "Reminder", onClick: () => handleActionClick("Reminder", record) },
                 { key: "4", label: "Remove", danger: true, onClick: () => handleActionClick("Remove", record) },
               ],
@@ -159,11 +203,11 @@ export const ClickingListTable = () => {
     },
   ];
 
-  // Modal Content
+  // Modal Content (Details View)
   const modalContent = (
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
       <Title level={4} style={{ margin: "0 0 16px 0", color: "#1E293B" }}>
-        Details
+        Clinic Details
       </Title>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -222,14 +266,17 @@ export const ClickingListTable = () => {
           type="primary"
           icon={<PlusOutlined />}
           style={{
-            backgroundColor: "#3B82F6",
-            borderColor: "#3B82F6",
+            backgroundColor: "#225A7F",
+            borderColor: "#225A7F",
             height: "36px",
             borderRadius: "6px",
             fontWeight: 500,
           }}
         >
-          Add Clinic
+          {/* ✅ Fixed typo and path */}
+          <Link href="/admin/add-clinic" style={{ color: "white", textDecoration: "none" }}>
+            Add Clinic
+          </Link>
         </Button>
       </div>
 
@@ -315,7 +362,7 @@ export const ClickingListTable = () => {
         }}
       />
 
-      {/* Modal */}
+      {/* Details Modal */}
       <Modal
         title=""
         open={isModalVisible}
@@ -325,13 +372,21 @@ export const ClickingListTable = () => {
         centered
         maskClosable={true}
         width={400}
-        style={{
-          borderRadius: "12px",
-          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+        styles={{
+          body: {
+            padding: 0,
+          },
         }}
       >
         {modalContent}
       </Modal>
+
+      {/* ✅ Edit Modal */}
+<EditClinicModal
+  visible={isEditModalVisible}
+  onCancel={() => setIsEditModalVisible(false)}
+  data={selectedRecord}
+/>
     </Card>
   );
 };

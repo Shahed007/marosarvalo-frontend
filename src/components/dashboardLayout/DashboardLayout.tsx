@@ -18,6 +18,7 @@ const { useBreakpoint } = Grid;
 import user from "@/assets/user.png";
 import logo from "@/assets/logo.svg";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import TopBar from "../shared/TopBar";
 
 export interface MenuItem {
   key: string;
@@ -98,6 +99,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         )}
 
         {/* Sidebar */}
+        
         <div
           className={`
             fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-gray-700
@@ -147,11 +149,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               const isActive = isActiveParent(item);
 
               const baseClasses = `
-                flex items-center gap-3 px-3 py-2 rounded-md transition relative
+                flex items-center gap-3 px-3 py-2 rounded-md transition relative 
                 ${
                   isActive
                     ? "bg-white text-[#225A7F] border-l-4 border-[#225A7F]"
-                    : "text-gray-700 hover:bg-gray-100"
+                    : "text-gray-700 hover:bg-[#225A7F] hover:text-white"
                 }
                 ${collapsed ? "justify-center" : "justify-between"}
               `;
@@ -293,9 +295,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             )}
           </button>
         </div>
-
+            
         {/* Main Content */}
+        
         <div className="flex-1 p-4 lg:p-5 overflow-y-auto bg-white relative">
+            <TopBar userName="Jhon Son" userRole="Admin" notificationCount={3} />
+
           {/* Mobile menu button */}
           <button
             className="lg:hidden p-2 text-gray-700 mb-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"

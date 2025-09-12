@@ -1,6 +1,7 @@
 import { Card, Table, Button, Input, Space, Typography, Dropdown } from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import Link from "next/link";
 
 const { Title, Text } = Typography;
 
@@ -122,115 +123,139 @@ export const ClinicTableCard = () => {
   ];
 
   return (
-    <Card
-      style={{
-        borderRadius: "12px",
-        border: "1px solid #E2E8F0",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <Title level={3} style={{ margin: 0, fontSize: "18px", color: "#1F2937", fontWeight: 600 }}>
-          Clinic List
-        </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
+    <div className="p-5">
+      <Card
+        style={{
+          borderRadius: "12px",
+          border: "1px solid #E2E8F0",
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        {/* Header */}
+        <div
           style={{
-            backgroundColor: "#3B82F6",
-            borderColor: "#3B82F6",
-            height: "36px",
-            borderRadius: "6px",
-            fontWeight: 500,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "16px",
           }}
         >
-          Add Clinic
-        </Button>
-      </div>
+          <Title
+            level={3}
+            style={{
+              margin: 0,
+              fontSize: "18px",
+              color: "#1F2937",
+              fontWeight: 600,
+            }}
+          >
+            Clinic List
+          </Title>
+          <Link href={"/admin/add-clinic"}>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              style={{
+                backgroundColor: "#225A7F",
+                borderColor: "#225A7F",
+                height: "36px",
+                borderRadius: "6px",
+                fontWeight: 500,
+              }}
+            >
+              Add Clinic
+            </Button>
+          </Link>
+        </div>
 
-      {/* Search */}
-      <div style={{ marginBottom: "20px", maxWidth: "400px" }}>
-        <Input
-          placeholder="Search by name/email/number"
-          prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          allowClear
+        {/* Search */}
+        <div style={{ marginBottom: "20px", maxWidth: "400px" }}>
+          <Input
+            placeholder="Search by name/email/number"
+            prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            allowClear
+            style={{
+              borderRadius: "6px",
+              border: "1px solid #CBD5E1",
+              height: "38px",
+            }}
+          />
+        </div>
+
+        {/* Table */}
+        <Table
+          columns={columns}
+          dataSource={filteredData}
+          pagination={{
+            current: 1,
+            position: ["bottomRight"],
+            total: filteredData.length,
+            pageSize: 5,
+            showTotal: (total) => `Total ${total} clinics`,
+            hideOnSinglePage: false,
+
+            // ✅ Set pagination background here
+            style: {
+              backgroundColor: "#F8FAFC",
+              padding: "16px 0",
+              borderTop: "1px solid #E2E8F0",
+              margin: 0,
+              textAlign: "center",
+            },
+            itemRender: (_, type, element) => {
+              return type === "prev" ? (
+                <span>‹</span>
+              ) : type === "next" ? (
+                <span>›</span>
+              ) : (
+                element
+              );
+            },
+          }}
+          rowKey="key"
+          scroll={{ x: "max-content" }}
+          components={{
+            header: {
+              cell: ({ children }) => (
+                <th
+                  style={{
+                    backgroundColor: "#F1F4F6",
+                    color: "#4180AB",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    padding: "12px 16px",
+                    borderBottom: "1px solid #CBD5E1",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  {children}
+                </th>
+              ),
+            },
+            body: {
+              cell: ({ children }) => (
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    borderBottom: "1px solid #E2E8F0",
+                    color: "#1E293B",
+                    fontSize: "14px",
+                  }}
+                >
+                  {children}
+                </td>
+              ),
+            },
+          }}
           style={{
-            borderRadius: "6px",
-            border: "1px solid #CBD5E1",
-            height: "38px",
+            borderRadius: "8px",
+            overflow: "hidden",
           }}
         />
-      </div>
-
-      {/* Table */}
-      <Table
-        columns={columns}
-        dataSource={filteredData}
-       
-        pagination={{
-          current: 1,
-          position: ["bottomRight"],
-          total: filteredData.length,
-          pageSize: 5,
-          showTotal: (total) => `Total ${total} clinics`,
-          hideOnSinglePage: false,
-
-          // ✅ Set pagination background here
-          style: {
-            backgroundColor: "#F8FAFC",
-            padding: "16px 0",
-            borderTop: "1px solid #E2E8F0",
-            margin: 0,
-            textAlign: "center",
-          },
-          itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
-          },
-        }}
-        rowKey="key"
-        scroll={{ x: "max-content" }}
-        components={{
-          header: {
-            cell: ({ children }) => (
-              <th
-                style={{
-                  backgroundColor: "#F1F4F6",
-                  color: "#4180AB",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #CBD5E1",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {children}
-              </th>
-            ),
-          },
-          body: {
-            cell: ({ children }) => (
-              <td
-                style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #E2E8F0",
-                  color: "#1E293B",
-                  fontSize: "14px",
-                }}
-              >
-                {children}
-              </td>
-            ),
-          },
-        }}
-        style={{
-          borderRadius: "8px",
-          overflow: "hidden",
-        }}
-      />
-    </Card>
+      </Card>
+    </div>
   );
 };

@@ -15,7 +15,7 @@ export const theme: ThemeConfig = {
   },
   components: {
     Layout: {
-      colorBgHeader: "#ffffff",
+      headerBg: "#ffffff",
       colorBgBody: "#ffffff",
       colorBgTrigger: "#f0f0f0",
       siderBg: "#6B91A31A",
@@ -49,7 +49,7 @@ export const darkTheme: ThemeConfig = {
   },
   components: {
     Layout: {
-      colorBgHeader: "#1f1f1f",
+      headerBg: "#1f1f1f",
       colorBgBody: "#000000",
     },
     Menu: {

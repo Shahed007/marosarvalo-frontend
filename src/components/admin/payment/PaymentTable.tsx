@@ -164,8 +164,8 @@ export const PaymentTable = () => {
           type="primary"
           icon={<PlusOutlined />}
           style={{
-            backgroundColor: "#3B82F6",
-            borderColor: "#3B82F6",
+            backgroundColor: "#225A7F",
+            borderColor: "",
             height: "36px",
             borderRadius: "6px",
             fontWeight: 500,

@@ -28,7 +28,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
         {
           key: "2-1",
           label: "Calendar",
-          href: "/clinic/calendar"
+          href: "/clinic/calendar",
         },
         {
           key: "2-2",

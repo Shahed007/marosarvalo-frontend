@@ -53,6 +53,7 @@ export interface InvoiceItem {
   quantity?: number | string;
   price?: number | string;
   total?: number | string;
+  
 }
 
 export interface PaymentMethod {
