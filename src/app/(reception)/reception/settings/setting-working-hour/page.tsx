@@ -1,6 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
-import { Card, Table, Button, Input, Space, Typography, Dropdown, Modal } from "antd";
+"use client";
+import {
+  Card,
+  Table,
+  Button,
+  Input,
+  Space,
+  Typography,
+  Dropdown,
+  Modal,
+} from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
@@ -160,46 +169,115 @@ export default function SettingsWorkingHourPage() {
       </Title>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Name</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedUser?.name}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedUser?.name}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M22 6L12 13L2 6" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M22 6L12 13L2 6"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Email</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedUser?.email}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedUser?.email}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4180AB" strokeWidth="2" />
-            <path d="M12 8V12L15 15" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
+            <path
+              d="M12 8V12L15 15"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Profession</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedUser?.profession}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedUser?.profession}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 11.5C21 16.7467 16.7467 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2C16.7467 2 21 6.25329 21 11.5Z" stroke="#4180AB" strokeWidth="2" />
-            <path d="M15 11.5C15 13.433 13.433 15 11.5 15C9.56705 15 8 13.433 8 11.5C8 9.56705 9.56705 8 11.5 8C13.433 8 15 9.56705 15 11.5Z" stroke="#4180AB" strokeWidth="2" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 11.5C21 16.7467 16.7467 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2C16.7467 2 21 6.25329 21 11.5Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
+            <path
+              d="M15 11.5C15 13.433 13.433 15 11.5 15C9.56705 15 8 13.433 8 11.5C8 9.56705 9.56705 8 11.5 8C13.433 8 15 9.56705 15 11.5Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Status</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedUser?.status}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedUser?.status}
+        </Text>
       </div>
     </div>
   );
 
   return (
-    <Card
+    <div  className="!p-4 md:!p-6 lg:!p-8 !mb-8">
+      <Card
       style={{
         borderRadius: "12px",
         border: "1px solid #E2E8F0",
@@ -207,7 +285,14 @@ export default function SettingsWorkingHourPage() {
       }}
     >
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
         <Input
           placeholder="Search by name/email"
           prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
@@ -223,7 +308,7 @@ export default function SettingsWorkingHourPage() {
           }}
         />
         <Button
-        className="bg-primary"
+          className="bg-primary"
           type="primary"
           icon={<PlusOutlined />}
           style={{
@@ -237,7 +322,15 @@ export default function SettingsWorkingHourPage() {
       </div>
 
       {/* Title */}
-      <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600, marginBottom: "16px" }}>
+      <Title
+        level={4}
+        style={{
+          margin: 0,
+          color: "#1E293B",
+          fontWeight: 600,
+          marginBottom: "16px",
+        }}
+      >
         All Users
       </Title>
 
@@ -250,7 +343,8 @@ export default function SettingsWorkingHourPage() {
           position: ["bottomRight"],
           total: filteredData.length,
           pageSize: 10,
-          showTotal: (total) => `Showing 1 to ${Math.min(10, total)} out of ${total} records`,
+          showTotal: (total) =>
+            `Showing 1 to ${Math.min(10, total)} out of ${total} records`,
           hideOnSinglePage: false,
           style: {
             backgroundColor: "#F8FAFC",
@@ -260,7 +354,13 @@ export default function SettingsWorkingHourPage() {
             textAlign: "center",
           },
           itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
+            return type === "prev" ? (
+              <span>‹</span>
+            ) : type === "next" ? (
+              <span>›</span>
+            ) : (
+              element
+            );
           },
         }}
         rowKey="key"
@@ -323,5 +423,6 @@ export default function SettingsWorkingHourPage() {
         {modalContent}
       </Modal>
     </Card>
+    </div>
   );
 }

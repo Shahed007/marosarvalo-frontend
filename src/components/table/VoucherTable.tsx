@@ -13,7 +13,7 @@ import { SearchOutlined, MoreOutlined } from "@ant-design/icons";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import EditVoucher from "../drawer/EditVoucher";
 
-// Define the data type based on your example
+// Define the data type
 export interface Voucher {
   key: string;
   id: string;
@@ -37,13 +37,12 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
 }) => {
   const [searchText, setSearchText] = useState("");
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
 
-  // Handle search functionality
+  // Search filter
   const filteredData = useMemo(() => {
     if (!searchText) return data;
-
     const lowerCaseSearch = searchText.toLowerCase();
-
     return data.filter((item) =>
       Object.values(item).some(
         (value) =>
@@ -52,20 +51,21 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
     );
   }, [data, searchText]);
 
-  // Define action items for dropdown menu
+  // Dropdown menu actions
   const getActionItems = (record: Voucher): MenuProps["items"] => [
     {
-      key: "1",
-      label: <EditVoucher />,
+      key: "edit",
+      label: "Edit Voucher",
+      onClick: () => setEditingVoucher(record),
     },
     {
-      key: "3",
+      key: "remove",
       label: "Remove Voucher",
       onClick: () => onRemoveVoucher && onRemoveVoucher(record.id),
     },
   ];
 
-  // Define table columns
+  // Table columns
   const columns: ColumnsType<Voucher> = [
     {
       title: "ID",
@@ -119,7 +119,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
     },
   ];
 
-  // Handle table change events (pagination, sorting, etc.)
+  // Handle pagination & table changes
   const handleTableChange: TableProps<Voucher>["onChange"] = (
     paginationConfig
   ) => {
@@ -143,7 +143,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         />
       </div>
 
-      {/* Data Table */}
+      {/* Table */}
       <Table
         style={{
           borderRadius: "12px",
@@ -151,45 +151,6 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
-        }}
-        components={{
-          header: {
-            cell: (props) => (
-              <th
-                {...props}
-                style={{
-                  backgroundColor: "#6B91A31A",
-                  padding: "16px",
-                  fontWeight: "600",
-                  color: "#334155",
-                  borderBottom: "2px solid #e2e8f0",
-                }}
-              />
-            ),
-          },
-          body: {
-            cell: (props) => (
-              <td
-                {...props}
-                style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #f1f5f9",
-                  color: "#475569",
-                }}
-              />
-            ),
-            row: (props) => (
-              <tr
-                {...props}
-                style={{
-                  transition: "background-color 0.2s ease",
-                  ":hover": {
-                    backgroundColor: "#f8fafc",
-                  },
-                }}
-              />
-            ),
-          },
         }}
         columns={columns}
         dataSource={filteredData}
@@ -206,18 +167,27 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
               <Typography>
                 Showing {range[0]}-{range[1]} of {total} records
               </Typography>
-              {/* <Button
-                type="link"
-                danger
-                onClick={() => console.log("Remove voucher clicked")}
-              >
-                Remove Voucher
-              </Button> */}
             </div>
           ),
         }}
         scroll={{ x: 800 }}
       />
+
+      {/* Edit Voucher Drawer */}
+      {editingVoucher && (
+        <EditVoucher
+          open={!!editingVoucher}
+          voucher={editingVoucher}
+          onClose={() => setEditingVoucher(null)}
+        />
+      )}
+
+      {/* Pagination styling */}
+      <style jsx global>{`
+        .ant-table-pagination {
+          margin-right: 1.25rem !important;
+        }
+      `}</style>
     </Card>
   );
 };

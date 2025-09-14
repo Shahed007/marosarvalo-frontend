@@ -2,8 +2,8 @@ import BillingPayments from "@/components/pages/clinic/BillingPayments/BillingPa
 
 export default function page() {
   return (
-    <div>
-       <BillingPayments/> 
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
+      <BillingPayments />
     </div>
-  )
+  );
 }

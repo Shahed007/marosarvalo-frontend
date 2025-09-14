@@ -1,6 +1,6 @@
 export default function page() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8">
       <div className=" bg-white rounded-lg shadow-sm">
         {/* Header */}
         <div className="border-b border-gray-200 px-6 py-4">

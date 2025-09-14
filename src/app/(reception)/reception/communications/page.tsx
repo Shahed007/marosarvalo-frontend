@@ -310,7 +310,7 @@ export default function PatientCommunication() {
   );
 
   return (
-    <div style={{ padding: screens.xs ? "8px" : "20px" }}>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Card>
         <Tabs defaultActiveKey="compose" size="large">
           <TabPane tab="Compose" key="compose">
