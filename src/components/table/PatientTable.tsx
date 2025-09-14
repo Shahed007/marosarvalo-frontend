@@ -16,6 +16,7 @@ import { EyeOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { LiaUserPlusSolid } from "react-icons/lia";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const { RangePicker } = DatePicker;
 
@@ -127,6 +128,13 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       <Menu.Item key="Inactive">Inactive</Menu.Item>
     </Menu>
   );
+  const pathName = usePathname();
+  let patientLink = "/clinic/patient/add-patient"; 
+  if (pathName.startsWith("/clinic")) {
+    patientLink = "/clinic/patient/add-patient";
+  } else if (pathName.startsWith("/reception")) {
+    patientLink = "/reception/new-patient";
+  }
 
   return (
     <div>
@@ -143,7 +151,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         />
 
         {/* New Patient Button */}
-        <Link href={"/clinic/patient/add-patient"} className="w-full sm:w-auto">
+        <Link href={patientLink} className="w-full sm:w-auto">
           <Button
             type="primary"
             icon={<LiaUserPlusSolid />}
@@ -233,9 +241,8 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           onChange: (page, pageSize) => {
             setPagination({ ...pagination, current: page, pageSize });
           },
-           style: { marginRight: "16px" },
+          style: { marginRight: "16px" },
         }}
-        
       />
     </div>
   );

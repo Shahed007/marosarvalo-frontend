@@ -25,7 +25,7 @@ const patients: PatientType[] = [
 ];
 const Patient = () => {
   return (
-    <div>
+    <div  className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Patients</Title>
       <PatientTable data={patients} />
     </div>
