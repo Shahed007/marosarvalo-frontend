@@ -58,12 +58,11 @@ export const appointmentList: AppointmentListProps[] = [
     reason: "General Checkup",
     status: "Pending",
   },
-  
 ];
 
 const AppointmentListPage = () => {
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Appointment List</Title>
       <div className="flex items-center justify-between">
         <Input

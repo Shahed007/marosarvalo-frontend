@@ -41,7 +41,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "2",
       icon: <CalendarOutlined />,
       label: "Appointments",
-      href: "/reception/appointment/appointment-list",
+      href: "/reception/appointment/calender",
       children: [
         {
           key: "2-1",
