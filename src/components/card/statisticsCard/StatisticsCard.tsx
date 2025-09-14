@@ -24,12 +24,21 @@ const StatisticsCard: FC<{
         </div>
         <div>
           <Select
+            className="bg-white"
             defaultValue={"this month"}
             variant="borderless"
             style={{
               width: 120,
             }}
             options={[
+              {
+                label: "Today",
+                value: "today",
+              },
+              {
+                label: "This Week",
+                value: "this week",
+              },
               {
                 label: "This Month",
                 value: "this month",

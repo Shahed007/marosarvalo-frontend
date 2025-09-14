@@ -85,7 +85,7 @@ const AppointmentForm: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "24px", margin: "0 auto" }}>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Appointments</Title>
 
       <Form

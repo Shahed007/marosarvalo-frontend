@@ -48,7 +48,7 @@ const SettingBranding: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="bg-white p-4 md:p-6 lg:p-8 mb-8 rounded-lg shadow-sm">
       <Form
         form={form}
         layout="vertical"

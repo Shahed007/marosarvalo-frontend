@@ -13,27 +13,27 @@ import React, { useState } from "react";
 const Communications = () => {
   const [activeTab, setActiveTab] = useState("basicInfo");
 
-const bondsData: ProductTab[] = [
-  {
-    id: "#1254",
-    discipline: "Operation",
-  },
-  {
-    id: "#1255",
-    discipline: "Operation",
-  },
-  {
-    id: "#1256",
-    discipline: "Operation",
-  },
-];
+  const bondsData: ProductTab[] = [
+    {
+      id: "#1254",
+      discipline: "Operation",
+    },
+    {
+      id: "#1255",
+      discipline: "Operation",
+    },
+    {
+      id: "#1256",
+      discipline: "Operation",
+    },
+  ];
   const tabItems = [
     {
       key: "basicInfo",
       label: "Basic Info",
       children: (
         <div>
-          <BasicInformation/>
+          <BasicInformation />
         </div>
       ),
     },
@@ -42,7 +42,7 @@ const bondsData: ProductTab[] = [
       label: "Product",
       children: (
         <div>
-            <ProductTable data={bondsData}/>
+          <ProductTable data={bondsData} />
         </div>
       ),
     },
@@ -51,7 +51,7 @@ const bondsData: ProductTab[] = [
       label: "Branding",
       children: (
         <div>
-          <SettingBranding/>
+          <SettingBranding />
         </div>
       ),
     },

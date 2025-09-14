@@ -17,6 +17,7 @@ const ClinicAppointmentOverview = () => {
       { day: "Tue", value: 80 },
       { day: "Wed", value: 40 },
       { day: "Thu", value: 10 },
+      { day: "Fri", value: 200 },
     ],
     timeFrameOptions: ["Daily", "Weekly", "Monthly", "Yearly"],
     currentTimeFrame: currentTimeFrame,

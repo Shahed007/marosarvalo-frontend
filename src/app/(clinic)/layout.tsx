@@ -23,18 +23,19 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "2",
       icon: <CalendarOutlined />,
       label: "Appointment",
-      href: "/clinic/appointment/appointment-list",
+      href: "/clinic/calendar",
       children: [
         {
           key: "2-1",
-          label: "Calendar",
-          href: "/clinic/calendar",
-        },
-        {
-          key: "2-2",
           label: "Appointment List",
           href: "/clinic/appointment/appointment-list",
         },
+        {
+          key: "2-2",
+          label: "Calendar",
+          href: "/clinic/calendar",
+        },
+        
         {
           key: "2-3",
           label: "Add Appointment",
@@ -99,7 +100,7 @@ const ClinicLayout: FC<{ children: ReactNode }> = ({ children }) => {
         {
           key: "9-1",
           label: "General",
-          href: "/clinic/billing",
+          href: "/clinic/setting",
         },
         {
           key: "9-2",

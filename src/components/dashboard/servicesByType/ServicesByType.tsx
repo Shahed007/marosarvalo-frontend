@@ -31,6 +31,7 @@ const ServicesByType: React.FC<ServicesByTypeProps> = ({
   title = "Services by type",
   data,
   height = 400,
+  
 }) => {
   const total = data.reduce((acc, curr) => acc + curr.value, 0);
   const maxValue = Math.max(...data.map((d) => d.value));
@@ -41,8 +42,9 @@ const ServicesByType: React.FC<ServicesByTypeProps> = ({
       {
         label: "Services",
         data: data.map((d) => d.value),
-        backgroundColor: "rgba(96,165,250,0.7)", // Tailwind blue-400
+        backgroundColor: "#8AB3CF", // Tailwind blue-400
         borderRadius: 8,
+        
       },
     ],
   };
@@ -76,7 +78,7 @@ const ServicesByType: React.FC<ServicesByTypeProps> = ({
 
   return (
     <Card style={{ height }} className="rounded-2xl shadow-md">
-      <Title level={3} className="!text-primary font-medium">
+      <Title level={3} className="!text-primary !font-semibold">
         {title}
       </Title>
       <div className="flex flex-col gap-6 mt-2 h-full">

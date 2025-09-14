@@ -573,7 +573,7 @@ const PatientRegistrationForm: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-4xl  bg-white">
+    <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">New Patients</h1>
         <div className="border-b border-gray-200">

@@ -112,7 +112,6 @@ const RevenueByService: React.FC<RevenueByServiceProps> = ({
   return (
     <Card 
       className="w-full" 
-      bodyStyle={{ padding: "24px" }}
       style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}
     >
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">

@@ -134,11 +134,12 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         {/* Search Input */}
         <Input
           placeholder="Search by name, email, or phone"
-          prefix={<SearchOutlined />}
+          addonAfter={<SearchOutlined />}
+          size="large"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           allowClear
-          className="w-full sm:!w-96"
+          className="w-full sm:w-auto sm:flex-1"
         />
 
         {/* New Patient Button */}
@@ -146,7 +147,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <Button
             type="primary"
             icon={<LiaUserPlusSolid />}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto !p-[18px]"
           >
             New Patients
           </Button>
@@ -232,7 +233,9 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           onChange: (page, pageSize) => {
             setPagination({ ...pagination, current: page, pageSize });
           },
+           style: { marginRight: "16px" },
         }}
+        
       />
     </div>
   );
