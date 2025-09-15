@@ -1,10 +1,17 @@
 "use client";
 import { Button, Card, Input, Typography, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
 export default function ForgetPassword() {
+  const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSubmitEmail = (e: any) => {
+    e.preventDefault();
+    router.push("/verification");
+  };
   return (
     <div
       style={{
@@ -47,7 +54,7 @@ export default function ForgetPassword() {
             </Title>
           </div>
 
-          <div style={{ padding: "24px" }}>
+          <form onSubmit={handleSubmitEmail} style={{ padding: "24px" }}>
             <Space direction="vertical" size="middle" style={{ width: "100%" }}>
               <div>
                 <Text
@@ -70,10 +77,10 @@ export default function ForgetPassword() {
                   }}
                 />
               </div>
-
               <Button
                 type="primary"
                 size="large"
+                htmlType="submit"
                 style={{
                   width: "100%",
                   backgroundColor: "#225A7F",
@@ -85,7 +92,7 @@ export default function ForgetPassword() {
                 Continue
               </Button>
             </Space>
-          </div>
+          </form>
         </Card>
       </div>
     </div>
