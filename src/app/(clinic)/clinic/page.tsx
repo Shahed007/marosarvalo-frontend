@@ -83,7 +83,7 @@ const ClinicDashboard = () => {
         <ServicesByTypeClinic />
       </div>
       <div>
-        <UpcomingAppointments data={appointments} />
+        <UpcomingAppointments onViewAll={true as boolean} data={appointments} />
       </div>
     </div>
   );
