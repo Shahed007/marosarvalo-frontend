@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const { Title, Text } = Typography;
 
@@ -103,7 +104,8 @@ const SettingsServicesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<any>(null);
-
+  const pathName = usePathname();
+  const hiddenClass = pathName.startsWith("/specillist") ? "hidden" : "";
   // Filtered data based on search
   const filteredData = serviceData.filter((item) =>
     Object.values(item).some((val) =>
@@ -308,19 +310,21 @@ const SettingsServicesPage = () => {
               }}
             />
           </div>
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            style={{
-              backgroundColor: "#225A7F",
-              borderColor: "#225A7F",
-              height: "36px",
-              borderRadius: "6px",
-              fontWeight: 500,
-            }}
-          >
-            Add Services
-          </Button>
+          <div className={`${hiddenClass}`}>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              style={{
+                backgroundColor: "#225A7F",
+                borderColor: "#225A7F",
+                height: "36px",
+                borderRadius: "6px",
+                fontWeight: 500,
+              }}
+            >
+              Add Services
+            </Button>
+          </div>
         </div>
 
         {/* Title */}
