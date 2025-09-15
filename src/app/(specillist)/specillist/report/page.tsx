@@ -43,7 +43,7 @@ const Report = () => {
     { label: "xyz", value: 50 },
   ];
   return (
-    <div>
+    <div className="!p-4 md:!p-6 lg:!p-8 !mb-8">
       <Title level={2}>Report</Title>
       <Title level={5}>Performance Overview</Title>
       <PerformanceOverview {...data} />

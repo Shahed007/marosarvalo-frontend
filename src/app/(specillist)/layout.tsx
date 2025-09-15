@@ -8,10 +8,7 @@ import {
   CalendarOutlined,
   CreditCardOutlined,
   DashboardOutlined,
-  GiftOutlined,
-  MessageOutlined as MessageIcon,
   SettingOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
 import DashboardLayout from "@/components/dashboardLayout/DashboardLayout";
 
@@ -39,12 +36,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
       href: "/specillist/appointment-list",
     },
     {
-      key: "3",
-      icon: <TeamOutlined />,
-      label: "Communications",
-      href: "/specillist/communications",
-    },
-    {
       key: "4",
       icon: <CreditCardOutlined />,
       label: "Voucher",
@@ -66,22 +57,7 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
         },
       ],
     },
-  
     {
-      key: "5",
-      icon: <MessageIcon />,
-      label: "Communications",
-      href: "/specillist/communications",
-    },
-    {
-      key: "6",
-      icon: <GiftOutlined />,
-      label: "Voucher",
-      href: "/specillist/voucher",
-    },
-
-
-        {
       key: "7",
       icon: <BarChartOutlined />,
       label: "Report",
@@ -132,7 +108,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
         },
       ],
     },
-
   ];
 
   return <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>;
