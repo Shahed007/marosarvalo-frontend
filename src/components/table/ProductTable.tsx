@@ -171,7 +171,7 @@ const serviceData: SettingService[] = [
   },
 ];
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={4}>Discipline</Title>
       {/* Search + Add Button */}
       <div className="flex items-center justify-between mb-6">

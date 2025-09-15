@@ -17,7 +17,7 @@ export default function ReceiptHistory() {
   const [pageSize, setPageSize] = useState("10");
 
   return (
-    <div style={{ padding: "16px", marginBottom: "30px" }}>
+    <div className="p-4 md:p-6 lg:p-8 mb-8" style={{ marginBottom: "30px" }}>
       {/* Header */}
       <Title level={2} style={{ marginBottom: 32, color: "#262626" }}>
         Billing & Payments

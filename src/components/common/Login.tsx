@@ -3,6 +3,7 @@ import { Button, Card, Input, Checkbox, Typography, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const { Title, Text } = Typography;
 
@@ -109,7 +110,9 @@ export default function Login() {
                   paddingTop: "8px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <Checkbox id="remember" />
                   <label
                     htmlFor="remember"
@@ -118,8 +121,8 @@ export default function Login() {
                     Remember me
                   </label>
                 </div>
-                <a
-                  href="#"
+                <Link
+                  href="/forget-password"
                   style={{
                     fontSize: "14px",
                     color: "#225A7F",
@@ -127,7 +130,7 @@ export default function Login() {
                   }}
                 >
                   Forgot Password?
-                </a>
+                </Link>
               </div>
 
               <Button

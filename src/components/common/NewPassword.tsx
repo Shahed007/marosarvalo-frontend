@@ -1,12 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button, Card, Input, Typography, Space } from "antd";
-import {  LockOutlined } from "@ant-design/icons";
+import { LockOutlined } from "@ant-design/icons";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
 export default function NewPassword() {
+  const router = useRouter();
+
+  const handleSubmitNewPassword = (e: any) => {
+    e.preventDefault();
+    router.push("/");
+  };
   return (
     <div
       style={{
@@ -24,7 +32,7 @@ export default function NewPassword() {
           maxWidth: "400px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center", 
+          alignItems: "center",
         }}
       >
         {/* Logo */}
@@ -54,7 +62,7 @@ export default function NewPassword() {
             </Title>
           </div>
 
-          <div style={{ padding: "24px" }}>
+          <form onSubmit={handleSubmitNewPassword} style={{ padding: "24px" }}>
             <Space direction="vertical" size="middle" style={{ width: "100%" }}>
               <div>
                 <Text
@@ -102,6 +110,7 @@ export default function NewPassword() {
               <Button
                 type="primary"
                 size="large"
+                htmlType="submit"
                 style={{
                   width: "100%",
                   backgroundColor: "#225A7F",
@@ -113,7 +122,7 @@ export default function NewPassword() {
                 Save Now
               </Button>
             </Space>
-          </div>
+          </form>
         </Card>
       </div>
     </div>

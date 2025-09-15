@@ -7,12 +7,13 @@ import { CheckCircleOutlined } from "@ant-design/icons";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const { Title, Text } = Typography;
 
 export default function Verification() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef<(InputRef | null)[]>([]);
-
+  const router = useRouter();
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Prevent multiple characters
 
@@ -52,6 +53,7 @@ export default function Verification() {
       console.log("Verification code:", fullCode);
       // Handle verification logic here
     }
+    router.push("/new-password");
   };
 
   return (
@@ -68,7 +70,10 @@ export default function Verification() {
     >
       {/* Logo */}
       <div style={{ marginBottom: "64px" }}>
-        <Link href='/' style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <Link
+          href="/"
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
           <Image src={logo} width={170} height={40} alt="logo" />
         </Link>
       </div>

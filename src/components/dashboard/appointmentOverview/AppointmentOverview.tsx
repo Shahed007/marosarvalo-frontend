@@ -88,8 +88,9 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
 
   return (
     <Card
+    className="!shadow-sm"
       title={
-        <Title level={3} className="!text-primary">
+        <Title level={3} className="!text-primary !font-semibold">
           {title}
         </Title>
       }

@@ -1,33 +1,23 @@
- 
-"use client"
+"use client";
 
-
-
-import { RevenueChartCard } from "./ReveniewCard"
-import { ClinicTableCard } from "./ClinicTable"
-import { MetricCardsRow } from "./MetricCard"
-
-
+import { RevenueChartCard } from "./ReveniewCard";
+import { ClinicTableCard } from "./ClinicTable";
+import { MetricCardsRow } from "./MetricCard";
 
 // Shared mini chart data
 
-
 export default function AdminDashboard() {
-
-
   return (
-    <div >
-      {/* Header */}
-     
-
+    <div>
+      <div>
+        <h1 className="p-4 md:p-6 lg:p-8 text-3xl font-semibold">Dashboard</h1>
+      </div>
       {/* Metric Cards */}
-      <MetricCardsRow/>
-
+      <MetricCardsRow />
       {/* Revenue Chart */}
       <RevenueChartCard />
-
       {/* Clinic List */}
       <ClinicTableCard />
     </div>
-  )
+  );
 }

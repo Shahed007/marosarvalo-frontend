@@ -85,7 +85,7 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
   return (
     <Modal
       title="Edit Clinic"
-      open={visible} // ✅ Controlled by parent
+      open={visible} 
       onCancel={handleCancel}
       footer={null}
       width={720}
@@ -358,14 +358,14 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
             type="button"
             onClick={handleSendReminder}
             disabled={reminderSent}
-            className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             {reminderSent ? "Reminder Sent!" : "Send Reminder"}
           </button>
           <button
             type="button"
             onClick={handleCancel}
-            className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             Cancel
           </button>
@@ -373,11 +373,11 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
             type="submit"
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="px-6 py-2 bg-[#225A7F] text-white rounded-md hover:bg-[#225A7F] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             {isSubmitting ? (
               <>
-                <span className="h-4 w-4 inline-block animate-spin rounded-full border-2 border-t-transparent mr-2"></span>
+                <span className="h-4 w-4 inline-block animate-spin rounded-full border-2 cursor-pointer border-t-transparent mr-2"></span>
                 Saving...
               </>
             ) : (

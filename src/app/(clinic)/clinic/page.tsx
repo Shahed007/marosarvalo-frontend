@@ -62,12 +62,12 @@ const ClinicDashboard = () => {
     },
   ];
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <div>
         <Title level={2}>Dashboard</Title>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <StatisticsCard name="Monthly Appointment" count={15} />
-          <StatisticsCard name="Total Doctor" count={509} />
+          <StatisticsCard graph={true} name="Monthly Appointment" count={15} />
+          <StatisticsCard graph={true} name="Total Doctor" count={509} />
           <StatisticsCard graph={true} name="New Customer" count={1254} />
         </div>
       </div>

@@ -1,21 +1,27 @@
 export default function page() {
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8">
+      <div className=" bg-white rounded-lg shadow-sm">
         {/* Header */}
         <div className="border-b border-gray-200 px-6 py-4">
-          <h1 className="text-xl font-semibold text-gray-900">Settings-Personal Info</h1>
+          <h1 className="text-xl font-semibold text-gray-900">
+            Settings-Personal Info
+          </h1>
         </div>
 
         <div className="p-6 space-y-8">
           {/* Personal Info Section */}
           <div>
-            <h2 className="text-lg font-medium text-blue-600 mb-6">Personal Info</h2>
+            <h2 className="text-lg font-medium text-primary mb-6">
+              Personal Info
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Name
+                </label>
                 <input
                   type="text"
                   defaultValue="Dr. John Carter"
@@ -25,7 +31,9 @@ export default function page() {
 
               {/* User Id Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">User Id</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  User Id
+                </label>
                 <input
                   type="text"
                   defaultValue="001234"
@@ -35,7 +43,9 @@ export default function page() {
 
               {/* Profession Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Profession</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Profession
+                </label>
                 <input
                   type="text"
                   defaultValue="Physician"
@@ -45,7 +55,9 @@ export default function page() {
 
               {/* Email Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
+                </label>
                 <input
                   type="email"
                   defaultValue="drjohn@abc.com"
@@ -55,7 +67,9 @@ export default function page() {
 
               {/* Address Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Address
+                </label>
                 <input
                   type="text"
                   defaultValue="City, State"
@@ -65,7 +79,9 @@ export default function page() {
 
               {/* Contact Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Contact</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Contact
+                </label>
                 <input
                   type="tel"
                   defaultValue="000 111 222 333"
@@ -77,12 +93,16 @@ export default function page() {
 
           {/* Password Change Section */}
           <div>
-            <h2 className="text-lg font-medium text-blue-600 mb-6">Password change</h2>
+            <h2 className="text-lg font-medium text-primary mb-6">
+              Password change
+            </h2>
 
             <div className="space-y-4 max-w-md">
               {/* Current Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Current Password
+                </label>
                 <input
                   type="password"
                   defaultValue="password123"
@@ -92,7 +112,9 @@ export default function page() {
 
               {/* New Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  New Password
+                </label>
                 <input
                   type="password"
                   placeholder="Enter new password"
@@ -102,7 +124,9 @@ export default function page() {
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Confirm Password
+                </label>
                 <input
                   type="password"
                   placeholder="Confirm new password"
@@ -114,12 +138,12 @@ export default function page() {
 
           {/* Update Button */}
           <div className="pt-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button className="bg-primary hover:bg-primary cursor-pointer text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
               Update Now
             </button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

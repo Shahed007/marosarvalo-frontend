@@ -25,6 +25,7 @@ const AppointmentListTable: FC<{
   data: AppointmentListProps[];
   loading?: boolean;
 }> = ({ data = [], loading = false }) => {
+
   const columns: ColumnProps<AppointmentListType>[] = [
     {
       title: "ID",
@@ -62,7 +63,7 @@ const AppointmentListTable: FC<{
       key: "action",
       render() {
         return (
-          <div>
+          <div className="bg-[#F2F2F2] flex justify-center items-center px-2 py-2 rounded-md">
             <Badge size="small">Available</Badge>
           </div>
         );

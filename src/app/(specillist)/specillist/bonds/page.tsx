@@ -1,5 +1,4 @@
 import BondTable, { Bond } from "@/components/table/BondTable";
-
 const bondsData: Bond[] = [
   {
     id: "#1254",
@@ -29,11 +28,11 @@ const bondsData: Bond[] = [
     status: "Inactive",
   },
 ];
+export default function page() {
 
-export default function ParentPage() {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       <BondTable data={bondsData} />
     </div>
-  );
+  )
 }

@@ -325,14 +325,14 @@ export default function AddClinicPage() {
           type="button"
           onClick={handleSendReminder}
           disabled={reminderSent}
-          className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
           {reminderSent ? "Reminder Sent!" : "Send Reminder"}
         </button>
         <button
           type="button"
           onClick={() => reset()}
-          className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="px-6 py-2 border border-gray-300 cursor-pointer rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
           Cancel
         </button>
@@ -340,7 +340,7 @@ export default function AddClinicPage() {
           type="submit"
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="px-6 py-2 bg-[#225A7F] cursor-pointer text-white rounded-md hover:bg-[#225A7F] disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
           {isSubmitting ? (
             <>

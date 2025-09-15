@@ -8,10 +8,7 @@ import {
   CalendarOutlined,
   CreditCardOutlined,
   DashboardOutlined,
-  GiftOutlined,
-  MessageOutlined as MessageIcon,
   SettingOutlined,
-  TeamOutlined,
 } from "@ant-design/icons";
 import DashboardLayout from "@/components/dashboardLayout/DashboardLayout";
 
@@ -40,48 +37,34 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
     },
     {
       key: "3",
-      icon: <TeamOutlined />,
-      label: "Communications",
-      href: "/specillist/communications",
-    },
-    {
-      key: "4",
       icon: <CreditCardOutlined />,
-      label: "Voucher",
-      href: "/specillist/voucher",
-      children: [
-        {
-          key: "4-1",
-          label: (
-            <Link href="/specillist/voucher/create-voucher">
-              Create Voucher
-            </Link>
-          ),
-        },
-        {
-          key: "4-2",
-          label: (
-            <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
-          ),
-        },
-      ],
-    },
-  
-    {
-      key: "5",
-      icon: <MessageIcon />,
-      label: "Communications",
-      href: "/specillist/communications",
-    },
-    {
-      key: "6",
-      icon: <GiftOutlined />,
-      label: "Voucher",
-      href: "/specillist/voucher",
+      label: "Bonds",
+      href: "/specillist/bonds",
     },
 
-
-        {
+    // {
+    //   key: "4",
+    //   icon: <CreditCardOutlined />,
+    //   label: "Voucher",
+    //   href: "/specillist/voucher",
+    //   children: [
+    //     {
+    //       key: "4-1",
+    //       label: (
+    //         <Link href="/specillist/voucher/create-voucher">
+    //           Create Voucher
+    //         </Link>
+    //       ),
+    //     },
+    //     {
+    //       key: "4-2",
+    //       label: (
+    //         <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
+    //       ),
+    //     },
+    //   ],
+    // },
+    {
       key: "7",
       icon: <BarChartOutlined />,
       label: "Report",
@@ -132,7 +115,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
         },
       ],
     },
-
   ];
 
   return <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>;

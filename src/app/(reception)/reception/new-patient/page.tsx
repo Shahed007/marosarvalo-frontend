@@ -65,7 +65,7 @@ const { TextArea } = Input;
 //   [key: string]: string;
 // }
 
-const PatientRegistrationForm: React.FC = () => {
+const NewPatient: React.FC = () => {
   // const [form] = Form.useForm<PatientFormData>();
   // const [, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("patient-info");
@@ -571,7 +571,7 @@ const PatientRegistrationForm: React.FC = () => {
       ),
     },
   ];
- 
+
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
@@ -630,4 +630,4 @@ const PatientRegistrationForm: React.FC = () => {
   );
 };
 
-export default PatientRegistrationForm;
+export default NewPatient;

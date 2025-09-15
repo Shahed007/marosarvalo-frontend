@@ -1,12 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
-import { Card, Table, Button, Input, Space, Typography, Dropdown, Modal } from "antd";
+"use client";
+import {
+  Card,
+  Table,
+  Button,
+  Input,
+  Space,
+  Typography,
+  Dropdown,
+  Modal,
+} from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
 const { Title, Text } = Typography;
 
- const SettingsServicesPage = () => {
+const SettingsServicesPage = () => {
   // Mock data for services
   const serviceData = [
     {
@@ -171,46 +180,104 @@ const { Title, Text } = Typography;
       </Title>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Discipline</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.discipline}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.discipline}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Service Name</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.serviceName}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.serviceName}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Price</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.price}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.price}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Length & Time</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.lengthTime}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.lengthTime}
+        </Text>
       </div>
     </div>
   );
 
   return (
-    <Card
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
+      <Card
+   
       style={{
         borderRadius: "12px",
         border: "1px solid #E2E8F0",
@@ -218,7 +285,14 @@ const { Title, Text } = Typography;
       }}
     >
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "16px",
+        }}
+      >
         <div style={{ flex: 1, marginRight: "16px" }}>
           <Input
             placeholder="Search services..."
@@ -236,11 +310,10 @@ const { Title, Text } = Typography;
           />
         </div>
         <Button
+          className="bg-primary"
           type="primary"
           icon={<PlusOutlined />}
           style={{
-            backgroundColor: "#3B82F6",
-            borderColor: "#3B82F6",
             height: "36px",
             borderRadius: "6px",
             fontWeight: 500,
@@ -251,7 +324,15 @@ const { Title, Text } = Typography;
       </div>
 
       {/* Title */}
-      <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600, marginBottom: "16px" }}>
+      <Title
+        level={4}
+        style={{
+          margin: 0,
+          color: "#1E293B",
+          fontWeight: 600,
+          marginBottom: "16px",
+        }}
+      >
         All Services
       </Title>
 
@@ -264,7 +345,8 @@ const { Title, Text } = Typography;
           position: ["bottomRight"],
           total: filteredData.length,
           pageSize: 10,
-          showTotal: (total) => `Showing 1 to ${Math.min(10, total)} out of ${total} records`,
+          showTotal: (total) =>
+            `Showing 1 to ${Math.min(10, total)} out of ${total} records`,
           hideOnSinglePage: false,
           style: {
             backgroundColor: "#F8FAFC",
@@ -274,7 +356,13 @@ const { Title, Text } = Typography;
             textAlign: "center",
           },
           itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
+            return type === "prev" ? (
+              <span>‹</span>
+            ) : type === "next" ? (
+              <span>›</span>
+            ) : (
+              element
+            );
           },
         }}
         rowKey="key"
@@ -337,8 +425,8 @@ const { Title, Text } = Typography;
         {modalContent}
       </Modal>
     </Card>
+    </div>
   );
 };
-
 
 export default SettingsServicesPage;

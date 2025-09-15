@@ -30,7 +30,7 @@ const SettingIntegration = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-start space-y-8">
+    <div className="max-w-2xl mx-start space-y-8 p-4 md:p-6 lg:p-8 mb-8">
       {/* Generate Appointment Link/URL Section */}
       <Card>
         <Space direction="vertical" size="middle" style={{ width: "100%" }}>

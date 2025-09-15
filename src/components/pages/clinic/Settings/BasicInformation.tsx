@@ -6,7 +6,7 @@ const BasicInformation = () => {
   const [form] = Form.useForm();
 
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Card>
         {/* Basic Information Header */}
         <Title level={2} style={{ marginBottom: "24px" }}>

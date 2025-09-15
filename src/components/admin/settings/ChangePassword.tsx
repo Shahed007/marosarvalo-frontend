@@ -74,7 +74,7 @@ export default function ChangePassword() {
         <div className="pt-2">
           <button
             type="submit"
-            className="bg-[#225A7F] text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+            className="bg-[#225A7F] cursor-pointer text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
           >
             Update password
           </button>

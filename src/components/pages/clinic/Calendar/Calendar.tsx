@@ -22,6 +22,7 @@ import {
   CalendarOutlined,
   LeftOutlined,
   RightOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Link from "next/link";
@@ -29,6 +30,8 @@ import img1 from "@/assets/1.png";
 import img2 from "@/assets/2.png";
 import img3 from "@/assets/3.png";
 import Image, { StaticImageData } from "next/image";
+import Title from "antd/es/typography/Title";
+import { usePathname } from "next/navigation";
 
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -62,6 +65,7 @@ export default function Calendar() {
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const pathName = usePathname();
 
   const handleViewDetails = (id: string) => {
     console.log("View details for appointment", id);
@@ -79,7 +83,6 @@ export default function Calendar() {
         { id: "2", name: "Drg Jerald O'Hara", avatar: img2 },
         { id: "3", name: "Drg Putri Larasati", avatar: img3 },
       ]);
-
       // Added date field dynamically
       setAppointments([
         {
@@ -173,7 +176,7 @@ export default function Calendar() {
     }
   };
 
-  const getAppointmentForSpecialistAndTime = ( 
+  const getAppointmentForSpecialistAndTime = (
     specialistId: string,
     time: string
   ) =>
@@ -325,21 +328,28 @@ export default function Calendar() {
         <Spin size="large" />
       </div>
     );
+  const hiddenClass = pathName.startsWith("/specillist") ? "hidden" : "";
 
   return (
-    <Layout className="min-h-screen bg-white">
+    <Layout className="min-h-screen bg-white ">
       {/* 🔎 Search + Add */}
-      <div className="flex flex-wrap gap-2 justify-between items-center p-4 sm:p-6">
+      <div className="ms-6 ">
+        <Title level={2}>Calendar</Title>
+      </div>
+      <div className="flex flex-wrap gap-2 justify-between items-center p-4 md:p-6 lg:p-8 mb-8 sm:p-6">
         <Input
           placeholder="Search patient or type"
           allowClear
-          className="flex-1 max-w-full sm:max-w-xs"
+          size="large"
+          addonAfter={<SearchOutlined />}
+          className="w-full sm:w-auto sm:flex-1"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+
         <Link
           href={"/clinic/appointment/add-appointment"}
-          className="w-full sm:w-auto"
+          className={`w-full sm:w-auto ${hiddenClass}`}
         >
           <Button
             type="primary"

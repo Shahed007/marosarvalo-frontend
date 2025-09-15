@@ -125,7 +125,7 @@ const Communications = () => {
     },
   ];
   return (
-    <div className="mb-12">
+    <div className="mb-12 p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Communication</Title>
       <Tabs
         activeKey={activeTab}

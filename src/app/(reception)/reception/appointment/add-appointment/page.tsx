@@ -1,7 +1,9 @@
-import React from 'react'
+import AppointmentForm from "@/components/form/AppointmentForm";
 
 export default function page() {
   return (
-    <div>page</div>
+    <div>
+        <AppointmentForm/>
+    </div>
   )
 }
