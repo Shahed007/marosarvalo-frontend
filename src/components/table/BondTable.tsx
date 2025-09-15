@@ -24,6 +24,7 @@ import {
   EditFilled,
   PlusOutlined,
 } from "@ant-design/icons";
+import { usePathname } from "next/navigation";
 
 // ✅ TypeScript interface for data
 export interface Bond {
@@ -48,7 +49,9 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingBond] = useState<Bond | null>(null);
-
+  const pathName = usePathname();
+  const hiddenClass = pathName.startsWith("/specillist") ? "hidden" : "";
+  const hideUI = pathName.startsWith("/specillist");
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
 
@@ -188,22 +191,23 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
           </Tag>
         ),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Button
-          type="default"
-          icon={<EditFilled className="hover:text-[#225A7F]" />}
-          style={{
-            border: "1px solid #CCCCCC",
-            padding: "6px 10px",
-          }}
-          size="small"
-          onClick={() => handleEditClick(record)}
-        />
-      ),
-    },
+    ...(!hideUI
+      ? [
+          {
+            title: "Action",
+            key: "action",
+            render: (_: any, record: any) => (
+              <Button
+                type="default"
+                icon={<EditFilled className="hover:text-[#225A7F]" />}
+                style={{ border: "1px solid #CCCCCC", padding: "6px 10px" }}
+                size="small"
+                onClick={() => handleEditClick(record)}
+              />
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -212,25 +216,25 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       <div className="sm:!flex flex-row items-center justify-between mb-6">
         <div>
           <Input
-          placeholder="Search by name, discipline, or service"
-          suffix={<SearchOutlined className="cursor-pointer" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ borderRadius: "12px" }}
-          allowClear
-          className="!px-2 !py-2 !w-[320px] !sm:w-[700px]"
-        />
+            placeholder="Search by name, discipline, or service"
+            suffix={<SearchOutlined className="cursor-pointer" />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ borderRadius: "12px" }}
+            allowClear
+            className="!px-2 !py-2 !w-[320px] !sm:w-[700px]"
+          />
         </div>
-        <div>
+        <div className={`${hiddenClass}`}>
           <Button
-          type="primary"
-          style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5 !mt-2"
-          icon={<PlusOutlined />}
-          onClick={() => setDrawerVisible(true)}
-        >
-          New Bond
-        </Button>
+            type="primary"
+            style={{ borderRadius: "12px" }}
+            className="!px-7 !py-5 !mt-2"
+            icon={<PlusOutlined />}
+            onClick={() => setDrawerVisible(true)}
+          >
+            New Bond
+          </Button>
         </div>
       </div>
 

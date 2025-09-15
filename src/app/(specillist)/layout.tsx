@@ -36,27 +36,34 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
       href: "/specillist/appointment-list",
     },
     {
-      key: "4",
+      key: "3",
       icon: <CreditCardOutlined />,
-      label: "Voucher",
-      href: "/specillist/voucher",
-      children: [
-        {
-          key: "4-1",
-          label: (
-            <Link href="/specillist/voucher/create-voucher">
-              Create Voucher
-            </Link>
-          ),
-        },
-        {
-          key: "4-2",
-          label: (
-            <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
-          ),
-        },
-      ],
+      label: "Bonds",
+      href: "/specillist/bonds",
     },
+
+    // {
+    //   key: "4",
+    //   icon: <CreditCardOutlined />,
+    //   label: "Voucher",
+    //   href: "/specillist/voucher",
+    //   children: [
+    //     {
+    //       key: "4-1",
+    //       label: (
+    //         <Link href="/specillist/voucher/create-voucher">
+    //           Create Voucher
+    //         </Link>
+    //       ),
+    //     },
+    //     {
+    //       key: "4-2",
+    //       label: (
+    //         <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
+    //       ),
+    //     },
+    //   ],
+    // },
     {
       key: "7",
       icon: <BarChartOutlined />,

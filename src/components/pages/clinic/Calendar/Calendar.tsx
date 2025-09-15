@@ -31,6 +31,7 @@ import img2 from "@/assets/2.png";
 import img3 from "@/assets/3.png";
 import Image, { StaticImageData } from "next/image";
 import Title from "antd/es/typography/Title";
+import { usePathname } from "next/navigation";
 
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -64,6 +65,7 @@ export default function Calendar() {
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const pathName = usePathname();
 
   const handleViewDetails = (id: string) => {
     console.log("View details for appointment", id);
@@ -81,7 +83,6 @@ export default function Calendar() {
         { id: "2", name: "Drg Jerald O'Hara", avatar: img2 },
         { id: "3", name: "Drg Putri Larasati", avatar: img3 },
       ]);
-
       // Added date field dynamically
       setAppointments([
         {
@@ -327,6 +328,7 @@ export default function Calendar() {
         <Spin size="large" />
       </div>
     );
+  const hiddenClass = pathName.startsWith("/specillist") ? "hidden" : "";
 
   return (
     <Layout className="min-h-screen bg-white ">
@@ -344,9 +346,10 @@ export default function Calendar() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+
         <Link
           href={"/clinic/appointment/add-appointment"}
-          className="w-full sm:w-auto"
+          className={`w-full sm:w-auto ${hiddenClass}`}
         >
           <Button
             type="primary"

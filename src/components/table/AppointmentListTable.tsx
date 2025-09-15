@@ -25,6 +25,7 @@ const AppointmentListTable: FC<{
   data: AppointmentListProps[];
   loading?: boolean;
 }> = ({ data = [], loading = false }) => {
+
   const columns: ColumnProps<AppointmentListType>[] = [
     {
       title: "ID",
