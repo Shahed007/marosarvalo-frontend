@@ -8,7 +8,8 @@ import React from "react";
 import MobileNavbar from "./MobileNavbar";
 import { navItems } from "@/data/navbar";
 import { Button } from "antd";
-
+import Image from "next/image";
+import logo from "@/assets/logo.png"
 const hederStyle: React.CSSProperties = {
   position: "fixed",
   zIndex: 1,
@@ -26,7 +27,7 @@ const Navbar = () => {
       <div className="custom-container flex items-center justify-between">
         {/* Logo */}
         <Title level={3} className="!m-0 !text-primary">
-          Logo
+         <Image src={logo} width={150} height={50} alt="logo" />
         </Title>
 
         {/* Desktop Nav */}

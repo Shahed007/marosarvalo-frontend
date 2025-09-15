@@ -32,6 +32,7 @@ import img3 from "@/assets/3.png";
 import Image, { StaticImageData } from "next/image";
 import Title from "antd/es/typography/Title";
 import { usePathname } from "next/navigation";
+import CalanderDetailsDrawer from "@/components/drawer/CalanderDetailsDrawer";
 
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -56,6 +57,15 @@ interface Specialist {
 }
 
 export default function Calendar() {
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
+  const showDrawer = () => {
+    setDrawerVisible(true);
+  };
+
+  const onCloseDrawer = () => {
+    setDrawerVisible(false);
+  };
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
@@ -67,9 +77,7 @@ export default function Calendar() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const pathName = usePathname();
 
-  const handleViewDetails = (id: string) => {
-    console.log("View details for appointment", id);
-  };
+
 
   const handleCancelAppointment = (id: string) => {
     console.log("Cancel appointment", id);
@@ -277,10 +285,11 @@ export default function Calendar() {
                         <Menu>
                           <Menu.Item
                             key="view"
-                            onClick={() => handleViewDetails(apt.id)}
+                            onClick={showDrawer}
                           >
                             View Details
                           </Menu.Item>
+                           <CalanderDetailsDrawer visible={drawerVisible} onClose={onCloseDrawer} />
                           <Menu.Item
                             key="cancel"
                             onClick={() => handleCancelAppointment(apt.id)}

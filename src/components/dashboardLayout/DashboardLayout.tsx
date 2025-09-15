@@ -59,7 +59,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   };
 
   const handleLogout = () => {
-    console.log("User logged out");
+    router.push("/");
   };
 
   const isActiveParent = (item: MenuItem) => {
@@ -136,7 +136,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <nav className="flex-1 p-2 space-y-2 mt-4 overflow-y-auto max-h-[calc(100vh-200px)]">
             {menuItems?.map((item) => {
               const isActive = isActiveParent(item);
-
               const baseClasses = `
                 flex items-center gap-3 px-3 py-2 rounded-md transition relative 
                 ${
@@ -165,7 +164,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                         >
                           <span className="flex-shrink-0">{item?.icon}</span>
                           {(!collapsed || !screens.xl) && (
-                            <span className="text-sm">{item?.label}</span>
+                            <span className="text-sm hover:text-white">{item?.label}</span>
                           )}
                         </div>
                         {!collapsed && (
