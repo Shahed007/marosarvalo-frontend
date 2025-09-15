@@ -4,10 +4,36 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
 export default function Login() {
+  const router = useRouter();
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  const form = e.target as HTMLFormElement;
+  const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+  const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+  console.log(password)
+  switch (email) {
+    case "admin@gmail.com":
+      router.push("/admin");
+      break;
+    case "clinic@gmail.com":
+      router.push("/clinic");
+      break;
+    case "reception@gmail.com":
+      router.push("/reception");
+      break;
+    case "specillist@gmail.com":
+      router.push("/specillist");
+      break;
+    default:
+      alert("Invalid email");
+  }
+};
   return (
     <div
       style={{
@@ -56,7 +82,7 @@ export default function Login() {
             <Text type="secondary">Let&lsquo;s Login Your Account</Text>
           </div>
 
-          <div style={{ padding: "24px" }}>
+          <form onSubmit={handleLogin} style={{ padding: "24px" }}>
             <Space direction="vertical" size="middle" style={{ width: "100%" }}>
               <div>
                 <Text
@@ -70,6 +96,7 @@ export default function Login() {
                   Email/User Id
                 </Text>
                 <Input
+                  name="email"
                   prefix={<UserOutlined style={{ color: "#9ca3af" }} />}
                   placeholder="Enter your email or user ID"
                   style={{
@@ -92,6 +119,7 @@ export default function Login() {
                   Password
                 </Text>
                 <Input.Password
+                  name="password"
                   prefix={<LockOutlined style={{ color: "#9ca3af" }} />}
                   placeholder="Enter your password"
                   style={{
@@ -136,6 +164,7 @@ export default function Login() {
               <Button
                 type="primary"
                 size="large"
+                htmlType="submit"
                 style={{
                   width: "100%",
                   backgroundColor: "#225A7F",
@@ -147,7 +176,7 @@ export default function Login() {
                 Login Now
               </Button>
             </Space>
-          </div>
+          </form>
         </Card>
       </div>
     </div>
