@@ -34,7 +34,7 @@ const menuItems: MenuItem[] = [
   {
     key: "4",
     icon: <CiCirclePlus />,
-    label: "Bonds",
+    label: "Add Clinic",
     href: "/admin/add-clinic",
   },
   {

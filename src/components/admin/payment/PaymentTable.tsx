@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
 import { Card, Table, Button, Input, Space, Typography } from "antd";
 import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import Link from "next/link";
 
 const { Title, Text } = Typography;
 
 export const PaymentTable = () => {
-  // Mock data updated to match image
   const paymentData = [
     {
       key: "1",
@@ -37,33 +37,6 @@ export const PaymentTable = () => {
       amount: "$500",
       status: "Active",
     },
-    {
-      key: "4",
-      clinicName: "Cristofer Curtis",
-      transactionId: "DL12653ye765",
-      timeAndDate: "06/05/2025 & 11:30pm",
-      email: "name@email.com",
-      amount: "$500",
-      status: "Active",
-    },
-    {
-      key: "5",
-      clinicName: "Cristofer Curtis",
-      transactionId: "DL12653ye765",
-      timeAndDate: "06/05/2025 & 11:30pm",
-      email: "name@email.com",
-      amount: "$500",
-      status: "Active",
-    },
-    {
-      key: "6",
-      clinicName: "Cristofer Curtis",
-      transactionId: "DL12653ye765",
-      timeAndDate: "06/05/2025 & 11:30pm",
-      email: "name@email.com",
-      amount: "$500",
-      status: "Active",
-    },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -74,7 +47,6 @@ export const PaymentTable = () => {
     )
   );
 
-  // Status badge renderer
   const renderStatus = (status: string) => {
     let bgColor, textColor;
     switch (status) {
@@ -91,7 +63,15 @@ export const PaymentTable = () => {
         textColor = "#64748B";
     }
     return (
-      <Text style={{ backgroundColor: bgColor, color: textColor, padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>
+      <Text
+        style={{
+          backgroundColor: bgColor,
+          color: textColor,
+          padding: "4px 8px",
+          borderRadius: "4px",
+          fontSize: "12px",
+        }}
+      >
         {status}
       </Text>
     );
@@ -155,28 +135,51 @@ export const PaymentTable = () => {
         boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
       }}
     >
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}>
+      {/* Header + Button (Responsive) */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "12px",
+          marginBottom: "16px",
+        }}
+      >
+        <Title
+          level={4}
+          style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}
+        >
           Payment History
         </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          style={{
-            backgroundColor: "#225A7F",
-            borderColor: "",
-            height: "36px",
-            borderRadius: "6px",
-            fontWeight: 500,
-          }}
-        >
-          Add Clinic
-        </Button>
+        <Link href={"/admin/add-clinic"}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            style={{
+              backgroundColor: "#225A7F",
+              height: "36px",
+              borderRadius: "6px",
+              fontWeight: 500,
+              width: "100%",
+              maxWidth: "200px",
+            }}
+          >
+            Add Clinic
+          </Button>
+        </Link>
       </div>
 
-      {/* Search Bar */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
+      {/* Search Bar (Responsive) */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "flex-end",
+          gap: "12px",
+          marginBottom: "20px",
+        }}
+      >
         <Input
           placeholder="Search"
           prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
@@ -184,7 +187,9 @@ export const PaymentTable = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear
           style={{
-            width: "250px",
+            flex: "1",
+            minWidth: "200px",
+            maxWidth: "300px",
             borderRadius: "6px",
             border: "1px solid #CBD5E1",
             height: "38px",
@@ -192,69 +197,68 @@ export const PaymentTable = () => {
         />
       </div>
 
-      {/* Table */}
-      <Table
-        columns={columns}
-        dataSource={filteredData}
-        pagination={{
-          current: 1,
-          position: ["bottomRight"],
-          total: filteredData.length,
-          pageSize: 5,
-          showTotal: (total) => `Total ${total} payments`,
-          hideOnSinglePage: false,
-          style: {
-            backgroundColor: "#F8FAFC",
-            padding: "16px 0",
-            borderTop: "1px solid #E2E8F0",
-            margin: 0,
-            textAlign: "center",
-          },
-          itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
-          },
-        }}
-        rowKey="key"
-        scroll={{ x: "max-content" }}
-        components={{
-          header: {
-            cell: ({ children }) => (
-              <th
-                style={{
-                  backgroundColor: "#F1F4F6",
-                  color: "#4180AB",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #CBD5E1",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {children}
-              </th>
-            ),
-          },
-          body: {
-            cell: ({ children }) => (
-              <td
-                style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #E2E8F0",
-                  color: "#1E293B",
-                  fontSize: "14px",
-                }}
-              >
-                {children}
-              </td>
-            ),
-          },
-        }}
-        style={{
-          borderRadius: "8px",
-          overflow: "hidden",
-        }}
-      />
+      {/* Responsive Table Wrapper */}
+      <div style={{ overflowX: "auto" }}>
+        <Table
+          columns={columns}
+          dataSource={filteredData}
+          pagination={{
+            current: 1,
+            position: ["bottomRight"],
+            total: filteredData.length,
+            pageSize: 5,
+            showTotal: (total) => `Total ${total} payments`,
+            itemRender: (_, type, element) =>
+              type === "prev" ? (
+                <span>‹</span>
+              ) : type === "next" ? (
+                <span>›</span>
+              ) : (
+                element
+              ),
+          }}
+          rowKey="key"
+          scroll={{ x: "max-content" }}
+          components={{
+            header: {
+              cell: ({ children }) => (
+                <th
+                  style={{
+                    backgroundColor: "#F1F4F6",
+                    color: "#4180AB",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    padding: "12px 16px",
+                    borderBottom: "1px solid #CBD5E1",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px",
+                  }}
+                >
+                  {children}
+                </th>
+              ),
+            },
+            body: {
+              cell: ({ children }) => (
+                <td
+                  style={{
+                    padding: "12px 16px",
+                    borderBottom: "1px solid #E2E8F0",
+                    color: "#1E293B",
+                    fontSize: "14px",
+                  }}
+                >
+                  {children}
+                </td>
+              ),
+            },
+          }}
+          style={{
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        />
+      </div>
     </Card>
   );
 };
