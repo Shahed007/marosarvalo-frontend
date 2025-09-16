@@ -97,10 +97,10 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
       <Table
         className="[&_.ant-table-thead>tr>th]:bg-gray-50 [&_.ant-table-thead>tr>th]:text-gray-500 [&_.ant-table-thead>tr>th]:font-medium [&_.ant-table-thead>tr>th]:text-sm [&_.ant-table-thead>tr>th]:py-3"
         columns={columns}
-        dataSource={paginatedData} // <-- use paginated data here
+        dataSource={paginatedData}
         scroll={{ x: true }}
         rowKey="id"
-        pagination={false} // disable default AntD pagination
+        pagination={false} 
       />
 
       {/* Custom pagination */}

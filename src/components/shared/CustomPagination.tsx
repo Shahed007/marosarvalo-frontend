@@ -97,7 +97,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
               key={page}
               className={`px-3 py-1 rounded ${
                 page === currentPage
-                  ? "bg-blue-500 text-white"
+                  ? "bg-[#225a7f] text-white"
                   : "hover:bg-gray-200 text-gray-700"
               }`}
               onClick={() => onPageChange(page)}

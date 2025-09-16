@@ -77,8 +77,6 @@ export default function Calendar() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const pathName = usePathname();
 
-
-
   const handleCancelAppointment = (id: string) => {
     console.log("Cancel appointment", id);
   };
@@ -283,13 +281,13 @@ export default function Calendar() {
                     <Dropdown
                       overlay={
                         <Menu>
-                          <Menu.Item
-                            key="view"
-                            onClick={showDrawer}
-                          >
+                          <Menu.Item key="view" onClick={showDrawer}>
                             View Details
                           </Menu.Item>
-                           <CalanderDetailsDrawer visible={drawerVisible} onClose={onCloseDrawer} />
+                          <CalanderDetailsDrawer
+                            visible={drawerVisible}
+                            onClose={onCloseDrawer}
+                          />
                           <Menu.Item
                             key="cancel"
                             onClick={() => handleCancelAppointment(apt.id)}
@@ -361,6 +359,7 @@ export default function Calendar() {
           className={`w-full sm:w-auto ${hiddenClass}`}
         >
           <Button
+            size="large"
             type="primary"
             icon={<PlusOutlined />}
             className="w-full sm:w-auto mt-2 sm:mt-0"

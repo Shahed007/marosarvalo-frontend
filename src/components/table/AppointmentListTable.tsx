@@ -1,16 +1,7 @@
-import { Badge } from "antd";
-import Table, { ColumnProps } from "antd/es/table";
-import React, { FC } from "react";
-
-export interface AppointmentListType {
-  id: string;
-  time: string;
-  patientName: string;
-  specialist: string;
-  reason: string;
-  status: string;
-  action: string;
-}
+import { Table } from "antd";
+import type { ColumnProps } from "antd/es/table";
+import React, { FC, useState } from "react";
+import CustomPagination from "../shared/CustomPagination";
 
 export interface AppointmentListProps {
   id: string;
@@ -25,8 +16,7 @@ const AppointmentListTable: FC<{
   data: AppointmentListProps[];
   loading?: boolean;
 }> = ({ data = [], loading = false }) => {
-
-  const columns: ColumnProps<AppointmentListType>[] = [
+  const columns: ColumnProps<AppointmentListProps>[] = [
     {
       title: "ID",
       dataIndex: "id",
@@ -61,21 +51,36 @@ const AppointmentListTable: FC<{
       title: "Action",
       dataIndex: "action",
       key: "action",
-      render() {
-        return (
-          <div className="bg-[#F2F2F2] flex justify-center items-center px-2 py-2 rounded-md">
-            <Badge size="small">Available</Badge>
-          </div>
-        );
-      },
+      render: () => (
+        <div className="bg-[#F2F2F2] flex justify-center items-center px-2 py-2 rounded-md">
+          Available
+        </div>
+      ),
     },
   ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageChange = (page: number, size?: number) => {
+    setCurrentPage(page);
+    if (size) setPageSize(size);
+  };
+
+  // Slice the data based on currentPage and pageSize
+  const paginatedData = data.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div className="mt-10">
       <Table
         loading={loading}
         scroll={{ x: true }}
-        dataSource={data.map((item) => ({ ...item, action: "" }))}
+        dataSource={paginatedData}
+        rowKey="id"
+        pagination={false}
         style={{
           borderRadius: "12px",
           overflow: "hidden",
@@ -83,49 +88,16 @@ const AppointmentListTable: FC<{
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
         }}
-        components={{
-          header: {
-            cell: (props) => (
-              <th
-                {...props}
-                style={{
-                  backgroundColor: "#6B91A31A",
-                  padding: "16px",
-                  fontWeight: "600",
-                  color: "#334155",
-                  borderBottom: "2px solid #e2e8f0",
-                }}
-              />
-            ),
-          },
-          body: {
-            cell: (props) => (
-              <td
-                {...props}
-                style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #f1f5f9",
-                  color: "#475569",
-                }}
-              />
-            ),
-            row: (props) => (
-              <tr
-                {...props}
-                style={{
-                  transition: "background-color 0.2s ease",
-                  ":hover": {
-                    backgroundColor: "#f8fafc",
-                  },
-                }}
-              />
-            ),
-          },
-        }}
+        rowClassName={() => "hover:bg-gray-50 transition-colors"}
         columns={columns}
-        pagination={{
-          pageSize: 10,
-        }}
+      />
+
+      {/* Custom Pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
       />
     </div>
   );
