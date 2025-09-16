@@ -1,8 +1,10 @@
-import { Button, Dropdown, MenuProps, Tag } from "antd";
+import { Dropdown, MenuProps, Tag } from "antd";
 import Table, { ColumnGroupType } from "antd/es/table";
 import Title from "antd/es/typography/Title";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
+import CustomPagination from "../shared/CustomPagination";
+import CalanderDetailsDrawer from "../drawer/CalanderDetailsDrawer";
 
 export interface AppointmentTableTypes {
   id: string;
@@ -10,20 +12,37 @@ export interface AppointmentTableTypes {
   name: string;
   contact: string;
   specialist: string;
-  status: "Confirm" | "Cancel" | "Pending";
+  status: "Confirm" | "Canceled" | "Pending";
 }
 
 const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
-  const items: MenuProps["items"] = [
-    {
-      key: "1",
-      label: (
-        <div>
-          <Button>View Details</Button>
-        </div>
-      ),
-    },
-  ];
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<AppointmentTableTypes | null>(null);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const showDrawer = (apt: AppointmentTableTypes) => {
+    setSelectedAppointment(apt);
+    setDrawerVisible(true);
+  };
+
+  const onCloseDrawer = () => {
+    setDrawerVisible(false);
+    setSelectedAppointment(null);
+  };
+
+  const handleDeleteFromDrawer = (id?: string) => {
+    if (!id) return;
+    // implement your cancel logic here
+    console.log("Cancel appointment:", id);
+    onCloseDrawer();
+  };
+
   const columns: Array<
     | ColumnGroupType<AppointmentTableTypes>
     | import("antd/es/table").ColumnType<AppointmentTableTypes>
@@ -40,12 +59,9 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
     },
     {
       title: "Patients & Contact",
-      dataIndex: "name", // This only gives access to the name field
+      dataIndex: "name",
       key: "name",
-      render: (
-        name: string,
-        record: AppointmentTableTypes // Add record as second parameter
-      ) => (
+      render: (name: string, record: AppointmentTableTypes) => (
         <div>
           <p>{name}</p>
           <p>{record.contact}</p>
@@ -61,14 +77,30 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status: "Confirm" | "Canceled" | "Pending") => {
-        let color = "default";
-        if (status === "Confirm") color = "green";
-        if (status === "Canceled") color = "red";
-        if (status === "Pending") color = "orange";
+      render: (status: "Confirm" | "Canceled") => {
+        let backgroundColor = "#ccc"; 
+        let color = "#000"; 
+
+        if (status === "Confirm") {
+          backgroundColor = "#E6F7FE";
+          color = "#007A9C"; 
+        }
+        if (status === "Canceled") {
+          backgroundColor = "#FEF7F7";
+          color = "#F45B69"; 
+        }
 
         return (
-          <Tag color={color} className="capitalize">
+          <Tag
+            style={{
+              backgroundColor,
+              color,
+              padding: "4px 12px",
+              fontWeight: 500,
+              borderRadius: "8px",
+            }}
+            className="capitalize"
+          >
             {status}
           </Tag>
         );
@@ -78,15 +110,27 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
     {
       title: "Action",
       dataIndex: "action",
-      render: () => (
-        <div>
-          <Dropdown menu={{ items }}>
-            <CiMenuKebab />
+      render: (_, record) => {
+        const menuItems: MenuProps["items"] = [
+          {
+            key: "view",
+            label: <span onClick={() => showDrawer(record)}>View Details</span>,
+          },
+        ];
+        return (
+          <Dropdown menu={{ items: menuItems }} trigger={["click"]}>
+            <CiMenuKebab style={{ cursor: "pointer" }} />
           </Dropdown>
-        </div>
-      ),
+        );
+      },
     },
   ];
+
+  const paginatedData = data.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   return (
     <div>
       <Title level={3}>Appointments</Title>
@@ -125,22 +169,27 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
                 }}
               />
             ),
-            row: (props) => (
-              <tr
-                {...props}
-                style={{
-                  transition: "background-color 0.2s ease",
-                  ":hover": {
-                    backgroundColor: "#f8fafc",
-                  },
-                }}
-              />
-            ),
           },
         }}
-        dataSource={data}
+        dataSource={paginatedData}
         columns={columns}
-      ></Table>
+        pagination={false}
+        rowKey="id"
+      />
+
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
+
+      <CalanderDetailsDrawer
+        open={drawerVisible}
+        onClose={onCloseDrawer}
+        appointment={selectedAppointment}
+        onDelete={handleDeleteFromDrawer}
+      />
     </div>
   );
 };

@@ -35,6 +35,7 @@ interface PatientTableProps {
 }
 
 const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
+  const id = data?.map((i) => i.id);
   const [statusFilter, setStatusFilter] = useState<
     "All" | "Active" | "Inactive"
   >("All");
@@ -113,7 +114,11 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     {
       title: "Action",
       key: "action",
-      render: () => <Button type="text" icon={<EyeOutlined />} />,
+      render: () => (
+        <Link href={`/clinic/patient/${id}`}>
+          <Button type="text" icon={<EyeOutlined />} />
+        </Link>
+      ),
     },
   ];
 
@@ -129,7 +134,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     </Menu>
   );
   const pathName = usePathname();
-  let patientLink = "/clinic/patient/add-patient"; 
+  let patientLink = "/clinic/patient/add-patient";
   if (pathName.startsWith("/clinic")) {
     patientLink = "/clinic/patient/add-patient";
   } else if (pathName.startsWith("/reception")) {
@@ -137,7 +142,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   }
 
   return (
-    <div>
+    <div >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 w-full">
         {/* Search Input */}
         <Input

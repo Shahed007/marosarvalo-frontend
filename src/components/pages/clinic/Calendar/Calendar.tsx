@@ -33,6 +33,7 @@ import Image, { StaticImageData } from "next/image";
 import Title from "antd/es/typography/Title";
 import { usePathname } from "next/navigation";
 import CalanderDetailsDrawer from "@/components/drawer/CalanderDetailsDrawer";
+import CancelAppointmentDrawer from "@/components/drawer/CancelAppointmentDrawer";
 
 const { Header, Content } = Layout;
 const { Option } = Select;
@@ -58,28 +59,18 @@ interface Specialist {
 
 export default function Calendar() {
   const [drawerVisible, setDrawerVisible] = useState(false);
-
-  const showDrawer = () => {
-    setDrawerVisible(true);
-  };
-
-  const onCloseDrawer = () => {
-    setDrawerVisible(false);
-  };
+  const [drawerVisibleForCancel, setDrawerVisibleForCancel] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
   const [specialists, setSpecialists] = useState<Specialist[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [timeSlots, setTimeSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
   const [filterSpecialist, setFilterSpecialist] = useState<string>("all");
   const [filterView, setFilterView] = useState<string>("Today");
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [searchQuery, setSearchQuery] = useState<string>("");
   const pathName = usePathname();
-
-  const handleCancelAppointment = (id: string) => {
-    console.log("Cancel appointment", id);
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -89,7 +80,7 @@ export default function Calendar() {
         { id: "2", name: "Drg Jerald O'Hara", avatar: img2 },
         { id: "3", name: "Drg Putri Larasati", avatar: img3 },
       ]);
-      // Added date field dynamically
+
       setAppointments([
         {
           id: "1",
@@ -147,7 +138,6 @@ export default function Calendar() {
     }, 800);
   }, []);
 
-  // Dynamic filtered appointments (date + search + specialist)
   const filteredAppointments = useMemo(() => {
     return appointments.filter((apt) => {
       const matchesSpecialist =
@@ -156,7 +146,6 @@ export default function Calendar() {
         apt.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
         apt.type.toLowerCase().includes(searchQuery.toLowerCase());
 
-      // Filter by date
       let matchesDate = true;
       if (filterView === "Today")
         matchesDate = dayjs(apt.date).isSame(dayjs(), "day");
@@ -210,6 +199,40 @@ export default function Calendar() {
       filterView === "Week" ? prev.add(1, "week") : prev.add(1, "day")
     );
 
+  const showDrawer = (apt?: Appointment) => {
+    if (apt) setSelectedAppointment(apt);
+    setDrawerVisible(true);
+  };
+
+  const onCloseDrawer = () => {
+    setDrawerVisible(false);
+    setSelectedAppointment(null);
+  };
+
+  const handleDeleteFromDrawer = (id?: string) => {
+    if (!id) return;
+    handleCancelAppointment(id);
+    onCloseDrawer();
+  };
+
+  // ✅ Cancel Drawer Handlers
+  const showCancelDrawer = (apt: Appointment) => {
+    setSelectedAppointment(apt);
+    setDrawerVisibleForCancel(true);
+  };
+
+  const onCloseCancelDrawer = () => {
+    setDrawerVisibleForCancel(false);
+    setSelectedAppointment(null);
+  };
+
+  const handleCancelAppointment = (id: string, reason?: string) => {
+    console.log("Cancel appointment:", id, "Reason:", reason);
+    // Update state or call API
+    setAppointments((prev) => prev.filter((apt) => apt.id !== id));
+    onCloseCancelDrawer();
+  };
+
   const formattedDate =
     filterView === "Week"
       ? `${currentDate.startOf("week").format("DD MMM")} - ${currentDate
@@ -243,9 +266,7 @@ export default function Calendar() {
               <div>{spec.name}</div>
               <div className="text-xs text-gray-500 mt-1">
                 <span className="text-gray-400">Today‘s appointment: </span>
-                <span>
-                  {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
-                </span>
+                <span>{getTotalAppointmentsForSpecialist(spec.id)} patient(s)</span>
               </div>
             </div>
           </div>
@@ -281,17 +302,10 @@ export default function Calendar() {
                     <Dropdown
                       overlay={
                         <Menu>
-                          <Menu.Item key="view" onClick={showDrawer}>
+                          <Menu.Item key="view" onClick={() => showDrawer(apt)}>
                             View Details
                           </Menu.Item>
-                          <CalanderDetailsDrawer
-                            visible={drawerVisible}
-                            onClose={onCloseDrawer}
-                          />
-                          <Menu.Item
-                            key="cancel"
-                            onClick={() => handleCancelAppointment(apt.id)}
-                          >
+                          <Menu.Item key="cancel" onClick={() => showCancelDrawer(apt)}>
                             Cancel Appointment
                           </Menu.Item>
                         </Menu>
@@ -335,6 +349,7 @@ export default function Calendar() {
         <Spin size="large" />
       </div>
     );
+
   const hiddenClass = pathName.startsWith("/specillist") ? "hidden" : "";
 
   return (
@@ -371,20 +386,16 @@ export default function Calendar() {
 
       {/* 📅 Filters */}
       <Header className="bg-white p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
-        {/* Left: Total appointments */}
-
         <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
           <CalendarOutlined className="bg-gray-200 text-gray-600 p-2 rounded-md text-lg" />
           <div className="flex flex-col">
             <Text strong className="text-lg whitespace-nowrap leading-none">
-              {totalAppointments} <span>total appointments</span>
+              {totalAppointments} <span>Total Appointments</span>
             </Text>
           </div>
         </div>
 
-        {/* Center: View buttons + switch */}
         <div className="flex flex-wrap sm:flex-row items-center justify-center gap-2 w-full">
-          {/* Buttons + Date */}
           <div className="flex flex-wrap items-center justify-center gap-2 w-full sm:w-auto">
             <Button
               className="!ms-1"
@@ -408,18 +419,18 @@ export default function Calendar() {
             </Text>
           </div>
 
-          {/* Switch */}
           <div className="w-full sm:w-auto flex justify-center mt-2 sm:mt-0">
             <Switch
               checked={filterView === "Week"}
-              onChange={(checked) => handleViewChange(checked ? "Week" : "Day")}
+              onChange={(checked) =>
+                handleViewChange(checked ? "Week" : "Day")
+              }
               checkedChildren="Week"
               unCheckedChildren="Day"
             />
           </div>
         </div>
 
-        {/* Right: Specialist select */}
         <div className="w-full sm:w-auto flex justify-center sm:justify-end mt-2 sm:mt-0">
           <Select
             value={filterSpecialist}
@@ -452,6 +463,20 @@ export default function Calendar() {
           </Card>
         </div>
       </Content>
+
+      {/* ✅ Drawers */}
+      <CalanderDetailsDrawer
+        open={drawerVisible}
+        onClose={onCloseDrawer}
+        appointment={selectedAppointment}
+        onDelete={handleDeleteFromDrawer}
+      />
+      <CancelAppointmentDrawer
+        open={drawerVisibleForCancel}
+        onClose={onCloseCancelDrawer}
+        appointment={selectedAppointment}
+        onDelete={handleCancelAppointment}
+      />
     </Layout>
   );
 }

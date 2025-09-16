@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Tag } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import CustomPagination from "../shared/CustomPagination";
 
 // Define the data type for bonds
 export interface BondDataType {
@@ -21,13 +22,20 @@ interface BondsTableProps {
 }
 
 const BondsTable: React.FC<BondsTableProps> = ({ data, loading = false }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10; // set default page size
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   // Define table columns
   const columns: ColumnsType<BondDataType> = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      render: (id) => <span className="text-blue-600 font-medium">#{id}</span>,
+      render: (id) => <span className="text-black font-medium">#{id}</span>,
     },
     {
       title: "Name",
@@ -62,81 +70,98 @@ const BondsTable: React.FC<BondsTableProps> = ({ data, loading = false }) => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      align: "center",
-      render: (status) => (
-        <Tag
-          color={status === "Active" ? "green" : "red"}
-          className="px-2 py-1 rounded-full"
-        >
-          {status}
-        </Tag>
-      ),
+      render: (status: "Active" | "Inactive") => {
+        let backgroundColor = "#ccc";
+        let color = "#000";
+
+        if (status === "Active") {
+          backgroundColor = "#E6F7FE";
+          color = "#007A9C";
+        }
+        if (status === "Inactive") {
+          backgroundColor = "#FEF7F7";
+          color = "#F45B69";
+        }
+
+        return (
+          <Tag
+            style={{
+              backgroundColor,
+              color,
+              padding: "4px 12px",
+              fontWeight: 500,
+              borderRadius: "8px",
+            }}
+            className="capitalize"
+          >
+            {status}
+          </Tag>
+        );
+      },
+      width: 120,
     },
   ];
 
-  return (
-    <Table
-      scroll={{ x: true }}
-      style={{
-        borderRadius: "12px",
-        overflow: "hidden",
-        backgroundColor: "#ffffff",
-        border: "1px solid #e5e7eb",
-        fontFamily: "'Inter', sans-serif",
-      }}
-      components={{
-        header: {
-          cell: (props) => (
-            <th
-              {...props}
-              style={{
-                backgroundColor: "#6B91A31A",
-                padding: "16px",
-                fontWeight: "600",
-                color: "#334155",
-                borderBottom: "2px solid #e2e8f0",
-              }}
-            />
-          ),
-        },
-        body: {
-          cell: (props) => (
-            <td
-              {...props}
-              style={{
-                padding: "12px 16px",
-                borderBottom: "1px solid #f1f5f9",
-                color: "#475569",
-              }}
-            />
-          ),
-          row: (props) => (
-            <tr
-              {...props}
-              style={{
-                transition: "background-color 0.2s ease",
-                ":hover": {
-                  backgroundColor: "#f8fafc",
-                },
-              }}
-            />
-          ),
-        },
-      }}
-      columns={columns}
-      dataSource={data}
-      loading={loading}
-      pagination={{
-        position: ["bottomRight"],
-        showSizeChanger: false,
+  // Slice data for pagination
+  const paginatedData = data.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
-        pageSize: 10,
-        total: 60,
-        showTotal: (total, range) =>
-          `Showing ${range[0]}-${range[1]} of ${total} records`,
-      }}
-      className="custom-table"
-    />
+  return (
+    <div>
+      <Table
+        scroll={{ x: true }}
+        style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5e7eb",
+          fontFamily: "'Inter', sans-serif",
+        }}
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  backgroundColor: "#6B91A31A",
+                  padding: "16px",
+                  fontWeight: "600",
+                  color: "#334155",
+                  borderBottom: "2px solid #e2e8f0",
+                }}
+              />
+            ),
+          },
+          body: {
+            cell: (props) => (
+              <td
+                {...props}
+                style={{
+                  padding: "12px 16px",
+                  borderBottom: "1px solid #f1f5f9",
+                  color: "#475569",
+                }}
+              />
+            ),
+          },
+        }}
+        columns={columns}
+        dataSource={paginatedData}
+        loading={loading}
+        className="custom-table"
+        pagination={false} // disable default pagination
+      />
+
+      {/* Custom pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
+    </div>
   );
 };
 

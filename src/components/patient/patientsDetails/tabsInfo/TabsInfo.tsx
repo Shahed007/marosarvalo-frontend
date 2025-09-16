@@ -27,7 +27,7 @@ const TabsInfo = () => {
       name: "Shahed",
       contact: "123",
       specialist: "Shakil ur Rahman",
-      status: "Pending",
+      status: "Canceled",
     },
     {
       id: "#12347",
@@ -35,7 +35,7 @@ const TabsInfo = () => {
       name: "Karim",
       contact: "789",
       specialist: "Shakil ur Rahman",
-      status: "Cancel",
+      status: "Canceled",
     },
   ];
 

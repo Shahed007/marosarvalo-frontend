@@ -363,7 +363,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
 
       {/* New Bond Drawer (Modal from right side) */}
       <Drawer
-        title="New Bonds"
+        title={<div className="text-center text-[28px]">New Bonds</div>}
         placement="right"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
@@ -471,7 +471,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
 
       {/* Edit Bond Drawer (Modal from right side) */}
       <Drawer
-        title="Edit Bond"
+        title={<div className="text-center text-[28px]">Edit Bond</div>}
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);

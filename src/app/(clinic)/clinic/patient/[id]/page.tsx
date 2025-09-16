@@ -8,11 +8,10 @@ import Title from "antd/es/typography/Title";
 
 const PatientsDetails = () => {
   return (
-    <div>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={2}>Patient Info</Title>
       <div className="grid grid-cols-[22%_1fr] gap-6">
         <Profile />
-
         <div className="flex-1">
           <UserInfoCard />
         </div>
