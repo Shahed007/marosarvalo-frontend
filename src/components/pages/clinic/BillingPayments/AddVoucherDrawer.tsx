@@ -9,10 +9,15 @@ interface AddVoucherDrawerProps {
   form: any;
 }
 
-export default function AddVoucherDrawer({ visible, onClose, onSubmit, form }: AddVoucherDrawerProps) {
+export default function AddVoucherDrawer({
+  visible,
+  onClose,
+  onSubmit,
+  form,
+}: AddVoucherDrawerProps) {
   return (
     <Drawer
-      title="Sell Voucher"
+      title={<div className="text-center text-[28px]">Sell Voucher</div>}
       placement="right"
       onClose={onClose}
       open={visible}
@@ -33,7 +38,6 @@ export default function AddVoucherDrawer({ visible, onClose, onSubmit, form }: A
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
           }}
         >
           <Button

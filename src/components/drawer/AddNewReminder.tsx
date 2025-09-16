@@ -22,6 +22,21 @@ const AddNewReminder = () => {
         New Reminder
       </Button>
       <Drawer
+        footer={
+          <div className="flex items-center gap-6">
+            <Button block size="large" htmlType="submit" type="primary">
+              Submit
+            </Button>
+            <Button
+              onClick={() => setOpen(false)}
+              block
+              size="large"
+              htmlType="submit"
+            >
+              Not Now
+            </Button>
+          </div>
+        }
         closeIcon={null}
         open={open}
         onClose={() => setOpen(false)}
@@ -79,20 +94,6 @@ const AddNewReminder = () => {
           <Form.Item>
             <TextArea placeholder="Say something for client" />
           </Form.Item>
-
-          <div className="flex items-center gap-6">
-            <Button block size="large" htmlType="submit" type="primary">
-              Submit
-            </Button>
-            <Button
-              onClick={() => setOpen(false)}
-              block
-              size="large"
-              htmlType="submit"
-            >
-              Not Now
-            </Button>
-          </div>
         </Form>
       </Drawer>
     </div>

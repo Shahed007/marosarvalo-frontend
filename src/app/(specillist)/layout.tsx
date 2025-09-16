@@ -81,38 +81,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
             <Link href="/specillist/settings/personal-info">Personal Info</Link>
           ),
         },
-        {
-          key: "8-2",
-          label: (
-            <Link href="/specillist/settings/setting-service">
-              Setting Service
-            </Link>
-          ),
-        },
-        {
-          key: "8-3",
-          label: (
-            <Link href="/specillist/settings/setting-user-management">
-              User Management
-            </Link>
-          ),
-        },
-        {
-          key: "8-4",
-          label: (
-            <Link href="/specillist/settings/setting-working-hour">
-              Working Hour
-            </Link>
-          ),
-        },
-        {
-          key: "8-5",
-          label: (
-            <Link href="/specillist/settings/setting-unavailability">
-              Unavailability
-            </Link>
-          ),
-        },
       ],
     },
   ];

@@ -15,7 +15,7 @@ interface AddServiceDrawerProps {
 export default function AddServiceDrawer({ visible, onClose, onSubmit, form }: AddServiceDrawerProps) {
   return (
     <Drawer
-      title="Add Services"
+       title={<div className="text-center text-[28px]">Add Services</div>}
       placement="right"
       onClose={onClose}
       open={visible}
@@ -34,7 +34,6 @@ export default function AddServiceDrawer({ visible, onClose, onSubmit, form }: A
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
           }}
         >
           <Button
