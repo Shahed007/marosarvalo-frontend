@@ -74,7 +74,11 @@ const AppointmentForm: React.FC = () => {
   ];
 
   const handleSubmit = (values: any) => {
-    console.log("Form values:", { ...values, date: selectedDate, timeSlot: selectedTimeSlot });
+    console.log("Form values:", {
+      ...values,
+      date: selectedDate,
+      timeSlot: selectedTimeSlot,
+    });
   };
 
   const handleDateSelect = (date: any) => {
@@ -116,12 +120,18 @@ const AppointmentForm: React.FC = () => {
           size="large"
           placeholder="Search Patients"
           prefix={<SearchOutlined />}
-          className="flex-1 !min-w-[715px]"
+          className="w-full sm:w-[500px] md:w-[600px] lg:w-[715px] xl:w-[900px] 2xl:w-[1100px]"
         />
+
         <Button size="large" icon={<PlusOutlined />} className="min-w-[150px]">
           Add Patients
         </Button>
-        <Button size="large" type="primary" icon={<LinkOutlined />} className="min-w-[180px]">
+        <Button
+          size="large"
+          type="primary"
+          icon={<LinkOutlined />}
+          className="min-w-[180px]"
+        >
           Generate copy link
         </Button>
       </Space>
@@ -141,15 +151,24 @@ const AppointmentForm: React.FC = () => {
         <Row gutter={24}>
           <Col xs={24} lg={14}>
             {/* Patient Info */}
-            <Card title="Search Patients" style={{ marginBottom: "24px" }} headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}>
+            <Card
+              title="Search Patients"
+              style={{ marginBottom: "24px" }}
+              headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}
+            >
               <Row gutter={16}>
                 <Col xs={24} md={12}>
                   <Form.Item
                     name="patient"
                     label="Patient Name"
-                    rules={[{ required: true, message: "Please select a patient" }]}
+                    rules={[
+                      { required: true, message: "Please select a patient" },
+                    ]}
                   >
-                    <Select placeholder="Select patient" onChange={(value) => setSelectedPatient(value)}>
+                    <Select
+                      placeholder="Select patient"
+                      onChange={(value) => setSelectedPatient(value)}
+                    >
                       {patients.map((patient) => (
                         <Option key={patient.id} value={patient.id}>
                           {patient.name}
@@ -160,7 +179,11 @@ const AppointmentForm: React.FC = () => {
                 </Col>
                 <Col xs={24} md={12}>
                   <Form.Item label="Contact">
-                    <Input value={selectedPatientData?.contact || ""} readOnly className="bg-gray-50" />
+                    <Input
+                      value={selectedPatientData?.contact || ""}
+                      readOnly
+                      className="bg-gray-50"
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -189,11 +212,16 @@ const AppointmentForm: React.FC = () => {
                   <Form.Item
                     name="specialist"
                     label="Select Specialist"
-                    rules={[{ required: true, message: "Please select a specialist" }]}
+                    rules={[
+                      { required: true, message: "Please select a specialist" },
+                    ]}
                   >
                     <Select placeholder="Select specialist">
                       {specialists.map((specialist) => (
-                        <Select.Option key={specialist.id} value={specialist.id}>
+                        <Select.Option
+                          key={specialist.id}
+                          value={specialist.id}
+                        >
                           {specialist.name} ({specialist.discipline})
                         </Select.Option>
                       ))}
@@ -205,7 +233,9 @@ const AppointmentForm: React.FC = () => {
                   <Form.Item
                     name="status"
                     label="Status"
-                    rules={[{ required: true, message: "Please select a status" }]}
+                    rules={[
+                      { required: true, message: "Please select a status" },
+                    ]}
                   >
                     <Radio.Group>
                       <Radio value="scheduled">Scheduled</Radio>
@@ -218,7 +248,11 @@ const AppointmentForm: React.FC = () => {
             </Card>
 
             {/* Date & Time */}
-            <Card title="Select Date and Time" style={{ marginBottom: "24px" }} headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}>
+            <Card
+              title="Select Date and Time"
+              style={{ marginBottom: "24px" }}
+              headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}
+            >
               <Form.Item name="availability" label="Availability">
                 <Radio.Group>
                   <Radio value="available">Available</Radio>
@@ -226,18 +260,33 @@ const AppointmentForm: React.FC = () => {
                 </Radio.Group>
               </Form.Item>
 
-              <Row gutter={16} justify="center" align="middle" className="flex-wrap">
-                <Col xs={24} md={12} className="flex justify-center items-center mb-4 md:mb-0">
+              <Row
+                gutter={16}
+                justify="center"
+                align="middle"
+                className="flex-wrap"
+              >
+                <Col
+                  xs={24}
+                  md={12}
+                  className="flex justify-center items-center mb-4 md:mb-0"
+                >
                   <Form.Item
                     name="date"
                     label="Appointment Date"
-                    rules={[{ required: true, message: "Please select a date" }]}
+                    rules={[
+                      { required: true, message: "Please select a date" },
+                    ]}
                   >
                     <Calendar fullscreen={false} onSelect={handleDateSelect} />
                   </Form.Item>
                 </Col>
 
-                <Col xs={24} md={12} className="flex flex-col justify-center items-center">
+                <Col
+                  xs={24}
+                  md={12}
+                  className="flex flex-col justify-center items-center"
+                >
                   <div className="time-slots w-full max-w-xs flex flex-col gap-2">
                     {timeSlots.map((slot) => (
                       <Button
@@ -248,8 +297,9 @@ const AppointmentForm: React.FC = () => {
                           width: "100%",
                           textAlign: "center",
                           padding: "16px",
-                          backgroundColor: selectedTimeSlot === slot ? "#E6F7FF" : "#F2F2F2",
-                          color: "#225a7f"
+                          backgroundColor:
+                            selectedTimeSlot === slot ? "#E6F7FF" : "#F2F2F2",
+                          color: "#225a7f",
                         }}
                       >
                         {slot}
@@ -265,9 +315,20 @@ const AppointmentForm: React.FC = () => {
         {/* Documents */}
         <Row gutter={24}>
           <Col xs={24} md={12}>
-            <Card title="Documents (if available)" style={{ marginBottom: "24px" }} headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}>
+            <Card
+              title="Documents (if available)"
+              style={{ marginBottom: "24px" }}
+              headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}
+            >
               <Form.Item name="documents">
-                <Upload.Dragger {...uploadProps} style={{ background: "transparent", border: "2px dashed #d9d9d9", borderRadius: "8px" }}>
+                <Upload.Dragger
+                  {...uploadProps}
+                  style={{
+                    background: "transparent",
+                    border: "2px dashed #d9d9d9",
+                    borderRadius: "8px",
+                  }}
+                >
                   <p className="ant-upload-drag-icon">
                     <UploadOutlined />
                   </p>
@@ -281,9 +342,17 @@ const AppointmentForm: React.FC = () => {
         {/* Note */}
         <Row gutter={24}>
           <Col xs={24} md={12}>
-            <Card title="Note" style={{ marginBottom: "24px" }} headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}>
+            <Card
+              title="Note"
+              style={{ marginBottom: "24px" }}
+              headStyle={{ backgroundColor: "#fafafa", fontWeight: "bold" }}
+            >
               <Form.Item name="note">
-                <TextArea rows={4} placeholder="Write note here" style={{ border: "none", boxShadow: "none" }} />
+                <TextArea
+                  rows={4}
+                  placeholder="Write note here"
+                  style={{ border: "none", boxShadow: "none" }}
+                />
               </Form.Item>
             </Card>
           </Col>

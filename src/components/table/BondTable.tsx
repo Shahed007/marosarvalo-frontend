@@ -245,7 +245,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       <Table
         style={{
           borderRadius: "12px",
-          overflow: "hidden",
+          overflow: "auto",
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
         }}
@@ -377,24 +377,20 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             style={{
               textAlign: "right",
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
             }}
           >
             <Space className="flex justify-center items-center gap-4">
               <div>
                 <Button
                   type="primary"
-                  style={{ padding: "20px 70px" }}
+                  size="large"
                   onClick={() => form.submit()}
                 >
                   Add Bond
                 </Button>
               </div>
               <div>
-                <Button
-                  style={{ padding: "20px 70px" }}
-                  onClick={() => setDrawerVisible(false)}
-                >
+                <Button size="large" onClick={() => setDrawerVisible(false)}>
                   Not Now
                 </Button>
               </div>
@@ -488,13 +484,12 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             style={{
               textAlign: "right",
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
             }}
           >
             <Space className="flex justify-center items-center gap-4">
               <div>
                 <Button
-                  style={{ padding: "20px 70px" }}
+                  size="large"
                   type="primary"
                   onClick={() => editForm.submit()}
                 >
@@ -503,7 +498,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
               </div>
               <div>
                 <Button
-                  style={{ padding: "20px 70px" }}
+                  size="large"
                   onClick={() => {
                     setEditDrawerVisible(false);
                     setEditingBond(null);
@@ -582,6 +577,25 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
           </Form.Item>
         </Form>
       </Drawer>
+
+      <style jsx global>{`
+        /* Responsive Drawer width */
+        .ant-drawer-right .ant-drawer-content-wrapper {
+          width: 100% !important; /* Mobile: full width */
+        }
+
+        @media (min-width: 640px) {
+          .ant-drawer-right .ant-drawer-content-wrapper {
+            width: 400px !important; /* Small screens */
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .ant-drawer-right .ant-drawer-content-wrapper {
+            width: 500px !important; /* Large screens */
+          }
+        }
+      `}</style>
     </div>
   );
 };

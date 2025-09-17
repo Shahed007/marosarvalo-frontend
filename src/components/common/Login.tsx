@@ -1,7 +1,7 @@
 "use client";
 import { Button, Card, Input, Checkbox, Typography, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,29 +11,30 @@ const { Title, Text } = Typography;
 export default function Login() {
   const router = useRouter();
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.target as HTMLFormElement;
-  const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-  const password = (form.elements.namedItem("password") as HTMLInputElement).value;
-  console.log(password)
-  switch (email) {
-    case "admin@gmail.com":
-      router.push("/admin");
-      break;
-    case "clinic@gmail.com":
-      router.push("/clinic");
-      break;
-    case "reception@gmail.com":
-      router.push("/reception");
-      break;
-    case "specillist@gmail.com":
-      router.push("/specillist");
-      break;
-    default:
-      alert("Invalid email");
-  }
-};
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+    console.log(password);
+    switch (email) {
+      case "admin@gmail.com":
+        router.push("/admin");
+        break;
+      case "clinic@gmail.com":
+        router.push("/clinic");
+        break;
+      case "reception@gmail.com":
+        router.push("/reception");
+        break;
+      case "specillist@gmail.com":
+        router.push("/specillist");
+        break;
+      default:
+        alert("Invalid email");
+    }
+  };
   return (
     <div
       style={{
@@ -55,9 +56,9 @@ export default function Login() {
         }}
       >
         {/* Logo */}
-        <div style={{ marginBottom: "32px" }}>
+        <Link href={"/"} style={{ marginBottom: "32px" }}>
           <Image src={logo} width={175} height={40} alt="logo" />
-        </div>
+        </Link>
 
         {/* Login Card */}
         <Card

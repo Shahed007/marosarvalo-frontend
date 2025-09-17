@@ -98,7 +98,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         <div
           className={`
-            fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-gray-700
+            fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-white
             transform transition-all duration-300 ease-in-out
             ${collapsed ? "w-20" : "w-64"}
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -137,7 +137,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             {menuItems?.map((item) => {
               const isActive = isActiveParent(item);
               const baseClasses = `
-                flex items-center gap-3 px-3 py-2 rounded-md transition relative 
+                flex items-center gap-3 px-3 py-2 rounded-md transition relative text-black
                 ${
                   isActive
                     ? "bg-[#225A7F] text-white border-l-4 border-[#225A7F]"
@@ -164,7 +164,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                         >
                           <span className="flex-shrink-0">{item?.icon}</span>
                           {(!collapsed || !screens.xl) && (
-                            <span className="text-sm hover:text-white">{item?.label}</span>
+                            <span className="text-sm hover:text-white">
+                              {item?.label}
+                            </span>
                           )}
                         </div>
                         {!collapsed && (
@@ -222,7 +224,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     <div className={baseClasses}>
                       <span className="flex-shrink-0">{item.icon}</span>
                       {(!collapsed || !screens.xl) && (
-                        <span className="text-sm">{item.label}</span>
+                        <span className="text-sm b">{item.label}</span>
                       )}
                     </div>
                   )}
@@ -246,8 +248,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               {/* Show name + role only when expanded */}
               {!collapsed && (
                 <div>
-                  <h1 className="flex items-center gap-1 text-sm font-medium">
-                    Jhon Son <IoCheckmarkCircle className="text-[#225A7F]" />
+                  <h1 className="flex items-center gap-1 text-sm font-medium text-black">
+                    <span className="text-black">Jhon Son</span> <IoCheckmarkCircle className="text-[#225A7F]" />
                   </h1>
                   <p className="text-xs text-gray-500">Admin</p>
                 </div>

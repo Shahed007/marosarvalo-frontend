@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { Button, Input, Typography, Space, Card } from "antd";
 import type { InputRef } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

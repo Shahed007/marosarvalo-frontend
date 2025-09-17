@@ -29,7 +29,7 @@ import {
 } from "@ant-design/icons";
 import { AllStaffs } from "@/types/global";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FiEdit2 } from "react-icons/fi";
 import EditStaffDrawer from "./EditStaffDrawer"; // Import the component
 
@@ -109,7 +109,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
     });
     setEditStaffDrawer(false);
   };
-
+  const pathName = usePathname();
   // Handle view details
   const handleViewDetails = (record: AllStaffs) => {
     const staffId = record.id;
@@ -117,7 +117,12 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
       console.error("No ID found for record:", record);
       return;
     }
-    router.push(`/clinic/single-staff/${staffId}`);
+    if (pathName.startsWith("/clinic")) {
+      router.push(`/clinic/single-staff/${staffId}`);
+    } else if (pathName.startsWith("/reception")) {
+      router.push(`/reception/single-staff/${staffId}`);
+    }
+    // router.push(`/clinic/single-staff/${staffId}`);
   };
 
   // Handle remove staff
@@ -370,7 +375,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
       </Row>
 
       {/* New Staff Drawer */}
-     <Drawer
+      <Drawer
         title={
           <div className="text-2xl font-semibold text-center">Add Staff</div>
         }

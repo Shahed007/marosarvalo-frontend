@@ -193,7 +193,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       <Table
         style={{
           borderRadius: "12px",
-          overflow: "hidden",
+          overflow: "auto",
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
