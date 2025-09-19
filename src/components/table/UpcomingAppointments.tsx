@@ -79,41 +79,39 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
   ];
 
   return (
-    <Card
-      className="rounded-2xl !mt-6"
-      title={
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Title
-              level={3}
-              className="!mb-0 !text-gray-700 !font-semibold flex items-center gap-3"
-            >
-              <Image src={upcomingAppointIcon} alt="upcoming icon" /> Upcoming
-              Appointments
-            </Title>
-          </div>
-          {onViewAll && (
-            <Button type="link" onClick={onViewAll}>
-              View All
-            </Button>
-          )}
-        </div>
-      }
+<div className="mt-6">
+  {/* Custom header */}
+  <div className="flex items-center gap-2 mb-2">
+    <Title
+      level={3}
+      className="!mb-3 !mt-4 !text-gray-700 !font-semibold flex items-center gap-3"
     >
-      <Table
-        className="[&_.ant-table-thead>tr>th]:bg-gray-50 [&_.ant-table-thead>tr>th]:text-gray-500 [&_.ant-table-thead>tr>th]:font-medium [&_.ant-table-thead>tr>th]:text-sm [&_.ant-table-thead>tr>th]:py-3"
-        columns={columns}
-        dataSource={data}
-        scroll={{ x: true }}
-        pagination={{
-          pageSize: 10,
-          showSizeChanger: true,
-          showTotal: (total, range) =>
-            `Showing ${range[0]} to ${range[1]} out of ${total} records`,
-        }}
-        rowKey="id"
-      />
-    </Card>
+      <Image src={upcomingAppointIcon} alt="upcoming icon" /> Upcoming Appointments
+    </Title>
+  </div>
+
+  {/* Table */}
+  <Table
+    bordered={false}
+    className="[&_.ant-table-thead>tr>th]:bg-[#F1F4F6]! 
+               [&_.ant-table-thead>tr>th]:text-[#4180AB]! 
+               [&_.ant-table-thead>tr>th]:font-medium 
+               [&_.ant-table-thead>tr>th]:text-sm 
+               [&_.ant-table-thead>tr>th]:py-3"
+    columns={columns}
+    dataSource={data}
+    scroll={{ x: true }}
+    pagination={{
+      pageSize: 10,
+      showSizeChanger: true,
+      showTotal: (total, range) =>
+        `Showing ${range[0]} to ${range[1]} out of ${total} records`,
+    }}
+    rowKey="id"
+  />
+</div>
+
+
   );
 };
 

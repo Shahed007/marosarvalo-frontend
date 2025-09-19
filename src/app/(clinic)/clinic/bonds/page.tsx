@@ -33,7 +33,10 @@ const bondsData: Bond[] = [
 export default function ParentPage() {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <BondTable data={bondsData} />
+      <h1 className="text-3xl font-semibold mb-4">Bonds</h1>
+      <div>
+        <BondTable data={bondsData} />
+      </div>
     </div>
   );
 }

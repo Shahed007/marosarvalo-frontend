@@ -258,7 +258,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
                   backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: 600,
-                  color: "#334155",
+                  color: "#4180AB",
                 }}
               />
             ),
