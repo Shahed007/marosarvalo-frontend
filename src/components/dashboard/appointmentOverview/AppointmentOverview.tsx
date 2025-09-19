@@ -90,7 +90,7 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
     <Card
     className="!shadow-sm"
       title={
-        <Title level={3} className="!text-primary !font-semibold">
+        <Title style={{  margin: '0 auto' }} level={3} className="!text-primary !font-semibold !justify-center !items-center">
           {title}
         </Title>
       }
