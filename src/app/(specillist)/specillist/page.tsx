@@ -82,9 +82,10 @@ const SpecillistDashboard = () => {
       <div>
         <ServicesByTypeClinic />
       </div>
-      <div>
-        <UpcomingAppointments data={appointments} />
-      </div>
+<div className="!border-0">
+  <UpcomingAppointments data={appointments} />
+</div>
+
     </div>
   );
 };
