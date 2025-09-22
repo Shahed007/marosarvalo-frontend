@@ -25,7 +25,6 @@ const AppointmentListTable: FC<{
   data: AppointmentListProps[];
   loading?: boolean;
 }> = ({ data = [], loading = false }) => {
-
   const columns: ColumnProps<AppointmentListType>[] = [
     {
       title: "ID",
@@ -70,6 +69,7 @@ const AppointmentListTable: FC<{
       },
     },
   ];
+
   return (
     <div className="mt-10">
       <Table
@@ -92,7 +92,7 @@ const AppointmentListTable: FC<{
                   backgroundColor: "#6B91A31A",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />
@@ -114,9 +114,6 @@ const AppointmentListTable: FC<{
                 {...props}
                 style={{
                   transition: "background-color 0.2s ease",
-                  ":hover": {
-                    backgroundColor: "#f8fafc",
-                  },
                 }}
               />
             ),
@@ -126,6 +123,9 @@ const AppointmentListTable: FC<{
         pagination={{
           pageSize: 10,
         }}
+        // locale={{
+        //   emptyText: "No data",
+        // }}
       />
     </div>
   );

@@ -258,20 +258,51 @@ export default function PatientCommunication() {
     </div>
   );
 
-  const HistoryTab = () => (
+ const HistoryTab = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // 🔍 Filter data based on search term
+  const filteredData = mockData.filter((record) =>
+    Object.values(record).some((value) =>
+      String(value).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
+  // Pagination logic
+  const total = filteredData.length;
+  // const totalPages = Math.ceil(total / pageSize);
+  const currentData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  return (
     <div style={{ padding: "20px" }}>
+      {/* Search Bar */}
       <Input
-        placeholder="Search by name"
+        placeholder="Search by name, subject, or status"
         prefix={<SearchOutlined />}
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // Reset to first page on search
+        }}
         style={{ marginBottom: 20, maxWidth: "100%", width: 300 }}
+        allowClear
       />
+
+      {/* Table */}
       <Table
         columns={columns}
-        dataSource={mockData}
+        dataSource={currentData}
         pagination={false}
         scroll={{ x: true }}
         style={{ marginBottom: 20 }}
       />
+
+      {/* Pagination Controls */}
       <div
         style={{
           display: "flex",
@@ -282,10 +313,18 @@ export default function PatientCommunication() {
           width: "100%",
         }}
       >
-        {/* Left Side */}
+        {/* Left Side: Page Size Selector */}
         <Space wrap>
-          <Text>Showing</Text>
-          <Select defaultValue={10} style={{ width: 80 }}>
+          <Text>Show</Text>
+          <Select
+            value={pageSize}
+            onChange={(value) => {
+              setPageSize(value);
+              setCurrentPage(1); // Reset to page 1 when changing size
+            }}
+            style={{ width: 80 }}
+          >
+            <Option value={5}>5</Option>
             <Option value={10}>10</Option>
             <Option value={25}>25</Option>
             <Option value={50}>50</Option>
@@ -293,21 +332,25 @@ export default function PatientCommunication() {
           <Text>entries</Text>
         </Space>
 
-        {/* Right Side */}
+        {/* Right Side: Info + Pagination */}
         <Space wrap style={{ marginLeft: screens.xs ? 0 : "auto" }}>
-          <Text>Showing 1 to 10 out of 60 records</Text>
+          <Text>
+            Showing {(currentPage - 1) * pageSize + 1} to{" "}
+            {Math.min(currentPage * pageSize, total)} of {total} records
+          </Text>
           <Pagination
-            current={1}
-            total={60}
-            pageSize={10}
+            current={currentPage}
+            total={total}
+            pageSize={pageSize}
+            onChange={(page) => setCurrentPage(page)}
             showSizeChanger={false}
             size={screens.xs ? "small" : "default"}
-            responsive
           />
         </Space>
       </div>
     </div>
   );
+};
 
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">

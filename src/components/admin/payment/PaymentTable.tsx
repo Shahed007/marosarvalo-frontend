@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { Card, Table, Button, Input, Space, Typography } from "antd";
+import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
 import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
 const { Title, Text } = Typography;
+const { Option } = Select;
 
 export const PaymentTable = () => {
   // Mock data updated to match image
@@ -66,8 +67,11 @@ export const PaymentTable = () => {
     },
   ];
 
+  // States
   const [searchTerm, setSearchTerm] = useState("");
+  const [timeFilter, setTimeFilter] = useState("monthly"); // e.g., "monthly", "weekly", "daily"
 
+  // Filter by search and time (mock logic)
   const filteredData = paymentData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
@@ -175,11 +179,11 @@ export const PaymentTable = () => {
         </Button>
       </div>
 
-      {/* Search Bar */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
+      {/* Search + Time Filter */}
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
         <Input
           placeholder="Search"
-          prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
+         suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear
@@ -190,6 +194,17 @@ export const PaymentTable = () => {
             height: "38px",
           }}
         />
+        <Select
+          value={timeFilter}
+          onChange={(value) => setTimeFilter(value)}
+          style={{ width: 120, height: 38 ,borderRadius: "0px"}}
+          className="border-0!"
+          size="middle"
+        >
+          <Option value="monthly">Monthly</Option>
+          <Option value="weekly">Weekly</Option>
+          <Option value="daily">Daily</Option>
+        </Select>
       </div>
 
       {/* Table */}
@@ -258,3 +273,5 @@ export const PaymentTable = () => {
     </Card>
   );
 };
+
+export default PaymentTable;
