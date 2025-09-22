@@ -52,7 +52,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   // Close sidebar on route change (mobile)
   useEffect(() => {
     if (sidebarOpen) setSidebarOpen(false);
-  }, [pathname]);
+  }, [pathname,sidebarOpen]);
 
   const toggleDropdown = (key: string) => {
     setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -137,15 +137,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             {menuItems?.map((item) => {
               const isActive = isActiveParent(item);
 
-              const baseClasses = `
-                flex items-center gap-3 px-3 py-2 rounded-md transition relative 
-                ${
-                  isActive
-                    ? "bg-[#225A7F] text-white border-l-4 border-[#225A7F]"
-                    : "text-gray-700 hover:bg-[#225A7F] hover:text-white"
-                }
-                ${collapsed ? "justify-center" : "justify-between"}
-              `;
+       const baseClasses = `
+  flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200
+  ${isActive 
+    ? "bg-white text-[#225A7F] font-bold border-l-3 border-[#225A7F] shadow-sm" 
+    : "text-gray-700 hover:bg-gray-100"
+  }
+  ${collapsed ? "justify-center" : "justify-between"}
+`;
 
               return (
                 <div key={item?.key} className="relative">
