@@ -284,7 +284,7 @@ export const ClickingListTable = () => {
       <div style={{ marginBottom: "20px" }}>
         <Input
           placeholder="Search by name/email/number"
-          prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
+          suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear

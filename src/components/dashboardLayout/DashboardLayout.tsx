@@ -275,7 +275,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={() => setCollapsed(!collapsed)}
             className="
               absolute top-24 -right-3 transform -translate-y-1/2
-              w-6 h-6 flex items-center justify-center
+              w-6 h-6  items-center justify-center
               rounded-full bg-white border border-gray-200 shadow-sm
               lg:flex hidden z-10
               hover:bg-gray-50 transition-colors

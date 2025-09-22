@@ -207,7 +207,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
                   backgroundColor: "#6B91A31A",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />
