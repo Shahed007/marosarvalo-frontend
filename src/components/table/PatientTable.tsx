@@ -113,6 +113,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     },
     {
       title: "Action",
+      
       key: "action",
       render: () => (
         <Link href={`/clinic/patient/${id}`}>

@@ -199,6 +199,7 @@ export const BookingTable = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear
+  
           style={{
             flex: 1,
             minWidth: "220px",
