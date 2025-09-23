@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -35,7 +36,7 @@ interface PatientTableProps {
 }
 
 const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
-  const id = data?.map((i) => i.id);
+  // const id = data?.map((i) => i.id);
   const [statusFilter, setStatusFilter] = useState<
     "All" | "Active" | "Inactive"
   >("All");
@@ -112,15 +113,15 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         ),
     },
     {
-      title: "Action",
-      
-      key: "action",
-      render: () => (
-        <Link href={`/clinic/patient/${id}`}>
-          <Button type="text" icon={<EyeOutlined />} />
-        </Link>
-      ),
-    },
+  title: "Action",
+  key: "action",
+  render: (_: any, record: Patient) => (
+    <Link href={`/clinic/patient/${record.id}`}>
+      <Button type="text" icon={<EyeOutlined />} />
+    </Link>
+  ),
+},
+
   ];
 
   // ✅ Status Filter Menu
