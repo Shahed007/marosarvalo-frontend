@@ -3,6 +3,7 @@
 import { RevenueChartCard } from "./ReveniewCard";
 import { ClinicTableCard } from "./ClinicTable";
 import { MetricCardsRow } from "./MetricCard";
+import AdminOverview from "./adminOverview";
 
 // Shared mini chart data
 
@@ -15,7 +16,7 @@ export default function AdminDashboard() {
       {/* Metric Cards */}
       <MetricCardsRow />
       {/* Revenue Chart */}
-      <RevenueChartCard />
+      <AdminOverview />
       {/* Clinic List */}
       <ClinicTableCard />
     </div>

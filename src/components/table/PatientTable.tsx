@@ -112,6 +112,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     },
     {
       title: "Action",
+      
       key: "action",
       render: () => <Button type="text" icon={<EyeOutlined />} />,
     },

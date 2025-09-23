@@ -4,6 +4,7 @@
 import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
 import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -67,16 +68,23 @@ export const PaymentTable = () => {
     },
   ];
 
+  const router = useRouter();
+
   // States
   const [searchTerm, setSearchTerm] = useState("");
   const [timeFilter, setTimeFilter] = useState("monthly"); // e.g., "monthly", "weekly", "daily"
 
-  // Filter by search and time (mock logic)
+  // Filter by search term
   const filteredData = paymentData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+
+  // View handler
+  const handleView = (id: string) => {
+    router.push(`payment/${id}`);
+  };
 
   // Status badge renderer
   const renderStatus = (status: string) => {
@@ -95,7 +103,16 @@ export const PaymentTable = () => {
         textColor = "#64748B";
     }
     return (
-      <Text style={{ backgroundColor: bgColor, color: textColor, padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>
+      <Text
+        style={{
+          backgroundColor: bgColor,
+          color: textColor,
+          padding: "4px 8px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          fontWeight: 500,
+        }}
+      >
         {status}
       </Text>
     );
@@ -140,11 +157,13 @@ export const PaymentTable = () => {
       title: "Action",
       key: "action",
       render: (_: string, record: any) => (
-        <Space>
+        <Space size="small">
           <Button
             type="text"
             icon={<UserOutlined />}
-            onClick={() => alert(`View user: ${record.clinicName}`)}
+            onClick={() => handleView(record.key)} // Use record.key since id doesn't exist
+            className="text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+            style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           />
         </Space>
       ),
@@ -167,9 +186,10 @@ export const PaymentTable = () => {
         <Button
           type="primary"
           icon={<PlusOutlined />}
+          onClick={() => router.push('/clinics/new')} // optional: link to add clinic
           style={{
             backgroundColor: "#225A7F",
-            borderColor: "",
+            borderColor: "#225A7F",
             height: "36px",
             borderRadius: "6px",
             fontWeight: 500,
@@ -180,30 +200,31 @@ export const PaymentTable = () => {
       </div>
 
       {/* Search + Time Filter */}
-      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginBottom: "20px" }}>
         <Input
-          placeholder="Search"
-         suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
+          placeholder="Search payments..."
+          suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear
           style={{
-            width: "250px",
+            width: 250,
             borderRadius: "6px",
             border: "1px solid #CBD5E1",
             height: "38px",
           }}
+          className="hover:border-blue-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
         />
         <Select
           value={timeFilter}
           onChange={(value) => setTimeFilter(value)}
-          style={{ width: 120, height: 38 ,borderRadius: "0px"}}
-          className="border-0!"
+          style={{ width: 120, height: 38 }}
           size="middle"
+          bordered={false} // removes extra border if needed
         >
-          <Option value="monthly">Monthly</Option>
-          <Option value="weekly">Weekly</Option>
           <Option value="daily">Daily</Option>
+          <Option value="weekly">Weekly</Option>
+          <Option value="monthly">Monthly</Option>
         </Select>
       </div>
 
@@ -213,20 +234,19 @@ export const PaymentTable = () => {
         dataSource={filteredData}
         pagination={{
           current: 1,
-          position: ["bottomRight"],
           total: filteredData.length,
           pageSize: 5,
           showTotal: (total) => `Total ${total} payments`,
           hideOnSinglePage: false,
-          style: {
-            backgroundColor: "#F8FAFC",
-            padding: "16px 0",
-            borderTop: "1px solid #E2E8F0",
-            margin: 0,
-            textAlign: "center",
-          },
-          itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
+          position: ['bottomRight'],
+          itemRender: (_, type, originalElement) => {
+            if (type === 'prev') {
+              return <span className="font-bold text-gray-700">‹</span>;
+            }
+            if (type === 'next') {
+              return <span className="font-bold text-gray-700">›</span>;
+            }
+            return originalElement;
           },
         }}
         rowKey="key"
@@ -236,14 +256,14 @@ export const PaymentTable = () => {
             cell: ({ children }) => (
               <th
                 style={{
-                  backgroundColor: "#F1F4F6",
-                  color: "#4180AB",
+                  backgroundColor: '#F1F4F6',
+                  color: '#4180AB',
                   fontWeight: 700,
-                  fontSize: "14px",
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #CBD5E1",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
+                  fontSize: '14px',
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #CBD5E1',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
                 }}
               >
                 {children}
@@ -254,10 +274,10 @@ export const PaymentTable = () => {
             cell: ({ children }) => (
               <td
                 style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #E2E8F0",
-                  color: "#1E293B",
-                  fontSize: "14px",
+                  padding: '12px 16px',
+                  borderBottom: '1px solid #E2E8F0',
+                  color: '#1E293B',
+                  fontSize: '14px',
                 }}
               >
                 {children}
@@ -266,8 +286,8 @@ export const PaymentTable = () => {
           },
         }}
         style={{
-          borderRadius: "8px",
-          overflow: "hidden",
+          borderRadius: '8px',
+          overflow: 'hidden',
         }}
       />
     </Card>

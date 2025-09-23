@@ -27,7 +27,9 @@ export const RevenueChartCard = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-8 pb-4 space-y-4 sm:space-y-0">
           <div>
             <h3 className="text-sm font-medium text-gray-500">Total Revenue</h3>
-            <div className="text-4xl font-extrabold text-gray-900 mt-1">$532</div>
+            <div className="text-4xl font-extrabold text-gray-900 mt-1">
+              $532
+            </div>
           </div>
 
           {/* Dropdown */}
@@ -61,7 +63,9 @@ export const RevenueChartCard = () => {
 
         {/* Chart */}
         <div className="p-8 pt-0">
-          <div className="h-64 w-full"> {/* Taller chart */}
+          <div className="h-64 w-full">
+            {" "}
+            {/* Taller chart */}
             <div className="relative h-full">
               {/* Y-axis labels & grid */}
               <div className="absolute inset-y-0 left-0 flex flex-col justify-between pr-3">

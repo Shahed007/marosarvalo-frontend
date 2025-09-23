@@ -247,6 +247,7 @@ export const BookingTable = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           allowClear
+  
           style={{
             width: "100%",
             maxWidth: "500px",
