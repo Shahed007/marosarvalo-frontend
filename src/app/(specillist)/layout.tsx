@@ -36,27 +36,34 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
       href: "/specillist/appointment-list",
     },
     {
-      key: "4",
+      key: "3",
       icon: <CreditCardOutlined />,
-      label: "Voucher",
-      href: "/specillist/voucher",
-      children: [
-        {
-          key: "4-1",
-          label: (
-            <Link href="/specillist/voucher/create-voucher">
-              Create Voucher
-            </Link>
-          ),
-        },
-        {
-          key: "4-2",
-          label: (
-            <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
-          ),
-        },
-      ],
+      label: "Bonds",
+      href: "/specillist/bonds",
     },
+
+    // {
+    //   key: "4",
+    //   icon: <CreditCardOutlined />,
+    //   label: "Voucher",
+    //   href: "/specillist/voucher",
+    //   children: [
+    //     {
+    //       key: "4-1",
+    //       label: (
+    //         <Link href="/specillist/voucher/create-voucher">
+    //           Create Voucher
+    //         </Link>
+    //       ),
+    //     },
+    //     {
+    //       key: "4-2",
+    //       label: (
+    //         <Link href="/specillist/voucher/voucher-list">Voucher List</Link>
+    //       ),
+    //     },
+    //   ],
+    // },
     {
       key: "7",
       icon: <BarChartOutlined />,
@@ -72,38 +79,6 @@ const SpecillistLayout: FC<{ children: ReactNode }> = ({ children }) => {
           key: "8-1",
           label: (
             <Link href="/specillist/settings/personal-info">Personal Info</Link>
-          ),
-        },
-        {
-          key: "8-2",
-          label: (
-            <Link href="/specillist/settings/setting-service">
-              Setting Service
-            </Link>
-          ),
-        },
-        {
-          key: "8-3",
-          label: (
-            <Link href="/specillist/settings/setting-user-management">
-              User Management
-            </Link>
-          ),
-        },
-        {
-          key: "8-4",
-          label: (
-            <Link href="/specillist/settings/setting-working-hour">
-              Working Hour
-            </Link>
-          ),
-        },
-        {
-          key: "8-5",
-          label: (
-            <Link href="/specillist/settings/setting-unavailability">
-              Unavailability
-            </Link>
           ),
         },
       ],

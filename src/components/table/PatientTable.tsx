@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState } from "react";
@@ -35,6 +36,7 @@ interface PatientTableProps {
 }
 
 const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
+  // const id = data?.map((i) => i.id);
   const [statusFilter, setStatusFilter] = useState<
     "All" | "Active" | "Inactive"
   >("All");
@@ -111,10 +113,15 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         ),
     },
     {
-      title: "Action",
-      key: "action",
-      render: () => <Button type="text" icon={<EyeOutlined />} />,
-    },
+  title: "Action",
+  key: "action",
+  render: (_: any, record: Patient) => (
+    <Link href={`/clinic/patient/${record.id}`}>
+      <Button type="text" icon={<EyeOutlined />} />
+    </Link>
+  ),
+},
+
   ];
 
   // ✅ Status Filter Menu
@@ -129,7 +136,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     </Menu>
   );
   const pathName = usePathname();
-  let patientLink = "/clinic/patient/add-patient"; 
+  let patientLink = "/clinic/patient/add-patient";
   if (pathName.startsWith("/clinic")) {
     patientLink = "/clinic/patient/add-patient";
   } else if (pathName.startsWith("/reception")) {
@@ -137,7 +144,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   }
 
   return (
-    <div>
+    <div >
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 w-full">
         {/* Search Input */}
         <Input
@@ -188,7 +195,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       <Table
         style={{
           borderRadius: "12px",
-          overflow: "hidden",
+          overflow: "auto",
           backgroundColor: "#ffffff",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
@@ -202,7 +209,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
                   backgroundColor: "#6B91A31A",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />

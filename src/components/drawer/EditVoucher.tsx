@@ -26,6 +26,16 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
   return (
     <Drawer
       width={500}
+      footer={
+        <div className="flex items-center gap-6 mt-4">
+          <Button block size="large" htmlType="submit" type="primary">
+            Submit Now
+          </Button>
+          <Button onClick={onClose} block size="large" htmlType="button">
+            Cancel
+          </Button>
+        </div>
+      }
       closeIcon={null}
       open={open}
       onClose={onClose}
@@ -84,15 +94,6 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
           <Form.Item name="amount" label={<Title level={5}>Amount</Title>}>
             <InputNumber className="!w-full" />
           </Form.Item>
-        </div>
-
-        <div className="flex items-center gap-6 mt-4">
-          <Button block size="large" htmlType="submit" type="primary">
-            Submit Now
-          </Button>
-          <Button onClick={onClose} block size="large" htmlType="button">
-            Cancel
-          </Button>
         </div>
       </Form>
     </Drawer>

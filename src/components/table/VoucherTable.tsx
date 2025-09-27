@@ -10,8 +10,9 @@ import {
   Typography,
 } from "antd";
 import { SearchOutlined, MoreOutlined } from "@ant-design/icons";
-import type { ColumnsType, TableProps } from "antd/es/table";
+import type { ColumnsType } from "antd/es/table";
 import EditVoucher from "../drawer/EditVoucher";
+import CustomPagination from "../shared/CustomPagination";
 
 // Define the data type
 export interface Voucher {
@@ -36,7 +37,8 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
   onRemoveVoucher,
 }) => {
   const [searchText, setSearchText] = useState("");
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10; // default page size
   const [editingVoucher, setEditingVoucher] = useState<Voucher | null>(null);
 
   // Search filter
@@ -50,6 +52,12 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
       )
     );
   }, [data, searchText]);
+
+  // Pagination slice
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, currentPage]);
 
   // Dropdown menu actions
   const getActionItems = (record: Voucher): MenuProps["items"] => [
@@ -119,16 +127,6 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
     },
   ];
 
-  // Handle pagination & table changes
-  const handleTableChange: TableProps<Voucher>["onChange"] = (
-    paginationConfig
-  ) => {
-    setPagination({
-      current: paginationConfig.current || 1,
-      pageSize: paginationConfig.pageSize || 10,
-    });
-  };
-
   return (
     <Card>
       {/* Search Input */}
@@ -137,7 +135,10 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
           placeholder="Search voucher"
           prefix={<SearchOutlined />}
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+            setCurrentPage(1); // reset page when searching
+          }}
           style={{ width: 300, marginBottom: 16 }}
           allowClear
         />
@@ -153,23 +154,10 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
           fontFamily: "'Inter', sans-serif",
         }}
         columns={columns}
-        dataSource={filteredData}
+        dataSource={paginatedData}
         loading={loading}
-        onChange={handleTableChange}
-        pagination={{
-          current: pagination.current,
-          pageSize: pagination.pageSize,
-          total: filteredData.length,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total, range) => (
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Typography>
-                Showing {range[0]}-{range[1]} of {total} records
-              </Typography>
-            </div>
-          ),
-        }}
+        rowKey="id"
+        pagination={false} // disable AntD pagination
         scroll={{ x: 800 }}
       />
 
@@ -182,12 +170,13 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         />
       )}
 
-      {/* Pagination styling */}
-      <style jsx global>{`
-        .ant-table-pagination {
-          margin-right: 1.25rem !important;
-        }
-      `}</style>
+      {/* Custom Pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={filteredData.length}
+        pageSize={pageSize}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
     </Card>
   );
 };

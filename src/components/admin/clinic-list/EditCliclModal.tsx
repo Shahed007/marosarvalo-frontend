@@ -1,9 +1,8 @@
- 
 "use client";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
 // Define form data type
 type FormData = {
@@ -25,7 +24,11 @@ interface EditClinicModalProps {
   data?: Partial<FormData>; // Optional initial data
 }
 
-export default function EditClinicModal({ visible, onCancel, data }: EditClinicModalProps) {
+export default function EditClinicModal({
+  visible,
+  onCancel,
+  data,
+}: EditClinicModalProps) {
   const {
     register,
     handleSubmit,
@@ -85,7 +88,7 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
   return (
     <Modal
       title="Edit Clinic"
-      open={visible} 
+      open={visible}
       onCancel={handleCancel}
       footer={null}
       width={720}
@@ -96,19 +99,26 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
         {/* Clinic Information Section */}
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-            <h2 className="text-lg font-medium text-gray-900">Clinic Information</h2>
+            <h2 className="text-lg font-medium text-gray-900">
+              Clinic Information
+            </h2>
           </div>
           <div className="px-6 py-4 space-y-4">
             {/* Clinic Name */}
             <div className="space-y-2">
-              <label htmlFor="clinicName" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="clinicName"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Clinic Name <span className="text-red-500">*</span>
               </label>
               <input
                 id="clinicName"
                 type="text"
                 placeholder="Enter clinic name"
-                {...register("clinicName", { required: "Clinic Name is required" })}
+                {...register("clinicName", {
+                  required: "Clinic Name is required",
+                })}
                 className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
                   errors.clinicName
                     ? "border-red-500 focus:border-red-500"
@@ -116,13 +126,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.clinicName && (
-                <p className="mt-1 text-xs text-red-500">{errors.clinicName.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.clinicName.message}
+                </p>
               )}
             </div>
 
             {/* Clinic Email */}
             <div className="space-y-2">
-              <label htmlFor="clinicEmail" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="clinicEmail"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email <span className="text-red-500">*</span>
               </label>
               <input
@@ -143,13 +158,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.clinicEmail && (
-                <p className="mt-1 text-xs text-red-500">{errors.clinicEmail.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.clinicEmail.message}
+                </p>
               )}
             </div>
 
             {/* Clinic Phone */}
             <div className="space-y-2">
-              <label htmlFor="clinicPhone" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="clinicPhone"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Phone Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -170,20 +190,27 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.clinicPhone && (
-                <p className="mt-1 text-xs text-red-500">{errors.clinicPhone.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.clinicPhone.message}
+                </p>
               )}
             </div>
 
             {/* Clinic Address */}
             <div className="space-y-2">
-              <label htmlFor="clinicAddress" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="clinicAddress"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Clinic Address <span className="text-red-500">*</span>
               </label>
               <input
                 id="clinicAddress"
                 type="text"
                 placeholder="Enter clinic address"
-                {...register("clinicAddress", { required: "Clinic Address is required" })}
+                {...register("clinicAddress", {
+                  required: "Clinic Address is required",
+                })}
                 className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
                   errors.clinicAddress
                     ? "border-red-500 focus:border-red-500"
@@ -191,7 +218,9 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.clinicAddress && (
-                <p className="mt-1 text-xs text-red-500">{errors.clinicAddress.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.clinicAddress.message}
+                </p>
               )}
             </div>
           </div>
@@ -200,12 +229,17 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
         {/* User Information Section */}
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-            <h2 className="text-lg font-medium text-gray-900">User Information</h2>
+            <h2 className="text-lg font-medium text-gray-900">
+              User Information
+            </h2>
           </div>
           <div className="px-6 py-4 space-y-4">
             {/* User Name */}
             <div className="space-y-2">
-              <label htmlFor="userName" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="userName"
+                className="block text-sm font-medium text-gray-700"
+              >
                 User Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -220,13 +254,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.userName && (
-                <p className="mt-1 text-xs text-red-500">{errors.userName.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.userName.message}
+                </p>
               )}
             </div>
 
             {/* User Email */}
             <div className="space-y-2">
-              <label htmlFor="userEmail" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="userEmail"
+                className="block text-sm font-medium text-gray-700"
+              >
                 User Email <span className="text-red-500">*</span>
               </label>
               <input
@@ -247,13 +286,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.userEmail && (
-                <p className="mt-1 text-xs text-red-500">{errors.userEmail.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.userEmail.message}
+                </p>
               )}
             </div>
 
             {/* User Phone */}
             <div className="space-y-2">
-              <label htmlFor="userPhone" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="userPhone"
+                className="block text-sm font-medium text-gray-700"
+              >
                 User Phone Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -274,20 +318,27 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.userPhone && (
-                <p className="mt-1 text-xs text-red-500">{errors.userPhone.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.userPhone.message}
+                </p>
               )}
             </div>
 
             {/* User Address */}
             <div className="space-y-2">
-              <label htmlFor="userAddress" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="userAddress"
+                className="block text-sm font-medium text-gray-700"
+              >
                 User Address <span className="text-red-500">*</span>
               </label>
               <input
                 id="userAddress"
                 type="text"
                 placeholder="Enter user address"
-                {...register("userAddress", { required: "User Address is required" })}
+                {...register("userAddress", {
+                  required: "User Address is required",
+                })}
                 className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
                   errors.userAddress
                     ? "border-red-500 focus:border-red-500"
@@ -295,13 +346,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.userAddress && (
-                <p className="mt-1 text-xs text-red-500">{errors.userAddress.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.userAddress.message}
+                </p>
               )}
             </div>
 
             {/* Password */}
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password <span className="text-red-500">*</span>
               </label>
               <input
@@ -322,13 +378,18 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.password && (
-                <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
             {/* Confirm Password */}
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm Password <span className="text-red-500">*</span>
               </label>
               <input
@@ -337,7 +398,8 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 placeholder="Re-enter password"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
-                  validate: (value) => value === password || "Passwords do not match",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
                 })}
                 className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
                   errors.confirmPassword
@@ -346,7 +408,9 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
                 }`}
               />
               {errors.confirmPassword && (
-                <p className="mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>
+                <p className="mt-1 text-xs text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
           </div>
@@ -354,23 +418,26 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
 
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-center gap-4 pt-4">
-          <button
-            type="button"
+          <Button
+            type="primary"
+            size="large"
             onClick={handleSendReminder}
             disabled={reminderSent}
             className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             {reminderSent ? "Reminder Sent!" : "Send Reminder"}
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            type="primary"
+            size="large"
             onClick={handleCancel}
             className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
           >
             Cancel
-          </button>
-          <button
-            type="submit"
+          </Button>
+          <Button
+            type="primary"
+            size="large"
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
             className="px-6 py-2 bg-[#225A7F] text-white rounded-md hover:bg-[#225A7F] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
@@ -383,7 +450,7 @@ export default function EditClinicModal({ visible, onCancel, data }: EditClinicM
             ) : (
               "Save Changes"
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </Modal>

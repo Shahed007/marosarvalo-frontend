@@ -1,12 +1,8 @@
 "use client";
 
-import React, { FC, ReactNode} from "react";
-
-
+import React, { FC, ReactNode } from "react";
 
 import Link from "next/link";
-;
-
 import {
   CalendarOutlined,
   CreditCardOutlined,
@@ -17,8 +13,6 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import DashboardLayout from "@/components/dashboardLayout/DashboardLayout";
-
-
 
 // Define MenuItem interface
 export interface MenuItem {
@@ -45,9 +39,7 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       children: [
         {
           key: "2-1",
-          label: (
-            <Link href="/reception/appointment/calender">Calendar</Link>
-          ),
+          label: <Link href="/reception/appointment/calender">Calendar</Link>,
         },
         {
           key: "2-2",
@@ -119,53 +111,31 @@ const ReceptionLayout: FC<{ children: ReactNode }> = ({ children }) => {
       key: "9",
       icon: <SettingOutlined />,
       label: "Settings",
+      href: "/reception/settings",
       children: [
-       {
-         key: "9-1",
-         label: (
-           <Link href="/reception/settings/personal-info">Personal Info</Link>
-         ),
-       },{
-         key: "9-2",
-         label: (
-           <Link href="/reception/settings/setting-service">Setting Service</Link>
-         ),
-       },
-       {
-         key: "9-3",
-         label: (
-           <Link href="/reception/settings/setting-user-management">
-             User Management
-           </Link>
-         ),
-       },
-       {
-         key: "9-4",
-         label: (
-           <Link href="/reception/settings/setting-working-hour">
-             Working Hour
-           </Link>
-         ),
-       },
-       {
-         key: "9-5",
-         label: (
-           <Link href="/reception/settings/setting-unavailability">
-             Unavailability
-           </Link>
-         ),
-       }
-       
-        ,
+        {
+          key: "9-0",
+          label: <Link href="/reception/settings">General</Link>,
+        },
+        {
+          key: "9-1",
+          label: (
+            <Link href="/reception/settings/personal-info">Personal Info</Link>
+          ),
+        },
+        {
+          key: "9-3",
+          label: (
+            <Link href="/reception/settings/setting-user-management">
+              User/Our Staff
+            </Link>
+          ),
+        },
       ],
     },
   ];
 
-  return (
-    <DashboardLayout menuItems={menuItems}>
-      {children}
-    </DashboardLayout>
-  );
+  return <DashboardLayout menuItems={menuItems}>{children}</DashboardLayout>;
 };
 
 export default ReceptionLayout;

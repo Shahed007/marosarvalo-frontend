@@ -19,7 +19,7 @@ export default function AddBondDrawer({
 }: AddBondDrawerProps) {
   return (
     <Drawer
-      title="Add Bonds"
+       title={<div className="text-center text-[28px]">Add Bonds</div>}
       placement="right"
       onClose={onClose}
       open={visible}
@@ -40,7 +40,6 @@ export default function AddBondDrawer({
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
           }}
         >
           <Button

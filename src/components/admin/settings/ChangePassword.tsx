@@ -1,36 +1,42 @@
-"use client"
+"use client";
 
-import type React from "react"
+import { Button } from "antd";
+import type React from "react";
 
-import { useState } from "react"
+import { useState } from "react";
 
 export default function ChangePassword() {
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
     confirm: "",
-  })
+  });
 
   const handleInputChange = (field: string, value: string) => {
     setPasswords((prev) => ({
       ...prev,
       [field]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle password update logic here
-    console.log("Password update submitted")
-  }
+    console.log("Password update submitted");
+  };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-6">Change Password</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-6">
+        Change Password
+      </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="current-password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="current-password"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Current Password
           </label>
           <input
@@ -44,7 +50,10 @@ export default function ChangePassword() {
         </div>
 
         <div>
-          <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="new-password"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             New Password
           </label>
           <input
@@ -58,7 +67,10 @@ export default function ChangePassword() {
         </div>
 
         <div>
-          <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="confirm-password"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Confirm new Password
           </label>
           <input
@@ -72,14 +84,15 @@ export default function ChangePassword() {
         </div>
 
         <div className="pt-2">
-          <button
-            type="submit"
+          <Button
+            size="large"
+            type="primary"
             className="bg-[#225A7F] cursor-pointer text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
           >
             Update password
-          </button>
+          </Button>
         </div>
       </form>
     </div>
-  )
+  );
 }

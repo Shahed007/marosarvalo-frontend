@@ -1,12 +1,40 @@
 "use client";
 import { Button, Card, Input, Checkbox, Typography, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/logo.png";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const { Title, Text } = Typography;
 
 export default function Login() {
+  const router = useRouter();
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+    console.log(password);
+    switch (email) {
+      case "admin@gmail.com":
+        router.push("/admin");
+        break;
+      case "clinic@gmail.com":
+        router.push("/clinic");
+        break;
+      case "reception@gmail.com":
+        router.push("/reception");
+        break;
+      case "specillist@gmail.com":
+        router.push("/specillist");
+        break;
+      default:
+        alert("Invalid email");
+    }
+  };
   return (
     <div
       style={{
@@ -28,9 +56,9 @@ export default function Login() {
         }}
       >
         {/* Logo */}
-        <div style={{ marginBottom: "32px" }}>
+        <Link href={"/"} style={{ marginBottom: "32px" }}>
           <Image src={logo} width={175} height={40} alt="logo" />
-        </div>
+        </Link>
 
         {/* Login Card */}
         <Card
@@ -55,7 +83,7 @@ export default function Login() {
             <Text type="secondary">Let&lsquo;s Login Your Account</Text>
           </div>
 
-          <div style={{ padding: "24px" }}>
+          <form onSubmit={handleLogin} style={{ padding: "24px" }}>
             <Space direction="vertical" size="middle" style={{ width: "100%" }}>
               <div>
                 <Text
@@ -69,6 +97,7 @@ export default function Login() {
                   Email/User Id
                 </Text>
                 <Input
+                  name="email"
                   prefix={<UserOutlined style={{ color: "#9ca3af" }} />}
                   placeholder="Enter your email or user ID"
                   style={{
@@ -91,6 +120,7 @@ export default function Login() {
                   Password
                 </Text>
                 <Input.Password
+                  name="password"
                   prefix={<LockOutlined style={{ color: "#9ca3af" }} />}
                   placeholder="Enter your password"
                   style={{
@@ -109,7 +139,9 @@ export default function Login() {
                   paddingTop: "8px",
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
+                >
                   <Checkbox id="remember" />
                   <label
                     htmlFor="remember"
@@ -118,8 +150,8 @@ export default function Login() {
                     Remember me
                   </label>
                 </div>
-                <a
-                  href="#"
+                <Link
+                  href="/forget-password"
                   style={{
                     fontSize: "14px",
                     color: "#225A7F",
@@ -127,12 +159,13 @@ export default function Login() {
                   }}
                 >
                   Forgot Password?
-                </a>
+                </Link>
               </div>
 
               <Button
                 type="primary"
                 size="large"
+                htmlType="submit"
                 style={{
                   width: "100%",
                   backgroundColor: "#225A7F",
@@ -144,7 +177,7 @@ export default function Login() {
                 Login Now
               </Button>
             </Space>
-          </div>
+          </form>
         </Card>
       </div>
     </div>
