@@ -10,7 +10,6 @@ import {
   Row,
   Col,
   Typography,
-
   Divider,
 } from "antd";
 import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
@@ -159,11 +158,11 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
-          style={{ flex: 1, minWidth: 200 }}
-          className="rounded-lg"
+          className="w-full sm:w-auto sm:flex-1"
+          size="large"
         />
         <Button
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-md"
         >
           <span className="mr-1">
@@ -185,7 +184,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         </Button>
         <Button
           type="primary"
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-lg"
         >
           Generate copy link

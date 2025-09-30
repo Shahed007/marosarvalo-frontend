@@ -60,6 +60,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   const handleLogout = () => {
     console.log("User logged out");
+    router.push('/')
   };
 
   const isActiveParent = (item: MenuItem) => {

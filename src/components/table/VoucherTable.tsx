@@ -132,14 +132,15 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
       {/* Search Input */}
       <div style={{ marginBottom: 16 }}>
         <Input
+          size="large"
           placeholder="Search voucher"
-          prefix={<SearchOutlined />}
+          suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
             setCurrentPage(1); // reset page when searching
           }}
-          style={{ width: 300, marginBottom: 16 }}
+          style={{ marginBottom: 16 }}
           allowClear
         />
       </div>

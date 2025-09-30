@@ -23,7 +23,7 @@ import {
   EditFilled,
   PlusOutlined,
 } from "@ant-design/icons";
-import {ProductTab, SettingService } from "@/types/global";
+import { ProductTab, SettingService } from "@/types/global";
 import SettingServices from "../pages/clinic/Settings/SettingServices";
 
 interface ProductTabelProps {
@@ -150,37 +150,37 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
       width: 100,
     },
   ];
-const serviceData: SettingService[] = [
-  {
-    name: "Premium Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$250",
-  },
-  {
-    name: "Standard Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$200",
-  },
-  {
-    name: "Trial Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$100",
-  },
-];
+  const serviceData: SettingService[] = [
+    {
+      name: "Premium Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$250",
+    },
+    {
+      name: "Standard Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$200",
+    },
+    {
+      name: "Trial Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$100",
+    },
+  ];
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       <Title level={4}>Discipline</Title>
       {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 gap-4">
         <Input
           placeholder="Search discipline"
           suffix={<SearchOutlined className="cursor-pointer" />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 700, borderRadius: "12px" }}
+          style={{ borderRadius: "12px" }}
           allowClear
           className="!px-2 !py-2"
         />
@@ -314,7 +314,7 @@ const serviceData: SettingService[] = [
           </Space>
         </Col>
       </Row>
-        <SettingServices data={serviceData}/>
+      <SettingServices data={serviceData} />
       {/* New Discipline Drawer */}
       <Drawer
         title="Add New Discipline"

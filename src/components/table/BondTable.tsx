@@ -213,23 +213,23 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   return (
     <div>
       {/* Search + Add Button */}
-      <div className="sm:!flex flex-row items-center justify-between mb-6">
-        <div>
+      <div className="sm:!flex flex-row items-center justify-between mb-6 gap-4">
+        <div className="flex-1">
           <Input
+            size="large"
             placeholder="Search by name, discipline, or service"
             suffix={<SearchOutlined className="cursor-pointer" />}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            style={{ borderRadius: "12px" }}
             allowClear
-            className="!px-2 !py-2 !w-[320px] !sm:w-[700px]"
+            className="w-full sm:w-auto sm:flex-1"
           />
         </div>
         <div className={`${hiddenClass}`}>
           <Button
+            size="large"
             type="primary"
             style={{ borderRadius: "12px" }}
-            className="!px-7 !py-5 !mt-2"
             icon={<PlusOutlined />}
             onClick={() => setDrawerVisible(true)}
           >

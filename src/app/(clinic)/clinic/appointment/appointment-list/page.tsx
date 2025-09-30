@@ -64,15 +64,16 @@ const AppointmentListPage = () => {
       {/* Search + Add Button */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-0 mt-12">
         <Input
+          size="large"
           placeholder="Search all fields..."
           suffix={<SearchOutlined />}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full sm:max-w-xs lg:max-w-sm"
+          className="w-full sm:w-auto sm:flex-1"
           allowClear
         />
         <Link href="/clinic/appointment/add-appointment">
-          <Button type="primary" icon={<FaPlus />}>
+          <Button type="primary" size="large" icon={<FaPlus />}>
             Add New Appointment
           </Button>
         </Link>

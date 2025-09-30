@@ -60,6 +60,7 @@ export default function ReceiptHistory() {
         </Col>
         <Col xs={24} sm={12}>
           <Input
+          size="large"
             placeholder="Search by ID, name, or email"
             suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
             value={searchQuery}
