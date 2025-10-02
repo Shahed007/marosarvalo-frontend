@@ -420,7 +420,7 @@ export default function BillingPayments() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
-      <Title level={2} style={{ marginBottom: 24 }}>
+      <Title level={2} style={{ marginBottom: 30, color: "#0B121B" }}>
         Billing & Payments
       </Title>
 

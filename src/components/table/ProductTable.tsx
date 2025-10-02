@@ -171,19 +171,22 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
     },
   ];
   return (
-    <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={4}>Discipline</Title>
+    <div>
+      <Title level={4} color="#0B121B">
+        Discipline
+      </Title>
       {/* Search + Add Button */}
       <div className="flex items-center justify-between mb-6 gap-4">
-        <Input
-          placeholder="Search discipline"
-          suffix={<SearchOutlined className="cursor-pointer" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ borderRadius: "12px" }}
-          allowClear
-          className="!px-2 !py-2"
-        />
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            placeholder="Search discipline"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
         <Button
           type="primary"
           style={{ borderRadius: "12px" }}

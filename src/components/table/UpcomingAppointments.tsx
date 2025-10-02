@@ -101,6 +101,22 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         scroll={{ x: true }}
         rowKey="id"
         pagination={false} 
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  backgroundColor: "#6B91A31A",
+                  padding: "16px",
+                  fontWeight: "600",
+                  color: "#4180AB",
+                  borderBottom: "2px solid #e2e8f0",
+                }}
+              />
+            ),
+          }
+        }}
       />
 
       {/* Custom pagination */}

@@ -125,8 +125,8 @@ const Communications = () => {
     },
   ];
   return (
-    <div className="mb-12 p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2}>Communication</Title>
+    <div className=" p-4 md:p-6 lg:p-8 mb-8">
+      <Title level={2} className="!mb-10 !text-[#0B121B]">Communication</Title>
       <Tabs
         activeKey={activeTab}
         onChange={setActiveTab}

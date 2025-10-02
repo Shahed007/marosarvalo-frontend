@@ -125,3 +125,8 @@
 }
 
 
+.ant-btn-primary,
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  box-shadow: none !important;
+}

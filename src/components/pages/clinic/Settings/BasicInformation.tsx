@@ -6,10 +6,10 @@ const BasicInformation = () => {
   const [form] = Form.useForm();
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 mb-8">
+    <div>
       <Card>
         {/* Basic Information Header */}
-        <Title level={2} style={{ marginBottom: "24px" }}>
+        <Title level={4} style={{ marginBottom: "24px" }} color="#0B121B">
           Basic Information
         </Title>
 
