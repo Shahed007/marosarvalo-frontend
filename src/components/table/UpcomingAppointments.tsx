@@ -79,8 +79,8 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Title
-              level={3}
-              className="!mb-0 !text-gray-700 !font-semibold flex items-center gap-3"
+              level={4}
+              className="!mb-0 !text-[#0B121B] !font-semibold flex items-center gap-3"
             >
               <Image src={upcomingAppointIcon} alt="upcoming icon" /> Upcoming
               Appointments
