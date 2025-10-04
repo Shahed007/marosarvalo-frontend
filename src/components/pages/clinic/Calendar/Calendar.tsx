@@ -266,7 +266,9 @@ export default function Calendar() {
               <div>{spec.name}</div>
               <div className="text-xs text-gray-500 mt-1">
                 <span className="text-gray-400">Today‘s appointment: </span>
-                <span>{getTotalAppointmentsForSpecialist(spec.id)} patient(s)</span>
+                <span>
+                  {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
+                </span>
               </div>
             </div>
           </div>
@@ -305,7 +307,10 @@ export default function Calendar() {
                           <Menu.Item key="view" onClick={() => showDrawer(apt)}>
                             View Details
                           </Menu.Item>
-                          <Menu.Item key="cancel" onClick={() => showCancelDrawer(apt)}>
+                          <Menu.Item
+                            key="cancel"
+                            onClick={() => showCancelDrawer(apt)}
+                          >
                             Cancel Appointment
                           </Menu.Item>
                         </Menu>
@@ -355,33 +360,35 @@ export default function Calendar() {
   return (
     <Layout className="min-h-screen bg-white ">
       {/* 🔎 Search + Add */}
-      <div className="ms-6 ">
-        <Title level={2}>Calendar</Title>
-      </div>
-      <div className="flex flex-wrap gap-2 justify-between items-center p-4 md:p-6 lg:p-8 mb-8 sm:p-6">
-        <Input
-          placeholder="Search patient or type"
-          allowClear
-          size="large"
-          addonAfter={<SearchOutlined />}
-          className="w-full sm:w-auto sm:flex-1"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        <Link
-          href={"/clinic/appointment/add-appointment"}
-          className={`w-full sm:w-auto ${hiddenClass}`}
-        >
-          <Button
+      <div className="p-4 md:p-6 lg:p-8 sm:p-6 pb-0">
+        <div>
+          <Title level={2} className="!text-[#0B121B]">Calendar</Title>
+        </div>
+        <div className="flex flex-wrap gap-2 justify-between items-center mt-10">
+          <Input
+            placeholder="Search patient or type"
+            allowClear
             size="large"
-            type="primary"
-            icon={<PlusOutlined />}
-            className="w-full sm:w-auto mt-2 sm:mt-0"
+            addonAfter={<SearchOutlined />}
+            style={{ width: "625px" }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+
+          <Link
+            href={"/clinic/appointment/add-appointment"}
+            className={`w-full sm:w-auto ${hiddenClass}`}
           >
-            Add New Appointment
-          </Button>
-        </Link>
+            <Button
+              size="large"
+              type="primary"
+              icon={<PlusOutlined />}
+              className="w-full sm:w-auto mt-2 sm:mt-0"
+            >
+              Add New Appointment
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* 📅 Filters */}
@@ -422,9 +429,7 @@ export default function Calendar() {
           <div className="w-full sm:w-auto flex justify-center mt-2 sm:mt-0">
             <Switch
               checked={filterView === "Week"}
-              onChange={(checked) =>
-                handleViewChange(checked ? "Week" : "Day")
-              }
+              onChange={(checked) => handleViewChange(checked ? "Week" : "Day")}
               checkedChildren="Week"
               unCheckedChildren="Day"
             />

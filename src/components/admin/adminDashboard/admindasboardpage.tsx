@@ -1,6 +1,6 @@
 "use client";
 
-import { RevenueChartCard } from "./ReveniewCard";
+// import { RevenueChartCard } from "./ReveniewCard";
 import { ClinicTableCard } from "./ClinicTable";
 import { MetricCardsRow } from "./MetricCard";
 import AdminOverview from "./adminOverview";

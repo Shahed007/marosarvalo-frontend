@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Table, Input, Tag, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import type { ColumnsType, TableProps } from "antd/es/table";
+import CustomPagination from "../shared/CustomPagination";
 
 // Define the data type based on your example
 export interface ReminderRecord {
@@ -24,8 +25,12 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
   loading = false,
 }) => {
   const [searchText, setSearchText] = useState("");
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-
+  const [, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   // Handle search functionality
   const filteredData = useMemo(() => {
     if (!searchText) return data;
@@ -57,10 +62,11 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
       key: "communicationType",
       render: (types: string) => (
         <Space>
-          {types.split(", ").map((type) => (
-            <Tag color="blue" key={type}>
+          {types.split(" , ").map((type, index, arr) => (
+            <span key={type}>
               {type}
-            </Tag>
+              {index < arr.length - 1 && ", "}
+            </span>
           ))}
         </Space>
       ),
@@ -82,7 +88,12 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
-        <Tag color={status === "Delivered" ? "green" : "blue"}>{status}</Tag>
+        <Tag
+          color={status === "Delivered" ? "#F2F2F2" : "blue"}
+          className="!text-[#0B121B] !px-2 !py-2  !rounded"
+        >
+          {status}
+        </Tag>
       ),
     },
   ];
@@ -100,13 +111,18 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
   return (
     <div>
       {/* Search Input */}
-      <Input
-        placeholder="Search by name or any field"
-        prefix={<SearchOutlined />}
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        style={{ marginBottom: 16, maxWidth: 300 }}
-      />
+
+      <div className="mb-[24px] w-full sm:w-[400px] md:w-[500px] lg:w-[625px]">
+        <Input
+          size="large"
+          placeholder="Search by name or any field"
+          suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          allowClear
+          className="w-full"
+        />
+      </div>
 
       {/* Data Table */}
       <Table
@@ -126,7 +142,7 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
                   backgroundColor: "#6B91A31A",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />
@@ -160,16 +176,14 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
         dataSource={filteredData}
         loading={loading}
         onChange={handleTableChange}
-        pagination={{
-          current: pagination.current,
-          pageSize: pagination.pageSize,
-          total: filteredData.length,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: (total, range) =>
-            `Showing ${range[0]}-${range[1]} of ${total} records`,
-        }}
         scroll={{ x: 800 }}
+      />
+      {/* Pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={10}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
       />
     </div>
   );

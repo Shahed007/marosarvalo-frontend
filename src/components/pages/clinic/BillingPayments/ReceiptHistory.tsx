@@ -1,33 +1,58 @@
 "use client";
 import { useState } from "react";
-import {
-  Input,
-  Button,
-  Select,
-  Typography,
-  Space,
-  Card,
-  Row,
-  Col,
-  Empty,
-} from "antd";
-import { SearchOutlined, LeftOutlined, RightOutlined, EyeOutlined } from "@ant-design/icons";
+import { Input, Button, Typography, Space, Card, Row, Col, Empty } from "antd";
+import { SearchOutlined, EyeOutlined } from "@ant-design/icons";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 const { Title, Text } = Typography;
-const { Option } = Select;
 
 // Sample data
 const invoiceData = [
-  { id: "#FA65665", name: "Jhon Wick", email: "jhon32@gmail.com", product: "Xyz", type: "Services", due: "$00", paid: "$120" },
-  { id: "#FA65666", name: "Alice Johnson", email: "alice.j@gmail.com", product: "ABC Kit", type: "Product", due: "$50", paid: "$50" },
-  { id: "#FA65667", name: "Robert Chen", email: "robertc@example.com", product: "Consultation", type: "Services", due: "$100", paid: "$0" },
-  { id: "#FA65668", name: "Emma Davis", email: "emma.d@domain.com", product: "Dental X-Ray", type: "Service", due: "$40", paid: "$40" },
+  {
+    id: "#FA65665",
+    name: "Jhon Wick",
+    email: "jhon32@gmail.com",
+    product: "Xyz",
+    type: "Services",
+    due: "$00",
+    paid: "$120",
+  },
+  {
+    id: "#FA65666",
+    name: "Alice Johnson",
+    email: "alice.j@gmail.com",
+    product: "ABC Kit",
+    type: "Product",
+    due: "$50",
+    paid: "$50",
+  },
+  {
+    id: "#FA65667",
+    name: "Robert Chen",
+    email: "robertc@example.com",
+    product: "Consultation",
+    type: "Services",
+    due: "$100",
+    paid: "$0",
+  },
+  {
+    id: "#FA65668",
+    name: "Emma Davis",
+    email: "emma.d@domain.com",
+    product: "Dental X-Ray",
+    type: "Service",
+    due: "$40",
+    paid: "$40",
+  },
 ];
 
 export default function ReceiptHistory() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [pageSize, setPageSize] = useState("10");
-
+  const [pageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   // 🔍 Filter invoices based on search query
   const filteredInvoices = invoiceData.filter((invoice) =>
     Object.values(invoice).some((value) =>
@@ -43,7 +68,12 @@ export default function ReceiptHistory() {
       </Title>
 
       {/* Search Bar */}
-      <Row gutter={[16, 16]} justify="space-between" align="middle" style={{ marginBottom: 24 }}>
+      <Row
+        gutter={[16, 16]}
+        justify="space-between"
+        align="middle"
+        style={{ marginBottom: 24 }}
+      >
         <Col xs={24} sm={12}>
           <span
             style={{
@@ -60,8 +90,9 @@ export default function ReceiptHistory() {
         </Col>
         <Col xs={24} sm={12}>
           <Input
+            size="large"
             placeholder="Search by ID, name, or email"
-            suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
+            addonAfter={<SearchOutlined style={{ color: "#8c8c8c" }} />}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             allowClear
@@ -81,7 +112,11 @@ export default function ReceiptHistory() {
           filteredInvoices.map((invoice, index) => (
             <Card
               key={index}
-              style={{ marginBottom: 16, border: "1px solid #f0f0f0", borderRadius: 8 }}
+              style={{
+                marginBottom: 16,
+                border: "1px solid #f0f0f0",
+                borderRadius: 8,
+              }}
               bodyStyle={{ padding: 16 }}
             >
               <Row gutter={[16, 16]} align="middle">
@@ -112,12 +147,20 @@ export default function ReceiptHistory() {
                 <Col xs={24} md={6}>
                   <Row justify="space-around">
                     <Col>
-                      <Text type="secondary" style={{ fontSize: 12 }}>Due</Text>
-                      <Text strong style={{ fontSize: 14 }}>{invoice.due}</Text>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        Due
+                      </Text>
+                      <Text strong style={{ fontSize: 14 }}>
+                        {invoice.due}
+                      </Text>
                     </Col>
                     <Col>
-                      <Text type="secondary" style={{ fontSize: 12 }}>Paid</Text>
-                      <Text strong style={{ fontSize: 14 }}>{invoice.paid}</Text>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        Paid
+                      </Text>
+                      <Text strong style={{ fontSize: 14 }}>
+                        {invoice.paid}
+                      </Text>
                     </Col>
                   </Row>
                 </Col>
@@ -140,41 +183,12 @@ export default function ReceiptHistory() {
       </div>
 
       {/* Pagination */}
-      <Row justify="space-between" align="middle">
-        <Col xs={24} sm={8}>
-          <Space>
-            <Text type="secondary" style={{ fontSize: 12 }}>Showing</Text>
-            <Select
-              value={pageSize}
-              onChange={setPageSize}
-              style={{ width: 80 }}
-              size="small"
-            >
-              <Option value="10">10</Option>
-              <Option value="25">25</Option>
-              <Option value="50">50</Option>
-            </Select>
-          </Space>
-        </Col>
-        <Col xs={24} sm={16} style={{ marginTop: 8 }}>
-          <Row justify="end" gutter={8} wrap={false}>
-            <Col>
-              <Text type="secondary" style={{ fontSize: 12 }}>
-                Showing 1 to {Math.min(parseInt(pageSize), filteredInvoices.length)} out of {filteredInvoices.length} records
-              </Text>
-            </Col>
-            <Col>
-              <Space size={4}>
-                <Button type="default" size="small" icon={<LeftOutlined />} disabled />
-                <Button type="primary" size="small">1</Button>
-                <Button type="default" size="small">2</Button>
-                <Button type="default" size="small">3</Button>
-                <Button type="default" size="small" icon={<RightOutlined />} />
-              </Space>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <CustomPagination
+        currentPage={currentPage}
+        total={filteredInvoices.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

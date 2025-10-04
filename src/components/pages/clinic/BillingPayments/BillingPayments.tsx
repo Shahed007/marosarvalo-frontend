@@ -420,7 +420,7 @@ export default function BillingPayments() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
-      <Title level={2} style={{ marginBottom: 24 }}>
+      <Title level={2} style={{ marginBottom: 30, color: "#0B121B" }}>
         Billing & Payments
       </Title>
 
@@ -443,7 +443,7 @@ export default function BillingPayments() {
                 </Text>
                 <Input
                   placeholder="Search Patients"
-                  suffix={
+                  addonAfter={
                     <SearchOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   }
                   size="large"

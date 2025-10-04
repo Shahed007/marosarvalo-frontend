@@ -1,13 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
-import { Card, Table, Button, Input, Space, Typography, Dropdown, Modal } from "antd";
+"use client";
+import {
+  Card,
+  Table,
+  Button,
+  Input,
+  Space,
+  Typography,
+  Dropdown,
+  Modal,
+} from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import EditClinicModal from "./EditCliclModal";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 // ✅ Import your EditClinicModal
-
 
 const { Title, Text } = Typography;
 
@@ -98,6 +107,13 @@ export const ClickingListTable = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false); // ✅ New state for Edit Modal
   const [selectedRecord, setSelectedRecord] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const filteredData = clinicData.filter((item) =>
     Object.values(item).some((val) =>
@@ -122,9 +138,16 @@ export const ClickingListTable = () => {
         textColor = "#64748B";
     }
     return (
-      <Text style={{ backgroundColor: bgColor, color: textColor, padding: "4px 8px", borderRadius: "4px", fontSize: "12px" }}>
+      <span
+        className="px-4 py-2 rounded text-xs font-medium"
+        style={{
+          backgroundColor: bgColor,
+          color: textColor,
+          display: "inline-block",
+        }}
+      >
         {status}
-      </Text>
+      </span>
     );
   };
 
@@ -187,10 +210,27 @@ export const ClickingListTable = () => {
           <Dropdown
             menu={{
               items: [
-                { key: "1", label: "Details", onClick: () => handleDetailsClick(record) },
-                { key: "2", label: "Edit", onClick: () => handleEditClick(record) }, // ✅ Updated to open modal
-                { key: "3", label: "Reminder", onClick: () => handleActionClick("Reminder", record) },
-                { key: "4", label: "Remove", danger: true, onClick: () => handleActionClick("Remove", record) },
+                {
+                  key: "1",
+                  label: "Details",
+                  onClick: () => handleDetailsClick(record),
+                },
+                {
+                  key: "2",
+                  label: "Edit",
+                  onClick: () => handleEditClick(record),
+                },
+                {
+                  key: "3",
+                  label: "Reminder",
+                  onClick: () => handleActionClick("Reminder", record),
+                },
+                {
+                  key: "4",
+                  label: "Remove",
+                  danger: true,
+                  onClick: () => handleActionClick("Remove", record),
+                },
               ],
             }}
             trigger={["click"]}
@@ -211,40 +251,108 @@ export const ClickingListTable = () => {
       </Title>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="#4180AB" />
-            <path d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z" fill="#4180AB" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+              fill="#4180AB"
+            />
+            <path
+              d="M12 18C15.866 18 19 14.866 19 11C19 7.13401 15.866 4 12 4C8.13401 4 5 7.13401 5 11C5 14.866 8.13401 18 12 18Z"
+              fill="#4180AB"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>User Name</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.userName || "N/A"}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.userName || "N/A"}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M22 6L12 13L2 6" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4 4H20C21.1046 4 22 4.89543 22 6V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V6C2 4.89543 2.89543 4 4 4Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M22 6L12 13L2 6"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Email</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.email}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.email}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4180AB" strokeWidth="2" />
-            <path d="M12 8V12L15 15" stroke="#4180AB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
+            <path
+              d="M12 8V12L15 15"
+              stroke="#4180AB"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Countdown</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.countdown}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.countdown}
+        </Text>
 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 11.5C21 16.7467 16.7467 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2C16.7467 2 21 6.25329 21 11.5Z" stroke="#4180AB" strokeWidth="2" />
-            <path d="M15 11.5C15 13.433 13.433 15 11.5 15C9.56705 15 8 13.433 8 11.5C8 9.56705 9.56705 8 11.5 8C13.433 8 15 9.56705 15 11.5Z" stroke="#4180AB" strokeWidth="2" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 11.5C21 16.7467 16.7467 21 11.5 21C6.25329 21 2 16.7467 2 11.5C2 6.25329 6.25329 2 11.5 2C16.7467 2 21 6.25329 21 11.5Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
+            <path
+              d="M15 11.5C15 13.433 13.433 15 11.5 15C9.56705 15 8 13.433 8 11.5C8 9.56705 9.56705 8 11.5 8C13.433 8 15 9.56705 15 11.5Z"
+              stroke="#4180AB"
+              strokeWidth="2"
+            />
           </svg>
           <span style={{ fontWeight: 500 }}>Status</span>
         </div>
-        <Text style={{ fontSize: "14px", color: "#1E293B" }}>{selectedRecord?.status}</Text>
+        <Text style={{ fontSize: "14px", color: "#1E293B" }}>
+          {selectedRecord?.status}
+        </Text>
       </div>
     </div>
   );
@@ -258,68 +366,52 @@ export const ClickingListTable = () => {
       }}
     >
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
-        <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}>
-          All Clinics
-        </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          style={{
-            backgroundColor: "#225A7F",
-            borderColor: "#225A7F",
-            height: "36px",
-            borderRadius: "6px",
-            fontWeight: 500,
-          }}
-        >
-          {/* ✅ Fixed typo and path */}
-          <Link href="/admin/add-clinic" style={{ color: "white", textDecoration: "none" }}>
-            Add Clinic
-          </Link>
-        </Button>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        {/* Search Input */}
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            allowClear
+            placeholder="Search by name/email/number"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            size="large"
+            addonAfter={<SearchOutlined />}
+          />
+        </div>
+
+        <div>
+          {/* Add Button */}
+          <Button
+            size="large"
+            type="primary"
+            icon={<PlusOutlined />}
+            className="w-full sm:w-auto !bg-[#225A7F] !border-[#225A7F] !rounded-md font-medium"
+          >
+            <Link href="/admin/add-clinic" className="text-white no-underline">
+              Add Clinic
+            </Link>
+          </Button>
+        </div>
       </div>
 
-      {/* Search Bar */}
-      <div style={{ marginBottom: "20px" }}>
-        <Input
-          placeholder="Search by name/email/number"
-          suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          allowClear
-          style={{
-            width: "100%",
-            maxWidth: "500px",
-            borderRadius: "6px",
-            border: "1px solid #CBD5E1",
-            height: "38px",
-          }}
-        />
-      </div>
+      <Title
+        level={4}
+        style={{
+          margin: 0,
+          color: "#1E293B",
+          fontWeight: 600,
+          marginTop: "50px",
+          marginBottom: "24px",
+        }}
+      >
+        All Clinics
+      </Title>
 
       {/* Table */}
       <Table
         columns={columns}
         dataSource={filteredData}
-        pagination={{
-          current: 1,
-          position: ["bottomRight"],
-          total: filteredData.length,
-          pageSize: 5,
-          showTotal: (total) => `Total ${total} clinics`,
-          hideOnSinglePage: false,
-          style: {
-            backgroundColor: "#F8FAFC",
-            padding: "16px 0",
-            borderTop: "1px solid #E2E8F0",
-            margin: 0,
-            textAlign: "center",
-          },
-          itemRender: (_, type, element) => {
-            return type === 'prev' ? <span>‹</span> : type === 'next' ? <span>›</span> : element;
-          },
-        }}
+        pagination={false}
         rowKey="key"
         scroll={{ x: "max-content" }}
         components={{
@@ -361,7 +453,15 @@ export const ClickingListTable = () => {
           overflow: "hidden",
         }}
       />
-
+      {/* Custom Pagination */}
+      <div className="mt-4">
+        <CustomPagination
+          currentPage={currentPage}
+          total={filteredData.length}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+        />
+      </div>
       {/* Details Modal */}
       <Modal
         title=""
@@ -382,11 +482,11 @@ export const ClickingListTable = () => {
       </Modal>
 
       {/* ✅ Edit Modal */}
-<EditClinicModal
-  visible={isEditModalVisible}
-  onCancel={() => setIsEditModalVisible(false)}
-  data={selectedRecord}
-/>
+      <EditClinicModal
+        visible={isEditModalVisible}
+        onCancel={() => setIsEditModalVisible(false)}
+        data={selectedRecord}
+      />
     </Card>
   );
 };

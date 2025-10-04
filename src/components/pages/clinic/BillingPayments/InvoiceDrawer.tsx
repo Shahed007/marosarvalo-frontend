@@ -1,9 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // components/InvoiceDrawer.tsx
-"use client"
+"use client";
 
-import { Drawer, Table, Row, Col, Typography, Divider, Button, Space } from "antd";
-import { DownloadOutlined, PrinterOutlined, MailOutlined } from "@ant-design/icons";
+import {
+  Drawer,
+  Table,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Button,
+  Space,
+} from "antd";
+import {
+  DownloadOutlined,
+  PrinterOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import { InvoiceItem, Patient } from "@/types/global";
 
 const { Title, Text } = Typography;
@@ -45,11 +58,15 @@ export default function InvoiceDrawer({
   balanceDue,
   note,
   onPayment,
-  confirmPayment
+  confirmPayment,
 }: InvoiceDrawerProps) {
   return (
     <Drawer
-      title="Patient Invoice"
+      title={
+        <Title level={2} style={{ textAlign: "center", color: "#0B121B" }}>
+          Patient Invoice
+        </Title>
+      }
       placement="right"
       onClose={onClose}
       open={visible}
@@ -143,7 +160,9 @@ export default function InvoiceDrawer({
           <Title level={4} style={{ marginBottom: 16 }}>
             Bill To
           </Title>
-          <Text strong>{selectedPatient ? selectedPatient.name : "No patient selected"}</Text>
+          <Text strong>
+            {selectedPatient ? selectedPatient.name : "No patient selected"}
+          </Text>
           <br />
           {selectedPatient && (
             <>
@@ -158,7 +177,7 @@ export default function InvoiceDrawer({
 
         {/* Invoice Table */}
         <Table
-          dataSource={cartItems.map(item => ({
+          dataSource={cartItems.map((item) => ({
             key: item.id,
             product: item.name,
             type: item.type,
@@ -213,18 +232,20 @@ export default function InvoiceDrawer({
               <Text className="!font-bold">${subtotal.toFixed(2)}</Text>
             </Col>
           </Row>
-          
+
           {discountRate > 0 && (
             <Row justify="space-between" style={{ marginBottom: 8 }}>
               <Col>
                 <Text strong>Discount ({discountRate}%)</Text>
               </Col>
               <Col>
-                <Text className="!font-bold">-${discountAmount.toFixed(2)}</Text>
+                <Text className="!font-bold">
+                  -${discountAmount.toFixed(2)}
+                </Text>
               </Col>
             </Row>
           )}
-          
+
           {taxRate > 0 && (
             <Row justify="space-between" style={{ marginBottom: 8 }}>
               <Col>
@@ -235,18 +256,20 @@ export default function InvoiceDrawer({
               </Col>
             </Row>
           )}
-          
+
           {appliedVoucher && (
             <Row justify="space-between" style={{ marginBottom: 8 }}>
               <Col>
                 <Text strong>Voucher ({appliedVoucher.name})</Text>
               </Col>
               <Col>
-                <Text className="!font-bold">-${voucherDiscount.toFixed(2)}</Text>
+                <Text className="!font-bold">
+                  -${voucherDiscount.toFixed(2)}
+                </Text>
               </Col>
             </Row>
           )}
-          
+
           <Row justify="space-between" style={{ marginBottom: 16 }}>
             <Col>
               <Text strong>Total Amount :</Text>
@@ -255,7 +278,7 @@ export default function InvoiceDrawer({
               <Text className="!font-bold">${total.toFixed(2)}</Text>
             </Col>
           </Row>
-          
+
           {amountPaid > 0 && (
             <>
               <Row justify="space-between" style={{ marginBottom: 8 }}>
@@ -270,18 +293,30 @@ export default function InvoiceDrawer({
                   </Text>
                 </Col>
               </Row>
-              
+
               <Divider style={{ margin: "8px 0" }} />
 
               <Row justify="space-between" style={{ marginBottom: 16 }}>
                 <Col>
-                  <Text strong style={{ fontSize: 16, color: balanceDue > 0 ? "#F45B69" : "#0BABB7" }}>
+                  <Text
+                    strong
+                    style={{
+                      fontSize: 16,
+                      color: balanceDue > 0 ? "#F45B69" : "#0BABB7",
+                    }}
+                  >
                     {balanceDue > 0 ? "Due Amount" : "Change Due"}:
                   </Text>
                 </Col>
                 <Col>:</Col>
                 <Col>
-                  <Text strong style={{ fontSize: 16, color: balanceDue > 0 ? "#F45B69" : "#0BABB7" }}>
+                  <Text
+                    strong
+                    style={{
+                      fontSize: 16,
+                      color: balanceDue > 0 ? "#F45B69" : "#0BABB7",
+                    }}
+                  >
                     ${Math.abs(balanceDue).toFixed(2)}
                   </Text>
                 </Col>

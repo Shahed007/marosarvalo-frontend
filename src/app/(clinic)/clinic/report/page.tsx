@@ -44,8 +44,8 @@ const Report = () => {
   ];
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2}>Report</Title>
-      <Title level={5}>Performance Overview</Title>
+      <Title level={2} color="#0B121B" className="!mb-10">Report</Title>
+      <Title level={4} color="#0B121B">Performance Overview</Title>
       <PerformanceOverview {...data} />
       <div>
         <PopularServices services={servicesData} />

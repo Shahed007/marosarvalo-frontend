@@ -16,7 +16,7 @@ interface AppointmentDataPoint {
 }
 
 interface AppointmentOverviewProps {
-  title: string;
+  title: React.ReactNode;
   totalAppointments: number;
   timeFrameData: AppointmentDataPoint[];
   timeFrameOptions: string[];

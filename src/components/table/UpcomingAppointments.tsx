@@ -79,8 +79,8 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Title
-              level={3}
-              className="!mb-0 !text-gray-700 !font-semibold flex items-center gap-3"
+              level={4}
+              className="!mb-0 !text-[#0B121B] !font-semibold flex items-center gap-3"
             >
               <Image src={upcomingAppointIcon} alt="upcoming icon" /> Upcoming
               Appointments
@@ -101,6 +101,22 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         scroll={{ x: true }}
         rowKey="id"
         pagination={false} 
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  backgroundColor: "#6B91A31A",
+                  padding: "16px",
+                  fontWeight: "600",
+                  color: "#4180AB",
+                  borderBottom: "2px solid #e2e8f0",
+                }}
+              />
+            ),
+          }
+        }}
       />
 
       {/* Custom pagination */}

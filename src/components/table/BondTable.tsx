@@ -9,22 +9,15 @@ import {
   Input,
   Select,
   Space,
-  Row,
-  Col,
   Drawer,
   Form,
   Radio,
   Modal,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  SearchOutlined,
-  LeftOutlined,
-  RightOutlined,
-  EditFilled,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
+import CustomPagination from "../shared/CustomPagination";
 
 // ✅ TypeScript interface for data
 export interface Bond {
@@ -45,7 +38,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   const [statusFilter] = useState<"All" | "Active" | "Inactive">("All");
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingBond] = useState<Bond | null>(null);
@@ -80,12 +73,6 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  // Handle page size change
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
   };
 
   // Handle new bond form submission
@@ -213,23 +200,26 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   return (
     <div>
       {/* Search + Add Button */}
-      <div className="sm:!flex flex-row items-center justify-between mb-6">
-        <div>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 gap-4">
+        {/* Search Input */}
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
-            placeholder="Search by name, discipline, or service"
-            suffix={<SearchOutlined className="cursor-pointer" />}
+            placeholder="Search patient or type"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            style={{ borderRadius: "12px" }}
-            allowClear
-            className="!px-2 !py-2 !w-[320px] !sm:w-[700px]"
           />
         </div>
-        <div className={`${hiddenClass}`}>
+
+        {/* Action Button */}
+        <div className={`${hiddenClass} w-full sm:w-auto`}>
           <Button
+            size="large"
             type="primary"
+            className="w-full sm:w-auto"
             style={{ borderRadius: "12px" }}
-            className="!px-7 !py-5 !mt-2"
             icon={<PlusOutlined />}
             onClick={() => setDrawerVisible(true)}
           >
@@ -282,84 +272,12 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       />
 
       {/* Custom Pagination - matches the screenshot design */}
-      <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
-        <Col>
-          <Space>
-            <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-              Showing
-            </span>
-            <Select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ width: 80, height: 32, borderRadius: "15px" }}
-              size="small"
-            >
-              <Select.Option value={10}>10</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
-              <Select.Option value={50}>50</Select.Option>
-            </Select>
-          </Space>
-        </Col>
-
-        <Col>
-          <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-            Showing {startIndex + 1} to {endIndex} of {totalRecords} records
-          </span>
-        </Col>
-
-        <Col>
-          <Space>
-            <Button
-              icon={<LeftOutlined />}
-              size="small"
-              type="text"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <Button
-              type={currentPage === 1 ? "primary" : "text"}
-              size="small"
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </Button>
-            {totalRecords > pageSize && (
-              <Button
-                type={currentPage === 2 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(2)}
-              >
-                2
-              </Button>
-            )}
-            {totalRecords > pageSize * 2 && (
-              <Button
-                type={currentPage === 3 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(3)}
-              >
-                3
-              </Button>
-            )}
-            {totalRecords > pageSize * 3 && (
-              <Button
-                type={currentPage === 4 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(4)}
-              >
-                4
-              </Button>
-            )}
-            <Button
-              icon={<RightOutlined />}
-              size="small"
-              type="text"
-              disabled={endIndex >= totalRecords}
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Space>
-        </Col>
-      </Row>
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
 
       {/* New Bond Drawer (Modal from right side) */}
       <Drawer

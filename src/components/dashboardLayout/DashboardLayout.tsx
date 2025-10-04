@@ -52,13 +52,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   // Close sidebar on route change (mobile)
   useEffect(() => {
     if (sidebarOpen) setSidebarOpen(false);
-  }, [pathname,sidebarOpen]);
+  }, [pathname]);
 
   const toggleDropdown = (key: string) => {
     setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleLogout = () => {
+    console.log("User logged out");
     router.push("/");
   };
 
@@ -98,7 +99,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         <div
           className={`
-            fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-white
+            fixed inset-y-0 left-0 z-50 bg-[#F1F4F6] text-gray-700
             transform transition-all duration-300 ease-in-out
             ${collapsed ? "w-20" : "w-64"}
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -137,14 +138,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             {menuItems?.map((item) => {
               const isActive = isActiveParent(item);
 
-       const baseClasses = `
-  flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200
-  ${isActive 
-    ? "bg-white text-[#225A7F] font-bold border-l-3 border-[#225A7F] shadow-sm" 
-    : "text-gray-700 hover:bg-gray-100"
-  }
-  ${collapsed ? "justify-center" : "justify-between"}
-`;
+              const baseClasses = `
+                flex items-center gap-3 px-3 py-2 rounded-md transition relative border-l-4 
+                ${
+                  isActive
+                    ? "bg-[#FFFFFF] text-[#225A7F] border-[#225A7F] "
+                    : "text-gray-700 hover:bg-[#FFFFFF] hover:text-[#225A7F] hover:border-[#225A7F] border-transparent"
+                }
+                ${collapsed ? "justify-center" : "justify-between"}
+              `;
 
               return (
                 <div key={item?.key} className="relative">
@@ -164,9 +166,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                         >
                           <span className="flex-shrink-0">{item?.icon}</span>
                           {(!collapsed || !screens.xl) && (
-                            <span className="text-sm hover:text-white">
-                              {item?.label}
-                            </span>
+                            <span className="text-sm">{item?.label}</span>
                           )}
                         </div>
                         {!collapsed && (
@@ -188,11 +188,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                               <Link
                                 key={child?.key}
                                 href={child?.href || "#"}
-                                className={`relative pl-5 py-2 text-sm rounded-md transition hover:bg-[#225A7F] hover:text-white ${
-                                  isChildActive
-                                    ? "text-gray-500 font-medium hover:bg-[#225A7F] hover:text-white"
-                                    : "text-gray-500 hover:text-gray-700"
-                                }`}
+                                className={`relative pl-5 py-2 text-sm rounded-md transition border-l-4 border-transparent
+                                  ${
+                                    isChildActive
+                                      ? "text-[#225A7F] font-medium border-[#225A7F] bg-[#FFFFFF]"
+                                      : "text-gray-500 hover:bg-[#FFFFFF] hover:text-[#225A7F] hover:border-[#225A7F]"
+                                  }`}
                                 onClick={() => setSidebarOpen(false)}
                               >
                                 <span className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-[1px] bg-gray-300"></span>
@@ -224,7 +225,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     <div className={baseClasses}>
                       <span className="flex-shrink-0">{item.icon}</span>
                       {(!collapsed || !screens.xl) && (
-                        <span className="text-sm b">{item.label}</span>
+                        <span className="text-sm">{item.label}</span>
                       )}
                     </div>
                   )}
@@ -248,8 +249,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               {/* Show name + role only when expanded */}
               {!collapsed && (
                 <div>
-                  <h1 className="flex items-center gap-1 text-sm font-medium text-black">
-                    <span className="text-black">Jhon Son</span> <IoCheckmarkCircle className="text-[#225A7F]" />
+                  <h1 className="flex items-center gap-1 text-sm font-medium">
+                    Jhon Son <IoCheckmarkCircle className="text-[#225A7F]" />
                   </h1>
                   <p className="text-xs text-gray-500">Admin</p>
                 </div>
@@ -275,7 +276,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={() => setCollapsed(!collapsed)}
             className="
               absolute top-24 -right-3 transform -translate-y-1/2
-              w-6 h-6  items-center justify-center
+              w-6 h-6 flex items-center justify-center
               rounded-full bg-white border border-gray-200 shadow-sm
               lg:flex hidden z-10
               hover:bg-gray-50 transition-colors

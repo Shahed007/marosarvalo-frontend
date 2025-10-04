@@ -10,13 +10,14 @@ import {
   Row,
   Col,
   Typography,
-
   Divider,
 } from "antd";
 import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
+
 // import Calendar from "react-calendar"; // <-- Import react-calendar
-// import "react-calendar/dist/Calendar.css"; // Optional base styles (we'll override with Tailwind)
+// import "react-calendar/dist/Calendar.css"; 
+// Optional base styles (we'll override with Tailwind)
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -82,7 +83,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
   ] as const;
 
   // State for dynamic filtering
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, ] = useState("");
   const [selectedDiscipline, setSelectedDiscipline] = useState<
     string | undefined
   >(undefined);
@@ -148,22 +149,23 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 w-full mx-auto bg-white font-sans">
-      <Title level={2} className="mb-6 text-gray-800">
-        Appointments
-      </Title>
+      <div>
+        <Title level={2} className=" !text-[#0B121B]">
+          Appointments
+        </Title>
+      </div>
 
       {/* Search Bar */}
-      <div className="flex flex-wrap items-center gap-4 mb-8">
+      <div className="flex flex-wrap items-center gap-4 mb-8 mt-10">
         <Input
-          placeholder="Search Patients"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
-          style={{ flex: 1, minWidth: 200 }}
-          className="rounded-lg"
+          placeholder="Search patient or type"
+          allowClear
+          size="large"
+          addonAfter={<SearchOutlined />}
+          style={{ width: "625px" }}
         />
         <Button
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-md"
         >
           <span className="mr-1">
@@ -185,7 +187,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         </Button>
         <Button
           type="primary"
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-lg"
         >
           Generate copy link
@@ -193,6 +195,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
       </div>
 
       <Form
+        className="w-full sm:w-[500px] md:w-[650px] lg:w-[790px]"
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
@@ -205,7 +208,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         }}
       >
         {/* Patient Info */}
-        <Row gutter={16} className="mb-6">
+        <Row gutter={16} className="mb-6 ">
           <Col xs={24} md={12}>
             <Form.Item
               name="patient"
@@ -307,7 +310,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
             {/* Custom Calendar */}
             <Col span={12}>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs text-blue-600 font-semibold">
+                <span className="text-xs text-primary font-semibold">
                   • Available
                 </span>
                 <span className="text-xs text-gray-500">• Unavailable</span>

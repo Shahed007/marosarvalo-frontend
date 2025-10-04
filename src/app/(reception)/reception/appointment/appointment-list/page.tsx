@@ -61,7 +61,7 @@ const AppointmentListPage = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)} // 👈 Connects input
           addonAfter={<SearchOutlined />}
-          style={{ maxWidth: 420 }}
+        
           allowClear
         />
         <Link

@@ -107,21 +107,24 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       key: "status",
       render: (status: string) =>
         status === "Active" ? (
-          <Tag color="blue">Active</Tag>
+          <Tag color="#E6F7FE" className="!px-4 !py-1 !text-[#007A9C]">
+            Active
+          </Tag>
         ) : (
-          <Tag color="red">Inactive</Tag>
+          <Tag color="#FEF7F7" className="!px-4 !py-1 !text-[#F45B69]">
+            Inactive
+          </Tag>
         ),
     },
     {
-  title: "Action",
-  key: "action",
-  render: (_: any, record: Patient) => (
-    <Link href={`/clinic/patient/${record.id}`}>
-      <Button type="text" icon={<EyeOutlined />} />
-    </Link>
-  ),
-},
-
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Patient) => (
+        <Link href={`/clinic/patient/${record.id}`}>
+          <Button type="text" icon={<EyeOutlined />} />
+        </Link>
+      ),
+    },
   ];
 
   // ✅ Status Filter Menu
@@ -144,18 +147,20 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   }
 
   return (
-    <div >
+    <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 w-full">
         {/* Search Input */}
-        <Input
-          placeholder="Search by name, email, or phone"
-          addonAfter={<SearchOutlined />}
-          size="large"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          allowClear
-          className="w-full sm:w-auto sm:flex-1"
-        />
+        <div className="w-full sm:w-[400px] md:w-[500px] lg:w-[625px]">
+          <Input
+            placeholder="Search by name, email, or phone"
+            addonAfter={<SearchOutlined />}
+            size="large"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+            className="shadow-none"
+          />
+        </div>
 
         {/* New Patient Button */}
         <Link href={patientLink} className="w-full sm:w-auto">

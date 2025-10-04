@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Drawer, Form, Input, Select } from "antd";
+import { Button, Drawer, Form, Input, Select, Typography } from "antd";
 
 interface EditStaffDrawerProps {
   visible: boolean;
@@ -7,18 +7,25 @@ interface EditStaffDrawerProps {
   onSave: (values: any) => void;
 }
 
-const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => {
+const EditStaffDrawer = ({
+  visible,
+  onClose,
+  onSave,
+}: EditStaffDrawerProps) => {
   const [form] = Form.useForm();
 
   const handleFormSubmit = (values: any) => {
     onSave(values);
     form.resetFields();
   };
+  const { Title } = Typography;
 
   return (
     <Drawer
       title={
-        <div className="text-2xl font-semibold text-center">Edit Staff</div>
+        <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+          Edit Staff
+        </Title>
       }
       placement="right"
       onClose={() => {
@@ -38,7 +45,6 @@ const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => 
         <div
           style={{
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
           }}
         >
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -46,10 +52,12 @@ const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => 
               type="primary"
               className="flex-1 min-w-[150px] py-5"
               onClick={() => form.submit()}
+              size="large"
             >
               Save Now
             </Button>
             <Button
+              size="large"
               className="flex-1 min-w-[150px] py-5"
               onClick={() => {
                 onClose();

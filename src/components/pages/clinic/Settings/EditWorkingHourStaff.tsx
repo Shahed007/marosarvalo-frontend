@@ -89,10 +89,11 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button style={{ flex: 1 }} onClick={onClose}>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
             Cancel
           </Button>
           <Button
+            size="large"
             type="primary"
             style={{ flex: 1 }}
             onClick={() => form.submit()}

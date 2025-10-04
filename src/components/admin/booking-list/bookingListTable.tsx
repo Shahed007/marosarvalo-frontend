@@ -13,6 +13,7 @@ import {
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 const { Title, Text } = Typography;
 
@@ -63,47 +64,53 @@ export const BookingTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<any>(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
   const filteredData = clinicData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-
-  // Status badge renderer
-  const renderStatus = (status: string) => {
-    let bgColor, textColor;
-    switch (status) {
-      case "Pending":
-        bgColor = "#E2E8F0";
-        textColor = "#4180AB";
-        break;
-      case "Cancel":
-        bgColor = "#FEE2E2";
-        textColor = "#DC2626";
-        break;
-      case "Complete":
-        bgColor = "#E0F7E0";
-        textColor = "#0D9488";
-        break;
-      default:
-        bgColor = "#F1F4F6";
-        textColor = "#64748B";
-    }
-    return (
-      <Text
-        style={{
-          backgroundColor: bgColor,
-          color: textColor,
-          padding: "4px 8px",
-          borderRadius: "4px",
-          fontSize: "12px",
-        }}
-      >
-        {status}
-      </Text>
-    );
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
+
+ // Status badge renderer
+const renderStatus = (status: string) => {
+  let bgColor, textColor;
+  switch (status) {
+    case "Pending":
+      bgColor = "#E2E8F0";
+      textColor = "#4180AB";
+      break;
+    case "Cancel":
+      bgColor = "#FEE2E2";
+      textColor = "#DC2626";
+      break;
+    case "Complete":
+      bgColor = "#E0F7E0";
+      textColor = "#0D9488";
+      break;
+    default:
+      bgColor = "#F1F4F6";
+      textColor = "#64748B";
+  }
+
+  return (
+    <span
+      className="px-4 py-2 rounded text-xs font-medium"
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+        display: "inline-block",
+      }}
+    >
+      {status}
+    </span>
+  );
+};
+
 
   const handleDetailsClick = (record: any) => {
     setSelectedRecord(record);
@@ -193,30 +200,27 @@ export const BookingTable = () => {
           marginBottom: "16px",
         }}
       >
-        <Input
-          placeholder="Search by name/email/number"
-          prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          allowClear
-  
-          style={{
-            flex: 1,
-            minWidth: "220px",
-            maxWidth: "500px",
-            borderRadius: "6px",
-            border: "1px solid #CBD5E1",
-            height: "38px",
-          }}
-        />
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            allowClear
+            placeholder="Search by name/email/number"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // reset to first page when searching
+            }}
+            size="large"
+            addonAfter={<SearchOutlined />}
+          />
+        </div>
         <Link href={"/admin/add-clinic"}>
           <Button
+            size="large"
             type="primary"
             icon={<PlusOutlined />}
             style={{
               backgroundColor: "#225A7F",
               borderColor: "#225A7F",
-              height: "36px",
               borderRadius: "6px",
               fontWeight: 500,
               flexShrink: 0,
@@ -244,21 +248,24 @@ export const BookingTable = () => {
         <Table
           columns={columns}
           dataSource={filteredData}
-          pagination={{
-            position: ["bottomRight"],
-            total: filteredData.length,
-            pageSize: 5,
-            showTotal: (total) => `Total ${total} clinics`,
-          }}
           rowKey="key"
           scroll={{ x: "max-content" }}
+          pagination={false} 
           style={{
             borderRadius: "8px",
             overflow: "hidden",
           }}
         />
       </div>
-
+      {/* Custom Pagination */}
+      <div className="mt-4">
+        <CustomPagination
+          currentPage={currentPage}
+          total={filteredData.length}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+        />
+      </div>
       {/* Modal */}
       <Modal
         title="Details"

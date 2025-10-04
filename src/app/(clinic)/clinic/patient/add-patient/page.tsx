@@ -284,7 +284,7 @@ const PatientRegistrationForm: React.FC = () => {
         <div>
           <Form layout="vertical" requiredMark={false} size="large">
             <div>
-              <Title level={5}>Patients Name</Title>
+              <Title className="!text-[#0B121B]" level={4}>Patients Name</Title>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Form.Item
                   name={"firstName"}
@@ -571,11 +571,11 @@ const PatientRegistrationForm: React.FC = () => {
       ),
     },
   ];
- 
+
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">New Patients</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-10">New Patients</h1>
         <div className="border-b border-gray-200">
           <Tabs
             activeKey={activeTab}
