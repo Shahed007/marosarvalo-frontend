@@ -64,7 +64,12 @@ const ClinicDashboard = () => {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       <div>
-        <Title level={2} className="!text-[#0B121B]">Dashboard</Title>
+        <Title
+          level={2}
+          className="!text-[#0B121B] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold"
+        >
+          Dashboard
+        </Title>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
           <StatisticsCard graph={true} name="Monthly Appointment" count={15} />
           <StatisticsCard graph={true} name="Total Doctor" count={509} />

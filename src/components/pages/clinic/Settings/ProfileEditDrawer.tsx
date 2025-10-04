@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import { Drawer, Form, Input, Button, Select, DatePicker } from "antd";
+import {
+  Drawer,
+  Form,
+  Input,
+  Button,
+  Select,
+  DatePicker,
+  Typography,
+} from "antd";
 
 interface ProfileEditDrawerProps {
   visible: boolean;
@@ -18,10 +26,14 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
     console.log("Updated Profile:", values);
     onClose();
   };
-
+  const { Title } = Typography;
   return (
     <Drawer
-      title={<div className="text-3xl font-semibold text-center">Edit Profile</div>}
+      title={
+        <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+          Edit Profile
+        </Title>
+      }
       placement="right"
       onClose={onClose}
       open={visible}
@@ -36,10 +48,11 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button style={{ flex: 1 }} onClick={onClose}>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
             Cancel
           </Button>
           <Button
+            size="large"
             type="primary"
             style={{ flex: 1 }}
             onClick={() => form.submit()}

@@ -2,6 +2,7 @@ import { Card, Table, Button, Input, Space, Typography, Dropdown } from "antd";
 import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 const { Title, Text } = Typography;
 
@@ -64,13 +65,23 @@ export const ClinicTableCard = () => {
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(5);
 
+  // Filter by search
   const filteredData = clinicData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
+  // Slice for pagination
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  // Table Columns
   const columns = [
     {
       title: "Clinic Name",
@@ -122,6 +133,11 @@ export const ClinicTableCard = () => {
     },
   ];
 
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="p-5">
       <Card
@@ -131,34 +147,36 @@ export const ClinicTableCard = () => {
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
         }}
       >
+       <div className="!mb-[19px] !mt-[50px]">
+         <Title level={3} className="!m-0 !text-[#1F2937] !font-semibold ">
+          Clinic List
+        </Title>
+       </div>
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "16px",
-          }}
-        >
-          <Title
-            level={3}
-            style={{
-              margin: 0,
-              fontSize: "18px",
-              color: "#1F2937",
-              fontWeight: 600,
-            }}
-          >
-            Clinic List
-          </Title>
+        <div className="flex justify-between items-center mb-9">
+          {/* Search */}
+
+          <div className="w-full sm:w-[400px] lg:w-[625px]">
+            <Input
+              allowClear
+              placeholder="Search by name/email/number"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // reset to first page when searching
+              }}
+              size="large"
+              addonAfter={<SearchOutlined />}
+            />
+          </div>
           <Link href={"/admin/add-clinic"}>
             <Button
+              size="large"
               type="primary"
               icon={<PlusOutlined />}
               style={{
                 backgroundColor: "#225A7F",
                 borderColor: "#225A7F",
-                height: "36px",
                 borderRadius: "6px",
                 fontWeight: 500,
               }}
@@ -168,54 +186,13 @@ export const ClinicTableCard = () => {
           </Link>
         </div>
 
-        {/* Search */}
-        <div style={{ marginBottom: "20px", maxWidth: "400px" }}>
-          <Input
-            placeholder="Search by name/email/number"
-            prefix={<SearchOutlined style={{ color: "#94A3B8" }} />}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            allowClear
-            style={{
-              borderRadius: "6px",
-              border: "1px solid #CBD5E1",
-              height: "38px",
-            }}
-          />
-        </div>
-
         {/* Table */}
         <Table
           columns={columns}
-          dataSource={filteredData}
-          pagination={{
-            current: 1,
-            position: ["bottomRight"],
-            total: filteredData.length,
-            pageSize: 5,
-            showTotal: (total) => `Total ${total} clinics`,
-            hideOnSinglePage: false,
-
-            // ✅ Set pagination background here
-            style: {
-              backgroundColor: "#F8FAFC",
-              padding: "16px 0",
-              borderTop: "1px solid #E2E8F0",
-              margin: 0,
-              textAlign: "center",
-            },
-            itemRender: (_, type, element) => {
-              return type === "prev" ? (
-                <span>‹</span>
-              ) : type === "next" ? (
-                <span>›</span>
-              ) : (
-                element
-              );
-            },
-          }}
+          dataSource={paginatedData}
           rowKey="key"
           scroll={{ x: "max-content" }}
+          pagination={false}
           components={{
             header: {
               cell: ({ children }) => (
@@ -256,6 +233,16 @@ export const ClinicTableCard = () => {
           }}
         />
       </Card>
+
+      {/* Custom Pagination */}
+      <div className="mt-4">
+        <CustomPagination
+          currentPage={currentPage}
+          total={filteredData.length}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };

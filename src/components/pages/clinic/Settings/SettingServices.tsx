@@ -7,7 +7,6 @@ import {
   Button,
   Input,
   Select,
-  Space,
   Row,
   Col,
   Drawer,
@@ -16,14 +15,9 @@ import {
   Typography,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  SearchOutlined,
-  LeftOutlined,
-  RightOutlined,
-  EditFilled,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
 import { SettingService } from "@/types/global";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 interface ProductTabelProps {
   data: SettingService[];
@@ -98,7 +92,7 @@ const serviceOptions = {
 const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingService] = useState<SettingService | null>(null);
@@ -130,12 +124,6 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  // Handle page size change
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
   };
 
   // Handle discipline change
@@ -258,16 +246,18 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
     <div className="mt-20">
       <Title level={4}>Services</Title>
       {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6">
-        <Input
-          placeholder="Search service"
-          suffix={<SearchOutlined className="cursor-pointer" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 700, borderRadius: "12px" }}
-          allowClear
-          className="!px-2 !py-2"
-        />
+      <div className="flex items-center justify-between mb-6 mt-4">
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            placeholder="Search discipline"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+
         <Button
           type="primary"
           style={{ borderRadius: "12px" }}
@@ -300,7 +290,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
                   backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: 600,
-                  color: "#334155",
+                  color: "#4180AB",
                 }}
               />
             ),
@@ -320,88 +310,21 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
       />
 
       {/* Custom Pagination */}
-      <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
-        <Col>
-          <Space>
-            <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-              Showing
-            </span>
-            <Select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ width: 80, height: 32, borderRadius: "15px" }}
-              size="small"
-            >
-              <Select.Option value={10}>10</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
-              <Select.Option value={50}>50</Select.Option>
-            </Select>
-          </Space>
-        </Col>
-
-        <Col>
-          <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-            Showing {startIndex + 1} to {endIndex} of {totalRecords} records
-          </span>
-        </Col>
-
-        <Col>
-          <Space>
-            <Button
-              icon={<LeftOutlined />}
-              size="small"
-              type="text"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <Button
-              type={currentPage === 1 ? "primary" : "text"}
-              size="small"
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </Button>
-            {totalRecords > pageSize && (
-              <Button
-                type={currentPage === 2 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(2)}
-              >
-                2
-              </Button>
-            )}
-            {totalRecords > pageSize * 2 && (
-              <Button
-                type={currentPage === 3 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(3)}
-              >
-                3
-              </Button>
-            )}
-            {totalRecords > pageSize * 3 && (
-              <Button
-                type={currentPage === 4 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(4)}
-              >
-                4
-              </Button>
-            )}
-            <Button
-              icon={<RightOutlined />}
-              size="small"
-              type="text"
-              disabled={endIndex >= totalRecords}
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Space>
-        </Col>
-      </Row>
+      {/* Custom pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
 
       {/* New Service Drawer */}
       <Drawer
-        title="Add Service"
+        title={
+          <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+            Add Service
+          </Title>
+        }
         placement="right"
         onClose={() => {
           setDrawerVisible(false);
@@ -422,7 +345,6 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           <div
             style={{
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
             }}
           >
             <div
@@ -524,7 +446,11 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
 
       {/* Edit Service Drawer */}
       <Drawer
-        title="Edit Service"
+        title={
+          <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+            Edit Service
+          </Title>
+        }
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);
@@ -543,7 +469,6 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           <div
             style={{
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
             }}
           >
             <div

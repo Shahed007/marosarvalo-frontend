@@ -15,11 +15,7 @@ import {
   Modal,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  SearchOutlined,
-  EditFilled,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
 import CustomPagination from "../shared/CustomPagination";
 
@@ -42,7 +38,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   const [statusFilter] = useState<"All" | "Active" | "Inactive">("All");
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, ] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingBond] = useState<Bond | null>(null);
@@ -78,8 +74,6 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-
-
 
   // Handle new bond form submission
   const handleFormSubmit = (values: any) => {
@@ -206,7 +200,8 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   return (
     <div>
       {/* Search + Add Button */}
-      <div className="sm:!flex flex-row items-center justify-between mb-6 gap-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 gap-4">
+        {/* Search Input */}
         <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
             placeholder="Search patient or type"
@@ -217,10 +212,13 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
-        <div className={`${hiddenClass}`}>
+
+        {/* Action Button */}
+        <div className={`${hiddenClass} w-full sm:w-auto`}>
           <Button
             size="large"
             type="primary"
+            className="w-full sm:w-auto"
             style={{ borderRadius: "12px" }}
             icon={<PlusOutlined />}
             onClick={() => setDrawerVisible(true)}

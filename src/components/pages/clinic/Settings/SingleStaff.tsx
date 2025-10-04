@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Avatar, Button, Card, Tabs, Table, Select, Pagination } from "antd";
+import { Avatar, Button, Card, Tabs, Table } from "antd";
 import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import ProfileEditDrawer from "./ProfileEditDrawer";
@@ -11,6 +11,7 @@ import EditWorkingHourStaff from "./EditWorkingHourStaff";
 import dayjs, { Dayjs } from "dayjs";
 import AddHolidayDrawer from "./AddHolidayDrawer";
 import EditHolidayDrawer from "./EditHolidayDrawer";
+import CustomPagination from "@/components/shared/CustomPagination";
 
 const { TabPane } = Tabs;
 
@@ -207,6 +208,17 @@ export default function SingleStaff() {
     // You would implement logic to update all days based on the form data
     handleCloseAddWorkingHour();
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10);
+  // Add this handler for pagination change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  // const handlePageSizeChange = (value: string) => {
+  //   setPageSize(Number(value));
+  //   setCurrentPage(1); // reset to first page when page size changes
+  // };
 
   const handleAddHoliday = (holidayData: any) => {
     // Create a new holiday object
@@ -242,7 +254,6 @@ export default function SingleStaff() {
     {
       title: "Actions",
       key: "actions",
-      align: "end",
       render: (_, record) => (
         <Button
           onClick={() => handleOpenEditDrawer(record)}
@@ -275,9 +286,8 @@ export default function SingleStaff() {
       title: "Actions",
       dataIndex: "actions",
       key: "actions",
-      align: "center",
       render: () => (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div>
           <Button
             onClick={handleOpenEditHolidayDrawer}
             type="text"
@@ -315,7 +325,7 @@ export default function SingleStaff() {
       <div>
         <h1
           style={{
-            fontSize: "24px",
+            fontSize: "30px",
             fontWeight: 600,
             color: "#111827",
             marginBottom: "24px",
@@ -533,6 +543,7 @@ export default function SingleStaff() {
           </Tabs>
           {activeTab === "unavailability" ? (
             <Button
+              size="large"
               onClick={handleOpenHolidayDrawer}
               type="primary"
               className="bg-primary border-primary"
@@ -541,6 +552,7 @@ export default function SingleStaff() {
             </Button>
           ) : (
             <Button
+              size="large"
               onClick={handleOpenAddWorkingHour}
               type="primary"
               className="bg-primary border-primary"
@@ -557,47 +569,30 @@ export default function SingleStaff() {
               dataSource={workingDays}
               pagination={false}
               size="middle"
+              components={{
+                header: {
+                  cell: (props) => (
+                    <th
+                      {...props}
+                      style={{
+                        backgroundColor: "#F1F4F6",
+                        padding: "16px",
+                        fontWeight: 600,
+                        color: "#4180AB",
+                      }}
+                    />
+                  ),
+                },
+              }}
             />
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "16px 0",
-                borderTop: "1px solid #f0f0f0",
-                marginTop: "16px",
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <span style={{ fontSize: "14px", color: "#6b7280" }}>
-                  Showing
-                </span>
-                <Select
-                  defaultValue="10"
-                  size="small"
-                  style={{ width: "64px" }}
-                >
-                  <Select.Option value="10">10</Select.Option>
-                  <Select.Option value="25">25</Select.Option>
-                  <Select.Option value="50">50</Select.Option>
-                </Select>
-              </div>
-
-              <div style={{ fontSize: "14px", color: "#6b7280" }}>
-                Showing 1 to 10 out of 60 records
-              </div>
-
-              <Pagination
-                current={1}
-                total={60}
-                pageSize={10}
-                showSizeChanger={false}
-                size="small"
-              />
-            </div>
+            {/* Custom pagination */}
+            <CustomPagination
+              currentPage={currentPage}
+              total={workingDays.length} // or holidays.length depending on the tab
+              pageSize={pageSize}
+              onPageChange={handlePageChange}
+            />
           </Card>
         )}
 
@@ -608,47 +603,30 @@ export default function SingleStaff() {
               dataSource={holidays}
               pagination={false}
               size="middle"
+              components={{
+                header: {
+                  cell: (props) => (
+                    <th
+                      {...props}
+                      style={{
+                        backgroundColor: "#F1F4F6",
+                        padding: "16px",
+                        fontWeight: 600,
+                        color: "#4180AB",
+                      }}
+                    />
+                  ),
+                },
+              }}
             />
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "16px 0",
-                borderTop: "1px solid #f0f0f0",
-                marginTop: "16px",
-              }}
-            >
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              >
-                <span style={{ fontSize: "14px", color: "#6b7280" }}>
-                  Showing
-                </span>
-                <Select
-                  defaultValue="10"
-                  size="small"
-                  style={{ width: "64px" }}
-                >
-                  <Select.Option value="10">10</Select.Option>
-                  <Select.Option value="25">25</Select.Option>
-                  <Select.Option value="50">50</Select.Option>
-                </Select>
-              </div>
-
-              <div style={{ fontSize: "14px", color: "#6b7280" }}>
-                Showing 1 to 10 out of 60 records
-              </div>
-
-              <Pagination
-                current={1}
-                total={60}
-                pageSize={10}
-                showSizeChanger={false}
-                size="small"
-              />
-            </div>
+            {/* Custom pagination */}
+            <CustomPagination
+              currentPage={currentPage}
+              total={workingDays.length}
+              pageSize={pageSize}
+              onPageChange={handlePageChange}
+            />
           </Card>
         )}
       </div>
