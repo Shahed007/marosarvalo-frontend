@@ -16,7 +16,7 @@ import {
 import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 // import Calendar from "react-calendar"; // <-- Import react-calendar
-import "react-calendar/dist/Calendar.css"; // Optional base styles (we'll override with Tailwind)
+// import "react-calendar/dist/Calendar.css"; // Optional base styles (we'll override with Tailwind)
 
 const { TextArea } = Input;
 const { Title } = Typography;
