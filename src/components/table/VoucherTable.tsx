@@ -139,7 +139,7 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         <Input
           size="large"
           placeholder="Search voucher"
-          suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
+          addonAfter={<SearchOutlined style={{ color: "#8c8c8c" }} />}
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);

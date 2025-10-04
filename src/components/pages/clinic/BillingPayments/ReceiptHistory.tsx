@@ -92,7 +92,7 @@ export default function ReceiptHistory() {
           <Input
             size="large"
             placeholder="Search by ID, name, or email"
-            suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
+            addonAfter={<SearchOutlined style={{ color: "#8c8c8c" }} />}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             allowClear

@@ -443,7 +443,7 @@ export default function BillingPayments() {
                 </Text>
                 <Input
                   placeholder="Search Patients"
-                  suffix={
+                  addonAfter={
                     <SearchOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   }
                   size="large"
