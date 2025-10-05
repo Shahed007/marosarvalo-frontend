@@ -34,7 +34,7 @@ import Title from "antd/es/typography/Title";
 import { usePathname } from "next/navigation";
 import CalanderDetailsDrawer from "@/components/drawer/CalanderDetailsDrawer";
 import CancelAppointmentDrawer from "@/components/drawer/CancelAppointmentDrawer";
-
+import calendarIcon from "@/assets/icons/calendarIcon.png";
 const { Header, Content } = Layout;
 const { Option } = Select;
 const { Text } = Typography;
@@ -215,7 +215,6 @@ export default function Calendar() {
     onCloseDrawer();
   };
 
-  // ✅ Cancel Drawer Handlers
   const showCancelDrawer = (apt: Appointment) => {
     setSelectedAppointment(apt);
     setDrawerVisibleForCancel(true);
@@ -362,7 +361,9 @@ export default function Calendar() {
       {/* 🔎 Search + Add */}
       <div className="p-4 md:p-6 lg:p-8 sm:p-6 pb-0">
         <div>
-          <Title level={2} className="!text-[#0B121B]">Calendar</Title>
+          <Title level={2} className="!text-[#0B121B]">
+            Calendar
+          </Title>
         </div>
         <div className="flex flex-wrap gap-2 justify-between items-center mt-10">
           <Input
@@ -394,7 +395,15 @@ export default function Calendar() {
       {/* 📅 Filters */}
       <Header className="bg-white p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
         <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
-          <CalendarOutlined className="bg-gray-200 text-gray-600 p-2 rounded-md text-lg" />
+          {/* <CalendarOutlined className="bg-[#E9EAEC] text-gray-600 p-2 rounded-md text-lg" /> */}
+          <div className="bg-[#E9EAEC]  p-5 rounded-md ">
+            <Image
+              src={calendarIcon}
+              width={19}
+              height={19}
+              alt="calendarIcon"
+            />
+          </div>
           <div className="flex flex-col">
             <Text strong className="text-lg whitespace-nowrap leading-none">
               {totalAppointments} <span>Total Appointments</span>

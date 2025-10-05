@@ -4,7 +4,7 @@ import AppointmentOverview from "@/components/dashboard/appointmentOverview/Appo
 import { useState } from "react";
 
 interface AppointmentOverviewProps {
-  title: React.ReactNode;   
+  title: React.ReactNode;
   totalAppointments: number;
   changePercent: number;
   timeFrameData: { day: string; value: number }[];
@@ -16,8 +16,10 @@ interface AppointmentOverviewProps {
 const ClinicAppointmentOverview = () => {
   const [currentTimeFrame, setCurrentTimeFrame] = useState("weekly");
   // Sample data
-  const sampleData:AppointmentOverviewProps = {
-    title: <span className="text-[#4180AB] text-[20px]">Appointment Overview</span>,
+  const sampleData: AppointmentOverviewProps = {
+    title: (
+      <span className="text-[#4180AB] text-[20px]">Appointment Overview</span>
+    ),
     totalAppointments: 532,
     changePercent: 12,
     timeFrameData: [

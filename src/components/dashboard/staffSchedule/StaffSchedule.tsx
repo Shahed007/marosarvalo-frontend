@@ -1,5 +1,6 @@
 "use client";
 import { Card, List, Typography } from "antd";
+import Link from "next/link";
 
 const { Text } = Typography;
 
@@ -25,12 +26,12 @@ const StaffSchedule: React.FC<StaffScheduleProps> = ({
     <Card
       title={<span className="text-primary font-semibold">{title}</span>}
       extra={
-        <button
+        <Link href={'/clinic/all-staff'}
           onClick={onViewAll}
-          className="text-gray-500 hover:text-blue-500 text-sm"
+          className="!text-[#0B121B] hover:text-blue-500 text-sm"
         >
           View all
-        </button>
+        </Link>
       }
       className="rounded-2xl shadow-sm"
     >
