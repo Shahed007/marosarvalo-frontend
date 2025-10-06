@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Modal } from "antd";
 
-// Define form data type
 type FormData = {
   clinicName: string;
   clinicEmail: string;
@@ -21,7 +20,7 @@ type FormData = {
 interface EditClinicModalProps {
   visible: boolean;
   onCancel: () => void;
-  data?: Partial<FormData>; // Optional initial data
+  data?: Partial<FormData>;
 }
 
 export default function EditClinicModal({
@@ -34,7 +33,6 @@ export default function EditClinicModal({
     handleSubmit,
     reset,
     watch,
-
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
@@ -54,79 +52,81 @@ export default function EditClinicModal({
   const [reminderSent, setReminderSent] = useState(false);
   const password = watch("password");
 
-  // ✅ Pre-fill form when `data` changes
+  // ✅ Pre-fill or clear form when data changes
   useEffect(() => {
-    if (data) {
-      reset(data); // Reset form with passed data
-    } else {
-      reset(); // Clear form if no data
-    }
+    if (data) reset(data);
+    else reset();
   }, [data, reset]);
 
-  // Handle form submission
   const onSubmit = async (formData: FormData) => {
     console.log("Form Data Submitted:", formData);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     alert("Clinic and user updated successfully!");
-    onCancel(); // ✅ Close modal via parent callback
+    onCancel();
   };
 
-  // Handle reminder
   const handleSendReminder = () => {
     setReminderSent(true);
-    setTimeout(() => setReminderSent(false), 3000); // Hide after 3s
+    setTimeout(() => setReminderSent(false), 3000);
   };
 
-  // Handle cancel (reset + close)
   const handleCancel = () => {
     reset();
     setReminderSent(false);
-    onCancel(); // ✅ Notify parent to close modal
+    onCancel();
   };
 
   return (
     <Modal
-      title="Edit Clinic"
+      title={
+        <div className="text-center font-semibold text-[18px] text-slate-800">
+          Edit Clinic
+        </div>
+      }
       open={visible}
       onCancel={handleCancel}
       footer={null}
       width={720}
       centered
       destroyOnClose
+      className="rounded border border-[var(--Primary-Primary-1,#225A7F)]"
+      bodyStyle={{ padding: 0 }}
     >
-      <div className="space-y-6 px-2 py-4">
-        {/* Clinic Information Section */}
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+      {/* ✅ Scrollable Wrapper */}
+      <div
+        className="max-h-[75vh] overflow-y-auto scroll-smooth px-4 py-6 space-y-6"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "#225A7F #E5E7EB",
+        }}
+      >
+        {/* Clinic Information */}
+        <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-gray-50 px-6 py-4">
             <h2 className="text-lg font-medium text-gray-900">
               Clinic Information
             </h2>
           </div>
+
           <div className="px-6 py-4 space-y-4">
             {/* Clinic Name */}
             <div className="space-y-2">
-              <label
-                htmlFor="clinicName"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 Clinic Name <span className="text-red-500">*</span>
               </label>
               <input
-                id="clinicName"
-                type="text"
-                placeholder="Enter clinic name"
                 {...register("clinicName", {
                   required: "Clinic Name is required",
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter clinic name"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.clinicName
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.clinicName && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.clinicName.message}
                 </p>
               )}
@@ -134,31 +134,27 @@ export default function EditClinicModal({
 
             {/* Clinic Email */}
             <div className="space-y-2">
-              <label
-                htmlFor="clinicEmail"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700">
+                Clinic Email <span className="text-red-500">*</span>
               </label>
               <input
-                id="clinicEmail"
                 type="email"
-                placeholder="Enter email"
                 {...register("clinicEmail", {
-                  required: "Email is required",
+                  required: "Clinic Email is required",
                   pattern: {
                     value: /^\S+@\S+\.\S+$/,
-                    message: "Enter a valid email address",
+                    message: "Enter a valid email",
                   },
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter email"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.clinicEmail
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.clinicEmail && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.clinicEmail.message}
                 </p>
               )}
@@ -166,16 +162,11 @@ export default function EditClinicModal({
 
             {/* Clinic Phone */}
             <div className="space-y-2">
-              <label
-                htmlFor="clinicPhone"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700">
+                Clinic Phone <span className="text-red-500">*</span>
               </label>
               <input
-                id="clinicPhone"
                 type="tel"
-                placeholder="Enter phone number"
                 {...register("clinicPhone", {
                   required: "Phone number is required",
                   pattern: {
@@ -183,14 +174,15 @@ export default function EditClinicModal({
                     message: "Enter a valid phone number",
                   },
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter phone number"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.clinicPhone
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.clinicPhone && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.clinicPhone.message}
                 </p>
               )}
@@ -198,27 +190,22 @@ export default function EditClinicModal({
 
             {/* Clinic Address */}
             <div className="space-y-2">
-              <label
-                htmlFor="clinicAddress"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 Clinic Address <span className="text-red-500">*</span>
               </label>
               <input
-                id="clinicAddress"
-                type="text"
-                placeholder="Enter clinic address"
                 {...register("clinicAddress", {
                   required: "Clinic Address is required",
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter clinic address"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.clinicAddress
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.clinicAddress && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.clinicAddress.message}
                 </p>
               )}
@@ -226,35 +213,33 @@ export default function EditClinicModal({
           </div>
         </div>
 
-        {/* User Information Section */}
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+        {/* User Information */}
+        <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
+          <div className="sticky top-0 z-10 border-b border-gray-200 bg-gray-50 px-6 py-4">
             <h2 className="text-lg font-medium text-gray-900">
               User Information
             </h2>
           </div>
+
           <div className="px-6 py-4 space-y-4">
             {/* User Name */}
             <div className="space-y-2">
-              <label
-                htmlFor="userName"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 User Name <span className="text-red-500">*</span>
               </label>
               <input
-                id="userName"
-                type="text"
+                {...register("userName", {
+                  required: "User Name is required",
+                })}
                 placeholder="Enter user name"
-                {...register("userName", { required: "User Name is required" })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.userName
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.userName && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.userName.message}
                 </p>
               )}
@@ -262,16 +247,11 @@ export default function EditClinicModal({
 
             {/* User Email */}
             <div className="space-y-2">
-              <label
-                htmlFor="userEmail"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 User Email <span className="text-red-500">*</span>
               </label>
               <input
-                id="userEmail"
                 type="email"
-                placeholder="Enter user email"
                 {...register("userEmail", {
                   required: "User Email is required",
                   pattern: {
@@ -279,14 +259,15 @@ export default function EditClinicModal({
                     message: "Enter a valid email address",
                   },
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter user email"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.userEmail
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.userEmail && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.userEmail.message}
                 </p>
               )}
@@ -294,16 +275,11 @@ export default function EditClinicModal({
 
             {/* User Phone */}
             <div className="space-y-2">
-              <label
-                htmlFor="userPhone"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Phone Number <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700">
+                User Phone <span className="text-red-500">*</span>
               </label>
               <input
-                id="userPhone"
                 type="tel"
-                placeholder="Enter user phone number"
                 {...register("userPhone", {
                   required: "User Phone is required",
                   pattern: {
@@ -311,14 +287,15 @@ export default function EditClinicModal({
                     message: "Enter a valid phone number",
                   },
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter user phone"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.userPhone
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.userPhone && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.userPhone.message}
                 </p>
               )}
@@ -326,27 +303,22 @@ export default function EditClinicModal({
 
             {/* User Address */}
             <div className="space-y-2">
-              <label
-                htmlFor="userAddress"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 User Address <span className="text-red-500">*</span>
               </label>
               <input
-                id="userAddress"
-                type="text"
-                placeholder="Enter user address"
                 {...register("userAddress", {
                   required: "User Address is required",
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter user address"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.userAddress
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.userAddress && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.userAddress.message}
                 </p>
               )}
@@ -354,16 +326,11 @@ export default function EditClinicModal({
 
             {/* Password */}
             <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 Password <span className="text-red-500">*</span>
               </label>
               <input
-                id="password"
                 type="password"
-                placeholder="Enter password"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -371,14 +338,15 @@ export default function EditClinicModal({
                     message: "Password must be at least 6 characters",
                   },
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Enter password"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.password
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.password && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.password.message}
                 </p>
               )}
@@ -386,29 +354,25 @@ export default function EditClinicModal({
 
             {/* Confirm Password */}
             <div className="space-y-2">
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700">
                 Confirm Password <span className="text-red-500">*</span>
               </label>
               <input
-                id="confirmPassword"
                 type="password"
-                placeholder="Re-enter password"
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
-                className={`w-full rounded-md border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-blue-500 ${
+                placeholder="Re-enter password"
+                className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
                   errors.confirmPassword
                     ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-blue-500"
+                    : "border-gray-300 focus:border-[#225A7F]"
                 }`}
               />
               {errors.confirmPassword && (
-                <p className="mt-1 text-xs text-red-500">
+                <p className="text-xs text-red-500">
                   {errors.confirmPassword.message}
                 </p>
               )}
@@ -416,22 +380,21 @@ export default function EditClinicModal({
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 pt-4">
+        {/* ✅ Fixed Action Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 pt-4 pb-2">
           <Button
-            type="primary"
+            type="default"
             size="large"
             onClick={handleSendReminder}
             disabled={reminderSent}
-            className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="border border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             {reminderSent ? "Reminder Sent!" : "Send Reminder"}
           </Button>
           <Button
-            type="primary"
             size="large"
             onClick={handleCancel}
-            className="px-6 py-2 border cursor-pointer border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="border border-gray-300 text-gray-700 hover:bg-gray-50"
           >
             Cancel
           </Button>
@@ -440,16 +403,9 @@ export default function EditClinicModal({
             size="large"
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="px-6 py-2 bg-[#225A7F] text-white rounded-md hover:bg-[#225A7F] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            className="bg-[#225A7F] text-white hover:bg-[#1d4e6f]"
           >
-            {isSubmitting ? (
-              <>
-                <span className="h-4 w-4 inline-block animate-spin rounded-full border-2 cursor-pointer border-t-transparent mr-2"></span>
-                Saving...
-              </>
-            ) : (
-              "Save Changes"
-            )}
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </div>
