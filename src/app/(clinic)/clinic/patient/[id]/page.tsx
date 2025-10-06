@@ -14,7 +14,7 @@ export default function page() {
       <Title level={2}>Patient Info</Title>
 
       {/* Responsive grid: stack on mobile, 2 columns on md+ */}
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 mt-10">
         <div className="w-full md:w-auto">
           <Profile />
         </div>

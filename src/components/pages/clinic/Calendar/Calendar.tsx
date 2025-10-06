@@ -392,17 +392,19 @@ export default function Calendar() {
         </div>
       </div>
 
-      {/* 📅 Filters */}
-      <Header className="bg-white p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
+      {/* Filters */}
+      <div className="bg-white ms-2 me-2 p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
         <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
           {/* <CalendarOutlined className="bg-[#E9EAEC] text-gray-600 p-2 rounded-md text-lg" /> */}
-          <div className="bg-[#E9EAEC]  p-5 rounded-md ">
-            <Image
-              src={calendarIcon}
-              width={19}
-              height={19}
-              alt="calendarIcon"
-            />
+          <div className="bg-[#E9EAEC] rounded-md h-[35px] w-[35px] flex justify-center items-center mt-1">
+            <div>
+              <Image
+                src={calendarIcon}
+                width={19}
+                height={19}
+                alt="calendarIcon"
+              />
+            </div>
           </div>
           <div className="flex flex-col">
             <Text strong className="text-lg whitespace-nowrap leading-none">
@@ -461,7 +463,7 @@ export default function Calendar() {
             ))}
           </Select>
         </div>
-      </Header>
+      </div>
 
       {/* Table */}
       <Content className="p-4 sm:p-6 mt-38 sm:mt-0 mb-12">

@@ -49,7 +49,6 @@ export const appointmentList: AppointmentListProps[] = [
 const AppointmentListPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // 🔍 Filter data dynamically
   const filteredData = appointmentList.filter((item) =>
     Object.values(item).some((val) =>
       val.toLowerCase().includes(searchQuery.toLowerCase())
