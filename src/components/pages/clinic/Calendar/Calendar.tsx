@@ -19,7 +19,6 @@ import {
   UserOutlined,
   MoreOutlined,
   PlusOutlined,
-  CalendarOutlined,
   LeftOutlined,
   RightOutlined,
   SearchOutlined,
@@ -35,7 +34,7 @@ import { usePathname } from "next/navigation";
 import CalanderDetailsDrawer from "@/components/drawer/CalanderDetailsDrawer";
 import CancelAppointmentDrawer from "@/components/drawer/CancelAppointmentDrawer";
 import calendarIcon from "@/assets/icons/calendarIcon.png";
-const { Header, Content } = Layout;
+const { Content } = Layout;
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -359,32 +358,42 @@ export default function Calendar() {
   return (
     <Layout className="min-h-screen bg-white ">
       {/* 🔎 Search + Add */}
-      <div className="p-4 md:p-6 lg:p-8 sm:p-6 pb-0">
+      <div className="p-4 sm:p-5 md:p-6 lg:p-8 pb-0 w-full">
+        {/* Title */}
         <div>
-          <Title level={2} className="!text-[#0B121B]">
+          <Title
+            level={2}
+            className="!text-[#0B121B] !font-[500] !text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px]"
+          >
             Calendar
           </Title>
         </div>
-        <div className="flex flex-wrap gap-2 justify-between items-center mt-10">
-          <Input
-            placeholder="Search patient or type"
-            allowClear
-            size="large"
-            addonAfter={<SearchOutlined />}
-            style={{ width: "625px" }}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
 
+        {/* Search + Button Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-3 sm:mt-6 md:mt-8 lg:mt-10 w-full">
+          {/* Search Input */}
+          <div className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[625px]">
+            <Input
+              placeholder="Search patient or type"
+              allowClear
+              size="large"
+              addonAfter={<SearchOutlined />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full"
+            />
+          </div>
+
+          {/* Add Appointment Button */}
           <Link
-            href={"/clinic/appointment/add-appointment"}
+            href="/clinic/appointment/add-appointment"
             className={`w-full sm:w-auto ${hiddenClass}`}
           >
             <Button
               size="large"
               type="primary"
               icon={<PlusOutlined />}
-              className="w-full sm:w-auto mt-2 sm:mt-0"
+              className="w-full sm:w-auto !px-6 !py-[18px] text-sm sm:text-base mt-2 sm:mt-0"
             >
               Add New Appointment
             </Button>
@@ -466,7 +475,7 @@ export default function Calendar() {
       </div>
 
       {/* Table */}
-      <Content className="p-4 sm:p-6 mt-38 sm:mt-0 mb-12">
+      <Content className="p-3 sm:p-5 md:p-6 lg:p-8 mt-6 sm:mt-10 md:mt-16 lg:mt-0 mb-8 sm:mb-10 md:mb-12 w-full">
         <div className="overflow-x-auto">
           <Card className="rounded-lg border-gray-200">
             <Table

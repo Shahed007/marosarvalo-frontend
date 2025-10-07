@@ -126,13 +126,13 @@ export default function BillingPayments() {
     const mockVouchers: Voucher[] = [
       {
         id: "1",
-        name: "Summer Discount",
+        name: "#Fa15421",
         amount: 20,
         expireDate: "2023-12-31",
       },
       {
         id: "2",
-        name: "New Patient Offer",
+        name: "#Fa15421",
         amount: 15,
         expireDate: "2023-10-15",
       },
@@ -429,16 +429,31 @@ export default function BillingPayments() {
         <Col xs={24} lg={16}>
           {/* Invoice Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 0, borderRadius: 8, border: "0" }}
             title={
-              <Title level={4} style={{ margin: 0 }}>
+              <Title
+                level={4}
+                style={{
+                  margin: "0",
+                  borderBottom: "4px solid #225A7F",
+                  width: "98px",
+                  marginBottom: "30px",
+                }}
+              >
                 Invoice
               </Title>
             }
           >
             <Space direction="vertical" style={{ width: "100%" }} size={16}>
               <div>
-                <Text strong style={{ display: "block", marginBottom: 8 }}>
+                <Text
+                  strong
+                  style={{
+                    display: "block",
+                    marginBottom: 8,
+                    fontSize: "20px",
+                  }}
+                >
                   Patient
                 </Text>
                 <Input
@@ -456,6 +471,7 @@ export default function BillingPayments() {
                   <Button
                     key={patient.id}
                     size="middle"
+                    className="!text-[#9DA0A4] !mb-[30px]"
                     type={
                       selectedPatient?.id === patient.id ? "primary" : "default"
                     }
@@ -470,7 +486,7 @@ export default function BillingPayments() {
 
           {/* Product Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 30, borderRadius: 8, border: 0 }}
             title={
               <div
                 style={{
@@ -479,6 +495,7 @@ export default function BillingPayments() {
                   alignItems: "center",
                   flexWrap: "wrap",
                   gap: 8,
+                  marginBottom: "30px",
                 }}
               >
                 <Title level={4} style={{ margin: 0 }}>
@@ -486,15 +503,27 @@ export default function BillingPayments() {
                 </Title>
                 <Space wrap>
                   <Button
+                    style={{
+                      padding: "12px 32px",
+                    }}
                     size="middle"
                     onClick={() => setDrawerVisibleVoucher(true)}
                   >
                     Add Voucher
                   </Button>
-                  <Button size="middle" onClick={() => setDrawerVisible(true)}>
+                  <Button
+                    style={{
+                      padding: "12px 32px",
+                    }}
+                    size="middle"
+                    onClick={() => setDrawerVisible(true)}
+                  >
                     Add Bonds
                   </Button>
                   <Button
+                    style={{
+                      padding: "12px 32px",
+                    }}
                     type="primary"
                     size="middle"
                     onClick={() => setDrawerVisibleService(true)}
@@ -527,6 +556,7 @@ export default function BillingPayments() {
                     padding: "4px 8px",
                     borderRadius: "8px",
                     cursor: "pointer",
+                    color: "#9DA0A4",
                   }}
                 >
                   {product.name} (${product.price})
@@ -537,7 +567,7 @@ export default function BillingPayments() {
 
           {/* Taxes Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 24, borderRadius: 8, border: 0 }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Taxes
@@ -562,7 +592,7 @@ export default function BillingPayments() {
 
           {/* Discount Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 24, borderRadius: 8, border: 0 }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Discount
@@ -587,7 +617,7 @@ export default function BillingPayments() {
 
           {/* Payment Method Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 24, borderRadius: 8, border: 0 }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Payment Method
@@ -610,7 +640,7 @@ export default function BillingPayments() {
                     fontSize: 12,
                     border:
                       selectedPaymentMethod?.name === "MasterCard"
-                        ? "2px solid #1890ff"
+                        ? "2px solid #4180AB"
                         : "1px solid #CCCCCC",
                   }}
                   onClick={() =>
@@ -645,7 +675,7 @@ export default function BillingPayments() {
                     fontSize: 12,
                     border:
                       selectedPaymentMethod?.name === "Visa"
-                        ? "2px solid #1890ff"
+                        ? "2px solid #4180AB"
                         : "1px solid #CCCCCC",
                   }}
                   onClick={() =>
@@ -680,7 +710,7 @@ export default function BillingPayments() {
                   height: 100,
                   border:
                     selectedPaymentMethod?.name === "Cash"
-                      ? "2px solid #1890ff"
+                      ? "2px solid #4180AB"
                       : "1px solid #d9d9d9",
                 }}
                 className="!font-bold"
@@ -702,7 +732,7 @@ export default function BillingPayments() {
                   height: 100,
                   border:
                     selectedPaymentMethod?.name === "Voucher"
-                      ? "2px solid #1890ff"
+                      ? "2px solid #4180AB"
                       : "1px solid #d9d9d9",
                 }}
                 className="!font-bold"
@@ -724,7 +754,7 @@ export default function BillingPayments() {
                   height: 100,
                   border:
                     selectedPaymentMethod?.name === "Bond"
-                      ? "2px solid #1890ff"
+                      ? "2px solid #4180AB"
                       : "1px solid #d9d9d9",
                 }}
                 className="!font-bold"
@@ -737,7 +767,7 @@ export default function BillingPayments() {
           {/* Voucher Pay Section */}
           {selectedPaymentMethod?.type === "voucher" && (
             <Card
-              style={{ marginBottom: 24, borderRadius: 8 }}
+              style={{ marginBottom: 24, borderRadius: 8, border: 0 }}
               title={
                 <Title level={4} style={{ margin: 0 }}>
                   Voucher Pay
@@ -759,9 +789,18 @@ export default function BillingPayments() {
                 </Select>
 
                 {appliedVoucher && (
-                  <Text>
-                    Applied: {appliedVoucher.name} (${appliedVoucher.amount})
-                  </Text>
+                  <Button
+                    key={appliedVoucher.id}
+                    size="middle"
+                    className="!text-[#9DA0A4] !mb-[30px]"
+                    type={
+                      selectedPatient?.id === appliedVoucher.id
+                        ? "primary"
+                        : "default"
+                    }
+                  >
+                    {appliedVoucher.name} (${appliedVoucher.amount})
+                  </Button>
                 )}
               </Space>
             </Card>
@@ -769,7 +808,12 @@ export default function BillingPayments() {
 
           {/* Amount Paid Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8, width: "100%" }}
+            style={{
+              marginBottom: 24,
+              borderRadius: 8,
+              width: "100%",
+              border: 0,
+            }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Amount Paid
@@ -807,7 +851,7 @@ export default function BillingPayments() {
 
           {/* Note Section */}
           <Card
-            style={{ marginBottom: 24, borderRadius: 8 }}
+            style={{ marginBottom: 24, borderRadius: 8, border: 0 }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Note
@@ -823,7 +867,7 @@ export default function BillingPayments() {
           </Card>
 
           {/* Action Buttons */}
-          <Space>
+          <Space className="flex flex-row sm:flex-row justify-start items-start gap-3 sm:gap-4 w-full">
             <Button
               onClick={() => {
                 if (cartItems.length === 0) {
@@ -834,12 +878,30 @@ export default function BillingPayments() {
               }}
               type="primary"
               size="large"
-              icon={<PlusOutlined />}
+              className="w-full sm:w-[206px]"
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="17"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M14.2143 16H3.40909C2.63755 16 1.89761 15.6778 1.35205 15.1042C0.806493 14.5306 0.5 13.7526 0.5 12.9414V1.53115C0.5 0.598716 1.37771 0.00709829 2.14987 0.288488C2.26069 0.328687 2.36791 0.387528 2.47153 0.465012L2.61699 0.574247C2.97078 0.838183 3.39403 0.979599 3.82783 0.978816C4.26164 0.978033 4.68442 0.835089 5.03735 0.569878C5.53276 0.19919 6.12571 0 6.73377 0C7.34182 0 7.93477 0.19919 8.43018 0.569878C8.78311 0.835089 9.20589 0.978033 9.6397 0.978816C10.0735 0.979599 10.4968 0.838183 10.8505 0.574247L10.996 0.465012C11.8214 -0.155444 12.9675 0.465012 12.9675 1.53115V8.13507H15.8766C16.042 8.13507 16.2005 8.20412 16.3174 8.32703C16.4343 8.44995 16.5 8.61665 16.5 8.79048V13.5968C16.5 14.2342 16.2592 14.8454 15.8305 15.2961C15.4019 15.7468 14.8205 16 14.2143 16ZM13.1753 9.44589V13.5968C13.1753 13.8865 13.2848 14.1644 13.4796 14.3692C13.6745 14.5741 13.9387 14.6892 14.2143 14.6892C14.4898 14.6892 14.7541 14.5741 14.9489 14.3692C15.1438 14.1644 15.2532 13.8865 15.2532 13.5968V9.44589H13.1753ZM9.64286 5.7319C9.64286 5.55807 9.57718 5.39136 9.46027 5.26845C9.34337 5.14554 9.18481 5.07648 9.01948 5.07648H4.03247C3.86714 5.07648 3.70858 5.14554 3.59167 5.26845C3.47477 5.39136 3.40909 5.55807 3.40909 5.7319C3.40909 5.90572 3.47477 6.07243 3.59167 6.19534C3.70858 6.31825 3.86714 6.38731 4.03247 6.38731H9.01948C9.18481 6.38731 9.34337 6.31825 9.46027 6.19534C9.57718 6.07243 9.64286 5.90572 9.64286 5.7319ZM8.81169 8.35354C8.81169 8.17971 8.74601 8.01301 8.62911 7.89009C8.5122 7.76718 8.35364 7.69813 8.18831 7.69813H4.03247C3.86714 7.69813 3.70858 7.76718 3.59167 7.89009C3.47477 8.01301 3.40909 8.17971 3.40909 8.35354C3.40909 8.52736 3.47477 8.69407 3.59167 8.81698C3.70858 8.9399 3.86714 9.00895 4.03247 9.00895H8.18831C8.35364 9.00895 8.5122 8.9399 8.62911 8.81698C8.74601 8.69407 8.81169 8.52736 8.81169 8.35354ZM9.01948 10.3198C9.18481 10.3198 9.34337 10.3888 9.46027 10.5117C9.57718 10.6347 9.64286 10.8014 9.64286 10.9752C9.64286 11.149 9.57718 11.3157 9.46027 11.4386C9.34337 11.5615 9.18481 11.6306 9.01948 11.6306H4.03247C3.86714 11.6306 3.70858 11.5615 3.59167 11.4386C3.47477 11.3157 3.40909 11.149 3.40909 10.9752C3.40909 10.8014 3.47477 10.6347 3.59167 10.5117C3.70858 10.3888 3.86714 10.3198 4.03247 10.3198H9.01948Z"
+                    fill="white"
+                  />
+                </svg>
+              }
             >
               Create Invoice
             </Button>
+
             <Button
               size="large"
+              className="w-full sm:w-[206px]"
               onClick={() => {
                 setCartItems([]);
                 setSelectedPatient(null);
@@ -859,7 +921,14 @@ export default function BillingPayments() {
         {/* Right Column - Invoice Summary */}
         <Col xs={24} lg={8}>
           <Card
-            style={{ borderRadius: 8, position: "sticky", top: 24, marginTop: "12px", marginBottom: "20px" }}
+            style={{
+              borderRadius: 8,
+              position: "sticky",
+              top: 24,
+              marginTop: "12px",
+              marginBottom: "20px",
+              padding: "10px"
+            }}
             title={
               <Title level={4} style={{ margin: 0 }}>
                 Invoice Summary
@@ -992,6 +1061,17 @@ export default function BillingPayments() {
         onPayment={handlePayment}
         confirmPayment={confirmPayment}
       />
+
+      <style jsx global>{`
+        .ant-card .ant-card-head {
+          border: 0 !important;
+          padding: 0 !important;
+        }
+
+        .ant-card-body {
+          padding: 0 !important;
+        }
+      `}</style>
     </div>
   );
 }

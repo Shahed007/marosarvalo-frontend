@@ -70,6 +70,7 @@ export default function InvoiceDrawer({
       placement="right"
       onClose={onClose}
       open={visible}
+      closable={false}
       width={700}
       styles={{
         body: { padding: 24 },
@@ -85,7 +86,6 @@ export default function InvoiceDrawer({
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
             width: "100%",
           }}
         >
