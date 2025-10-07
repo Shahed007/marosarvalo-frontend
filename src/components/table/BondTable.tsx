@@ -420,7 +420,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
         width={500}
         styles={{
           body: { padding: 24 },
-          header: { borderBottom: "1px solid #0B121B", padding: "16px 24px" },
+          header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
         }}
         footer={
           <div
