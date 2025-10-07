@@ -126,13 +126,22 @@ const Communications = () => {
   ];
   return (
     <div className=" p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2} className="!mb-10 !text-[#0B121B]">Communication</Title>
+      <Title level={2} className="!mb-10 !text-[#0B121B]">
+        Communication
+      </Title>
       <Tabs
         activeKey={activeTab}
         onChange={setActiveTab}
         items={tabItems}
         className="mb-6"
       />
+      <style jsx global>{`
+        .ant-tabs-nav::before {
+          border-bottom: 0 !important;
+        }
+
+        
+      `}</style>
     </div>
   );
 };
