@@ -65,7 +65,7 @@ const { TextArea } = Input;
 //   [key: string]: string;
 // }
 
-const NewPatient: React.FC = () => {
+const PatientRegistrationForm: React.FC = () => {
   // const [form] = Form.useForm<PatientFormData>();
   // const [, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("patient-info");
@@ -284,7 +284,9 @@ const NewPatient: React.FC = () => {
         <div>
           <Form layout="vertical" requiredMark={false} size="large">
             <div>
-              <Title level={5}>Patients Name</Title>
+              <Title className="!text-[#0B121B]" level={4}>
+                Patients Name
+              </Title>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Form.Item
                   name={"firstName"}
@@ -575,7 +577,7 @@ const NewPatient: React.FC = () => {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">New Patients</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-10">New Patients</h1>
         <div className="border-b border-gray-200">
           <Tabs
             activeKey={activeTab}
@@ -626,8 +628,25 @@ const NewPatient: React.FC = () => {
       */}
       {/* {activeTab !== "patient-info" &&
         tabItems.find((item) => item.key === activeTab)?.children}{" "} */}
+
+      <style jsx global>
+        {`
+          .ant-tabs-nav::before {
+            border-bottom: 4px solid #f2f2f2 !important;
+            width: 327px;
+          }
+          .ant-tabs-nav .ant-tabs-ink-bar {
+            height: 4px !important;
+            background: #225a7f !important;
+          }
+          .border-b {
+            border-bottom-style: var(--tw-border-style) !important;
+            border-bottom-width: 0px !important;
+          }
+        `}
+      </style>
     </div>
   );
 };
 
-export default NewPatient;
+export default PatientRegistrationForm;

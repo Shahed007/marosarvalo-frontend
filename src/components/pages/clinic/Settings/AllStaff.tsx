@@ -312,6 +312,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
             Add Staff
           </Title>
         }
+        closable={false}
         placement="right"
         onClose={() => {
           setDrawerVisible(false);
@@ -441,6 +442,15 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
               rules={[{ required: true, message: "Please enter address" }]}
             >
               <Input placeholder="Address" size="large" />
+            </Form.Item>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: "Please enter password" }]}
+            >
+              <Input placeholder="Password" size="large" />
             </Form.Item>
           </div>
         </Form>

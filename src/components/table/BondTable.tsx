@@ -15,11 +15,13 @@ import {
   Modal,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { SearchOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
 import CustomPagination from "../shared/CustomPagination";
+import editIcon from "@/assets/icons/editIcon.png";
+import Image from "next/image";
 
-// ✅ TypeScript interface for data
+// TypeScript interface for data
 export interface Bond {
   id: string;
   name: string;
@@ -112,7 +114,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
     setEditDrawerVisible(true);
   };
 
-  // ✅ Table columns
+  // Table columns
   const columns: ColumnsType<Bond> = [
     {
       title: "ID",
@@ -186,8 +188,18 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             render: (_: any, record: any) => (
               <Button
                 type="default"
-                icon={<EditFilled className="hover:text-[#225A7F]" />}
-                style={{ border: "1px solid #CCCCCC", padding: "6px 10px" }}
+                icon={
+                  <div className="flex items-center justify-center w-3 h-3">
+                    <Image
+                      src={editIcon}
+                      alt="edit"
+                      width={16}
+                      height={16}
+                      className="object-contain"
+                    />
+                  </div>
+                }
+                style={{ border: "1px solid #CCCCCC", padding: "10px 10px" }}
                 size="small"
                 onClick={() => handleEditClick(record)}
               />
@@ -281,37 +293,47 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
 
       {/* New Bond Drawer (Modal from right side) */}
       <Drawer
-        title={<div className="text-center text-[28px]">New Bonds</div>}
+        title={
+          <div className="text-start text-[30px] font-[500]">New Bonds</div>
+        }
         placement="right"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
+        closable={false}
         width={500}
         styles={{
           body: { padding: 24 },
-          header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
+          header: {
+            borderBottom: "1px solid #e5e7eb",
+            padding: "16px 24px",
+            width: "430px",
+            margin: "0 auto",
+          },
         }}
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => form.submit()}
-                >
-                  Add Bond
-                </Button>
-              </div>
-              <div>
-                <Button size="large" onClick={() => setDrawerVisible(false)}>
-                  Not Now
-                </Button>
-              </div>
+            <Space className="flex flex-row sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full">
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => form.submit()}
+                className="w-full sm:w-[200px] rounded-[12px]"
+              >
+                Add Bond
+              </Button>
+
+              <Button
+                size="large"
+                onClick={() => setDrawerVisible(false)}
+                className="w-full sm:w-[200px] rounded-[12px]"
+              >
+                Not Now
+              </Button>
             </Space>
           </div>
         }
@@ -385,12 +407,15 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
 
       {/* Edit Bond Drawer (Modal from right side) */}
       <Drawer
-        title={<div className="text-center text-[28px]">Edit Bond</div>}
+        title={
+          <div className="text-center text-[30px] font-[500]">Edit Bond</div>
+        }
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);
           setEditingBond(null);
         }}
+        closable={false}
         open={editDrawerVisible}
         width={500}
         styles={{
@@ -400,7 +425,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
             }}
           >
@@ -410,6 +435,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
                   size="large"
                   type="primary"
                   onClick={() => editForm.submit()}
+                  className="w-full sm:w-[200px] rounded-[12px]"
                 >
                   Save
                 </Button>
@@ -421,6 +447,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
                     setEditDrawerVisible(false);
                     setEditingBond(null);
                   }}
+                  className="w-full sm:w-[200px] rounded-[12px]"
                 >
                   Not Now
                 </Button>

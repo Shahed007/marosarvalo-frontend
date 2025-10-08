@@ -18,7 +18,8 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 import { InvoiceItem, Patient } from "@/types/global";
-
+import logo from "@/assets/logo.png";
+import Image from "next/image";
 const { Title, Text } = Typography;
 
 interface InvoiceDrawerProps {
@@ -63,21 +64,27 @@ export default function InvoiceDrawer({
   return (
     <Drawer
       title={
-        <Title level={2} style={{ textAlign: "center", color: "#0B121B" }}>
-          Patient Invoice
-        </Title>
+        <div className="flex flex-col justify-between items-center">
+          <Image src={logo} width={140} height={120} alt="logo" />
+          <Title
+            level={5}
+            style={{
+              textAlign: "center",
+              color: "#0B121B",
+              marginTop: "24px",
+              fontWeight: "700",
+              lineHeight: "24px",
+            }}
+          >
+            FisioWell Clinic
+          </Title>
+        </div>
       }
       placement="right"
       onClose={onClose}
       open={visible}
+      closable={false}
       width={700}
-      styles={{
-        body: { padding: 24 },
-        header: {
-          borderBottom: "1px solid #e5e7eb",
-          padding: "16px 24px",
-        },
-      }}
       footer={
         <div
           style={{
@@ -85,7 +92,6 @@ export default function InvoiceDrawer({
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
             width: "100%",
           }}
         >
@@ -130,16 +136,14 @@ export default function InvoiceDrawer({
         </div>
       }
     >
-      <div style={{ padding: 16 }}>
+      <div>
         {/* Header with Logo and Clinic Info */}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <Title level={2} style={{ margin: 0 }}>
-            Fisio/Well Clinic
-          </Title>
-          <Title level={3} style={{ margin: "16px 0" }}>
+          <Title level={1} style={{ margin: "16px 0", fontWeight: "bold" }}>
             Patient Invoice
           </Title>
-
+        </div>
+        <div style={{ textAlign: "right", marginTop: "50px" }}>
           <div style={{ marginBottom: 16 }}>
             <Text>123 Health Steer Sydney NSW</Text>
             <br />
@@ -147,36 +151,59 @@ export default function InvoiceDrawer({
           </div>
 
           <div>
-            <Text>Email: john.verco@health.com</Text>
+            <Text>
+              <strong>Email:</strong> john.verco@health.com
+            </Text>
             <br />
-            <Text>Contact: +58 16 88 584</Text>
+            <Text>
+              <strong>Contact:</strong> +58 16 88 584
+            </Text>
           </div>
         </div>
-
         <Divider />
 
-        {/* Patient Information */}
-        <div style={{ marginBottom: 24 }}>
-          <Title level={4} style={{ marginBottom: 16 }}>
-            Bill To
-          </Title>
-          <Text strong>
-            {selectedPatient ? selectedPatient.name : "No patient selected"}
-          </Text>
-          <br />
-          {selectedPatient && (
-            <>
-              <Text>Phone: {selectedPatient.phone}</Text>
-              <br />
-              <Text>Email: {selectedPatient.email}</Text>
-            </>
-          )}
+        <div className="flex justify-between items-center">
+          {/* Patient Information */}
+          <div style={{ marginBottom: 24 }}>
+            <Title
+              style={{ marginBottom: 2, fontSize: "14px", fontWeight: "bold" }}
+            >
+              Bill To:
+            </Title>
+            <Text strong>
+              {selectedPatient ? selectedPatient.name : "No patient selected"}
+            </Text>
+            <br />
+            {selectedPatient && (
+              <>
+                <Text>Phone: {selectedPatient.phone}</Text>
+                <br />
+                <Text>Email: {selectedPatient.email}</Text>
+              </>
+            )}
+          </div>
+
+          {/* Doctor Details */}
+          {/* Patient Information */}
+          <div style={{ marginBottom: 24 }}>
+            <Title
+              style={{ marginBottom: 2, fontSize: "14px", fontWeight: "bold" }}
+            >
+              Invoice:
+            </Title>
+            <Text strong>#FT15212</Text>
+            <br />
+            <Text>
+              <strong> Assigned Specialist:</strong> <br /> Dr. John Son{" "}
+            </Text>
+          </div>
         </div>
 
         <Divider />
 
         {/* Invoice Table */}
         <Table
+          className="overflow-x-auto"
           dataSource={cartItems.map((item) => ({
             key: item.id,
             product: item.name,
@@ -223,7 +250,7 @@ export default function InvoiceDrawer({
         />
 
         {/* Summary Section */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 24, width: "300px", marginLeft: "auto" }}>
           <Row justify="space-between" style={{ marginBottom: 8 }}>
             <Col>
               <Text strong>Sub Total :</Text>
@@ -308,7 +335,7 @@ export default function InvoiceDrawer({
                     {balanceDue > 0 ? "Due Amount" : "Change Due"}:
                   </Text>
                 </Col>
-                <Col>:</Col>
+                <Col></Col>
                 <Col>
                   <Text
                     strong
@@ -337,30 +364,40 @@ export default function InvoiceDrawer({
 
         {/* Action Buttons */}
         <Space
-          direction="vertical"
+          size={[8, 12]} // responsive gap (horizontal, vertical)
+          className="flex flex-wrap justify-center gap-3 sm:gap-4 w-full"
           style={{ width: "100%" }}
-          size={12}
-          className="!flex !flex-row"
         >
-          <Button type="primary" block icon={<DownloadOutlined />}>
+          <Button
+            type="primary"
+            icon={<DownloadOutlined />}
+            className="min-w-[140px] sm:min-w-[160px] md:min-w-[180px] lg:min-w-[200px]"
+          >
             Download invoice
           </Button>
+
           <Button
-            className="hover:!bg-primary hover:!text-white"
-            block
             icon={<PrinterOutlined />}
+            className="hover:!bg-primary hover:!text-white min-w-[140px] sm:min-w-[160px] md:min-w-[180px] lg:min-w-[200px]"
           >
             Print invoice
           </Button>
+
           <Button
-            className="hover:!bg-primary hover:!text-white"
-            block
             icon={<MailOutlined />}
+            className="hover:!bg-primary hover:!text-white min-w-[140px] sm:min-w-[160px] md:min-w-[180px] lg:min-w-[200px]"
           >
             Send via email
           </Button>
         </Space>
       </div>
+      <style jsx global>
+        {`
+          .ant-drawer .ant-drawer-body {
+            padding: 15px !important;
+          }
+        `}
+      </style>
     </Drawer>
   );
 }

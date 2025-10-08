@@ -284,7 +284,9 @@ const PatientRegistrationForm: React.FC = () => {
         <div>
           <Form layout="vertical" requiredMark={false} size="large">
             <div>
-              <Title className="!text-[#0B121B]" level={4}>Patients Name</Title>
+              <Title className="!text-[#0B121B]" level={4}>
+                Patients Name
+              </Title>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Form.Item
                   name={"firstName"}
@@ -626,6 +628,23 @@ const PatientRegistrationForm: React.FC = () => {
       */}
       {/* {activeTab !== "patient-info" &&
         tabItems.find((item) => item.key === activeTab)?.children}{" "} */}
+
+      <style jsx global>
+        {`
+          .ant-tabs-nav::before {
+            border-bottom: 4px solid #f2f2f2 !important;
+            width: 327px;
+          }
+          .ant-tabs-nav .ant-tabs-ink-bar {
+            height: 4px !important;
+            background: #225a7f !important;
+          }
+          .border-b {
+            border-bottom-style: var(--tw-border-style) !important;
+            border-bottom-width: 0px !important;
+          }
+        `}
+      </style>
     </div>
   );
 };

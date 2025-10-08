@@ -70,7 +70,13 @@ const SettingBranding: React.FC = () => {
             </Form.Item>
 
             <Form.Item label="Logo" name="logo">
-              <Upload {...uploadProps("logo")} accept="image/*">
+              <Upload
+                style={{
+                  width: "100%",
+                }}
+                {...uploadProps("logo")}
+                accept="image/*"
+              >
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors">
                   {logoUrl ? (
                     <Image
@@ -108,7 +114,13 @@ const SettingBranding: React.FC = () => {
             </Form.Item>
 
             <Form.Item label="Signature" name="signature">
-              <Upload {...uploadProps("signature")} accept="image/*">
+              <Upload
+                style={{
+                  width: "100%",
+                }}
+                {...uploadProps("signature")}
+                accept="image/*"
+              >
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary transition-colors">
                   {signatureUrl ? (
                     <Image

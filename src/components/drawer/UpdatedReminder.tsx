@@ -34,15 +34,31 @@ const UpdateReminderForm = () => {
         closeIcon={null}
         open={open}
         onClose={() => setOpen(false)}
+        footer={
+          <div className="flex items-center gap-6">
+            <Button block size="large" htmlType="submit" type="primary">
+              Update
+            </Button>
+            <Button
+              onClick={() => setOpen(false)}
+              block
+              size="large"
+              htmlType="button"
+            >
+              Not Now
+            </Button>
+          </div>
+        }
         title={
           <Title
             style={{
               textAlign: "center",
               margin: 0,
             }}
-            level={3}
+            level={2}
+            color="#0B121B"
           >
-            Update Reminder
+            Edit Reminder
           </Title>
         }
       >
@@ -95,22 +111,8 @@ const UpdateReminderForm = () => {
           </Form.Item>
 
           <Form.Item name="body">
-            <TextArea rows={4} />
+            <TextArea rows={6} />
           </Form.Item>
-
-          <div className="flex items-center gap-6">
-            <Button block size="large" htmlType="submit" type="primary">
-              Update
-            </Button>
-            <Button
-              onClick={() => setOpen(false)}
-              block
-              size="large"
-              htmlType="button"
-            >
-              Cancel
-            </Button>
-          </div>
         </Form>
       </Drawer>
     </div>

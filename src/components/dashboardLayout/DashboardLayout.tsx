@@ -293,7 +293,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
         {/* Main Content */}
 
-        <div className="flex-1 p-4 lg:p-5 overflow-y-auto bg-white relative">
+        <div className="flex-1 p-4 lg:p-5 overflow-y-auto bg-white relative mb-0">
           {pathNames.startsWith("/clinic") ? null : ( // or "" if you prefer
             <TopBar
               userName="Jhon Son"
@@ -313,9 +313,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
           {/* Content */}
           <div className="min-h-[calc(100vh-80px)]">{children}</div>
+           <style jsx>
+          {`
+            .mb-4 {
+              margin-bottom: 0;
+            }
+          `}
+        </style>
         </div>
+       
       </div>
+      
     </ConfigProvider>
+    
   );
 };
 

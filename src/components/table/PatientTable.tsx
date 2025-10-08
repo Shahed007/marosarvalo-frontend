@@ -12,12 +12,13 @@ import {
   Space,
   Input,
 } from "antd";
-import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import type { ColumnsType } from "antd/es/table";
 import { EyeOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { LiaUserPlusSolid } from "react-icons/lia";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import CustomPagination from "../shared/CustomPagination";
 
 const { RangePicker } = DatePicker;
 
@@ -44,12 +45,12 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     null
   );
   const [searchText, setSearchText] = useState<string>("");
-  const [pagination, setPagination] = useState<TablePaginationConfig>({
-    current: 1,
-    pageSize: 10,
-    total: data.length,
-    showSizeChanger: true,
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const handlePageChange = (page: number, size?: number) => {
+    setCurrentPage(page);
+    if (size) setPageSize(size);
+  };
 
   // ✅ Apply filters
   const filteredData = data.filter((record) => {
@@ -211,7 +212,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
               <th
                 {...props}
                 style={{
-                  backgroundColor: "#6B91A31A",
+                  backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: "600",
                   color: "#4180AB",
@@ -247,14 +248,14 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         rowKey="id"
         columns={columns}
         dataSource={filteredData}
-        pagination={{
-          ...pagination,
-          total: filteredData.length,
-          onChange: (page, pageSize) => {
-            setPagination({ ...pagination, current: page, pageSize });
-          },
-          style: { marginRight: "16px" },
-        }}
+        pagination={false}
+      />
+      {/* Custom Pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
       />
     </div>
   );

@@ -76,20 +76,32 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
     <Card
       className="rounded-2xl !mt-6"
       title={
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
+        <div className="flex mt-1 flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 w-full">
+          {/* Title + icon */}
+          <div className="flex items-center gap-2 justify-center sm:justify-start text-center sm:text-left">
             <Title
               level={4}
-              className="!mb-0 !text-[#0B121B] !font-semibold flex items-center gap-3"
+              className="!mb-0 !text-[#0B121B] !font-semibold flex items-center gap-3 text-base sm:text-lg md:text-xl"
             >
-              <Image src={upcomingAppointIcon} alt="upcoming icon" /> Upcoming
-              Appointments
+              <Image
+                src={upcomingAppointIcon}
+                alt="upcoming icon"
+                className="w-5 h-5 sm:w-6 sm:h-6"
+              />
+              Upcoming Appointments
             </Title>
           </div>
+
+          {/* View All button */}
           {onViewAll && (
-            <Button type="link" className="!text-[#0B121B]">
-              View All
-            </Button>
+            <div className="flex justify-center sm:justify-end mt-1 sm:mt-0">
+              <Button
+                type="link"
+                className="!text-[#0B121B] !text-sm sm:!text-base"
+              >
+                View All
+              </Button>
+            </div>
           )}
         </div>
       }
@@ -100,7 +112,7 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         dataSource={paginatedData}
         scroll={{ x: true }}
         rowKey="id"
-        pagination={false} 
+        pagination={false}
         components={{
           header: {
             cell: (props) => (
@@ -115,7 +127,7 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
                 }}
               />
             ),
-          }
+          },
         }}
       />
 

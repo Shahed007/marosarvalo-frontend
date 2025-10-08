@@ -46,7 +46,8 @@ const AddNewReminder = () => {
               textAlign: "center",
               margin: 0,
             }}
-            level={3}
+            color="#0B121B"
+            level={2}
           >
             New Remainder
           </Title>
@@ -92,7 +93,9 @@ const AddNewReminder = () => {
             <Input addonBefore="Subject" placeholder="Enter Subject"></Input>
           </Form.Item>
           <Form.Item>
-            <TextArea placeholder="Say something for client" />
+            <TextArea placeholder="Say something for client" style={{
+              height: "100px"
+            }}/>
           </Form.Item>
         </Form>
       </Drawer>

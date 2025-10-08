@@ -34,6 +34,7 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
           Edit Profile
         </Title>
       }
+      closable={false}
       placement="right"
       onClose={onClose}
       open={visible}
