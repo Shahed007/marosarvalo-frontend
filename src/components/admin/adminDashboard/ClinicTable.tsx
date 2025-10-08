@@ -139,19 +139,25 @@ export const ClinicTableCard = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="pt-5">
       <Card
+        bordered={false} // ← removes the default border
         style={{
-          borderRadius: "12px",
-          border: "1px solid #E2E8F0",
-          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+          border: "none", // ensures no border
+          boxShadow: "none", // removes default shadow
+          borderRadius: "12px", // optional — keeps rounded corners
+
+          backgroundColor: "#fff",
         }}
       >
-       <div className="!mb-[19px] !mt-[50px]">
-         <Title level={3} className="!m-0 !text-[#1F2937] !font-semibold ">
-          Clinic List
-        </Title>
-       </div>
+        <div className="!mb-[19px] !mt-[10px]">
+          <Title
+            level={3}
+            className="!text-[#9DA0A4] !font-normal !text-xl  !mb-0"
+          >
+            Clinic List
+          </Title>
+        </div>
         {/* Header */}
         <div className="flex justify-between items-center mb-9">
           {/* Search */}

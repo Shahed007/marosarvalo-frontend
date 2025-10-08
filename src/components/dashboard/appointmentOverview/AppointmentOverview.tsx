@@ -108,7 +108,7 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
           variant="borderless"
           value={currentTimeFrame}
           onChange={onTimeFrameChange}
-          style={{ width: 120 }}
+          style={{ width: 95 }}
           options={timeFrameOptions.map((option) => ({
             label: option,
             value: option.toLowerCase(),

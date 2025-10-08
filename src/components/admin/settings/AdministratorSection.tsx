@@ -1,63 +1,109 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Button } from "antd";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+
+type FormData = {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export default function AdministratorSection() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState<any>(null);
-  const [form] = Form.useForm();
+   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const password = watch("password");
 
   const administrators = [
     {
       id: 1,
       name: "Henry Jr.",
       email: "zen.ahmed@gmail.com",
+      phone: "+84 0373467950",
+      address: "Dhaka, Bangladesh",
       avatar: "/images/avatar.png",
+      intro:
+        "Lorem Ipsum is placeholder text commonly used in design mockups and templates.",
     },
     {
       id: 2,
       name: "Emily Carter",
       email: "emily.carter@example.com",
+      phone: "+1 202-555-0193",
+      address: "London, UK",
       avatar: "/images/avatar.png",
+      intro:
+        "Passionate about healthcare UI/UX innovation and patient-centered design.",
     },
   ];
 
   const handleAssignClick = () => setIsAssignModalOpen(true);
   const handleCancelAssign = () => {
     setIsAssignModalOpen(false);
-    form.resetFields();
+    reset();
   };
-  const handleAssign = () => {
-    form.validateFields().then((values) => {
-      console.log("Assigning administrator:", values);
-      setIsAssignModalOpen(false);
-      form.resetFields();
-    });
+
+  const onSubmit = async (formData: FormData) => {
+    console.log("Assigned:", formData);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    alert("Administrator assigned successfully!");
+    handleCancelAssign();
   };
+
   const handleDetailsClick = (admin: any) => {
     setSelectedAdmin(admin);
     setIsProfileModalOpen(true);
   };
+
   const closeProfileModal = () => {
     setIsProfileModalOpen(false);
     setSelectedAdmin(null);
   };
+
+
+
+   // ✅ Custom remove modal logic
   const handleRemoveClick = (admin: any) => {
-    Modal.confirm({
-      title: "Do you want to remove?",
-      okText: "Yes",
-      cancelText: "No",
-      onOk: () => alert(`Removed: ${admin.name}`),
-      okButtonProps: { className: "bg-blue-600 hover:bg-blue-700 text-white" },
-      cancelButtonProps: {
-        className: "border-gray-300 text-gray-700 hover:bg-gray-50",
-      },
-    });
+    setSelectedAdmin(admin);
+    setIsRemoveModalOpen(true);
   };
 
+  const confirmRemove = () => {
+    alert(`Removed: ${selectedAdmin?.name}`);
+    setIsRemoveModalOpen(false);
+    setSelectedAdmin(null);
+  };
+
+  const cancelRemove = () => {
+    setIsRemoveModalOpen(false);
+    setSelectedAdmin(null);
+  };
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
       {/* Header */}
@@ -87,7 +133,7 @@ export default function AdministratorSection() {
       </div>
 
       {/* Admin Cards */}
-      <div className="flex flex-col md:flex-col gap-4">
+      <div className="flex flex-col gap-4">
         {administrators.map((admin) => (
           <div
             key={admin.id}
@@ -109,18 +155,18 @@ export default function AdministratorSection() {
 
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
               <Button
-                type="primary"
-                size="large"
+                type="default"
+                size="middle"
                 onClick={() => handleDetailsClick(admin)}
-                className="px-4 cursor-pointer py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50"
               >
                 Details
               </Button>
               <Button
-                type="primary"
-                size="large"
+                type="default"
+                size="middle"
                 onClick={() => handleRemoveClick(admin)}
-                className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                className="border border-gray-300 text-gray-700 hover:bg-gray-50"
               >
                 Remove
               </Button>
@@ -129,178 +175,299 @@ export default function AdministratorSection() {
         ))}
       </div>
 
-      {/* Assign Administrator Modal */}
+      {/* ✅ Assign Administrator Modal */}
       <Modal
-        title="Assign Administrator"
+        title={
+          <div className="text-center font-semibold text-[18px] text-slate-800">
+            Assign Administrator
+          </div>
+        }
         open={isAssignModalOpen}
         onCancel={handleCancelAssign}
-        footer={[
-          <Button
-            style={{ cursor: "pointer" }}
-            key="assign"
-            type="primary"
-            onClick={handleAssign}
-            className="w-full md:w-auto"
-          >
-            Assign
-          </Button>,
-        ]}
-        width="100%"
-        style={{ maxWidth: 600 }}
+        footer={null}
+        width={720}
         centered
-        closable
         destroyOnClose
+        className="rounded border border-[#225A7F]"
+        bodyStyle={{ padding: 0 }}
       >
-        <div className="p-2 md:p-6 space-y-4">
-          <Form form={form} layout="vertical" initialValues={{}}>
-            <Form.Item
-              name="name"
-              label="Name*"
-              rules={[{ required: true, message: "Please enter your name" }]}
-            >
-              <Input placeholder="Enter your first name" />
-            </Form.Item>
-
-            <Form.Item
-              name="email"
-              label="Email*"
-              rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Invalid email format" },
-              ]}
-            >
-              <Input placeholder="Enter your email" />
-            </Form.Item>
-
-            <Form.Item name="phoneNumber" label="Phone number">
-              <Input placeholder="Enter your phone number" />
-            </Form.Item>
-
-            <Form.Item
-              name="address"
-              label="Address*"
-              rules={[{ required: true, message: "Please enter your address" }]}
-            >
-              <Input placeholder="Enter your address" />
-            </Form.Item>
-
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[{ required: true, message: "Please enter a password" }]}
-            >
-              <Input.Password placeholder="Enter your password" />
-            </Form.Item>
-
-            <Form.Item
-              name="confirmPassword"
-              label="Confirm Password"
-              dependencies={["password"]}
-              rules={[
-                { required: true, message: "Please confirm your password" },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value)
-                      return Promise.resolve();
-                    return Promise.reject(new Error("Passwords do not match"));
-                  },
-                }),
-              ]}
-            >
-              <Input.Password placeholder="Confirm your password" />
-            </Form.Item>
-          </Form>
-        </div>
-      </Modal>
-
-      {/* Profile Modal */}
-      {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg border border-gray-200 max-w-full w-full sm:max-w-md shadow-xl overflow-hidden">
-            <div className="flex justify-between items-center px-4 sm:px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">
-                User Profile
-              </h3>
-              <Button
-                size="large"
-                type="primary"
-                onClick={closeProfileModal}
-                className="text-gray-500 cursor-pointer hover:text-gray-700"
-                aria-label="Close"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M6 18L18 6M6 6L18 18"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Button>
+        <div
+          className="max-h-[75vh] overflow-y-auto scroll-smooth px-6 py-8 space-y-6"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "#225A7F #E5E7EB",
+          }}
+        >
+          <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
+            <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+              <h2 className="text-lg font-medium text-gray-900">
+                Administrator Information
+              </h2>
             </div>
 
-            <div className="p-4 sm:p-6 space-y-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={selectedAdmin?.avatar || "/images/avatar.png"}
-                  alt={selectedAdmin?.name}
-                  width={64}
-                  height={64}
-                  className="rounded-full object-cover border border-gray-200"
-                />
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900">
-                    {selectedAdmin?.name}
-                  </h2>
-                  <p className="text-sm text-gray-500">Administrator</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">
-                  Introduction:
-                </p>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  Lorem ipsum as their for default model text, and a search for
-                  &rsquo;lorem ipsum&rsquo; will uncover many web for site.
-                </p>
-              </div>
-
+            <div className="px-6 py-6 space-y-4">
+              {/* Name */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 font-medium">
-                    Contact
-                  </span>
-                  <span className="text-sm text-gray-600">+84 0373467950</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 font-medium">
-                    Email
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    {selectedAdmin?.email}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-700 font-medium">
-                    Address
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    Dhaka, Bangladesh
-                  </span>
-                </div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  {...register("name", { required: "Name is required" })}
+                  placeholder="Enter your first name"
+                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                    errors.name
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-[#225A7F]"
+                  }`}
+                />
+                {errors.name && (
+                  <p className="text-xs text-red-500">{errors.name.message}</p>
+                )}
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^\S+@\S+\.\S+$/,
+                      message: "Enter a valid email",
+                    },
+                  })}
+                  placeholder="Enter your email"
+                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                    errors.email
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-[#225A7F]"
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-xs text-red-500">{errors.email.message}</p>
+                )}
+              </div>
+
+              {/* Phone */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone number
+                </label>
+                <input
+                  type="tel"
+                  {...register("phone")}
+                  placeholder="+0"
+                  className="w-full rounded border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#225A7F]"
+                />
+              </div>
+
+              {/* Address */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  {...register("address", { required: "Address is required" })}
+                  placeholder="Enter your address"
+                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                    errors.address
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-[#225A7F]"
+                  }`}
+                />
+                {errors.address && (
+                  <p className="text-xs text-red-500">
+                    {errors.address.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Password */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
+                  placeholder="Enter password"
+                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                    errors.password
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-[#225A7F]"
+                  }`}
+                />
+                {errors.password && (
+                  <p className="text-xs text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: (value) =>
+                      value === password || "Passwords do not match",
+                  })}
+                  placeholder="Enter your password again"
+                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                    errors.confirmPassword
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 focus:border-[#225A7F]"
+                  }`}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-xs text-red-500">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-center pt-4 pb-2">
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleSubmit(onSubmit)}
+              disabled={isSubmitting}
+              className="bg-[#225A7F] text-white hover:bg-[#1d4e6f]"
+            >
+              {isSubmitting ? "Saving..." : "Assign"}
+            </Button>
+          </div>
         </div>
-      )}
+      </Modal>
+
+      {/* ✅ Profile Modal */}
+      <Modal
+        open={isProfileModalOpen}
+        onCancel={closeProfileModal}
+        footer={null}
+        centered
+        width={1200}
+        title={null}
+        className="rounded-xl"
+      >
+        {selectedAdmin && (
+          <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between">
+            {/* Left Section */}
+            <div className="flex items-start gap-4 md:gap-6 w-full md:w-auto">
+              <div className="flex-shrink-0">
+                <Image
+                  src={selectedAdmin.avatar}
+                  alt={selectedAdmin.name}
+                  width={70}
+                  height={70}
+                  className="rounded-full object-cover border border-gray-200"
+                />
+              </div>
+
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {selectedAdmin.name}
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  <span className="font-semibold text-gray-700">
+                    Introduction:
+                  </span>
+                </p>
+                <p className="text-sm text-gray-500 mt-1 leading-relaxed max-w-sm">
+                  {selectedAdmin.intro}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Section */}
+            <div className="mt-6 md:mt-0 flex flex-col gap-3 md:gap-4 w-full md:w-72">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <PhoneIcon className="w-4 h-4 text-gray-800" />
+                  <span className="text-sm font-medium text-gray-800">
+                    Contact
+                  </span>
+                </div>
+                <span className="text-sm text-gray-600">
+                  {selectedAdmin.phone}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <MailIcon className="w-4 h-4 text-gray-800" />
+                  <span className="text-sm font-medium text-gray-800">Email</span>
+                </div>
+                <span className="text-sm text-gray-600 truncate">
+                  {selectedAdmin.email}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <MapPinIcon className="w-4 h-4 text-gray-800" />
+                  <span className="text-sm font-medium text-gray-800">
+                    Address
+                  </span>
+                </div>
+                <span className="text-sm text-gray-600">
+                  {selectedAdmin.address}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+
+         {/* ✅ Remove Confirmation Modal */}
+      <Modal
+        open={isRemoveModalOpen}
+        onCancel={cancelRemove}
+        footer={null}
+        centered
+        width={360}
+        closable={false}
+        className="rounded-lg"
+      >
+        <div className="flex flex-col items-center text-center space-y-6 py-6">
+          <p className="text-lg font-semibold text-gray-800">
+            Do you want to remove?
+          </p>
+
+          <div className="flex gap-4 justify-center">
+            <Button
+              onClick={cancelRemove}
+              className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6"
+            >
+              No
+            </Button>
+            <Button
+              type="primary"
+              onClick={confirmRemove}
+              className="bg-[#225A7F] text-white hover:bg-[#1d4e6f] px-6"
+            >
+              Yes
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
