@@ -198,8 +198,8 @@ export default function AdministratorSection() {
             scrollbarColor: "#225A7F #E5E7EB",
           }}
         >
-          <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
-            <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+          <div className="overflow-hidden rounded   bg-white shadow-sm">
+            <div className="border-b border-gray-200  px-6 py-4">
               <h2 className="text-lg font-medium text-gray-900">
                 Administrator Information
               </h2>

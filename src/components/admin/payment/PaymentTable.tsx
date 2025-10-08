@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
-import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  Card,
+  Table,
+  Button,
+  Input,
+  Space,
+  Typography,
+  Select,
+} from "antd";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+// ✅ Import your full-featured Custom Pagination
+import CustomPagination from "@/components/shared/CustomPagination";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -44,21 +55,37 @@ export const PaymentTable = () => {
 
   // States
   const [searchTerm, setSearchTerm] = useState("");
-  const [timeFilter, setTimeFilter] = useState("monthly"); // e.g., "monthly", "weekly", "daily"
+  const [timeFilter, setTimeFilter] = useState("monthly");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5); // ← Now dynamic
 
-  // Filter by search term
+  // Filter data
   const filteredData = paymentData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
+  // Paginate
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedData = filteredData.slice(startIndex, startIndex + pageSize);
+
+  // Handle pagination changes
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (newSize: number) => {
+    setPageSize(newSize);
+    setCurrentPage(1); // Reset to first page when changing size
+  };
+
   // View handler
   const handleView = (id: string) => {
     router.push(`payment/${id}`);
   };
 
-  // Status badge renderer
+  // Status badge
   const renderStatus = (status: string) => {
     let bgColor, textColor;
     switch (status) {
@@ -133,7 +160,7 @@ export const PaymentTable = () => {
           <Button
             type="text"
             icon={<UserOutlined />}
-            onClick={() => handleView(record.key)} // Use record.key since id doesn't exist
+            onClick={() => handleView(record.key)}
             className="text-gray-600 hover:text-blue-600 hover:bg-gray-50"
             style={{
               width: 36,
@@ -150,13 +177,13 @@ export const PaymentTable = () => {
 
   return (
     <Card
+      bordered={false}
       style={{
-        borderRadius: "12px",
-        border: "1px solid #E2E8F0",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+        boxShadow: "none",
+        border: "none",
       }}
     >
-      {/* Header + Button (Responsive) */}
+      {/* Header */}
       <div
         style={{
           display: "flex",
@@ -167,16 +194,13 @@ export const PaymentTable = () => {
           marginBottom: "16px",
         }}
       >
-        <Title
-          level={4}
-          style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}
-        >
+        <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}>
           Payment History
         </Title>
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => router.push("/admin/add-clinic")} // optional: link to add clinic
+          onClick={() => router.push("/admin/add-clinic")}
           style={{
             backgroundColor: "#225A7F",
             borderColor: "#225A7F",
@@ -189,7 +213,7 @@ export const PaymentTable = () => {
         </Button>
       </div>
 
-      {/* Search + Time Filter */}
+      {/* Search + Filter */}
       <div
         style={{
           display: "flex",
@@ -201,18 +225,12 @@ export const PaymentTable = () => {
         <Input
           placeholder="Search payments..."
           suffix={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M23 23L17.6919 17.6919M17.6919 17.6919C18.5999 16.784 19.3201 15.7061 19.8115 14.5198C20.3029 13.3335 20.5558 12.062 20.5558 10.7779C20.5558 9.49386 20.3029 8.22238 19.8115 7.03607C19.3202 5.84976 18.5999 4.77185 17.6919 3.86389C16.784 2.95592 15.7061 2.23569 14.5198 1.7443C13.3335 1.25291 12.062 1 10.7779 1C9.49386 1 8.22238 1.25291 7.03607 1.7443C5.84976 2.23569 4.77185 2.95592 3.86389 3.86389C2.03017 5.6976 1 8.18465 1 10.7779C1 13.3712 2.03017 15.8582 3.86389 17.6919C5.6976 19.5257 8.18465 20.5558 10.7779 20.5558C13.3712 20.5558 15.8582 19.5257 17.6919 17.6919Z"
                 stroke="#0B121B"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           }
@@ -232,7 +250,7 @@ export const PaymentTable = () => {
           onChange={(value) => setTimeFilter(value)}
           style={{ width: 120, height: 38 }}
           size="middle"
-          bordered={false} // removes extra border if needed
+          bordered={false}
         >
           <Option value="daily">Daily</Option>
           <Option value="weekly">Weekly</Option>
@@ -243,24 +261,8 @@ export const PaymentTable = () => {
       {/* Table */}
       <Table
         columns={columns}
-        dataSource={filteredData}
-        pagination={{
-          current: 1,
-          total: filteredData.length,
-          pageSize: 5,
-          showTotal: (total) => `Total ${total} payments`,
-          hideOnSinglePage: false,
-          position: ["bottomRight"],
-          itemRender: (_, type, originalElement) => {
-            if (type === "prev") {
-              return <span className="font-bold text-gray-700">‹</span>;
-            }
-            if (type === "next") {
-              return <span className="font-bold text-gray-700">›</span>;
-            }
-            return originalElement;
-          },
-        }}
+        dataSource={paginatedData}
+        pagination={false}
         rowKey="key"
         scroll={{ x: "max-content" }}
         components={{
@@ -302,6 +304,17 @@ export const PaymentTable = () => {
           overflow: "hidden",
         }}
       />
+
+      {/* ✅ Full Custom Pagination (Left | Center | Right) */}
+      <div className="mt-6" style={{ width: "100%" }}>
+        <CustomPagination
+          currentPage={currentPage}
+          total={filteredData.length}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </Card>
   );
 };

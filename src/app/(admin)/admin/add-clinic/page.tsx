@@ -22,7 +22,7 @@ export default function AddClinicPage() {
   const {
     register,
     handleSubmit,
-    reset,
+
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
@@ -60,7 +60,7 @@ export default function AddClinicPage() {
   };
 
   return (
-    <div className="mx-auto w-full space-y-6 px-4 py-8">
+    <div className="mx-auto w-full space-y-6 px-4 py-8  p-4 md:p-6 lg:p-8 mb-8">
       {/* Clinic Information Section */}
       <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
         <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
@@ -385,7 +385,6 @@ export default function AddClinicPage() {
       <div className="flex flex-wrap justify-center gap-4 pt-4">
         <Button
           size="large"
-          
           onClick={handleSendReminder}
           disabled={reminderSent}
           className="px-6 py-2 border cursor-pointerborder-radius: 4px;
@@ -393,15 +392,14 @@ border: 1px solid var(--Primary-Primary-1, #225A7F); text-gray-700 bg-white hove
         >
           {reminderSent ? "Reminder Sent!" : "Send Reminder"}
         </Button>
-          <Button
+        <Button
           size="large"
-          
           onClick={handleSendReminder}
           disabled={reminderSent}
           className="px-6 py-2 border cursor-pointerborder-radius: 4px;
 border: 1px solid var(--Primary-Primary-1, #225A7F); text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
-Cancel
+          Cancel
         </Button>
         <Button
           size="large"
