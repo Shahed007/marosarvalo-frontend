@@ -32,7 +32,11 @@ const SettingIntegration = () => {
   return (
     <div className="max-w-2xl mx-start space-y-8  mb-8">
       {/* Generate Appointment Link/URL Section */}
-      <Card>
+      <Card
+        style={{
+          border: 0,
+        }}
+      >
         <Space direction="vertical" size="middle" style={{ width: "100%" }}>
           <Title level={4} style={{ margin: 0 }}>
             Generate Appointment Link\URL
@@ -42,18 +46,46 @@ const SettingIntegration = () => {
               value={appointmentUrl}
               onChange={(e) => setAppointmentUrl(e.target.value)}
               readOnly
-              style={{ background: "#f5f5f5" }}
+              style={{
+                display: "flex",
+                height: "41px",
+                padding: "12px 16px",
+                justifyContent: "space-between",
+                alignItems: "center",
+                alignSelf: "stretch",
+                borderRadius: "12px",
+                border: "0.5px solid var(--nautral-n-4-stroke, #CCC)",
+                background: "var(--card-color, #FFF)",
+                position: "relative",
+              }}
             />
+
             <Button
               icon={<CopyOutlined />}
               onClick={() => copyToClipboard(appointmentUrl)}
-              style={{ background: "#f5f5f5" }}
+              style={{
+                background: "#f5f5f5",
+                height: "41px",
+                padding: "12px 16px",
+                position: "absolute",
+                right: 0,
+              }}
             />
           </Space.Compact>
           <Button
             type="primary"
             onClick={() => generateNew("appointment")}
-            className="bg-primary border-primary"
+            style={{
+              display: "flex",
+              width: "225px",
+              height: "46px",
+              padding: "12px 16px",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "12px",
+              background: "var(--primary-color, #225A7F)",
+            }}
           >
             Generate New
           </Button>
@@ -61,7 +93,11 @@ const SettingIntegration = () => {
       </Card>
 
       {/* Security Notice Section */}
-      <Card>
+      <Card
+        style={{
+          border: 0,
+        }}
+      >
         <Space direction="vertical" size="small" style={{ width: "100%" }}>
           <Text strong style={{ fontSize: "14px" }}>
             Security Notice: Handle API Keys with Care
@@ -80,7 +116,11 @@ const SettingIntegration = () => {
       </Card>
 
       {/* Restful API Section */}
-      <Card>
+      <Card
+        style={{
+          border: 0,
+        }}
+      >
         <Space direction="vertical" size="middle" style={{ width: "100%" }}>
           <Title level={4} style={{ margin: 0 }}>
             Restful API
@@ -89,13 +129,27 @@ const SettingIntegration = () => {
             value={restfulApi}
             onChange={(e) => setRestfulApi(e.target.value)}
             readOnly
-            style={{ background: "#f5f5f5" }}
+            style={{
+              display: "flex",
+              height: "41px",
+              padding: "12px 16px",
+              justifyContent: "space-between",
+              alignItems: "center",
+              alignSelf: "stretch",
+              borderRadius: "12px",
+              border: "0.5px solid var(--nautral-n-4-stroke, #CCC)",
+              background: "var(--card-color, #FFF)",
+            }}
           />
         </Space>
       </Card>
 
       {/* API Key auth Section */}
-      <Card>
+      <Card
+        style={{
+          border: 0,
+        }}
+      >
         <Space direction="vertical" size="middle" style={{ width: "100%" }}>
           <Title level={4} style={{ margin: 0 }}>
             API Key auth
@@ -105,18 +159,47 @@ const SettingIntegration = () => {
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               readOnly
-              style={{ background: "#f5f5f5" }}
+              style={{
+                display: "flex",
+                position: "relative",
+                height: "41px",
+                padding: "12px 16px",
+                justifyContent: "space-between",
+                alignItems: "center",
+                alignSelf: "stretch",
+                borderRadius: "12px",
+                border: "0.5px solid var(--nautral-n-4-stroke, #CCC)",
+                background: "var(--card-color, #FFF)",
+              }}
             />
+
             <Button
               icon={<CopyOutlined />}
               onClick={() => copyToClipboard(apiKey)}
-              style={{ background: "#f5f5f5" }}
+              style={{
+                background: "#f5f5f5",
+                height: "41px",
+                padding: "12px 16px",
+                position: "absolute",
+                right: 0,
+              }}
             />
           </Space.Compact>
+
           <Button
             type="primary"
             onClick={() => generateNew("api")}
-            className="bg-primary border-primary"
+            style={{
+              display: "flex",
+              width: "225px",
+              height: "46px",
+              padding: "12px 16px",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "12px",
+              background: "var(--primary-color, #225A7F)",
+            }}
           >
             Generate New
           </Button>

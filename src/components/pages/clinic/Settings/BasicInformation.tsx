@@ -34,7 +34,7 @@ const BasicInformation = () => {
                   { required: true, message: "Please input clinic name!" },
                 ]}
               >
-                <Input size="large" placeholder="Enter clinic name" disabled />
+                <Input size="large" placeholder="Enter clinic name" readOnly />
               </Form.Item>
             </Col>
 
@@ -46,7 +46,7 @@ const BasicInformation = () => {
                   { required: true, message: "Please input phone number!" },
                 ]}
               >
-                <Input size="large" placeholder="+1 234 567 8900" disabled />
+                <Input size="large" placeholder="+1 234 567 8900" readOnly />
               </Form.Item>
             </Col>
           </Row>
@@ -65,7 +65,7 @@ const BasicInformation = () => {
                 <Input
                   size="large"
                   placeholder="Enter email address"
-                  disabled
+                  readOnly
                 />
               </Form.Item>
             </Col>
@@ -79,7 +79,7 @@ const BasicInformation = () => {
                 <Input
                   size="large"
                   placeholder="Enter address line 1"
-                  disabled
+                  readOnly
                 />
               </Form.Item>
             </Col>
@@ -87,12 +87,12 @@ const BasicInformation = () => {
 
           {/* Address 2 (full width) */}
           <Row gutter={16}>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item label="Address 2" name="address2">
                 <Input
                   size="large"
                   placeholder="Enter address line 2 (optional)"
-                  disabled
+                  readOnly
                 />
               </Form.Item>
             </Col>

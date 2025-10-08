@@ -76,6 +76,18 @@ const Communications = () => {
         items={tabItems}
         className="mb-6"
       />
+      <style jsx global>
+        {`
+          .ant-tabs-nav::before {
+            border-bottom: 4px solid #f2f2f2 !important;
+            width: 345px;
+          }
+          .ant-tabs-nav .ant-tabs-ink-bar {
+            height: 4px !important;
+            background: #225a7f !important;
+          }
+        `}
+      </style>
     </div>
   );
 };
