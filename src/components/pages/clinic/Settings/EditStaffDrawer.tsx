@@ -28,6 +28,7 @@ const EditStaffDrawer = ({
         </Title>
       }
       placement="right"
+      closable={false}
       onClose={() => {
         onClose();
         form.resetFields();
@@ -156,6 +157,15 @@ const EditStaffDrawer = ({
             rules={[{ required: true, message: "Please enter address" }]}
           >
             <Input placeholder="Address" size="large" />
+          </Form.Item>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Form.Item
+            label="Set Password"
+            name="password"
+            rules={[{ required: true, message: "Please enter password" }]}
+          >
+            <Input placeholder="Password" size="large" />
           </Form.Item>
         </div>
       </Form>

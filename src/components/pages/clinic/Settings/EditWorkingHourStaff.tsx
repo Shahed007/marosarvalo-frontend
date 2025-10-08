@@ -75,6 +75,7 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
           {mode === "add" ? "Add Working Hour" : "Edit Working Hour"}
         </div>
       }
+      closable={false}
       placement="right"
       onClose={onClose}
       open={visible}
