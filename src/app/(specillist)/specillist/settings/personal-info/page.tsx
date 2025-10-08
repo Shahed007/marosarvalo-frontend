@@ -1,18 +1,18 @@
 export default function page() {
   return (
-    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8">
-      <div className=" mx-auto bg-white rounded-lg ">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8 !border-0">
+      <div className=" bg-white rounded-lg">
         {/* Header */}
-        <div className=" px-6 py-4">
-          <h1 className="text-4xl font-semibold text-gray-900">
+        <div className="">
+          <h1 className="text-[32px] font-[510] text-[#0B121B]">
             Settings-Personal Info
           </h1>
         </div>
 
-        <div className="p-6 space-y-8">
+        <div className=" space-y-8">
           {/* Personal Info Section */}
           <div>
-            <h2 className="text-lg font-medium text-[#225A7F] mb-6">
+            <h2 className="text-[20px] font-medium text-primary mb-6 mt-[32px]">
               Personal Info
             </h2>
 
@@ -25,7 +25,7 @@ export default function page() {
                 <input
                   type="text"
                   defaultValue="Dr. John Carter"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -37,7 +37,7 @@ export default function page() {
                 <input
                   type="text"
                   defaultValue="001234"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -49,7 +49,7 @@ export default function page() {
                 <input
                   type="text"
                   defaultValue="Physician"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -61,7 +61,7 @@ export default function page() {
                 <input
                   type="email"
                   defaultValue="drjohn@abc.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -73,7 +73,7 @@ export default function page() {
                 <input
                   type="text"
                   defaultValue="City, State"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -85,7 +85,7 @@ export default function page() {
                 <input
                   type="tel"
                   defaultValue="000 111 222 333"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -93,11 +93,11 @@ export default function page() {
 
           {/* Password Change Section */}
           <div>
-            <h2 className="text-lg font-medium text-[#225A7F] mb-6">
+            <h2 className="text-[20px] font-medium text-primary mb-6">
               Password change
             </h2>
 
-            <div className="space-y-4 w-full">
+            <div className="space-y-4 ">
               {/* Current Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -106,7 +106,7 @@ export default function page() {
                 <input
                   type="password"
                   defaultValue="password123"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -118,7 +118,7 @@ export default function page() {
                 <input
                   type="password"
                   placeholder="Enter new password"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -130,7 +130,7 @@ export default function page() {
                 <input
                   type="password"
                   placeholder="Confirm new password"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -138,7 +138,20 @@ export default function page() {
 
           {/* Update Button */}
           <div className="pt-4">
-            <button className="bg-[#225A7F] hover:bg-[#225A7F] cursor-pointer text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#225A7F] focus:ring-offset-2">
+            <button
+              className="
+    bg-primary hover:bg-primary
+    text-white font-medium
+    w-[228px] h-[46px]
+    flex flex-col justify-center items-center
+    flex-shrink-0
+    rounded-[12px]
+    px-4 py-3
+    transition-colors duration-200
+    cursor-pointer
+    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  "
+            >
               Update Now
             </button>
           </div>

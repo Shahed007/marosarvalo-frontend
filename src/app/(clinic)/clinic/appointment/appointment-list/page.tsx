@@ -59,7 +59,6 @@ const AppointmentListPage = () => {
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       {/* Page Title */}
       <Title
-        level={2}
         className="!text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px] !font-[500] !text-[#0B121B]"
       >
         Appointment List

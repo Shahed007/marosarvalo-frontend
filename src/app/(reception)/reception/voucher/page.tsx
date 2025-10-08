@@ -39,9 +39,15 @@ const VoucherPage = () => {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2}>Settings-Voucher</Title>
+      <div>
+        <Title level={2} className="!mb-10" color="#0B121B">
+          Settings-Voucher
+        </Title>
 
-      <Title level={5}>Vouchers</Title>
+        <Title level={5} className="!mt-5 !mb-[30px]" color="#0B121B">
+          Vouchers
+        </Title>
+      </div>
       <VoucherTable
         data={mockData}
         loading={false}

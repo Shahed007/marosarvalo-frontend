@@ -402,7 +402,7 @@ export default function Calendar() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white ms-2 me-2 p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
+      <div className="bg-white ms-8 me-8  flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
         <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
           {/* <CalendarOutlined className="bg-[#E9EAEC] text-gray-600 p-2 rounded-md text-lg" /> */}
           <div className="bg-[#E9EAEC] rounded-md h-[35px] w-[35px] flex justify-center items-center mt-1">
