@@ -1,6 +1,8 @@
+import CancellationOverview from "@/components/pages/clinic/report/CancellationOverview";
 import PerformanceOverview from "@/components/pages/clinic/report/PerformanceOverview";
 import PopularServices from "@/components/pages/clinic/report/PopularServices";
 import RevenueByService from "@/components/pages/clinic/report/RevenueByService";
+import SummarySection from "@/components/pages/clinic/report/SummarySection";
 import Title from "antd/es/typography/Title";
 import React from "react";
 
@@ -56,6 +58,12 @@ const Report = () => {
       </div>
       <div className="mt-10">
         <RevenueByService totalRevenue={2659} data={revenueData} />
+      </div>
+      <div className="mt-10">
+        <CancellationOverview/>
+      </div>
+      <div className="mt-10">
+        <SummarySection/>
       </div>
     </div>
   );

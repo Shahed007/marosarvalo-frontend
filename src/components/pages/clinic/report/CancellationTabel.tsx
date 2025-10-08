@@ -1,7 +1,7 @@
+import CustomPagination from "@/components/shared/CustomPagination";
 import { Table } from "antd";
 import type { ColumnProps } from "antd/es/table";
 import React, { FC, useState } from "react";
-import CustomPagination from "../shared/CustomPagination";
 
 export interface AppointmentListProps {
   id: string;
@@ -10,41 +10,33 @@ export interface AppointmentListProps {
   specialist: string;
   reason: string;
   status: string;
-  cancleReasons?: string
 }
 
-const AppointmentListTable: FC<{
+const CancellationTabel: FC<{
   data: AppointmentListProps[];
   loading?: boolean;
 }> = ({ data = [], loading = false }) => {
   const columns: ColumnProps<AppointmentListProps>[] = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
-    },
     {
       title: "Patient Name",
       dataIndex: "patientName",
       key: "patientName",
     },
     {
+      title: "Appointment Time",
+      dataIndex: "time",
+      key: "time",
+    },
+    {
+      title: "Service",
+      dataIndex: "reason",
+      key: "reason",
+      render: (reason: string) => <span>{reason || "—"}</span>,
+    },
+    {
       title: "Specialist",
       dataIndex: "specialist",
       key: "specialist",
-    },
-    {
-      title: "Reason",
-      dataIndex: "reason",
-      key: "reason",
-      render: (reason: string) => (
-        <span className="text-[#0B121B] font-[700]">{reason || "—"}</span>
-      ),
     },
 
     {
@@ -53,14 +45,9 @@ const AppointmentListTable: FC<{
       key: "status",
     },
     {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: () => (
-        <div className="bg-[#F2F2F2] !text-[#0B121B] font-[500] flex justify-center items-center px-2 py-2 rounded-md">
-          Available
-        </div>
-      ),
+      title: "Reason for Cancellation",
+      dataIndex: "cancleReasons",
+      key: "cancleReasons",
     },
   ];
 
@@ -123,4 +110,4 @@ const AppointmentListTable: FC<{
   );
 };
 
-export default AppointmentListTable;
+export default CancellationTabel;
