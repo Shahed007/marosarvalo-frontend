@@ -29,7 +29,7 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
       footer={
         <div className="flex items-center gap-6 mt-4">
           <Button block size="large" htmlType="submit" type="primary">
-            Submit Now
+            Save Now
           </Button>
           <Button onClick={onClose} block size="large" htmlType="button">
             Cancel
