@@ -1,15 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import {
-  Card,
-  Table,
-  Button,
-  Input,
-  Space,
-  Typography,
-  Select,
-} from "antd";
+import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -17,7 +9,7 @@ import { useRouter } from "next/navigation";
 // ✅ Import your full-featured Custom Pagination
 import CustomPagination from "@/components/shared/CustomPagination";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { Option } = Select;
 
 export const PaymentTable = () => {
@@ -176,146 +168,163 @@ export const PaymentTable = () => {
   ];
 
   return (
-    <Card
-      bordered={false}
+  <Card
+  bordered={false}
+  style={{
+    boxShadow: "none",
+    border: "none",
+    position: "relative", // Enables absolute positioning inside
+  }}
+>
+  {/* Add Clinic Button - Top Right */}
+  <div
+    style={{
+      position: "absolute",
+      top: "1px",
+      right: "16px",
+      zIndex: 10,
+    }}
+  >
+    <Button
+      type="primary"
+      icon={<PlusOutlined />}
+      onClick={() => router.push("/admin/add-clinic")}
       style={{
-        boxShadow: "none",
-        border: "none",
+        backgroundColor: "#225A7F",
+        borderColor: "#225A7F",
+        height: "36px",
+        borderRadius: "6px",
+        fontWeight: 500,
       }}
     >
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "12px",
-          marginBottom: "16px",
-        }}
-      >
-        <Title level={4} style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}>
-          Payment History
-        </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => router.push("/admin/add-clinic")}
-          style={{
-            backgroundColor: "#225A7F",
-            borderColor: "#225A7F",
-            height: "36px",
-            borderRadius: "6px",
-            fontWeight: 500,
-          }}
-        >
-          Add Clinic
-        </Button>
-      </div>
+      Add Clinic
+    </Button>
+  </div>
 
-      {/* Search + Filter */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "12px",
-          marginBottom: "20px",
-        }}
-      >
-        <Input
-          placeholder="Search payments..."
-          suffix={
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M23 23L17.6919 17.6919M17.6919 17.6919C18.5999 16.784 19.3201 15.7061 19.8115 14.5198C20.3029 13.3335 20.5558 12.062 20.5558 10.7779C20.5558 9.49386 20.3029 8.22238 19.8115 7.03607C19.3202 5.84976 18.5999 4.77185 17.6919 3.86389C16.784 2.95592 15.7061 2.23569 14.5198 1.7443C13.3335 1.25291 12.062 1 10.7779 1C9.49386 1 8.22238 1.25291 7.03607 1.7443C5.84976 2.23569 4.77185 2.95592 3.86389 3.86389C2.03017 5.6976 1 8.18465 1 10.7779C1 13.3712 2.03017 15.8582 3.86389 17.6919C5.6976 19.5257 8.18465 20.5558 10.7779 20.5558C13.3712 20.5558 15.8582 19.5257 17.6919 17.6919Z"
-                stroke="#0B121B"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          }
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          allowClear
-          style={{
-            width: 250,
-            borderRadius: "12px",
-            border: "1px solid #CBD5E1",
-            height: "38px",
-          }}
-          className="hover:border-blue-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-        />
-        <Select
-          value={timeFilter}
-          onChange={(value) => setTimeFilter(value)}
-          style={{ width: 120, height: 38 }}
-          size="middle"
-          bordered={false}
-        >
-          <Option value="daily">Daily</Option>
-          <Option value="weekly">Weekly</Option>
-          <Option value="monthly">Monthly</Option>
-        </Select>
-      </div>
+  {/* Header Row: Title + Search + Filter */}
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: "12px",
+      marginBottom: "16px",
+      marginTop: "48px", // Space for the top-right button (top:10 + height:36 + buffer:2)
+    }}
+  >
+    {/* Left: Title */}
+    <h1 className="p-0 m-0 text-[#0B121B] text-base sm:text-xl md:text-[25px] lg:text-3xl font-medium whitespace-nowrap">
+      Payments History
+    </h1>
 
-      {/* Table */}
-      <Table
-        columns={columns}
-        dataSource={paginatedData}
-        pagination={false}
-        rowKey="key"
-        scroll={{ x: "max-content" }}
-        components={{
-          header: {
-            cell: ({ children }) => (
-              <th
-                style={{
-                  backgroundColor: "#F1F4F6",
-                  color: "#4180AB",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #CBD5E1",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                {children}
-              </th>
-            ),
-          },
-          body: {
-            cell: ({ children }) => (
-              <td
-                style={{
-                  padding: "12px 16px",
-                  borderBottom: "1px solid #E2E8F0",
-                  color: "#1E293B",
-                  fontSize: "14px",
-                }}
-              >
-                {children}
-              </td>
-            ),
-          },
-        }}
+    {/* Right Group: Search + Filter */}
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        flexWrap: "wrap",
+      }}
+    >
+      {/* Search Input */}
+      <Input
+        placeholder="Search payments..."
+        suffix={
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M23 23L17.6919 17.6919M17.6919 17.6919C18.5999 16.784 19.3201 15.7061 19.8115 14.5198C20.3029 13.3335 20.5558 12.062 20.5558 10.7779C20.5558 9.49386 20.3029 8.22238 19.8115 7.03607C19.3202 5.84976 18.5999 4.77185 17.6919 3.86389C16.784 2.95592 15.7061 2.23569 14.5198 1.7443C13.3335 1.25291 12.062 1 10.7779 1C9.49386 1 8.22238 1.25291 7.03607 1.7443C5.84976 2.23569 4.77185 2.95592 3.86389 3.86389C2.03017 5.6976 1 8.18465 1 10.7779C1 13.3712 2.03017 15.8582 3.86389 17.6919C5.6976 19.5257 8.18465 20.5558 10.7779 20.5558C13.3712 20.5558 15.8582 19.5257 17.6919 17.6919Z"
+              stroke="#0B121B"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        }
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        allowClear
         style={{
-          borderRadius: "8px",
-          overflow: "hidden",
+          width: 250,
+          borderRadius: "12px",
+          border: "1px solid #CBD5E1",
+          height: "38px",
         }}
+        className="hover:border-blue-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
       />
 
-      {/* ✅ Full Custom Pagination (Left | Center | Right) */}
-      <div className="mt-6" style={{ width: "100%" }}>
-        <CustomPagination
-          currentPage={currentPage}
-          total={filteredData.length}
-          pageSize={pageSize}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      </div>
-    </Card>
+      {/* Time Filter Dropdown */}
+      <Select
+        value={timeFilter}
+        onChange={(value) => setTimeFilter(value)}
+        style={{ width: 120, height: 38 }}
+        size="middle"
+        bordered={false}
+      >
+        <Option value="daily">Daily</Option>
+        <Option value="weekly">Weekly</Option>
+        <Option value="monthly">Monthly</Option>
+      </Select>
+    </div>
+  </div>
+
+  {/* Table */}
+  <Table
+    columns={columns}
+    dataSource={paginatedData}
+    pagination={false}
+    rowKey="key"
+    scroll={{ x: "max-content" }}
+    components={{
+      header: {
+        cell: ({ children }) => (
+          <th
+            style={{
+              backgroundColor: "#F1F4F6",
+              color: "#4180AB",
+              fontWeight: 700,
+              fontSize: "14px",
+              padding: "12px 16px",
+              borderBottom: "1px solid #CBD5E1",
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
+            }}
+          >
+            {children}
+          </th>
+        ),
+      },
+      body: {
+        cell: ({ children }) => (
+          <td
+            style={{
+              padding: "12px 16px",
+              borderBottom: "1px solid #E2E8F0",
+              color: "#1E293B",
+              fontSize: "14px",
+            }}
+          >
+            {children}
+          </td>
+        ),
+      },
+    }}
+    style={{
+      borderRadius: "8px",
+      overflow: "hidden",
+    }}
+  />
+
+  {/* ✅ Custom Pagination */}
+  <div className="mt-6" style={{ width: "100%" }}>
+    <CustomPagination
+      currentPage={currentPage}
+      total={filteredData.length}
+      pageSize={pageSize}
+      onPageChange={handlePageChange}
+      onPageSizeChange={handlePageSizeChange}
+    />
+  </div>
+</Card>
   );
 };
 

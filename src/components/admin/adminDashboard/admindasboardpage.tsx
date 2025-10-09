@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <div>
-        <h1 className="p-4 md:p-6 lg:p-8 text-3xl font-semibold">Dashboard</h1>
+        <h1 className="p-4 md:p-6 lg:p-8  text-[#0B121B] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold">Dashboard</h1>
       </div>
       {/* Metric Cards */}
       <MetricCardsRow />

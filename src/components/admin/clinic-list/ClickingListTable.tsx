@@ -435,18 +435,9 @@ export const ClickingListTable = () => {
         </div>
       </div>
 
-      <Title
-        level={4}
-        style={{
-          margin: 0,
-          color: "#1E293B",
-          fontWeight: 600,
-          marginTop: "50px",
-          marginBottom: "24px",
-        }}
-      >
+     <h1 className="p-4 md:p-6 lg:p-8  text-[#0B121B] text-base sm:text-xl md:text-[25px] lg:text-3xl font-medium">
         All Clinics
-      </Title>
+      </h1>
 
       {/* Table */}
       <Table

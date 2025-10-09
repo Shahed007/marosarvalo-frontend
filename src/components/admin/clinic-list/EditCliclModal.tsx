@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 
 type FormData = {
   clinicName: string;

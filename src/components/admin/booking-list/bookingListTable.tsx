@@ -14,11 +14,7 @@ import {
   Col,
   Descriptions,
 } from "antd";
-import {
-  PlusOutlined,
-  MoreOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
@@ -207,12 +203,9 @@ export const BookingTable = () => {
   return (
     <Card
       bordered={false}
-      
       style={{
-   
         border: "none",
         boxShadow: "none",
-
       }}
     >
       {/* Header */}
@@ -257,18 +250,9 @@ export const BookingTable = () => {
         </Link>
       </div>
 
-      <Title
-        level={4}
-        style={{
-          margin: 0,
-          color: "#1E293B",
-          fontWeight: 600,
-          marginTop: "50px",
-          marginBottom: "24px",
-        }}
-      >
+      <h1 className="p-4 md:p-6 lg:p-8  text-[#0B121B] text-base sm:text-xl md:text-[25px] lg:text-3xl font-medium">
         All Clinics
-      </Title>
+      </h1>
 
       {/* Table */}
       <Table
@@ -359,9 +343,14 @@ export const BookingTable = () => {
         }}
       >
         {selectedRecord && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+          >
             <Row align="middle" gutter={[8, 0]} style={{ flexWrap: "nowrap" }}>
-              <Col flex="0 1 auto" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Col
+                flex="0 1 auto"
+                style={{ display: "flex", alignItems: "center", gap: "6px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -374,11 +363,21 @@ export const BookingTable = () => {
                     fill="black"
                   />
                 </svg>
-                <Typography.Text strong style={{ fontSize: "14px", color: "#333" }}>
+                <Typography.Text
+                  strong
+                  style={{ fontSize: "14px", color: "#333" }}
+                >
                   User Name
                 </Typography.Text>
               </Col>
-              <Col flex="1" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <Col
+                flex="1"
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 <Typography.Text style={{ fontSize: "14px", color: "#666" }}>
                   {selectedRecord.userName || "N/A"}
                 </Typography.Text>
@@ -386,7 +385,10 @@ export const BookingTable = () => {
             </Row>
 
             <Row align="middle" gutter={[8, 0]} style={{ flexWrap: "nowrap" }}>
-              <Col flex="0 1 auto" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Col
+                flex="0 1 auto"
+                style={{ display: "flex", alignItems: "center", gap: "6px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -401,7 +403,10 @@ export const BookingTable = () => {
                     fill="#11111B"
                   />
                 </svg>
-                <Typography.Text strong style={{ fontSize: "14px", color: "#333" }}>
+                <Typography.Text
+                  strong
+                  style={{ fontSize: "14px", color: "#333" }}
+                >
                   Email
                 </Typography.Text>
               </Col>
@@ -413,7 +418,10 @@ export const BookingTable = () => {
             </Row>
 
             <Row align="middle" gutter={[8, 0]} style={{ flexWrap: "nowrap" }}>
-              <Col flex="0 1 auto" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Col
+                flex="0 1 auto"
+                style={{ display: "flex", alignItems: "center", gap: "6px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -425,19 +433,55 @@ export const BookingTable = () => {
                     d="M17.2977 6.00042V19.0726H2.69974V0.928258H12.4111V0.103516H1.875V19.8973H18.1224V6.00042H17.2977Z"
                     fill="black"
                   />
-                  <path d="M7.29688 8.18555H15.4618V9.01029H7.29688V8.18555Z" fill="black" />
-                  <path d="M4.55469 8.18555H5.68871V9.01029H4.55469V8.18555Z" fill="black" />
-                  <path d="M7.29688 10.8867H15.4618V11.7115H7.29688V10.8867Z" fill="black" />
-                  <path d="M4.55469 10.8867H5.68871V11.7115H4.55469V10.8867Z" fill="black" />
-                  <path d="M7.29688 13.5879H15.4618V14.4126H7.29688V13.5879Z" fill="black" />
-                  <path d="M4.55469 13.5879H5.68871V14.4126H4.55469V13.5879Z" fill="black" />
-                  <path d="M7.29688 16.2891H15.4618V17.1138H7.29688V16.2891Z" fill="black" />
-                  <path d="M4.55469 16.2891H5.68871V17.1138H4.55469V16.2891Z" fill="black" />
-                  <path d="M4.55469 2.92773H7.72995V6.06175H4.55469V2.92773Z" fill="black" />
-                  <path d="M9.31641 4.08203H12.0793V4.90677H9.31641V4.08203Z" fill="black" />
-                  <path d="M13.7734 0.515625V4.45377H17.7116L13.7734 0.515625Z" fill="black" />
+                  <path
+                    d="M7.29688 8.18555H15.4618V9.01029H7.29688V8.18555Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M4.55469 8.18555H5.68871V9.01029H4.55469V8.18555Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M7.29688 10.8867H15.4618V11.7115H7.29688V10.8867Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M4.55469 10.8867H5.68871V11.7115H4.55469V10.8867Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M7.29688 13.5879H15.4618V14.4126H7.29688V13.5879Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M4.55469 13.5879H5.68871V14.4126H4.55469V13.5879Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M7.29688 16.2891H15.4618V17.1138H7.29688V16.2891Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M4.55469 16.2891H5.68871V17.1138H4.55469V16.2891Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M4.55469 2.92773H7.72995V6.06175H4.55469V2.92773Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M9.31641 4.08203H12.0793V4.90677H9.31641V4.08203Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M13.7734 0.515625V4.45377H17.7116L13.7734 0.515625Z"
+                    fill="black"
+                  />
                 </svg>
-                <Typography.Text strong style={{ fontSize: "14px", color: "#333" }}>
+                <Typography.Text
+                  strong
+                  style={{ fontSize: "14px", color: "#333" }}
+                >
                   Subject
                 </Typography.Text>
               </Col>
@@ -449,7 +493,10 @@ export const BookingTable = () => {
             </Row>
 
             <Row align="middle" gutter={[8, 0]} style={{ flexWrap: "nowrap" }}>
-              <Col flex="0 1 auto" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Col
+                flex="0 1 auto"
+                style={{ display: "flex", alignItems: "center", gap: "6px" }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -461,11 +508,23 @@ export const BookingTable = () => {
                     d="M16.7855 1.34766H3.19106C1.76971 1.34766 0.613281 2.50385 0.613281 3.92544V12.2449C0.613281 13.6633 1.76467 14.8177 3.18191 14.8227V18.598L8.60744 14.8227H16.7855C18.2069 14.8227 19.3633 13.6663 19.3633 12.2449V3.92544C19.3633 2.50385 18.2069 1.34766 16.7855 1.34766ZM18.2646 12.2449C18.2646 13.0605 17.6011 13.7241 16.7855 13.7241H8.26274L4.28054 16.4952V13.7241H3.19106C2.37544 13.7241 1.71191 13.0605 1.71191 12.2449V3.92544C1.71191 3.1097 2.37544 2.44629 3.19106 2.44629H16.7855C17.6011 2.44629 18.2646 3.1097 18.2646 3.92544V12.2449Z"
                     fill="black"
                   />
-                  <path d="M5.63281 5.23047H14.3461V6.3291H5.63281V5.23047Z" fill="black" />
-                  <path d="M5.63281 7.57422H14.3461V8.67285H5.63281V7.57422Z" fill="black" />
-                  <path d="M5.63281 9.91797H14.3461V11.0166H5.63281V9.91797Z" fill="black" />
+                  <path
+                    d="M5.63281 5.23047H14.3461V6.3291H5.63281V5.23047Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M5.63281 7.57422H14.3461V8.67285H5.63281V7.57422Z"
+                    fill="black"
+                  />
+                  <path
+                    d="M5.63281 9.91797H14.3461V11.0166H5.63281V9.91797Z"
+                    fill="black"
+                  />
                 </svg>
-                <Typography.Text strong style={{ fontSize: "14px", color: "#333" }}>
+                <Typography.Text
+                  strong
+                  style={{ fontSize: "14px", color: "#333" }}
+                >
                   Message
                 </Typography.Text>
               </Col>
