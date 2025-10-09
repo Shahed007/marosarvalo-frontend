@@ -79,8 +79,8 @@ export default function EditClinicModal({
   return (
     <Modal
       title={
-        <div className="text-center font-semibold text-[18px] text-slate-800">
-          Edit Clinic
+        <div className="text-left font-semibold text-[18px] text-slate-800">
+        Clinic Edit
         </div>
       }
       open={visible}
@@ -102,7 +102,7 @@ export default function EditClinicModal({
       >
         {/* Clinic Information */}
         <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
-          <div className="sticky top-0 z-10 border-b border-gray-200 bg-gray-50 px-6 py-4">
+          <div className="sticky top-0 z-10 border-b border-gray-200  px-6 py-4">
             <h2 className="text-lg font-medium text-gray-900">
               Clinic Information
             </h2>
@@ -214,8 +214,8 @@ export default function EditClinicModal({
         </div>
 
         {/* User Information */}
-        <div className="overflow-hidden rounded border border-gray-200 bg-white shadow-sm">
-          <div className="sticky top-0 z-10 border-b border-gray-200 bg-gray-50 px-6 py-4">
+        <div className="overflow-hidden rounded border border-gray-200 bg-white ">
+          <div className="sticky top-0 z-10 border-b border-gray-200  px-6 py-4">
             <h2 className="text-lg font-medium text-gray-900">
               User Information
             </h2>
@@ -382,31 +382,31 @@ export default function EditClinicModal({
 
         {/* ✅ Fixed Action Buttons */}
         <div className="flex flex-wrap justify-center gap-4 pt-4 pb-2">
-          <Button
-            type="default"
-            size="large"
+          {/* Send Reminder Button */}
+          <button
             onClick={handleSendReminder}
             disabled={reminderSent}
-            className="border border-gray-300 text-gray-700 hover:bg-gray-50"
+            className="min-w-[150px] rounded-[4px] h-10 px-6 border border-[#225A7F] text-gray-700 bg-white hover:border-[#1d4e6f] hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
           >
             {reminderSent ? "Reminder Sent!" : "Send Reminder"}
-          </Button>
-          <Button
-            size="large"
+          </button>
+
+          {/* Cancel Button */}
+          <button
             onClick={handleCancel}
-            className="border border-gray-300 text-gray-700 hover:bg-gray-50"
+            className="min-w-[150px] h-10 rounded-[4px] px-6 border border-[#225A7F] text-gray-700 bg-white hover:border-[#1d4e6f] hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
           >
             Cancel
-          </Button>
-          <Button
-            type="primary"
-            size="large"
+          </button>
+
+          {/* Save Changes Button */}
+          <button
             onClick={handleSubmit(onSubmit)}
             disabled={isSubmitting}
-            className="bg-[#225A7F] text-white hover:bg-[#1d4e6f]"
+            className="min-w-[150px] rounded-[4px] h-10 px-6 bg-[#225A7F] text-white border-none hover:bg-[#1d4e6f] disabled:opacity-70 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
           >
             {isSubmitting ? "Saving..." : "Save Changes"}
-          </Button>
+          </button>
         </div>
       </div>
     </Modal>
