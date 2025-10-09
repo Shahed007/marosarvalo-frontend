@@ -501,21 +501,21 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
 
         {/* Action Buttons */}
         <Form.Item>
-          <Row gutter={16}>
-            <Col>
+          <Row gutter={[16, 16]} justify="start">
+            <Col xs={24} sm={12} md={12} lg={6} className="!flex !gap-2">
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!max-w-[206px] !rounded-[12px] text-white px-6"
+                className="w-full sm:w-[206px] !rounded-[12px] text-white px-6"
               >
                 Save Now
               </Button>
             </Col>
-            <Col>
+            <Col xs={24} sm={12} md={12} lg={6}>
               <Button
                 size="large"
-                className="border-gray-300 text-gray-700 hover:bg-gray-100 px-6 !max-w-[206px] !rounded-[12px]"
+                className="w-full sm:w-[206px] border-gray-300 text-gray-700 hover:bg-gray-100 px-6 !rounded-[12px]"
               >
                 Cancel
               </Button>
