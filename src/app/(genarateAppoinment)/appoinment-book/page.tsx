@@ -1,32 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Select,
-  Radio,
-  Upload,
-  Button,
-  Row,
-  Col,
-  Typography,
-} from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Form, Input, Select, Button, Row, Col, Typography } from "antd";
 import type { UploadFile } from "antd/es/upload/interface";
+import Link from "next/link";
 
 // import Calendar from "react-calendar"; // <-- Import react-calendar
 // import "react-calendar/dist/Calendar.css";
 // Optional base styles (we'll override with Tailwind)
 
-const { TextArea } = Input;
 const { Title } = Typography;
-
-// Define types
-interface Patient {
-  id: string;
-  name: string;
-  contact: string;
-}
 
 interface Specialist {
   id: string;
@@ -55,18 +37,10 @@ interface AppointmentFormProps {
 
 const AppointmentForm: React.FC<AppointmentFormProps> = () => {
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     new Date(2025, 4, 18)
   ); // May 18, 2025
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
-
-  // Mock data
-  const patients: readonly Patient[] = [
-    { id: "1", name: "Jhon bin kuna", contact: "+12 1245 1524" },
-    { id: "2", name: "Sarah Johnson", contact: "+12 3456 7890" },
-    { id: "3", name: "Michael Smith", contact: "+12 5555 1234" },
-  ];
 
   const specialists: readonly Specialist[] = [
     { id: "1", name: "Dr. Olivia", discipline: "Pharmacist" },
@@ -82,17 +56,9 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
   ] as const;
 
   // State for dynamic filtering
-  const [searchTerm] = useState("");
   const [selectedDiscipline, setSelectedDiscipline] = useState<
     string | undefined
   >(undefined);
-
-  // Filtered patients based on search term
-  const filteredPatients = patients.filter(
-    (p) =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.contact.includes(searchTerm)
-  );
 
   // Filtered specialists by selected discipline
   const availableSpecialists = selectedDiscipline
@@ -120,122 +86,37 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
     form.setFieldsValue({ specialist: undefined });
   };
 
-  // Update contact field when patient is selected
-  const handlePatientChange = (value: string) => {
-    const patient = patients.find((p) => p.id === value);
-    if (patient) {
-      form.setFieldsValue({ contact: patient.contact });
-    }
-  };
-
-  // File upload props
-  const uploadProps = {
-    onRemove: (file: UploadFile) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-    },
-    beforeUpload: (file: UploadFile) => {
-      setFileList([...fileList, file]);
-      return false;
-    },
-    fileList,
-  };
-
   // Time slots (can be filtered per day later)
   const timeSlots = ["10:00am - 12:30pm", "1:00pm - 3:00pm", "3:30pm - 5:00pm"];
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 w-full mx-auto bg-white font-sans">
-      <div>
-        <Title className="!text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px] !font-[500] !text-[#0B121B]">
-          Appointments
+    <div className="p-4 md:p-6 lg:p-8 w-full mx-auto bg-white font-sans sm:w-[500px] md:w-[650px] lg:w-[790px]">
+      <div className="text-center  mb-[60px]">
+        <Title className="!text-[24px] sm:!text-[35px] md:!text-[40px] lg:!text-[50px] !font-[500] !text-[#0B121B] text-center">
+          Book Your Physiotherapy Appointment Easily
         </Title>
-      </div>
-
-      {/* Search Bar */}
-      <div className="flex flex-wrap items-center gap-4 mb-8 mt-10">
-        <Input
-          placeholder="Search patient or type"
-          allowClear
-          size="large"
-          addonAfter={<SearchOutlined />}
-          style={{ width: "625px" }}
-        />
-        <Button
-          size="large"
-          className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-md"
-        >
-          <span className="mr-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                opacity="0.8"
-                d="M8.39296 15.1802C7.52412 14.2855 7.0387 13.0871 7.04 11.84C7.04 10.7597 7.39712 9.76192 8 8.96H1.92C1.41078 8.96 0.922425 9.16228 0.562355 9.52235C0.202285 9.88242 0 10.3708 0 10.88V11.3376C0 13.7171 2.6944 15.36 6.4 15.36C7.06843 15.3614 7.73557 15.3012 8.39296 15.1802ZM10.24 3.84C10.24 2.82157 9.83543 1.84485 9.11529 1.12471C8.39515 0.40457 7.41843 0 6.4 0C5.38157 0 4.40485 0.40457 3.68471 1.12471C2.96457 1.84485 2.56 2.82157 2.56 3.84C2.56 4.85843 2.96457 5.83515 3.68471 6.55529C4.40485 7.27543 5.38157 7.68 6.4 7.68C7.41843 7.68 8.39515 7.27543 9.11529 6.55529C9.83543 5.83515 10.24 4.85843 10.24 3.84ZM11.84 16C12.9433 16 14.0014 15.5617 14.7816 14.7816C15.5617 14.0014 16 12.9433 16 11.84C16 10.7367 15.5617 9.67859 14.7816 8.89844C14.0014 8.11828 12.9433 7.68 11.84 7.68C10.7367 7.68 9.67859 8.11828 8.89844 8.89844C8.11828 9.67859 7.68 10.7367 7.68 11.84C7.68 12.9433 8.11828 14.0014 8.89844 14.7816C9.67859 15.5617 10.7367 16 11.84 16ZM11.84 8.96C11.9249 8.96 12.0063 8.99371 12.0663 9.05373C12.1263 9.11374 12.16 9.19513 12.16 9.28V11.52H14.4C14.4849 11.52 14.5663 11.5537 14.6263 11.6137C14.6863 11.6737 14.72 11.7551 14.72 11.84C14.72 11.9249 14.6863 12.0063 14.6263 12.0663C14.5663 12.1263 14.4849 12.16 14.4 12.16H12.16V14.4C12.16 14.4849 12.1263 14.5663 12.0663 14.6263C12.0063 14.6863 11.9249 14.72 11.84 14.72C11.7551 14.72 11.6737 14.6863 11.6137 14.6263C11.5537 14.5663 11.52 14.4849 11.52 14.4V12.16H9.28C9.19513 12.16 9.11374 12.1263 9.05373 12.0663C8.99371 12.0063 8.96 11.9249 8.96 11.84C8.96 11.7551 8.99371 11.6737 9.05373 11.6137C9.11374 11.5537 9.19513 11.52 9.28 11.52H11.52V9.28C11.52 9.19513 11.5537 9.11374 11.6137 9.05373C11.6737 8.99371 11.7551 8.96 11.84 8.96Z"
-                fill="#0B121B"
-              />
-            </svg>
-          </span>{" "}
-          Add Patients
-        </Button>
-        <Button
-          type="primary"
-          size="large"
-          className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-lg"
-        >
-          Generate copy link
-        </Button>
+        <p>
+          Your path to recovery starts here. Select a date and time that works
+          for you.
+        </p>
       </div>
 
       <Form
-        className="w-full sm:w-[500px] md:w-[650px] lg:w-[790px]"
+        className="w-full  mx-auto"
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
-        initialValues={{
-          status: "scheduled",
-          availability: "available",
-          patient: "1",
-          discipline: "Pharmacist",
-          specialist: "1",
-        }}
       >
         {/* Patient Info */}
         <Row gutter={16} className="mb-6 ">
           <Col xs={24} md={12}>
-            <Form.Item
-              name="patient"
-              label="Patient Name"
-              rules={[{ required: true, message: "Please select a patient" }]}
-            >
-              <Select
-                placeholder="Select patient"
-                showSearch
-                optionFilterProp="children"
-                filterOption={false}
-                onSelect={handlePatientChange}
-                options={filteredPatients.map((patient) => ({
-                  value: patient.id,
-                  label: (
-                    <div key={patient.id} className="flex flex-col">
-                      <span className="font-medium">{patient.name}</span>
-                      {/* <span className="text-sm text-gray-500">{patient.contact}</span> */}
-                    </div>
-                  ),
-                }))}
-                className="w-full"
-              />
+            <Form.Item name="patient" label="Your Name">
+              <Input placeholder="Write your name" />
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
             <Form.Item name="contact" label="Contact">
-              <Input disabled />
+              <Input />
             </Form.Item>
           </Col>
         </Row>
@@ -289,12 +170,8 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>
-            <Form.Item name="status" label="Status">
-              <Radio.Group>
-                <Radio value="scheduled">Scheduled</Radio>
-                <Radio value="confirmed">Confirmed</Radio>
-                <Radio value="completed">Completed</Radio>
-              </Radio.Group>
+            <Form.Item name="note" label="Note">
+              <Input placeholder="Write or select Note" />
             </Form.Item>
           </Col>
         </Row>
@@ -449,7 +326,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                     key={index}
                     onClick={() => setSelectedTimeSlot(slot)}
                     className={`
-              w-full p-2 text-center text-sm  !text-[#0B121B] bg-[#F2F2F2] rounded-md transition-colors
+              w-full p-2 text-center text-sm border !text-[#0B121B] bg-[#F2F2F2] rounded-md transition-colors
               ${
                 selectedTimeSlot === slot
                   ? "bg-blue-50 text-[#225A7F] cursor-pointer border-0"
@@ -465,60 +342,23 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
           </Row>
         </div>
 
-        {/* Documents (responsive) */}
-        <div className="mb-6 w-full mx-auto max-w-full sm:max-w-[500px] md:max-w-[650px] lg:max-w-[790px]">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">
-            Documents (if available)
-          </h3>
-
-          <Form.Item
-            name="documents"
-            valuePropName="fileList"
-            className="!mb-0"
-          >
-            <Upload
-              {...uploadProps}
-              accept=".pdf,.doc,.docx"
-              maxCount={1}
-              className="!block w-full"
-              style={{ width: "100%" }}
-            >
-              <Button
-                disabled
-                block // makes the Ant button 100% of the Upload width
-                className="w-full border border-dashed hover:!border-[#CCCCCC] !text-[#9DA0A4] hover:text-[#9DA0A4]"
-              >
-                Upload attachment
-              </Button>
-            </Upload>
-          </Form.Item>
-        </div>
-
-        {/* Note */}
-        <Form.Item name="note" label="Note">
-          <TextArea rows={3} placeholder="Write note here" />
-        </Form.Item>
-
         {/* Action Buttons */}
-        <Form.Item>
+        <Form.Item className="flex justify-center items-center">
           <Row gutter={16}>
             <Col>
+              <Link href={'/captcha-verify'}>
               <Button
+                style={{
+                  padding: "12px 16px",
+                }}
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!max-w-[206px] !rounded-[12px] text-white px-6"
+                className=" text-white px-6 !bg-[#225A7F]"
               >
-                Save Now
+                Submit Now
               </Button>
-            </Col>
-            <Col>
-              <Button
-                size="large"
-                className="border-gray-300 text-gray-700 hover:bg-gray-100 px-6 !max-w-[206px] !rounded-[12px]"
-              >
-                Cancel
-              </Button>
+              </Link>
             </Col>
           </Row>
         </Form.Item>

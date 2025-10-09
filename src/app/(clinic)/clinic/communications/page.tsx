@@ -126,7 +126,7 @@ const Communications = () => {
   ];
   return (
     <div className=" p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2} className="!mb-10 !text-[#0B121B]">
+      <Title level={2} className="!mb-[30px] !text-[#0B121B]">
         Communication
       </Title>
       <Tabs
@@ -139,7 +139,9 @@ const Communications = () => {
         .ant-tabs-nav::before {
           border-bottom: 0 !important;
         }
-
+        // .ant-btn-variant-solid {
+        // padding: 17px 32px !important;
+        // }
         
       `}</style>
     </div>
