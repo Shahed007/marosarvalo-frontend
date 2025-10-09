@@ -73,9 +73,6 @@ export const PaymentTable = () => {
   };
 
   // View handler
-  const handleView = (id: string) => {
-    // router.push(`payment/${id}`);
-  };
 
   // Status badge
   const renderStatus = (status: string) => {
@@ -152,7 +149,7 @@ export const PaymentTable = () => {
           <Button
             type="text"
             icon={<UserOutlined />}
-            onClick={() => handleView(record.key)}
+            // onClick={() => handleView(record.key)}
             className="text-gray-600 hover:text-blue-600 hover:bg-gray-50"
             style={{
               width: 36,
@@ -269,6 +266,13 @@ export const PaymentTable = () => {
 
   {/* Table */}
   <Table
+  style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5e7eb",
+          fontFamily: "'Inter', sans-serif",
+        }}
     columns={columns}
     dataSource={paginatedData}
     pagination={false}
@@ -308,10 +312,7 @@ export const PaymentTable = () => {
         ),
       },
     }}
-    style={{
-      borderRadius: "8px",
-      overflow: "hidden",
-    }}
+
   />
 
   {/* ✅ Custom Pagination */}

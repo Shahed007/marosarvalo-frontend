@@ -171,7 +171,7 @@ export const ClinicTableCard = () => {
     <div className="pt-5">
       <Card
         variant="outlined"
-        bodyStyle={{ padding: 0 }}
+      
         style={{
           border: "none",
           boxShadow: "none",
@@ -222,7 +222,17 @@ export const ClinicTableCard = () => {
 
         {/* Table */}
         <Table
+
+         style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5e7eb",
+          fontFamily: "'Inter', sans-serif",
+        }}
+        
           columns={columns}
+          
           dataSource={paginatedData}
           rowKey="key"
           scroll={{ x: "max-content" }}
@@ -261,10 +271,10 @@ export const ClinicTableCard = () => {
               ),
             },
           }}
-          style={{
-            borderRadius: "8px",
-            overflow: "hidden",
-          }}
+          // style={{
+          //   borderRadius: "8px",
+          //   overflow: "hidden",
+          // }}
         />
 
         {/* Custom Pagination */}

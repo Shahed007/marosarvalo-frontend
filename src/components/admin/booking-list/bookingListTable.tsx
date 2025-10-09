@@ -205,6 +205,7 @@ export const BookingTable = () => {
 
   return (
     <Card
+      bodyStyle={{ padding: 0 }}
       bordered={false}
       style={{
         border: "none",
@@ -259,6 +260,13 @@ export const BookingTable = () => {
 
       {/* Table */}
       <Table
+       style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5e7eb",
+          fontFamily: "'Inter', sans-serif",
+        }}
         columns={columns}
         dataSource={filteredData}
         pagination={false}
@@ -298,10 +306,7 @@ export const BookingTable = () => {
             ),
           },
         }}
-        style={{
-          borderRadius: "8px",
-          overflow: "hidden",
-        }}
+
       />
 
       {/* Pagination */}
