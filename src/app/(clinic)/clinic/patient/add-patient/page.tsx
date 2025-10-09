@@ -553,7 +553,7 @@ const PatientRegistrationForm: React.FC = () => {
             </Form.Item>
             <Form.Item>
               <Button size="large" type="primary" icon={<LiaUserPlusSolid />}>
-                Save
+                Add Patients
               </Button>
             </Form.Item>
           </Form>
