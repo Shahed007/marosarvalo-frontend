@@ -17,10 +17,6 @@ import {
   PlusOutlined,
   MoreOutlined,
   SearchOutlined,
-  UserOutlined,
-  MailOutlined,
-  FileTextOutlined,
-  MessageOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";

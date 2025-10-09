@@ -22,7 +22,7 @@ export default function AddClinicPage() {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     watch,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
