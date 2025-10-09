@@ -90,7 +90,10 @@ const ClinicDashboard = () => {
       <div>
         <UpcomingAppointments onViewAll={true as boolean} data={appointments} />
       </div>
+
     </div>
+
+    
   );
 };
 

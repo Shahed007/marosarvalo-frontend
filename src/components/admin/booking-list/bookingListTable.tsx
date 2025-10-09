@@ -12,19 +12,17 @@ import {
   Modal,
   Row,
   Col,
-  Descriptions,
+
 } from "antd";
 import {
   PlusOutlined,
   MoreOutlined,
   SearchOutlined,
-  BorderRightOutlined,
+
 } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
-
-const { Title } = Typography;
 
 // Reusable Status Badge Component
 const renderStatus = (status: string) => {

@@ -171,6 +171,7 @@ export const ClinicTableCard = () => {
     <div className="pt-5">
       <Card
         variant="outlined"
+        bodyStyle={{ padding: 0 }}
         style={{
           border: "none",
           boxShadow: "none",
