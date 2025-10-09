@@ -20,6 +20,7 @@ export default function AddServiceDrawer({
 }: AddServiceDrawerProps) {
   return (
     <Drawer
+  
       title={<div className="text-center text-[28px]">Add Services</div>}
       placement="right"
       onClose={onClose}

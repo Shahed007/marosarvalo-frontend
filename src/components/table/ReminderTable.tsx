@@ -126,6 +126,7 @@ const ReminderTable: React.FC<ReminderTableProps> = ({
 
       {/* Data Table */}
       <Table
+        pagination={false}
         style={{
           borderRadius: "12px",
           overflow: "hidden",

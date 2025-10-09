@@ -239,6 +239,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
             Add New Discipline
           </Title>
         }
+        closable={false}
         placement="right"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
@@ -251,7 +252,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
           <div
             style={{
               textAlign: "right",
-              padding: "16px 24px"
+              padding: "16px 24px",
             }}
           >
             <Space className="flex justify-center items-center gap-4">
@@ -301,6 +302,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
             Edit Discipline
           </Title>
         }
+        closable={false}
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);

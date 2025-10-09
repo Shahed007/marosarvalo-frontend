@@ -407,7 +407,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       {/* Edit Bond Drawer (Modal from right side) */}
       <Drawer
         title={
-          <div className="text-start text-[30px] font-[500]">Edit Bond</div>
+          <div className="text-start text-[30px] font-[500]">Edit Bonds</div>
         }
         placement="right"
         onClose={() => {

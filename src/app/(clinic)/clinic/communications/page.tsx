@@ -142,7 +142,6 @@ const Communications = () => {
         // .ant-btn-variant-solid {
         // padding: 17px 32px !important;
         // }
-        
       `}</style>
     </div>
   );

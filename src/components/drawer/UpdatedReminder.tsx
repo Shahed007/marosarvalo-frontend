@@ -31,6 +31,7 @@ const UpdateReminderForm = () => {
       <Button onClick={() => setOpen(true)} icon={<FiEdit />} />
 
       <Drawer
+        width={567}
         closeIcon={null}
         open={open}
         onClose={() => setOpen(false)}
@@ -96,7 +97,12 @@ const UpdateReminderForm = () => {
           </Form.Item>
 
           <Form.Item label={<Title level={5}>Message</Title>} name="message">
-            <TextArea rows={3} />
+            <TextArea
+              rows={3}
+              style={{
+                height: "105px",
+              }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -111,7 +117,12 @@ const UpdateReminderForm = () => {
           </Form.Item>
 
           <Form.Item name="body">
-            <TextArea rows={6} />
+            <TextArea
+              rows={6}
+              style={{
+                height: "105px",
+              }}
+            />
           </Form.Item>
         </Form>
       </Drawer>

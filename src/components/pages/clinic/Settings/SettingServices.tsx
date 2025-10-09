@@ -325,6 +325,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
             Add Service
           </Title>
         }
+        closable={false}
         placement="right"
         onClose={() => {
           setDrawerVisible(false);
@@ -333,7 +334,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           form.resetFields();
         }}
         open={drawerVisible}
-        width={500}
+        width={698}
         styles={{
           body: { padding: 24 },
           header: {
@@ -456,8 +457,9 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           setEditDrawerVisible(false);
           setEditingService(null);
         }}
+        closable={false}
         open={editDrawerVisible}
-        width={500}
+        width={698}
         styles={{
           body: { padding: 24 },
           header: {

@@ -25,7 +25,7 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
 }) => {
   return (
     <Drawer
-      width={500}
+      width={698}
       footer={
         <div className="flex items-center gap-6 mt-4">
           <Button block size="large" htmlType="submit" type="primary">

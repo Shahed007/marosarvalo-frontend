@@ -49,8 +49,8 @@ const CancelAppointmentDrawer = ({
           style={{
             textAlign: "start",
             width: "100%",
-            fontSize: "20px",
-            fontWeight: "500",
+            fontSize: "30px",
+            fontWeight: "510",
             color: "#0B121B",
           }}
         >
