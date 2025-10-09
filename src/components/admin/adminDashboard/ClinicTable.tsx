@@ -11,11 +11,11 @@ import {
   Row,
   Col,
 } from "antd";
-import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
+import { MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
-import { CiCirclePlus } from "react-icons/ci";
+
 
 const { Title, Text } = Typography;
 
