@@ -1,100 +1,122 @@
 "use client";
 
-import React from "react";
-import { Button, Select } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+
 
 interface CustomPaginationProps {
   currentPage: number;
   total: number;
   pageSize: number;
-  onPageChange: (page: number, pageSize?: number) => void;
-  pageSizeOptions?: number[];
+  onPageChange: (page: number) => void;
+  onPageSizeChange?: (size: number) => void;
 }
 
-const CustomPagination: React.FC<CustomPaginationProps> = ({
+const CustomPagination = ({
   currentPage,
   total,
   pageSize,
   onPageChange,
-  pageSizeOptions = [5, 10, 20, 50],
-}) => {
+  onPageSizeChange = () => {},
+}: CustomPaginationProps) => {
   const totalPages = Math.ceil(total / pageSize);
+  const start = (currentPage - 1) * pageSize + 1;
+  const end = Math.min(currentPage * pageSize, total);
 
-  // Generate pages with ellipsis
-  const getPages = () => {
-    if (totalPages <= 7)
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-
-    const pages = [1];
-    if (currentPage > 4) pages.push(-1);
-
-    const start = Math.max(2, currentPage - 1);
-    const end = Math.min(totalPages - 1, currentPage + 1);
-
-    for (let i = start; i <= end; i++) pages.push(i);
-
-    if (currentPage < totalPages - 3) pages.push(-1);
-
-    pages.push(totalPages);
-    return pages;
+  const handlePrev = () => {
+    if (currentPage > 1) onPageChange(currentPage - 1);
   };
 
-  const pages = getPages();
+  const handleNext = () => {
+    if (currentPage < totalPages) onPageChange(currentPage + 1);
+  };
+
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSize = parseInt(e.target.value, 10);
+    onPageSizeChange(newSize);
+  };
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 p-4 bg-white rounded-lg">
-      {/* Left: Page Size Selector */}
-      <div className="flex items-center gap-2">
-        <span className="text-gray-600 text-sm">Rows per page:</span>
-        <Select
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        padding: "12px 0",
+        fontSize: "14px",
+        color: "#64748B",
+      }}
+    >
+      {/* Left: Rows per page */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span>Rows per page:</span>
+        <select
           value={pageSize}
-          onChange={(value) => onPageChange(1, value)}
-          options={pageSizeOptions.map((size) => ({
-            value: size,
-            label: `${size} / page`,
-          }))}
-          style={{ width: 120 }}
-        />
+          onChange={handlePageSizeChange}
+          style={{
+            border: "1px solid #CBD5E1",
+            borderRadius: "6px",
+            padding: "4px 8px",
+            fontSize: "14px",
+            backgroundColor: "#fff",
+            cursor: "pointer",
+          }}
+        >
+          <option value={5}>5 / page</option>
+          <option value={10}>10 / page</option>
+          <option value={20}>20 / page</option>
+          <option value={50}>50 / page</option>
+        </select>
       </div>
 
-      {/* Center: Total Text */}
-      <div className="text-gray-500 text-sm text-center">
-        Showing {(currentPage - 1) * pageSize + 1} to{" "}
-        {Math.min(currentPage * pageSize, total)} out of {total} records
+      {/* Center: Record Info */}
+      <div>
+        Showing <strong>{total === 0 ? 0 : start}</strong> to{" "}
+        <strong>{end}</strong> of <strong>{total}</strong> entries
       </div>
 
       {/* Right: Pagination Controls */}
-      <div className="flex items-center gap-1 flex-wrap justify-center">
-        {/* Prev Button */}
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <Button
-          icon={<LeftOutlined />}
-          onClick={() => onPageChange(currentPage - 1)}
+          type="default"
+          icon={<span>‹</span>}
+          onClick={handlePrev}
           disabled={currentPage === 1}
+          style={{
+            width: 36,
+            height: 36,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0,
+          }}
         />
-
-        {/* Page Numbers */}
-        {pages.map((page, idx) =>
-          page === -1 ? (
-            <span key={idx} className="px-2 py-1 text-gray-400">
-              ...
-            </span>
-          ) : (
-            <Button
-              key={page}
-              type={page === currentPage ? "primary" : "default"}
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </Button>
-          )
-        )}
-
-        {/* Next Button */}
         <Button
-          icon={<RightOutlined />}
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          type="primary"
+          style={{
+            minWidth: 36,
+            height: 36,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 600,
+          }}
+        >
+          {currentPage}
+        </Button>
+        <Button
+          type="default"
+          icon={<span>›</span>}
+          onClick={handleNext}
+          disabled={currentPage >= totalPages}
+          style={{
+            width: 36,
+            height: 36,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0,
+          }}
         />
       </div>
     </div>

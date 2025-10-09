@@ -1,9 +1,9 @@
 export const MetricCardsRow = () => {
   return (
     <div className="overflow-hidden mb-8  p-5">
-      <div className="grid grid-cols-1 md:grid-cols-3  md:divide-y-0 md:divide-x gap-4 divide-gray-200/50">
+      <div className="grid grid-cols-1 md:grid-cols-3  md:divide-y-0  gap-4 divide-gray-200/50">
         {/* Today's Sale */}
-        <div className="p-8 flex justify-between rounded-[12px] border-[0.5px] border-[#CCC] bg-[#FFF] shadow-[3px_3px_15px_rgba(0,0,0,0.04)]">
+        <div className="p-8 flex justify-between rounded-[12px] border-[0.5px] border-[#CCC] bg-[#FFF] ">
           <div className="space-y-2 flex flex-col">
             <div className="md:text-[44px] text-3xl font-semibold text-gray-900">
               15

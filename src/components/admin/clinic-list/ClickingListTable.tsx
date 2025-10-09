@@ -20,7 +20,7 @@ import CustomPagination from "@/components/shared/CustomPagination";
 
 // ✅ Import your EditClinicModal
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export const ClickingListTable = () => {
   // ✅ Enhanced mock data with user fields for editing
@@ -398,10 +398,12 @@ export const ClickingListTable = () => {
 
   return (
     <Card
+    bordered={false}
       style={{
-        borderRadius: "12px",
-        border: "1px solid #E2E8F0",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+
+        border: "none",
+        boxShadow: "none",
+ 
       }}
     >
       {/* Header */}
@@ -433,18 +435,9 @@ export const ClickingListTable = () => {
         </div>
       </div>
 
-      <Title
-        level={4}
-        style={{
-          margin: 0,
-          color: "#1E293B",
-          fontWeight: 600,
-          marginTop: "50px",
-          marginBottom: "24px",
-        }}
-      >
+     <h1 className="p-4 md:p-6 lg:p-8  text-[#0B121B] text-base sm:text-xl md:text-[25px] lg:text-3xl font-medium">
         All Clinics
-      </Title>
+      </h1>
 
       {/* Table */}
       <Table
