@@ -40,7 +40,7 @@ const VoucherPage = () => {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       <div>
-        <Title level={2} className="!mb-10" color="#0B121B">
+        <Title level={2} className="!mb-[30px]" color="#0B121B">
           Settings-Voucher
         </Title>
 

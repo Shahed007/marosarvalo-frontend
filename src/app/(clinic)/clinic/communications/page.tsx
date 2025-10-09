@@ -104,7 +104,10 @@ const Communications = () => {
       key: "reminders",
       label: "Reminders",
       children: (
-        <div>
+        <div className="grid grid-cols-1 gap-6">
+          <div className="flex justify-end">
+            <AddNewReminder />
+          </div>
           {communicationCards.map((item, idx) => (
             <CommunicationCard key={idx} {...item} />
           ))}
@@ -123,24 +126,23 @@ const Communications = () => {
   ];
   return (
     <div className=" p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2} className="!mb-10 !text-[#0B121B]">
+      <Title level={2} className="!mb-[30px] !text-[#0B121B]">
         Communication
       </Title>
-      <div className="flex justify-between">
-        <Tabs
-          activeKey={activeTab}
-          onChange={setActiveTab}
-          items={tabItems}
-          className="mb-6"
-        />
-        <div className="flex justify-end">
-          <AddNewReminder />
-        </div>
-      </div>
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        items={tabItems}
+        className="mb-6"
+      />
       <style jsx global>{`
         .ant-tabs-nav::before {
           border-bottom: 0 !important;
         }
+        // .ant-btn-variant-solid {
+        // padding: 17px 32px !important;
+        // }
+        
       `}</style>
     </div>
   );

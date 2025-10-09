@@ -10,7 +10,7 @@ export interface AppointmentListProps {
   specialist: string;
   reason: string;
   status: string;
-  cancleReasons?: string
+  cancleReasons?: string;
 }
 
 const AppointmentListTable: FC<{
@@ -89,7 +89,7 @@ const AppointmentListTable: FC<{
         style={{
           borderRadius: "12px",
           overflow: "hidden",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#F1F4F6",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
         }}

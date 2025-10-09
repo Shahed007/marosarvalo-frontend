@@ -577,7 +577,7 @@ const PatientRegistrationForm: React.FC = () => {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-10">New Patients</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-[30px]">New Patients</h1>
         <div className="border-b border-gray-200">
           <Tabs
             activeKey={activeTab}

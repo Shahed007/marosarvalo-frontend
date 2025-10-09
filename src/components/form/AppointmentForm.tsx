@@ -449,7 +449,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                     key={index}
                     onClick={() => setSelectedTimeSlot(slot)}
                     className={`
-              w-full p-2 text-center text-sm border !text-[#0B121B] bg-[#F2F2F2] rounded-md transition-colors
+              w-full p-2 text-center text-sm  !text-[#0B121B] bg-[#F2F2F2] rounded-md transition-colors
               ${
                 selectedTimeSlot === slot
                   ? "bg-blue-50 text-[#225A7F] cursor-pointer border-0"
