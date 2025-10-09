@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
-import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import {  SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

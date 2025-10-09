@@ -8,7 +8,7 @@ export const MetricCardsRow = () => {
             <div className="md:text-[44px] text-3xl font-semibold text-gray-900">
               15
             </div>
-            <div className="text-xs text-gray-500 font-medium">
+            <div className="text-xs md:text-[14px]  text-[#93979A] font-medium">
               Today&rsquo;s Sale
             </div>
           </div>
@@ -44,13 +44,13 @@ export const MetricCardsRow = () => {
             </defs>
           </svg>
         </div>
-      <div className="p-8 flex justify-between rounded-[12px] border-[0.5px] border-[color:var(--nautral-n-4-stroke,#CCC)] bg-[color:var(--card-color,#FFF)] shadow-[3px_3px_15px_0_rgba(0,0,0,0.04)]">
+        <div className="p-8 flex justify-between rounded-[12px] border-[0.5px] border-[color:var(--nautral-n-4-stroke,#CCC)] bg-[color:var(--card-color,#FFF)] shadow-[3px_3px_15px_0_rgba(0,0,0,0.04)]">
           <div className="space-y-2 flex flex-col">
             <div className="md:text-[44px] text-3xl font-semibold text-gray-900">
-   59
+              59
             </div>
-            <div className="text-xs text-gray-500 font-medium">
-              Today&rsquo;s Sale
+            <div className="text-xs md:text-[14px]  text-[#93979A] font-medium">
+              Total <br /> Sale
             </div>
           </div>
           <svg
@@ -89,10 +89,10 @@ export const MetricCardsRow = () => {
         <div className="p-8 flex justify-between rounded-[12px] border-[0.5px] border-[color:var(--nautral-n-4-stroke,#CCC)] bg-[color:var(--card-color,#FFF)] shadow-[3px_3px_15px_0_rgba(0,0,0,0.04)]">
           <div className="space-y-2 flex flex-col">
             <div className="md:text-[44px] text-3xl font-semibold text-gray-900">
-           858$
+              858$
             </div>
-            <div className="text-xs text-gray-500 font-medium">
-              Today&rsquo;s Sale
+            <div className="text-xs md:text-[14px]  text-[#93979A] font-medium">
+              Total <br /> Income
             </div>
           </div>
           <svg
