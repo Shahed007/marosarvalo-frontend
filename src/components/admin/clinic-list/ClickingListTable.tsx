@@ -20,7 +20,7 @@ import CustomPagination from "@/components/shared/CustomPagination";
 
 // ✅ Import your EditClinicModal
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 export const ClickingListTable = () => {
   // ✅ Enhanced mock data with user fields for editing

@@ -19,7 +19,7 @@ export default function AdministratorSection() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState<any>(null);
-   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
 
   const {
     register,
@@ -86,9 +86,7 @@ export default function AdministratorSection() {
     setSelectedAdmin(null);
   };
 
-
-
-   // ✅ Custom remove modal logic
+  // ✅ Custom remove modal logic
   const handleRemoveClick = (admin: any) => {
     setSelectedAdmin(admin);
     setIsRemoveModalOpen(true);
@@ -104,16 +102,15 @@ export default function AdministratorSection() {
     setIsRemoveModalOpen(false);
     setSelectedAdmin(null);
   };
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-2">
         <h3 className="text-lg font-semibold text-gray-900">Administrators</h3>
-        <Button
-          type="primary"
-          size="large"
+        <button
           onClick={handleAssignClick}
-          className="bg-[#225A7F] text-white px-4 cursor-pointer py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-colors w-full md:w-auto justify-center md:justify-start"
+          className="min-w-[150px] gap-2 bg-[#225A7F] flex items-center px-6 py-2 border border-[#225A7F] rounded-[4px] text-white disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
           Assign Administrator
           <svg
@@ -129,7 +126,7 @@ export default function AdministratorSection() {
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             />
           </svg>
-        </Button>
+        </button>
       </div>
 
       {/* Admin Cards */}
@@ -154,22 +151,18 @@ export default function AdministratorSection() {
             </div>
 
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
-              <Button
-                type="default"
-                size="middle"
+              <button
                 onClick={() => handleDetailsClick(admin)}
-                className="border border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Details
-              </Button>
-              <Button
-                type="default"
-                size="middle"
+              </button>
+              <button
                 onClick={() => handleRemoveClick(admin)}
-                className="border border-gray-300 text-gray-700 hover:bg-gray-50"
+                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Remove
-              </Button>
+              </button>
             </div>
           </div>
         ))}
@@ -190,170 +183,194 @@ export default function AdministratorSection() {
         destroyOnClose
         className="rounded border border-[#225A7F]"
         bodyStyle={{ padding: 0 }}
+        closeIcon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <rect width="28" height="28" rx="4" fill="#EB3C13" />
+            <path
+              d="M19.6875 8.3125L8.3125 19.6875M8.3125 8.3125L19.6875 19.6875"
+              stroke="white"
+              strokeWidth="2.625"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        }
       >
-        <div
-          className="max-h-[75vh] overflow-y-auto scroll-smooth px-6 py-8 space-y-6"
-          style={{
-            scrollbarWidth: "thin",
-            scrollbarColor: "#225A7F #E5E7EB",
-          }}
-        >
-          <div className="overflow-hidden rounded   bg-white shadow-sm">
-            <div className="border-b border-gray-200  px-6 py-4">
-              <h2 className="text-lg font-medium text-gray-900">
-                Administrator Information
-              </h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          <div
+            className="max-h-[75vh] overflow-y-auto scroll-smooth px-6 py-8 space-y-6"
+            style={{
+              scrollbarWidth: "thin",
+              scrollbarColor: "#225A7F #E5E7EB",
+            }}
+          >
+            <div className="overflow-hidden rounded bg-white shadow-sm">
+              <div className="border-b border-gray-200 px-6 py-4">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Administrator Information
+                </h2>
+              </div>
+
+              <div className="px-6 py-6 space-y-4">
+                {/* Name */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register("name", { required: "Name is required" })}
+                    placeholder="Enter your first name"
+                    className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                      errors.name
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:border-[#225A7F]"
+                    }`}
+                  />
+                  {errors.name && (
+                    <p className="text-xs text-red-500">
+                      {errors.name.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+\.\S+$/,
+                        message: "Enter a valid email",
+                      },
+                    })}
+                    placeholder="Enter your email"
+                    className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                      errors.email
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:border-[#225A7F]"
+                    }`}
+                  />
+                  {errors.email && (
+                    <p className="text-xs text-red-500">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Phone */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone number
+                  </label>
+                  <input
+                    type="tel"
+                    {...register("phone")}
+                    placeholder="+0"
+                    className="w-full rounded border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#225A7F]"
+                  />
+                </div>
+
+                {/* Address */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register("address", {
+                      required: "Address is required",
+                    })}
+                    placeholder="Enter your address"
+                    className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                      errors.address
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:border-[#225A7F]"
+                    }`}
+                  />
+                  {errors.address && (
+                    <p className="text-xs text-red-500">
+                      {errors.address.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Password */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 6,
+                        message: "Password must be at least 6 characters",
+                      },
+                    })}
+                    placeholder="Enter password"
+                    className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                      errors.password
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:border-[#225A7F]"
+                    }`}
+                  />
+                  {errors.password && (
+                    <p className="text-xs text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Confirm Password */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Confirm Password <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    {...register("confirmPassword", {
+                      required: "Please confirm your password",
+                      validate: (value) =>
+                        value === password || "Passwords do not match",
+                    })}
+                    placeholder="Enter your password again"
+                    className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
+                      errors.confirmPassword
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-300 focus:border-[#225A7F]"
+                    }`}
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-xs text-red-500">
+                      {errors.confirmPassword.message}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className="px-6 py-6 space-y-4">
-              {/* Name */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...register("name", { required: "Name is required" })}
-                  placeholder="Enter your first name"
-                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
-                    errors.name
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 focus:border-[#225A7F]"
-                  }`}
-                />
-                {errors.name && (
-                  <p className="text-xs text-red-500">{errors.name.message}</p>
-                )}
-              </div>
-
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: "Enter a valid email",
-                    },
-                  })}
-                  placeholder="Enter your email"
-                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
-                    errors.email
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 focus:border-[#225A7F]"
-                  }`}
-                />
-                {errors.email && (
-                  <p className="text-xs text-red-500">{errors.email.message}</p>
-                )}
-              </div>
-
-              {/* Phone */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Phone number
-                </label>
-                <input
-                  type="tel"
-                  {...register("phone")}
-                  placeholder="+0"
-                  className="w-full rounded border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#225A7F]"
-                />
-              </div>
-
-              {/* Address */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Address <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...register("address", { required: "Address is required" })}
-                  placeholder="Enter your address"
-                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
-                    errors.address
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 focus:border-[#225A7F]"
-                  }`}
-                />
-                {errors.address && (
-                  <p className="text-xs text-red-500">
-                    {errors.address.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Password */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                  })}
-                  placeholder="Enter password"
-                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
-                    errors.password
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 focus:border-[#225A7F]"
-                  }`}
-                />
-                {errors.password && (
-                  <p className="text-xs text-red-500">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Confirm Password */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Confirm Password <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="password"
-                  {...register("confirmPassword", {
-                    required: "Please confirm your password",
-                    validate: (value) =>
-                      value === password || "Passwords do not match",
-                  })}
-                  placeholder="Enter your password again"
-                  className={`w-full rounded border px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-[#225A7F] ${
-                    errors.confirmPassword
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 focus:border-[#225A7F]"
-                  }`}
-                />
-                {errors.confirmPassword && (
-                  <p className="text-xs text-red-500">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
+            {/* Action Buttons */}
+            <div className="flex justify-center pt-4 pb-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] bg-[#225A7F] text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              >
+                {isSubmitting ? "Assigning..." : "Assign"}
+              </button>
             </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-center pt-4 pb-2">
-            <Button
-              type="primary"
-              size="large"
-              onClick={handleSubmit(onSubmit)}
-              disabled={isSubmitting}
-              className="bg-[#225A7F] text-white hover:bg-[#1d4e6f]"
-            >
-              {isSubmitting ? "Saving..." : "Assign"}
-            </Button>
-          </div>
-        </div>
+        </form>
       </Modal>
 
       {/* ✅ Profile Modal */}
@@ -365,6 +382,24 @@ export default function AdministratorSection() {
         width={1200}
         title={null}
         className="rounded-xl"
+        closeIcon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <rect width="28" height="28" rx="4" fill="#EB3C13" />
+            <path
+              d="M19.6875 8.3125L8.3125 19.6875M8.3125 8.3125L19.6875 19.6875"
+              stroke="white"
+              strokeWidth="2.625"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        }
       >
         {selectedAdmin && (
           <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between">
@@ -412,7 +447,9 @@ export default function AdministratorSection() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <MailIcon className="w-4 h-4 text-gray-800" />
-                  <span className="text-sm font-medium text-gray-800">Email</span>
+                  <span className="text-sm font-medium text-gray-800">
+                    Email
+                  </span>
                 </div>
                 <span className="text-sm text-gray-600 truncate">
                   {selectedAdmin.email}
@@ -435,16 +472,33 @@ export default function AdministratorSection() {
         )}
       </Modal>
 
-
-         {/* ✅ Remove Confirmation Modal */}
+      {/* ✅ Remove Confirmation Modal */}
       <Modal
         open={isRemoveModalOpen}
         onCancel={cancelRemove}
         footer={null}
         centered
         width={360}
-        closable={false}
+        closable={true} // 🔥 Fixed: Was false → now true to show close icon
         className="rounded-lg"
+        closeIcon={
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <rect width="28" height="28" rx="4" fill="#EB3C13" />
+            <path
+              d="M19.6875 8.3125L8.3125 19.6875M8.3125 8.3125L19.6875 19.6875"
+              stroke="white"
+              strokeWidth="2.625"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        }
       >
         <div className="flex flex-col items-center text-center space-y-6 py-6">
           <p className="text-lg font-semibold text-gray-800">

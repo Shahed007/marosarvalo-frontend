@@ -14,7 +14,12 @@ import {
   Col,
   Descriptions,
 } from "antd";
-import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  MoreOutlined,
+  SearchOutlined,
+  BorderRightOutlined,
+} from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
@@ -28,6 +33,7 @@ const renderStatus = (status: string) => {
     case "Pending":
       bgColor = "#E2E8F0";
       textColor = "#4180AB";
+
       break;
     case "Cancel":
       bgColor = "#FEE2E2";

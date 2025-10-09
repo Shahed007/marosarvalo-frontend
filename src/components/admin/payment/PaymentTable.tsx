@@ -74,7 +74,7 @@ export const PaymentTable = () => {
 
   // View handler
   const handleView = (id: string) => {
-    router.push(`payment/${id}`);
+    // router.push(`payment/${id}`);
   };
 
   // Status badge
