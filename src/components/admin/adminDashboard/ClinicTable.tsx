@@ -15,6 +15,7 @@ import { PlusOutlined, MoreOutlined, SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
+import { CiCirclePlus } from "react-icons/ci";
 
 const { Title, Text } = Typography;
 
@@ -171,7 +172,7 @@ export const ClinicTableCard = () => {
     <div className="pt-5">
       <Card
         variant="outlined"
-      
+        bodyStyle={{ padding: 0 }}
         style={{
           border: "none",
           boxShadow: "none",
@@ -207,8 +208,11 @@ export const ClinicTableCard = () => {
             <Button
               size="large"
               type="primary"
-              icon={<PlusOutlined />}
+
+           
               style={{
+                fontSize: "14px",
+                color: "#D3DEE5",
                 backgroundColor: "#225A7F",
                 borderColor: "#225A7F",
                 borderRadius: "6px",
@@ -216,6 +220,17 @@ export const ClinicTableCard = () => {
               }}
             >
               Add Clinic
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <g clip-path="url(#clip0_1088_5426)">
+    <path d="M10 20C9.741 20 9.49261 19.8971 9.30947 19.714C9.12632 19.5308 9.02344 19.2824 9.02344 19.0234V0.976562C9.02344 0.717562 9.12632 0.46917 9.30947 0.286029C9.49261 0.102888 9.741 0 10 0C10.259 0 10.5074 0.102888 10.6905 0.286029C10.8737 0.46917 10.9766 0.717562 10.9766 0.976562V19.0234C10.9766 19.2824 10.8737 19.5308 10.6905 19.714C10.5074 19.8971 10.259 20 10 20Z" fill="white"/>
+    <path d="M19.0234 10.9766H0.976562C0.717562 10.9766 0.46917 10.8737 0.286029 10.6905C0.102888 10.5074 0 10.259 0 10C0 9.741 0.102888 9.49261 0.286029 9.30947C0.46917 9.12632 0.717562 9.02344 0.976562 9.02344H19.0234C19.2824 9.02344 19.5308 9.12632 19.714 9.30947C19.8971 9.49261 20 9.741 20 10C20 10.259 19.8971 10.5074 19.714 10.6905C19.5308 10.8737 19.2824 10.9766 19.0234 10.9766Z" fill="white"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_1088_5426">
+      <rect width="20" height="20" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>
             </Button>
           </Link>
         </div>
@@ -245,10 +260,10 @@ export const ClinicTableCard = () => {
                     backgroundColor: "#F1F4F6",
                     color: "#4180AB",
                     fontWeight: 700,
-                    fontSize: "14px",
+                    fontSize: "16px",
                     padding: "12px 16px",
                     borderBottom: "1px solid #CBD5E1",
-                    textTransform: "uppercase",
+               
                     letterSpacing: "0.5px",
                   }}
                 >

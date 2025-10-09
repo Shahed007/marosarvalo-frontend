@@ -84,7 +84,8 @@ export default function ChangePassword() {
         </div>
 
         <div className="pt-2">
-          <button className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] text-white bg-[#225A7F]  disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+          <button className="min-w-[150px]  
+             cursor-pointer  px-6 py-2 border border-[#225A7F] rounded-[4px] text-white bg-[#225A7F]  disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
 Updated Password
           </button>
         </div>
