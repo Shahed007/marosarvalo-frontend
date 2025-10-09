@@ -471,7 +471,11 @@ export default function BillingPayments() {
                   <Button
                     key={patient.id}
                     size="middle"
-                    className="!text-[#9DA0A4] !mb-[30px]"
+                    className={`!text-[#9DA0A4] !mb-[30px] hover:!bg-primary hover:!text-white  ${
+                      selectedPatient?.id === patient.id
+                        ? "!bg-primary !text-white"
+                        : "!text-[#9DA0A4]"
+                    }`}
                     type={
                       selectedPatient?.id === patient.id ? "primary" : "default"
                     }
@@ -486,7 +490,12 @@ export default function BillingPayments() {
 
           {/* Product Section */}
           <Card
-            style={{ marginBottom: 30, borderRadius: 8, border: 0 }}
+            style={{
+              marginBottom: 30,
+              borderRadius: 8,
+              border: 0,
+              marginTop: "12px",
+            }}
             title={
               <div
                 style={{
@@ -927,7 +936,7 @@ export default function BillingPayments() {
               top: 24,
               marginTop: "12px",
               marginBottom: "20px",
-              padding: "10px"
+              padding: "10px",
             }}
             title={
               <Title level={4} style={{ margin: 0 }}>
