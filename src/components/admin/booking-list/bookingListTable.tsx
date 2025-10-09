@@ -12,7 +12,6 @@ import {
   Modal,
   Row,
   Col,
-  Descriptions,
 } from "antd";
 import {
   PlusOutlined,
@@ -23,7 +22,6 @@ import { useState } from "react";
 import Link from "next/link";
 import CustomPagination from "@/components/shared/CustomPagination";
 
-const { Title } = Typography;
 
 // Reusable Status Badge Component
 const renderStatus = (status: string) => {
