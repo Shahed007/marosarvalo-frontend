@@ -24,12 +24,13 @@ const AddHolidayDrawer: React.FC<AddHolidayDrawerProps> = ({
   return (
     <Drawer
       title={
-        <div className="text-2xl font-semibold text-center">Add Holiday</div>
+        <div className="text-3xl font-semibold text-center">Add Holiday</div>
       }
       placement="right"
       onClose={onClose}
       open={visible}
-      width={480}
+      width={698}
+      closable={false}
       footer={
         <div
           style={{
@@ -40,15 +41,31 @@ const AddHolidayDrawer: React.FC<AddHolidayDrawerProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button style={{ flex: 1 }} onClick={onClose}>
-            Cancel
-          </Button>
           <Button
             type="primary"
-            style={{ flex: 1 }}
-            onClick={() => form.submit()}
+            htmlType="submit"
+            style={{
+              flex: 1,
+              padding: "12px 16px",
+              height: 44,
+              fontWeight: 600,
+              borderRadius: 8,
+            }}
           >
             Add Now
+          </Button>
+
+          <Button
+            style={{
+              flex: 1,
+              padding: "12px 16px",
+              height: 44,
+              fontWeight: 600,
+              borderRadius: 8,
+            }}
+            onClick={onClose}
+          >
+            Cancel
           </Button>
         </div>
       }

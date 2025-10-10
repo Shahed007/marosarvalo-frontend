@@ -9,24 +9,19 @@ import {
   Input,
   Select,
   Space,
-  Row,
-  Col,
   Drawer,
   Form,
   Radio,
   Modal,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  SearchOutlined,
-  LeftOutlined,
-  RightOutlined,
-  EditFilled,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
+import CustomPagination from "../shared/CustomPagination";
+import editIcon from "@/assets/icons/editIcon.png";
+import Image from "next/image";
 
-// ✅ TypeScript interface for data
+// TypeScript interface for data
 export interface Bond {
   id: string;
   name: string;
@@ -45,7 +40,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   const [statusFilter] = useState<"All" | "Active" | "Inactive">("All");
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingBond] = useState<Bond | null>(null);
@@ -80,12 +75,6 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  // Handle page size change
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
   };
 
   // Handle new bond form submission
@@ -125,7 +114,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
     setEditDrawerVisible(true);
   };
 
-  // ✅ Table columns
+  // Table columns
   const columns: ColumnsType<Bond> = [
     {
       title: "ID",
@@ -199,8 +188,18 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             render: (_: any, record: any) => (
               <Button
                 type="default"
-                icon={<EditFilled className="hover:text-[#225A7F]" />}
-                style={{ border: "1px solid #CCCCCC", padding: "6px 10px" }}
+                icon={
+                  <div className="flex items-center justify-center w-3 h-3">
+                    <Image
+                      src={editIcon}
+                      alt="edit"
+                      width={16}
+                      height={16}
+                      className="object-contain"
+                    />
+                  </div>
+                }
+                style={{ border: "1px solid #CCCCCC", padding: "10px 10px" }}
                 size="small"
                 onClick={() => handleEditClick(record)}
               />
@@ -213,23 +212,26 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
   return (
     <div>
       {/* Search + Add Button */}
-      <div className="sm:!flex flex-row items-center justify-between mb-6">
-        <div>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-6 gap-4">
+        {/* Search Input */}
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
-            placeholder="Search by name, discipline, or service"
-            suffix={<SearchOutlined className="cursor-pointer" />}
+            placeholder="Search patient or type"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            style={{ borderRadius: "12px" }}
-            allowClear
-            className="!px-2 !py-2 !w-[320px] !sm:w-[700px]"
           />
         </div>
-        <div className={`${hiddenClass}`}>
+
+        {/* Action Button */}
+        <div className={`${hiddenClass} w-full sm:w-auto`}>
           <Button
+            size="large"
             type="primary"
+            className="w-full sm:w-auto"
             style={{ borderRadius: "12px" }}
-            className="!px-7 !py-5 !mt-2"
             icon={<PlusOutlined />}
             onClick={() => setDrawerVisible(true)}
           >
@@ -282,118 +284,56 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       />
 
       {/* Custom Pagination - matches the screenshot design */}
-      <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
-        <Col>
-          <Space>
-            <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-              Showing
-            </span>
-            <Select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ width: 80, height: 32, borderRadius: "15px" }}
-              size="small"
-            >
-              <Select.Option value={10}>10</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
-              <Select.Option value={50}>50</Select.Option>
-            </Select>
-          </Space>
-        </Col>
-
-        <Col>
-          <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-            Showing {startIndex + 1} to {endIndex} of {totalRecords} records
-          </span>
-        </Col>
-
-        <Col>
-          <Space>
-            <Button
-              icon={<LeftOutlined />}
-              size="small"
-              type="text"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <Button
-              type={currentPage === 1 ? "primary" : "text"}
-              size="small"
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </Button>
-            {totalRecords > pageSize && (
-              <Button
-                type={currentPage === 2 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(2)}
-              >
-                2
-              </Button>
-            )}
-            {totalRecords > pageSize * 2 && (
-              <Button
-                type={currentPage === 3 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(3)}
-              >
-                3
-              </Button>
-            )}
-            {totalRecords > pageSize * 3 && (
-              <Button
-                type={currentPage === 4 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(4)}
-              >
-                4
-              </Button>
-            )}
-            <Button
-              icon={<RightOutlined />}
-              size="small"
-              type="text"
-              disabled={endIndex >= totalRecords}
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Space>
-        </Col>
-      </Row>
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
 
       {/* New Bond Drawer (Modal from right side) */}
       <Drawer
-        title={<div className="text-center text-[28px]">New Bonds</div>}
+        title={
+          <div className="text-[#0B121B] text-[30px] font-[500]">New Bonds</div>
+        }
         placement="right"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
-        width={500}
+        closable={false}
         styles={{
           body: { padding: 24 },
-          header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
+          header: {
+            borderBottom: "1px solid #e5e7eb",
+            padding: "0 0 16px 0",
+            width: "430px",
+            margin: "0 auto",
+        paddingTop: "16px",
+          },
         }}
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
-                <Button
-                  type="primary"
-                  size="large"
-                  onClick={() => form.submit()}
-                >
-                  Add Bond
-                </Button>
-              </div>
-              <div>
-                <Button size="large" onClick={() => setDrawerVisible(false)}>
-                  Not Now
-                </Button>
-              </div>
+            <Space className="flex flex-row sm:flex-row justify-center items-center gap-3 sm:gap-4 w-full">
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => form.submit()}
+                className="w-full sm:w-[200px] rounded-[12px]"
+              >
+                Add Bond
+              </Button>
+
+              <Button
+                size="large"
+                onClick={() => setDrawerVisible(false)}
+                className="w-full sm:w-[200px] rounded-[12px]"
+              >
+                Not Now
+              </Button>
             </Space>
           </div>
         }
@@ -408,6 +348,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Package Name"
             name="packageName"
             rules={[{ required: true, message: "Please enter package name" }]}
+            className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="Package name" />
           </Form.Item>
@@ -416,6 +357,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Select Discipline"
             name="discipline"
             rules={[{ required: true, message: "Please select discipline" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Select placeholder="Select discipline">
               <Select.Option value="Operation">Operation</Select.Option>
@@ -428,6 +370,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Services"
             name="services"
             rules={[{ required: true, message: "Please select service" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Select placeholder="Select service">
               <Select.Option value="Surgery">Surgery</Select.Option>
@@ -440,6 +383,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Total Sessions"
             name="totalSessions"
             rules={[{ required: true, message: "Please enter total sessions" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="e.g 10" type="number" />
           </Form.Item>
@@ -448,6 +392,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Price"
             name="price"
             rules={[{ required: true, message: "Please enter price" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="e.g $200" />
           </Form.Item>
@@ -456,6 +401,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Status"
             name="status"
             rules={[{ required: true, message: "Please select status" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Radio.Group>
               <Radio value="Active">Active</Radio>
@@ -467,22 +413,25 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
 
       {/* Edit Bond Drawer (Modal from right side) */}
       <Drawer
-        title={<div className="text-center text-[28px]">Edit Bond</div>}
+        title={
+          <div className="text-start text-[30px] font-[500]">Edit Bonds</div>
+        }
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);
           setEditingBond(null);
         }}
+        closable={false}
         open={editDrawerVisible}
         width={500}
         styles={{
-          body: { padding: 24 },
+          body: { padding: 24},
           header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
         }}
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
             }}
           >
@@ -492,6 +441,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
                   size="large"
                   type="primary"
                   onClick={() => editForm.submit()}
+                  className="w-full sm:w-[200px] rounded-[12px]"
                 >
                   Save
                 </Button>
@@ -503,6 +453,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
                     setEditDrawerVisible(false);
                     setEditingBond(null);
                   }}
+                  className="w-full sm:w-[200px] rounded-[12px]"
                 >
                   Not Now
                 </Button>

@@ -21,12 +21,108 @@ const patients: PatientType[] = [
     lastAppointment: "2019-11-20",
     status: "Inactive",
   },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
+  {
+    id: "12346",
+    name: "Liam Walker",
+    phone: "(XXX) XXX-7890",
+    email: "li*****@email.com",
+    lastAppointment: "2019-11-20",
+    status: "Inactive",
+  },
   // ...more patient records
 ];
 const Patient = () => {
   return (
-    <div  className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2}>Patients</Title>
+    <div className="p-4 md:p-6 lg:p-8 mb-8">
+      <Title level={2} className="!mb-[30px]">Patients</Title>
       <PatientTable data={patients} />
     </div>
   );

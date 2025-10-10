@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Card, Table, Button, Input, Space, Typography, Select } from "antd";
-import { PlusOutlined, SearchOutlined, UserOutlined } from "@ant-design/icons";
+import {  SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
-const { Title, Text } = Typography;
+
+// ✅ Import your full-featured Custom Pagination
+import CustomPagination from "@/components/shared/CustomPagination";
+
+const { Text } = Typography;
 const { Option } = Select;
 
 export const PaymentTable = () => {
@@ -40,25 +43,38 @@ export const PaymentTable = () => {
     },
   ];
 
-  const router = useRouter();
+
 
   // States
   const [searchTerm, setSearchTerm] = useState("");
-  const [timeFilter, setTimeFilter] = useState("monthly"); // e.g., "monthly", "weekly", "daily"
+  const [timeFilter, setTimeFilter] = useState("monthly");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5); // ← Now dynamic
 
-  // Filter by search term
+  // Filter data
   const filteredData = paymentData.filter((item) =>
     Object.values(item).some((val) =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
 
-  // View handler
-  const handleView = (id: string) => {
-    router.push(`payment/${id}`);
+  // Paginate
+  const startIndex = (currentPage - 1) * pageSize;
+  const paginatedData = filteredData.slice(startIndex, startIndex + pageSize);
+
+  // Handle pagination changes
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
-  // Status badge renderer
+  const handlePageSizeChange = (newSize: number) => {
+    setPageSize(newSize);
+    setCurrentPage(1); // Reset to first page when changing size
+  };
+
+  // View handler
+
+  // Status badge
   const renderStatus = (status: string) => {
     let bgColor, textColor;
     switch (status) {
@@ -128,14 +144,20 @@ export const PaymentTable = () => {
     {
       title: "Action",
       key: "action",
-      render: (_: string, record: any) => (
+      render: (_: string) => (
         <Space size="small">
           <Button
             type="text"
             icon={<UserOutlined />}
-            onClick={() => handleView(record.key)} // Use record.key since id doesn't exist
+            // onClick={() => handleView(record.key)}
             className="text-gray-600 hover:text-blue-600 hover:bg-gray-50"
-            style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{
+              width: 36,
+              height: 36,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           />
         </Space>
       ),
@@ -144,95 +166,128 @@ export const PaymentTable = () => {
 
   return (
     <Card
+      bordered={false}
+      bodyStyle={{ padding: 0 }}
       style={{
-        borderRadius: "12px",
-        border: "1px solid #E2E8F0",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+        boxShadow: "none",
+        border: "none",
+        position: "relative", // Enables absolute positioning inside
       }}
     >
-      {/* Header + Button (Responsive) */}
+      {/* Add Clinic Button - Top Right */}
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "12px",
-          marginBottom: "16px",
+          position: "absolute",
+          top: "1px",
+          right: "16px",
+          zIndex: 10,
         }}
       >
-        <Title
-          level={4}
-          style={{ margin: 0, color: "#1E293B", fontWeight: 600 }}
-        >
-          Payment History
-        </Title>
         <Button
+          size="large"
           type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => router.push('/clinics/new')} // optional: link to add clinic
           style={{
+            fontSize: "14px",
+            color: "#D3DEE5",
             backgroundColor: "#225A7F",
             borderColor: "#225A7F",
-            height: "36px",
             borderRadius: "6px",
             fontWeight: 500,
           }}
         >
           Add Clinic
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <g clip-path="url(#clip0_1088_5426)">
+              <path
+                d="M10 20C9.741 20 9.49261 19.8971 9.30947 19.714C9.12632 19.5308 9.02344 19.2824 9.02344 19.0234V0.976562C9.02344 0.717562 9.12632 0.46917 9.30947 0.286029C9.49261 0.102888 9.741 0 10 0C10.259 0 10.5074 0.102888 10.6905 0.286029C10.8737 0.46917 10.9766 0.717562 10.9766 0.976562V19.0234C10.9766 19.2824 10.8737 19.5308 10.6905 19.714C10.5074 19.8971 10.259 20 10 20Z"
+                fill="white"
+              />
+              <path
+                d="M19.0234 10.9766H0.976562C0.717562 10.9766 0.46917 10.8737 0.286029 10.6905C0.102888 10.5074 0 10.259 0 10C0 9.741 0.102888 9.49261 0.286029 9.30947C0.46917 9.12632 0.717562 9.02344 0.976562 9.02344H19.0234C19.2824 9.02344 19.5308 9.12632 19.714 9.30947C19.8971 9.49261 20 9.741 20 10C20 10.259 19.8971 10.5074 19.714 10.6905C19.5308 10.8737 19.2824 10.9766 19.0234 10.9766Z"
+                fill="white"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_1088_5426">
+                <rect width="20" height="20" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
         </Button>
       </div>
 
-      {/* Search + Time Filter */}
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginBottom: "20px" }}>
-        <Input
-          placeholder="Search payments..."
-          suffix={<SearchOutlined style={{ color: "#94A3B8" }} />}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          allowClear
+      {/* Header Row: Title + Search + Filter */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "12px",
+          marginBottom: "16px",
+          marginTop: "48px", // Space for the top-right button (top:10 + height:36 + buffer:2)
+        }}
+      >
+        {/* Left: Title */}
+        <h1 className="pb-2 pt-8 md:pt-6  text-[#3c4149] text-base sm:text-xl md:text-[25px] font-medium">
+          Payments History
+        </h1>
+
+        {/* Right Group: Search + Filter */}
+        <div
           style={{
-            width: 250,
-            borderRadius: "6px",
-            border: "1px solid #CBD5E1",
-            height: "38px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            flexWrap: "wrap",
           }}
-          className="hover:border-blue-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-        />
-        <Select
-          value={timeFilter}
-          onChange={(value) => setTimeFilter(value)}
-          style={{ width: 120, height: 38 }}
-          size="middle"
-          bordered={false} // removes extra border if needed
         >
-          <Option value="daily">Daily</Option>
-          <Option value="weekly">Weekly</Option>
-          <Option value="monthly">Monthly</Option>
-        </Select>
+          {/* Search Input */}
+       <div>
+           <Input
+            allowClear
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            size="large"
+            addonAfter={<SearchOutlined />}
+          />
+       </div>
+
+          {/* Time Filter Dropdown */}
+          <Select
+            value={timeFilter}
+            onChange={(value) => setTimeFilter(value)}
+            style={{ width: 120, height: 38 }}
+            size="middle"
+            bordered={false}
+          >
+             <Option value="weekly">Weekly</Option>
+            <Option value="monthly">Monthly</Option>
+            <Option value="daily">Daily</Option>
+           
+          </Select>
+        </div>
       </div>
 
       {/* Table */}
       <Table
-        columns={columns}
-        dataSource={filteredData}
-        pagination={{
-          current: 1,
-          total: filteredData.length,
-          pageSize: 5,
-          showTotal: (total) => `Total ${total} payments`,
-          hideOnSinglePage: false,
-          position: ['bottomRight'],
-          itemRender: (_, type, originalElement) => {
-            if (type === 'prev') {
-              return <span className="font-bold text-gray-700">‹</span>;
-            }
-            if (type === 'next') {
-              return <span className="font-bold text-gray-700">›</span>;
-            }
-            return originalElement;
-          },
+        style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5e7eb",
+          fontFamily: "'Inter', sans-serif",
         }}
+        columns={columns}
+        dataSource={paginatedData}
+        pagination={false}
         rowKey="key"
         scroll={{ x: "max-content" }}
         components={{
@@ -240,14 +295,14 @@ export const PaymentTable = () => {
             cell: ({ children }) => (
               <th
                 style={{
-                  backgroundColor: '#F1F4F6',
-                  color: '#4180AB',
+                  backgroundColor: "#F1F4F6",
+                  color: "#4180AB",
                   fontWeight: 700,
-                  fontSize: '14px',
-                  padding: '12px 16px',
-                  borderBottom: '1px solid #CBD5E1',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
+                  fontSize: "14px",
+                  padding: "12px 16px",
+                  borderBottom: "1px solid #CBD5E1",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
                 }}
               >
                 {children}
@@ -258,10 +313,10 @@ export const PaymentTable = () => {
             cell: ({ children }) => (
               <td
                 style={{
-                  padding: '12px 16px',
-                  borderBottom: '1px solid #E2E8F0',
-                  color: '#1E293B',
-                  fontSize: '14px',
+                  padding: "12px 16px",
+                  borderBottom: "1px solid #E2E8F0",
+                  color: "#1E293B",
+                  fontSize: "14px",
                 }}
               >
                 {children}
@@ -269,11 +324,18 @@ export const PaymentTable = () => {
             ),
           },
         }}
-        style={{
-          borderRadius: '8px',
-          overflow: 'hidden',
-        }}
       />
+
+      {/* ✅ Custom Pagination */}
+      <div className="mt-6" style={{ width: "100%" }}>
+        <CustomPagination
+          currentPage={currentPage}
+          total={filteredData.length}
+          pageSize={pageSize}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </div>
     </Card>
   );
 };
