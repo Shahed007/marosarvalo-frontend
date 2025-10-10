@@ -18,7 +18,7 @@ const ClinicAppointmentOverview = () => {
   // Sample data
   const sampleData: AppointmentOverviewProps = {
     title: (
-      <span className="text-[#4180AB] text-[20px]">Appointment Overview</span>
+      <span className="text-[#4180AB] text-[20px] ms-[20px]">Appointment Overview</span>
     ),
     totalAppointments: 532,
     changePercent: 12,
