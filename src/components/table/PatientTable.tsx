@@ -128,7 +128,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     },
   ];
 
-  // ✅ Status Filter Menu
+  //  Status Filter Menu
   const menu = (
     <Menu
       onClick={(e) => setStatusFilter(e.key as "All" | "Active" | "Inactive")}

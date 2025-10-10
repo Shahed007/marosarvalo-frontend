@@ -475,17 +475,13 @@ const PatientRegistrationForm: React.FC = () => {
               </Form.Item>
 
               <style jsx>{`
-                .custom-checkbox-wrapper
-                  :where(.ant-checkbox-checked)
-                  .ant-checkbox-inner {
-                  background-color: black;
-                  border-color: black;
+                :global(.ant-checkbox-checked .ant-checkbox-inner) {
+                  background-color: black !important;
+                  border-color: black !important;
                 }
 
-                .custom-checkbox-wrapper
-                  :where(.ant-checkbox-checked)
-                  .ant-checkbox-inner::after {
-                  border-color: white; /* tick color */
+                :global(.ant-checkbox-checked .ant-checkbox-inner::after) {
+                  border-color: white !important;
                 }
               `}</style>
             </div>
