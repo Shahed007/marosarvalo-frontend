@@ -6,25 +6,17 @@ import {
   Table,
   Button,
   Input,
-  Select,
   Space,
-  Row,
-  Col,
   Drawer,
   Form,
   Modal,
   Typography,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {
-  SearchOutlined,
-  LeftOutlined,
-  RightOutlined,
-  EditFilled,
-  PlusOutlined,
-} from "@ant-design/icons";
-import {ProductTab, SettingService } from "@/types/global";
+import { SearchOutlined, EditFilled, PlusOutlined } from "@ant-design/icons";
+import { ProductTab, SettingService } from "@/types/global";
 import SettingServices from "../pages/clinic/Settings/SettingServices";
+import CustomPagination from "../shared/CustomPagination";
 
 interface ProductTabelProps {
   data: ProductTab[];
@@ -35,7 +27,7 @@ const { Title } = Typography;
 const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editDrawerVisible, setEditDrawerVisible] = useState<boolean>(false);
   const [, setEditingProduct] = useState<ProductTab | null>(null);
@@ -43,7 +35,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
 
-  // ✅ Apply filters
+  // Apply filters
   const filteredData = data.filter((record) => {
     // Search filter
     const searchLower = searchText.toLowerCase();
@@ -63,12 +55,6 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
   // Handle page change
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  // Handle page size change
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
   };
 
   // Handle new product form submission
@@ -103,7 +89,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
     setEditDrawerVisible(true);
   };
 
-  // ✅ Table columns
+  // Table columns
   const columns: ColumnsType<ProductTab> = [
     {
       title: "ID",
@@ -150,44 +136,50 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
       width: 100,
     },
   ];
-const serviceData: SettingService[] = [
-  {
-    name: "Premium Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$250",
-  },
-  {
-    name: "Standard Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$200",
-  },
-  {
-    name: "Trial Package",
-    discipline: "Operation",
-    services: "Surgery",
-    price: "$100",
-  },
-];
+  const serviceData: SettingService[] = [
+    {
+      name: "Premium Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$250",
+    },
+    {
+      name: "Standard Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$200",
+    },
+    {
+      name: "Trial Package",
+      discipline: "Operation",
+      services: "Surgery",
+      price: "$100",
+    },
+  ];
   return (
-    <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={4}>Discipline</Title>
+    <div>
+      <Title level={4} color="#0B121B">
+        Discipline
+      </Title>
       {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6">
-        <Input
-          placeholder="Search discipline"
-          suffix={<SearchOutlined className="cursor-pointer" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 700, borderRadius: "12px" }}
-          allowClear
-          className="!px-2 !py-2"
-        />
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 mt-4">
+        {/* Search Input */}
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            placeholder="Search discipline"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+
+        {/* Add Button */}
         <Button
           type="primary"
           style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5"
+          className="!px-7 !py-5 w-full sm:w-auto"
           icon={<PlusOutlined />}
           onClick={() => setDrawerVisible(true)}
         >
@@ -216,7 +208,7 @@ const serviceData: SettingService[] = [
                   backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: 600,
-                  color: "#334155",
+                  color: "#4180AB",
                 }}
               />
             ),
@@ -235,89 +227,22 @@ const serviceData: SettingService[] = [
         }}
       />
 
-      {/* Custom Pagination - matches the screenshot design */}
-      <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
-        <Col>
-          <Space>
-            <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-              Showing
-            </span>
-            <Select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ width: 80, height: 32, borderRadius: "15px" }}
-              size="small"
-            >
-              <Select.Option value={10}>10</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
-              <Select.Option value={50}>50</Select.Option>
-            </Select>
-          </Space>
-        </Col>
-
-        <Col>
-          <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-            Showing {startIndex + 1} to {endIndex} of {totalRecords} records
-          </span>
-        </Col>
-
-        <Col>
-          <Space>
-            <Button
-              icon={<LeftOutlined />}
-              size="small"
-              type="text"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <Button
-              type={currentPage === 1 ? "primary" : "text"}
-              size="small"
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </Button>
-            {totalRecords > pageSize && (
-              <Button
-                type={currentPage === 2 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(2)}
-              >
-                2
-              </Button>
-            )}
-            {totalRecords > pageSize * 2 && (
-              <Button
-                type={currentPage === 3 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(3)}
-              >
-                3
-              </Button>
-            )}
-            {totalRecords > pageSize * 3 && (
-              <Button
-                type={currentPage === 4 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(4)}
-              >
-                4
-              </Button>
-            )}
-            <Button
-              icon={<RightOutlined />}
-              size="small"
-              type="text"
-              disabled={endIndex >= totalRecords}
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Space>
-        </Col>
-      </Row>
-        <SettingServices data={serviceData}/>
+      {/* Custom pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
+      <SettingServices data={serviceData} />
       {/* New Discipline Drawer */}
       <Drawer
-        title="Add New Discipline"
+        title={
+          <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+            Add New Discipline
+          </Title>
+        }
+        closable={false}
         placement="right"
         onClose={() => setDrawerVisible(false)}
         open={drawerVisible}
@@ -329,24 +254,39 @@ const serviceData: SettingService[] = [
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
+              width: "100%",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
+            <Space
+              className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+              style={{ width: "100%" }}
+            >
+              <div className="w-full sm:w-auto">
                 <Button
                   type="primary"
-                  style={{ padding: "20px 70px" }}
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
                   onClick={() => form.submit()}
                 >
                   Add Discipline
                 </Button>
               </div>
-              <div>
+              <div className="w-full sm:w-auto">
                 <Button
-                  style={{ padding: "20px 70px" }}
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
                   onClick={() => setDrawerVisible(false)}
                 >
                   Not Now
@@ -376,7 +316,12 @@ const serviceData: SettingService[] = [
 
       {/* Edit Discipline Drawer */}
       <Drawer
-        title="Edit Discipline"
+        title={
+          <Title level={2} color="##0B121B" style={{ textAlign: "center" }}>
+            Edit Discipline
+          </Title>
+        }
+        closable={false}
         placement="right"
         onClose={() => {
           setEditDrawerVisible(false);
@@ -393,7 +338,6 @@ const serviceData: SettingService[] = [
             style={{
               textAlign: "right",
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
             }}
           >
             <Space className="flex justify-center items-center gap-4">

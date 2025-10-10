@@ -1,9 +1,7 @@
-import { Button, Card, Select, Typography } from "antd";
+import { Button, Card, Select, Typography, Space } from "antd";
 import Title from "antd/es/typography/Title";
-import { FC } from "react";
-// import { FiEdit } from "react-icons/fi";
-import { FaSquareWhatsapp } from "react-icons/fa6";
-import { FaCommentSms } from "react-icons/fa6";
+import { FC, useState } from "react";
+import { FaSquareWhatsapp, FaCommentSms } from "react-icons/fa6";
 import UpdateReminderForm from "@/components/drawer/UpdatedReminder";
 
 export interface CommunicationCardType {
@@ -14,49 +12,88 @@ export interface CommunicationCardType {
   status: "active" | "inactive";
 }
 
+const statusOptions = [
+  { label: "Active", value: "active", bgColor: "#D0E9FF", textColor: "#0B121B" },
+  { label: "Inactive", value: "inactive", bgColor: "#FFD6DC", textColor: "#D93025" },
+];
+
 const CommunicationCard: FC<CommunicationCardType> = ({
   title,
   description,
   whatsApp,
   sms,
-  status,
+  status: initialStatus,
 }) => {
+  const [status, setStatus] = useState(initialStatus);
+  const current = statusOptions.find((opt) => opt.value === status);
+
   return (
     <Card
       title={<Title level={5}>{title}</Title>}
       extra={
-        <div className="flex items-center gap-3">
+        <Space size="middle" align="center">
           <UpdateReminderForm />
           <Select
-            defaultValue={status}
+            value={status}
+            onChange={setStatus}
+            bordered={false}
             style={{
               minWidth: 100,
+              fontWeight: 500,
+              color: current?.textColor,
+              backgroundColor: current?.bgColor,
+              borderRadius: 4,
+              padding: "18px 8px",
             }}
-            options={[
-              {
-                label: "Active",
-                value: "active",
-              },
-              {
-                label: "Inactive",
-                value: "inactive",
-              },
-            ]}
+            dropdownStyle={{
+              borderRadius: 6,
+              padding: "4px 0",
+              background: "#fff",
+            }}
+            options={statusOptions.map(({ label, value, bgColor, textColor }) => ({
+              value,
+              label: (
+                <div
+                  style={{
+                    backgroundColor: bgColor,
+                    color: textColor,
+                    padding: "2px 8px",
+                    borderRadius: 4,
+                    fontWeight: 500,
+                    textAlign: "center",
+                  }}
+                >
+                  {label}
+                </div>
+              ),
+            }))}
+            optionLabelProp="label"
           />
-        </div>
+        </Space>
       }
     >
-      <Typography>{description}</Typography>
-      <div className="mt-4">
+      <Typography.Paragraph>{description}</Typography.Paragraph>
+
+      <div style={{ marginTop: 16 }}>
         <Title level={5}>Reminder sending preference (order):</Title>
-        <div className="flex items-center gap-3">
-          <Button href={whatsApp} type="text" icon={<FaSquareWhatsapp />}>
+        <Space size="middle">
+          <Button
+            href={whatsApp}
+            type="primary"
+            icon={<FaSquareWhatsapp />}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
+          >
             WhatsApp
           </Button>
-          <Button href={sms} type="text" icon={<FaCommentSms />}>
+          <Button
+            href={sms}
+            type="default"
+            icon={<FaCommentSms />}
+            style={{ display: "flex", alignItems: "center", gap: 6 }}
+          >
             SMS
           </Button>
-        </div>
+        </Space>
       </div>
     </Card>
   );

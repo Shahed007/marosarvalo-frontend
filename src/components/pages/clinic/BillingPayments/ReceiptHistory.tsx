@@ -1,39 +1,74 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
-import {
-  Input,
-  Button,
-  Select,
-  Typography,
-  Space,
-  Card,
-  Row,
-  Col,
-  Empty,
-} from "antd";
-import { SearchOutlined, LeftOutlined, RightOutlined, EyeOutlined } from "@ant-design/icons";
+import { Input, Button, Typography, Space, Card, Row, Col, Empty } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import CustomPagination from "@/components/shared/CustomPagination";
+import InvoiceDrawer from "./InvoiceDrawer";
 
 const { Title, Text } = Typography;
-const { Option } = Select;
 
 // Sample data
 const invoiceData = [
-  { id: "#FA65665", name: "Jhon Wick", email: "jhon32@gmail.com", product: "Xyz", type: "Services", due: "$00", paid: "$120" },
-  { id: "#FA65666", name: "Alice Johnson", email: "alice.j@gmail.com", product: "ABC Kit", type: "Product", due: "$50", paid: "$50" },
-  { id: "#FA65667", name: "Robert Chen", email: "robertc@example.com", product: "Consultation", type: "Services", due: "$100", paid: "$0" },
-  { id: "#FA65668", name: "Emma Davis", email: "emma.d@domain.com", product: "Dental X-Ray", type: "Service", due: "$40", paid: "$40" },
+  {
+    id: "#FA65665",
+    name: "John Wick",
+    email: "jhon32@gmail.com",
+    product: "Xyz",
+    type: "Services",
+    due: "$00",
+    paid: "$120",
+  },
+  {
+    id: "#FA65666",
+    name: "Alice Johnson",
+    email: "alice.j@gmail.com",
+    product: "ABC Kit",
+    type: "Product",
+    due: "$50",
+    paid: "$50",
+  },
+  {
+    id: "#FA65667",
+    name: "Robert Chen",
+    email: "robertc@example.com",
+    product: "Consultation",
+    type: "Services",
+    due: "$100",
+    paid: "$0",
+  },
+  {
+    id: "#FA65668",
+    name: "Emma Davis",
+    email: "emma.d@domain.com",
+    product: "Dental X-Ray",
+    type: "Service",
+    due: "$40",
+    paid: "$40",
+  },
 ];
 
 export default function ReceiptHistory() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [pageSize, setPageSize] = useState("10");
+  const [pageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [drawerVisibleInvoice, setDrawerVisibleInvoice] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
 
-  // 🔍 Filter invoices based on search query
+  const handlePageChange = (page: number) => setCurrentPage(page);
+
+  // Filter invoices based on search query
   const filteredInvoices = invoiceData.filter((invoice) =>
     Object.values(invoice).some((value) =>
       value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
+  // Handle "View Details" click
+  const handleViewDetails = (invoice: any) => {
+    setSelectedInvoice(invoice);
+    setDrawerVisibleInvoice(true);
+  };
 
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8" style={{ marginBottom: "30px" }}>
@@ -43,7 +78,12 @@ export default function ReceiptHistory() {
       </Title>
 
       {/* Search Bar */}
-      <Row gutter={[16, 16]} justify="space-between" align="middle" style={{ marginBottom: 24 }}>
+      <Row
+        gutter={[16, 16]}
+        justify="space-between"
+        align="middle"
+        style={{ marginBottom: 24 }}
+      >
         <Col xs={24} sm={12}>
           <span
             style={{
@@ -60,8 +100,9 @@ export default function ReceiptHistory() {
         </Col>
         <Col xs={24} sm={12}>
           <Input
+            size="large"
             placeholder="Search by ID, name, or email"
-            suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
+            addonAfter={<SearchOutlined style={{ color: "#8c8c8c" }} />}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             allowClear
@@ -73,7 +114,6 @@ export default function ReceiptHistory() {
       {/* Invoice List */}
       <div style={{ marginBottom: 32 }}>
         {filteredInvoices.length === 0 ? (
-          // ✅ Show Ant Design Empty state when no results
           <div style={{ textAlign: "center", padding: "32px 0" }}>
             <Empty description="No matching receipts found" />
           </div>
@@ -81,7 +121,11 @@ export default function ReceiptHistory() {
           filteredInvoices.map((invoice, index) => (
             <Card
               key={index}
-              style={{ marginBottom: 16, border: "1px solid #f0f0f0", borderRadius: 8 }}
+              style={{
+                marginBottom: 16,
+                border: "1px solid #f0f0f0",
+                borderRadius: 8,
+              }}
               bodyStyle={{ padding: 16 }}
             >
               <Row gutter={[16, 16]} align="middle">
@@ -108,30 +152,52 @@ export default function ReceiptHistory() {
                   </Space>
                 </Col>
 
-                {/* Payment Info */}
-                <Col xs={24} md={6}>
-                  <Row justify="space-around">
-                    <Col>
-                      <Text type="secondary" style={{ fontSize: 12 }}>Due</Text>
-                      <Text strong style={{ fontSize: 14 }}>{invoice.due}</Text>
-                    </Col>
-                    <Col>
-                      <Text type="secondary" style={{ fontSize: 12 }}>Paid</Text>
-                      <Text strong style={{ fontSize: 14 }}>{invoice.paid}</Text>
-                    </Col>
-                  </Row>
-                </Col>
-
-                {/* Action */}
-                <Col xs={24} md={2} style={{ textAlign: "right" }}>
+                {/* Payment Info + View Details */}
+                <Col
+                  xs={24}
+                  md={8}
+                  className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-center sm:items-start justify-center md:justify-end gap-4 sm:gap-6 text-center md:text-right"
+                >
                   <Button
                     type="default"
-                    size="small"
-                    icon={<EyeOutlined />}
-                    style={{ background: "transparent" }}
+                    size="large"
+                    className="border border-gray-300 rounded-md px-4 py-2 text-[#0B121B] hover:!border-primary hover:!text-primary transition-all duration-300 w-full sm:w-auto"
+                    onClick={() => handleViewDetails(invoice)}
                   >
                     View details
                   </Button>
+
+                  <div className="flex flex-row justify-center md:justify-end items-center gap-8 mt-4 md:mt-0">
+                    <div>
+                      <Text
+                        type="secondary"
+                        className="block text-[13px] sm:text-[14px]"
+                      >
+                        Due
+                      </Text>
+                      <Text
+                        strong
+                        className="!text-[20px] sm:!text-[20px] font-bold"
+                      >
+                        {invoice.due}
+                      </Text>
+                    </div>
+
+                    <div>
+                      <Text
+                        type="secondary"
+                        className="block text-[13px] sm:text-[14px]"
+                      >
+                        Paid
+                      </Text>
+                      <Text
+                        strong
+                        className="!text-[20px] sm:!text-[20px] font-bold"
+                      >
+                        {invoice.paid}
+                      </Text>
+                    </div>
+                  </div>
                 </Col>
               </Row>
             </Card>
@@ -140,41 +206,49 @@ export default function ReceiptHistory() {
       </div>
 
       {/* Pagination */}
-      <Row justify="space-between" align="middle">
-        <Col xs={24} sm={8}>
-          <Space>
-            <Text type="secondary" style={{ fontSize: 12 }}>Showing</Text>
-            <Select
-              value={pageSize}
-              onChange={setPageSize}
-              style={{ width: 80 }}
-              size="small"
-            >
-              <Option value="10">10</Option>
-              <Option value="25">25</Option>
-              <Option value="50">50</Option>
-            </Select>
-          </Space>
-        </Col>
-        <Col xs={24} sm={16} style={{ marginTop: 8 }}>
-          <Row justify="end" gutter={8} wrap={false}>
-            <Col>
-              <Text type="secondary" style={{ fontSize: 12 }}>
-                Showing 1 to {Math.min(parseInt(pageSize), filteredInvoices.length)} out of {filteredInvoices.length} records
-              </Text>
-            </Col>
-            <Col>
-              <Space size={4}>
-                <Button type="default" size="small" icon={<LeftOutlined />} disabled />
-                <Button type="primary" size="small">1</Button>
-                <Button type="default" size="small">2</Button>
-                <Button type="default" size="small">3</Button>
-                <Button type="default" size="small" icon={<RightOutlined />} />
-              </Space>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <CustomPagination
+        currentPage={currentPage}
+        total={filteredInvoices.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
+
+      {/* 🔹 Dynamic Invoice Drawer */}
+      {selectedInvoice && (
+        <InvoiceDrawer
+          visible={drawerVisibleInvoice}
+          onClose={() => setDrawerVisibleInvoice(false)}
+          cartItems={[
+            {
+              id: selectedInvoice.id,
+              name: selectedInvoice.product,
+              price: parseFloat(selectedInvoice.paid.replace("$", "")),
+              quantity: 1,
+              total: parseFloat(selectedInvoice.paid.replace("$", "")),
+              type: selectedInvoice.type,
+            },
+          ]}
+          selectedPatient={{
+            id: "#4444",
+            name: selectedInvoice.name,
+            email: selectedInvoice.email,
+            phone: "+123456789",
+          }}
+          subtotal={parseFloat(selectedInvoice.paid.replace("$", ""))}
+          discountRate={0}
+          discountAmount={0}
+          taxRate={0}
+          taxAmount={0}
+          appliedVoucher={null}
+          voucherDiscount={0}
+          total={parseFloat(selectedInvoice.paid.replace("$", ""))}
+          amountPaid={parseFloat(selectedInvoice.paid.replace("$", ""))}
+          balanceDue={parseFloat(selectedInvoice.due.replace("$", ""))}
+          note={`Invoice for ${selectedInvoice.product}`}
+          onPayment={() => alert("Payment confirmed")}
+          confirmPayment={false}
+        />
+      )}
     </div>
   );
 }

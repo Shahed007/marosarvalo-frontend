@@ -3,11 +3,23 @@
 import AppointmentOverview from "@/components/dashboard/appointmentOverview/AppointmentOverview";
 import { useState } from "react";
 
+interface AppointmentOverviewProps {
+  title: React.ReactNode;
+  totalAppointments: number;
+  changePercent: number;
+  timeFrameData: { day: string; value: number }[];
+  timeFrameOptions: string[];
+  currentTimeFrame: string;
+  maxValue: number;
+}
+
 const ClinicAppointmentOverview = () => {
   const [currentTimeFrame, setCurrentTimeFrame] = useState("weekly");
   // Sample data
-  const sampleData = {
-    title: "Appointment Overview",
+  const sampleData: AppointmentOverviewProps = {
+    title: (
+      <span className="text-[#4180AB] text-[20px] ms-[20px]">Appointment Overview</span>
+    ),
     totalAppointments: 532,
     changePercent: 12,
     timeFrameData: [
@@ -26,7 +38,7 @@ const ClinicAppointmentOverview = () => {
 
   const handleTimeFrameChange = (value: string) => {
     setCurrentTimeFrame(value);
-    // You would typically fetch new data based on the selected timeframe here
+    console.log("Selected Time Frame:", value);
   };
 
   return (

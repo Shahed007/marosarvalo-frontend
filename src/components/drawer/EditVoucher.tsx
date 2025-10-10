@@ -25,11 +25,11 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
 }) => {
   return (
     <Drawer
-      width={500}
+      width={698}
       footer={
         <div className="flex items-center gap-6 mt-4">
           <Button block size="large" htmlType="submit" type="primary">
-            Submit Now
+            Save Now
           </Button>
           <Button onClick={onClose} block size="large" htmlType="button">
             Cancel
@@ -40,7 +40,11 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
       open={open}
       onClose={onClose}
       title={
-        <Title style={{ textAlign: "center", margin: 0 }} level={3}>
+        <Title
+          style={{ textAlign: "center", margin: 0 }}
+          color="#0B121B"
+          level={2}
+        >
           Edit Voucher
         </Title>
       }
@@ -57,14 +61,11 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
         }}
       >
         <div className="grid grid-cols-2 gap-6">
-          <Form.Item
-            name="associateVoucher"
-            label={<Title level={5}>Associate voucher</Title>}
-          >
+          <Form.Item name="associateVoucher" label="Associate voucher">
             <Input placeholder="John Son" />
           </Form.Item>
 
-          <Form.Item name="status" label={<Title level={5}>Status</Title>}>
+          <Form.Item name="status" label="Status">
             <Select
               options={[
                 { label: "Active", value: "active" },
@@ -73,25 +74,19 @@ const EditVoucher: React.FC<EditVoucherProps> = ({
             />
           </Form.Item>
 
-          <Form.Item name="ID" label={<Title level={5}>ID</Title>}>
+          <Form.Item name="ID" label="ID">
             <Input placeholder="#2323232" />
           </Form.Item>
 
-          <Form.Item
-            name="voucherName"
-            label={<Title level={5}>Voucher Name</Title>}
-          >
+          <Form.Item name="voucherName" label="Voucher Name">
             <Input />
           </Form.Item>
 
-          <Form.Item
-            name="expireDate"
-            label={<Title level={5}>Expire Date</Title>}
-          >
+          <Form.Item name="expireDate" label="Expire Date">
             <DatePicker className="!w-full" />
           </Form.Item>
 
-          <Form.Item name="amount" label={<Title level={5}>Amount</Title>}>
+          <Form.Item name="amount" label="Amount">
             <InputNumber className="!w-full" />
           </Form.Item>
         </div>

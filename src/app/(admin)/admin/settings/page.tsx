@@ -5,7 +5,7 @@ import UserProfile from "@/components/admin/settings/UserProfile";
 export default function SettingsPage() {
   return (
     <div className="min-h-screen">
-      <div className="p-5 mx-auto space-y-8">
+      <div className="p-5 mx-auto space-y-8  md:p-6 lg:p-8 mb-8">
         <UserProfile />
         <AdministratorSection />
         <ChangePassword />

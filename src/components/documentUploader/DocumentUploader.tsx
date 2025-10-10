@@ -16,7 +16,6 @@ import {
   UploadOutlined,
   FileOutlined,
   DeleteOutlined,
-  SaveOutlined,
 } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 
@@ -223,11 +222,18 @@ const DocumentUploader: React.FC = () => {
         <Form.Item>
           <Button
             type="primary"
-            icon={<SaveOutlined />}
-            block
             htmlType="submit"
+            style={{
+              display: "flex",
+              width: "206px",
+              height: "46px",
+              padding: "12px 16px",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            Save
+            Submit
           </Button>
         </Form.Item>
       </Space>

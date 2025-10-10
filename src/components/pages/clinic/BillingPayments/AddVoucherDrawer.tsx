@@ -17,9 +17,10 @@ export default function AddVoucherDrawer({
 }: AddVoucherDrawerProps) {
   return (
     <Drawer
-      title={<div className="text-center text-[28px]">Sell Voucher</div>}
+      title={<div className="text-center text-[30px] text-[#0B121B]">Sell Voucher</div>}
       placement="right"
       onClose={onClose}
+      closable={false}
       open={visible}
       width={500}
       styles={{
@@ -29,6 +30,8 @@ export default function AddVoucherDrawer({
           padding: "16px 24px",
           textAlign: "center",
           fontSize: "40px",
+          width: "430px",
+          margin: "0 auto",
         },
       }}
       footer={
@@ -43,14 +46,14 @@ export default function AddVoucherDrawer({
           <Button
             type="primary"
             size="large"
-            style={{ minWidth: 120, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={() => form.submit()}
           >
             Add Now
           </Button>
           <Button
             size="large"
-            style={{ minWidth: 120, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={onClose}
           >
             Not Now
@@ -70,6 +73,13 @@ export default function AddVoucherDrawer({
           rules={[{ required: true, message: "Please enter voucher name" }]}
         >
           <Input placeholder="Xyz" size="large" />
+        </Form.Item>
+        <Form.Item
+          label="Voucher ID"
+          name="voucherId"
+          rules={[{ required: true, message: "Please enter Voucher ID" }]}
+        >
+          <Input placeholder="#471245" size="large" />
         </Form.Item>
 
         <Form.Item
