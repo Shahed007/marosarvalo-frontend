@@ -39,12 +39,18 @@ const menuItems: MenuItem[] = [
   },
   {
     key: "5",
+    icon: <CiCirclePlus />,
+    label: "Subcription",
+    href: "/admin/subcription",
+  },
+  {
+    key: "6",
     icon: <CreditCardOutlined />,
     label: "Payment",
     href: "/admin/payment",
   },
   {
-    key: "6",
+    key: "7",
     icon: <SettingOutlined />,
     label: "Settings",
     href: "/admin/settings",

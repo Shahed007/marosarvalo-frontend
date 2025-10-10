@@ -9,8 +9,65 @@ import {
 
 export default function UserProfile() {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 md:p-12 shadow-sm relative">
-      {/* Edit Icon - Top Right */}
+    <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between relative">
+      {/* Left Section */}
+      <div className="flex items-start gap-4 md:gap-6 w-full md:w-auto">
+        {/* Profile Image */}
+        <div className="flex-shrink-0">
+          <Image
+            src="/images/avatar.png"
+            alt="Joohn Emily Carter"
+            width={70}
+            height={70}
+            className="rounded-full object-cover border border-gray-200"
+          />
+        </div>
+
+        {/* Name and Introduction */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">
+            Joohn Emily Carter
+          </h2>
+          <p className="text-sm text-gray-600 mt-1">
+            <span className="font-semibold text-gray-700">Introduction:</span>
+          </p>
+          <p className="text-sm text-gray-500 mt-1 leading-relaxed max-w-sm">
+            Lorem Ipsum as their for default model text, and a search for &lsquo;lorem
+            ipsum&lsquo; will uncover many web for site.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Section - Contact Info */}
+      <div className="mt-6 md:mt-0 flex flex-col gap-3 md:gap-4 w-full md:w-72">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <PhoneIcon className="w-4 h-4 text-gray-800" />
+            <span className="text-sm font-medium text-gray-800">Contact</span>
+          </div>
+          <span className="text-sm text-gray-600">+84 0373467950</span>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <MailIcon className="w-4 h-4 text-gray-800" />
+            <span className="text-sm font-medium text-gray-800">Email</span>
+          </div>
+          <span className="text-sm text-gray-600 truncate">
+            giangbanganh@gmail.com
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <MapPinIcon className="w-4 h-4 text-gray-800" />
+            <span className="text-sm font-medium text-gray-800">Address</span>
+          </div>
+          <span className="text-sm text-gray-600">Dhaka, Bangladesh</span>
+        </div>
+      </div>
+
+      {/* Edit Icon */}
       <button
         className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none"
         aria-label="Edit profile"
@@ -30,68 +87,6 @@ export default function UserProfile() {
           />
         </svg>
       </button>
-
-      <div className="flex flex-col md:flex-row items-center gap-6">
-        {/* Left Side: Avatar */}
-        <div className="flex-shrink-0">
-          <Image
-            src="/images/avatar.png" // Replace with actual image path
-            alt="Joohn Emily Carter"
-            width={100}
-            height={100}
-            className="rounded-full object-cover border border-gray-200"
-          />
-        </div>
-
-        {/* Middle: Name + Introduction */}
-        <div className="flex-1 flex flex-col md:flex-row gap-6 w-full">
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">
-              Joohn Emily Carter
-            </h2>
-            <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">
-              Introduction:
-            </p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Lorem ipsum as their for default model text, and a search for
-              &rsquo;lorem ipsum&rsquo; will uncover many web for site.
-            </p>
-          </div>
-
-          {/* Right Side: Contact Info */}
-          <div className="flex flex-col gap-3 md:w-64 w-full">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <PhoneIcon className="w-4 h-4 text-black" />
-                <span className="text-sm text-black font-semibold">
-                  Contact
-                </span>
-              </div>
-              <span className="text-sm text-gray-600">+84 0373467950</span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MailIcon className="w-4 h-4 text-black" />
-                <span className="text-sm text-black font-semibold">Email</span>
-              </div>
-              <span className="text-sm text-gray-600">
-                giangbanganh@gmail.com
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MapPinIcon className="w-4 h-4 text-black" />
-                <span className="text-sm text-gray-700 font-semibold">
-                  Address
-                </span>
-              </div>
-              <span className="text-sm text-gray-600">Dhaka, Bangladesh</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

@@ -52,7 +52,8 @@ const AddWorkingHourStaff: React.FC<AddWorkingHourStaffProps> = ({
       placement="right"
       onClose={onClose}
       open={visible}
-      width={600}
+      closable={false}
+      width={698}
       footer={
         <div
           style={{
@@ -63,15 +64,16 @@ const AddWorkingHourStaff: React.FC<AddWorkingHourStaffProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button style={{ flex: 1 }} onClick={onClose}>
-            Cancel
-          </Button>
           <Button
+            size="large"
             type="primary"
             style={{ flex: 1 }}
             onClick={() => form.submit()}
           >
             Save Now
+          </Button>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
+            Cancel
           </Button>
         </div>
       }
@@ -95,7 +97,7 @@ const AddWorkingHourStaff: React.FC<AddWorkingHourStaffProps> = ({
       >
         <div style={{ marginBottom: 24 }}>
           <h3 style={{ marginBottom: 16 }}>Working Days & Time</h3>
-          <div style={{ border: "1px solid #d9d9d9", borderRadius: 6 }}>
+          <div>
             {daysOfWeek.map((day) => (
               <div
                 key={day.value}
@@ -103,8 +105,6 @@ const AddWorkingHourStaff: React.FC<AddWorkingHourStaffProps> = ({
                   display: "flex",
                   alignItems: "center",
                   padding: "12px 16px",
-                  borderBottom:
-                    day.value !== "friday" ? "1px solid #f0f0f0" : "none",
                 }}
               >
                 <div style={{ width: 100, fontWeight: 500 }}>{day.label}</div>
