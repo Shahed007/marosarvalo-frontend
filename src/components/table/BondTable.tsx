@@ -294,7 +294,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
       {/* New Bond Drawer (Modal from right side) */}
       <Drawer
         title={
-          <div className="text-start text-[30px] font-[500]">New Bonds</div>
+          <div className="text-[#0B121B] text-[30px] font-[500]">New Bonds</div>
         }
         placement="right"
         onClose={() => setDrawerVisible(false)}
@@ -304,9 +304,10 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
           body: { padding: 24 },
           header: {
             borderBottom: "1px solid #e5e7eb",
-            padding: "16px 24px",
-            width: "500px",
+            padding: "0 0 16px 0",
+            width: "430px",
             margin: "0 auto",
+        paddingTop: "16px",
           },
         }}
         footer={
@@ -347,6 +348,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Package Name"
             name="packageName"
             rules={[{ required: true, message: "Please enter package name" }]}
+            className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="Package name" />
           </Form.Item>
@@ -355,6 +357,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Select Discipline"
             name="discipline"
             rules={[{ required: true, message: "Please select discipline" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Select placeholder="Select discipline">
               <Select.Option value="Operation">Operation</Select.Option>
@@ -367,6 +370,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Services"
             name="services"
             rules={[{ required: true, message: "Please select service" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Select placeholder="Select service">
               <Select.Option value="Surgery">Surgery</Select.Option>
@@ -379,6 +383,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Total Sessions"
             name="totalSessions"
             rules={[{ required: true, message: "Please enter total sessions" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="e.g 10" type="number" />
           </Form.Item>
@@ -387,6 +392,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Price"
             name="price"
             rules={[{ required: true, message: "Please enter price" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Input placeholder="e.g $200" />
           </Form.Item>
@@ -395,6 +401,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
             label="Status"
             name="status"
             rules={[{ required: true, message: "Please select status" }]}
+              className="text-[#0B121B] text-[20px] font-semibold"
           >
             <Radio.Group>
               <Radio value="Active">Active</Radio>
@@ -418,7 +425,7 @@ const BondTable: React.FC<BondTableProps> = ({ data }) => {
         open={editDrawerVisible}
         width={500}
         styles={{
-          body: { padding: 24 },
+          body: { padding: 24},
           header: { borderBottom: "1px solid #e5e7eb", padding: "16px 24px" },
         }}
         footer={

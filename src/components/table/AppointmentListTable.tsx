@@ -92,6 +92,7 @@ const AppointmentListTable: FC<{
           backgroundColor: "#F1F4F6",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
+          
         }}
         rowClassName={() => "hover:bg-gray-50 transition-colors"}
         columns={columns}
@@ -103,7 +104,7 @@ const AppointmentListTable: FC<{
                 style={{
                   backgroundColor: "#F1F4F6",
                   padding: "16px",
-                  fontWeight: 600,
+                  fontWeight: 700,
                   color: "#4180AB",
                 }}
               />

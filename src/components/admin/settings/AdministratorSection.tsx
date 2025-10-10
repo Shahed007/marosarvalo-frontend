@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
@@ -110,7 +110,8 @@ export default function AdministratorSection() {
         <h3 className="text-lg font-semibold text-gray-900">Administrators</h3>
         <button
           onClick={handleAssignClick}
-          className="min-w-[150px] gap-2 bg-[#225A7F] flex items-center px-6 py-2 border border-[#225A7F] rounded-[4px] text-white disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="min-w-[150px]  
+             cursor-pointer  gap-2 bg-[#225A7F] flex items-center px-6 py-2 border border-[#225A7F] rounded-[4px] text-white disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
         >
           Assign Administrator
           <svg
@@ -153,13 +154,15 @@ export default function AdministratorSection() {
             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
               <button
                 onClick={() => handleDetailsClick(admin)}
-                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="min-w-[150px]   
+             cursor-pointer  px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Details
               </button>
               <button
                 onClick={() => handleRemoveClick(admin)}
-                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="min-w-[150px]  
+             cursor-pointer  px-6 py-2 border border-[#225A7F] rounded-[4px] text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 Remove
               </button>
@@ -171,14 +174,14 @@ export default function AdministratorSection() {
       {/* ✅ Assign Administrator Modal */}
       <Modal
         title={
-          <div className="text-center font-semibold text-[18px] text-slate-800">
+          <div className="text-center md:text-[30px] text-2xl text-[#000000] font-semibold  ">
             Assign Administrator
           </div>
         }
         open={isAssignModalOpen}
         onCancel={handleCancelAssign}
         footer={null}
-        width={720}
+        width={1200}
         centered
         destroyOnClose
         className="rounded border border-[#225A7F]"
@@ -203,21 +206,15 @@ export default function AdministratorSection() {
         }
       >
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div
-            className="max-h-[75vh] overflow-y-auto scroll-smooth px-6 py-8 space-y-6"
-            style={{
-              scrollbarWidth: "thin",
-              scrollbarColor: "#225A7F #E5E7EB",
-            }}
-          >
+          <div className="px-6 py-8 space-y-6">
             <div className="overflow-hidden rounded bg-white shadow-sm">
-              <div className="border-b border-gray-200 px-6 py-4">
+              <div className="px-6 py-8">
                 <h2 className="text-lg font-medium text-gray-900">
                   Administrator Information
                 </h2>
               </div>
 
-              <div className="px-6 py-6 space-y-4">
+              <div className="px-6  space-y-4">
                 {/* Name */}
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
@@ -357,18 +354,21 @@ export default function AdministratorSection() {
                   )}
                 </div>
               </div>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-center pt-4 pb-2">
+                       <div className="flex justify-center pt-4 pb-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="min-w-[150px] px-6 py-2 border border-[#225A7F] rounded-[4px] bg-[#225A7F] text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                className="min-w-[150px]   
+             cursor-pointer  px-6 py-2 border border-[#225A7F] rounded-[4px] bg-[#225A7F] text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
               >
                 {isSubmitting ? "Assigning..." : "Assign"}
               </button>
             </div>
+            </div>
+
+            {/* Action Buttons */}
+   
           </div>
         </form>
       </Modal>
@@ -402,7 +402,7 @@ export default function AdministratorSection() {
         }
       >
         {selectedAdmin && (
-          <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between">
+          <div className="bg-white  p-6 md:p-8  flex flex-col md:flex-row items-start md:items-center justify-between">
             {/* Left Section */}
             <div className="flex items-start gap-4 md:gap-6 w-full md:w-auto">
               <div className="flex-shrink-0">
@@ -506,19 +506,18 @@ export default function AdministratorSection() {
           </p>
 
           <div className="flex gap-4 justify-center">
-            <Button
+            <button
               onClick={cancelRemove}
-              className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6"
+              className=" text-[#333333] hover:bg-gray-50 text-base px-6   rounded-[8px] border-[1.321px] border-[var(--Cool-Gray,#DADADA)]"
             >
               No
-            </Button>
-            <Button
-              type="primary"
+            </button>
+            <button
               onClick={confirmRemove}
-              className="bg-[#225A7F] text-white hover:bg-[#1d4e6f] px-6"
+              className=" text-white  text-base px-6 bg-[#225A7F]  rounded-[8px] border-[1.321px] border-[var(--Cool-Gray,#DADADA)]"
             >
               Yes
-            </Button>
+            </button>
           </div>
         </div>
       </Modal>

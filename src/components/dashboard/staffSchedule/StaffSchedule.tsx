@@ -24,6 +24,7 @@ const StaffSchedule: React.FC<StaffScheduleProps> = ({
 }) => {
   return (
     <Card
+   style={{ borderRadius: "8px", border: "1px solid #e8e8e8", boxShadow: "none" }}
       title={<span className="text-primary font-semibold">{title}</span>}
       extra={
         <Link href={'/clinic/all-staff'}

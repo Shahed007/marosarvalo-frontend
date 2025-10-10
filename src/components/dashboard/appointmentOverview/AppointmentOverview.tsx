@@ -135,11 +135,12 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
           <Bar data={chartData} options={chartOptions} />
         </Col>
       </Row>
+
       <style jsx>{`
         :global(.ant-card .ant-card-head) {
           border-bottom: 0 !important;
         }
-      `}</style>
+      `}</style>
     </Card>
   );
 };
