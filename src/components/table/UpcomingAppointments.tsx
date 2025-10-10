@@ -74,7 +74,9 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
 
   return (
     <Card
-      className="rounded-2xl !mt-6"
+      className=" !mt-6"
+      bodyStyle={{ padding: 0 }}
+      style={{ border: "none" }}
       title={
         <div className="flex mt-1 flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0 w-full">
           {/* Title + icon */}
@@ -138,7 +140,21 @@ const UpcomingAppointments: React.FC<UpcomingAppointmentsProps> = ({
         pageSize={pageSize}
         onPageChange={handlePageChange}
       />
+
+
+          <style jsx>{`
+   :global(.ant-card .ant-card-head) {
+        padding: 0;
+        }
+
+
+
+      `}</style>
     </Card>
+
+
+
+
   );
 };
 
