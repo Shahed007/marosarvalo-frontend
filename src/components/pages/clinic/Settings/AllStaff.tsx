@@ -14,6 +14,7 @@ import {
   Tag,
   Dropdown,
   MenuProps,
+  Space,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
@@ -161,7 +162,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
     },
   ];
 
-  // ✅ Table columns for Staff Management
+  //  Table columns for Staff Management
   const columns: ColumnsType<AllStaffs> = [
     {
       title: "Name",
@@ -234,8 +235,8 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   return (
     <div className="!mt-[32px]">
       <Title level={4}>All Staff</Title>
-      {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6 mt-[30px]">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 mt-[30px]">
+        {/* Search input */}
         <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
             placeholder="Search staff"
@@ -246,10 +247,13 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
+
+        {/* Add Staff button */}
         <Button
           type="primary"
+          block
           style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5"
+          className="!py-5 sm:!px-7 sm:!w-auto"
           icon={<PlusOutlined />}
           onClick={() => setDrawerVisible(true)}
         >
@@ -259,6 +263,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
 
       {/* Table */}
       <Table
+        className="!overflow-x-auto"
         style={{
           borderRadius: "12px",
           overflow: "hidden",
@@ -312,6 +317,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
             Add Staff
           </Title>
         }
+    
         closable={false}
         placement="right"
         onClose={() => {
@@ -319,7 +325,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
           form.resetFields();
         }}
         open={drawerVisible}
-        width={700} // ✅ make responsive
+        width={650}
         styles={{
           body: { padding: 24 },
           header: {
@@ -330,29 +336,45 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
         footer={
           <div
             style={{
+              textAlign: "center",
               padding: "16px 24px",
+              width: "100%",
             }}
           >
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                size="large"
-                type="primary"
-                className="flex-1 min-w-[150px] py-5"
-                onClick={() => form.submit()}
-              >
-                Submit
-              </Button>
-              <Button
-                size="large"
-                className="flex-1 min-w-[150px] py-5"
-                onClick={() => {
-                  setDrawerVisible(false);
-                  form.resetFields();
-                }}
-              >
-                Not Now
-              </Button>
-            </div>
+            <Space
+              className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+              style={{ width: "100%" }}
+            >
+              <div className="w-full sm:w-auto">
+                <Button
+                  type="primary"
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
+                  onClick={() => form.submit()}
+                >
+                  Submit
+                </Button>
+              </div>
+              <div className="w-full sm:w-auto">
+                <Button
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
+                  onClick={() => setDrawerVisible(false)}
+                >
+                  Not Now
+                </Button>
+              </div>
+            </Space>
           </div>
         }
       >

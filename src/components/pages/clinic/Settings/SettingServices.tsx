@@ -186,7 +186,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
     setEditDrawerVisible(true);
   };
 
-  // ✅ Table columns
+  //  Table columns
   const columns: ColumnsType<SettingService> = [
     {
       title: "Discipline",
@@ -245,8 +245,8 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
   return (
     <div className="mt-20">
       <Title level={4}>Services</Title>
-      {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6 mt-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 mt-4">
+        {/* Search input */}
         <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
             placeholder="Search discipline"
@@ -258,10 +258,12 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           />
         </div>
 
+        {/* Add button */}
         <Button
           type="primary"
+          block
           style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5"
+          className="!py-5 sm:!px-7 sm:!w-auto"
           icon={<PlusOutlined />}
           onClick={() => setDrawerVisible(true)}
         >
@@ -271,6 +273,7 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
 
       {/* Table */}
       <Table
+        className="!overflow-x-auto"
         style={{
           borderRadius: "12px",
           overflow: "hidden",

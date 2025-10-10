@@ -2,7 +2,6 @@
 
 import { Button } from "antd";
 
-
 interface CustomPaginationProps {
   currentPage: number;
   total: number;
@@ -39,16 +38,25 @@ const CustomPagination = ({
     <div
       style={{
         display: "flex",
+        flexWrap: "wrap", 
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
         padding: "12px 0",
         fontSize: "14px",
         color: "#64748B",
+        gap: "12px", 
       }}
     >
       {/* Left: Rows per page */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          flexShrink: 1,
+        }}
+      >
         <span>Rows per page:</span>
         <select
           value={pageSize}
@@ -70,13 +78,20 @@ const CustomPagination = ({
       </div>
 
       {/* Center: Record Info */}
-      <div>
+      <div style={{ flexShrink: 1, minWidth: "120px", textAlign: "center" }}>
         Showing <strong>{total === 0 ? 0 : start}</strong> to{" "}
         <strong>{end}</strong> of <strong>{total}</strong> entries
       </div>
 
       {/* Right: Pagination Controls */}
-      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
+          flexShrink: 0,
+        }}
+      >
         <Button
           type="default"
           icon={<span>‹</span>}

@@ -35,7 +35,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
   const [form] = Form.useForm();
   const [editForm] = Form.useForm();
 
-  // ✅ Apply filters
+  // Apply filters
   const filteredData = data.filter((record) => {
     // Search filter
     const searchLower = searchText.toLowerCase();
@@ -89,7 +89,7 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
     setEditDrawerVisible(true);
   };
 
-  // ✅ Table columns
+  // Table columns
   const columns: ColumnsType<ProductTab> = [
     {
       title: "ID",
@@ -162,7 +162,8 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
         Discipline
       </Title>
       {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6 gap-4 mt-4">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 mt-4">
+        {/* Search Input */}
         <div className="w-full sm:w-[400px] lg:w-[625px]">
           <Input
             placeholder="Search discipline"
@@ -173,10 +174,12 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
             onChange={(e) => setSearchText(e.target.value)}
           />
         </div>
+
+        {/* Add Button */}
         <Button
           type="primary"
           style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5"
+          className="!px-7 !py-5 w-full sm:w-auto"
           icon={<PlusOutlined />}
           onClick={() => setDrawerVisible(true)}
         >
@@ -251,23 +254,39 @@ const ProductTable: React.FC<ProductTabelProps> = ({ data }) => {
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "center",
               padding: "16px 24px",
+              width: "100%",
             }}
           >
-            <Space className="flex justify-center items-center gap-4">
-              <div>
+            <Space
+              className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+              style={{ width: "100%" }}
+            >
+              <div className="w-full sm:w-auto">
                 <Button
                   type="primary"
-                  style={{ padding: "20px 70px" }}
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
                   onClick={() => form.submit()}
                 >
                   Add Discipline
                 </Button>
               </div>
-              <div>
+              <div className="w-full sm:w-auto">
                 <Button
-                  style={{ padding: "20px 70px" }}
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
                   onClick={() => setDrawerVisible(false)}
                 >
                   Not Now

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Drawer, Form, Input, Select, Typography } from "antd";
+import { Button, Drawer, Form, Input, Select, Space, Typography } from "antd";
 
 interface EditStaffDrawerProps {
   visible: boolean;
@@ -34,7 +34,7 @@ const EditStaffDrawer = ({
         form.resetFields();
       }}
       open={visible}
-      width={700}
+      width={650}
       styles={{
         body: { padding: 24 },
         header: {
@@ -45,29 +45,53 @@ const EditStaffDrawer = ({
       footer={
         <div
           style={{
+            textAlign: "center",
             padding: "16px 24px",
+            width: "100%",
           }}
         >
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button
-              type="primary"
-              className="flex-1 min-w-[150px] py-5"
-              onClick={() => form.submit()}
-              size="large"
-            >
-              Save Now
-            </Button>
-            <Button
-              size="large"
-              className="flex-1 min-w-[150px] py-5"
-              onClick={() => {
-                onClose();
-                form.resetFields();
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
+          <Space
+            className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+            style={{ width: "100%" }}
+          >
+            {/* Save Now button */}
+            <div className="w-full sm:w-auto">
+              <Button
+                type="primary"
+                className="w-full sm:w-auto text-sm sm:text-base"
+                style={{
+                  padding: "12px 16px",
+                  minWidth: "200px",
+                  height: "auto",
+                  fontSize: "inherit",
+                }}
+                size="large"
+                onClick={() => form.submit()}
+              >
+                Save Now
+              </Button>
+            </div>
+
+            {/* Cancel button */}
+            <div className="w-full sm:w-auto">
+              <Button
+                className="w-full sm:w-auto text-sm sm:text-base"
+                style={{
+                  padding: "12px 16px",
+                  minWidth: "200px",
+                  height: "auto",
+                  fontSize: "inherit",
+                }}
+                size="large"
+                onClick={() => {
+                  onClose();
+                  form.resetFields();
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </Space>
         </div>
       }
     >
