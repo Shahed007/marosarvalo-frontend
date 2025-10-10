@@ -67,13 +67,27 @@ const Communications = () => {
   ];
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
-      <Title level={2}>Settings-Basic info</Title>
+      <Title level={2} className="!mb-[30px]" color="#0B121B">
+        Settings-Basic info
+      </Title>
       <Tabs
         activeKey={activeTab}
         onChange={setActiveTab}
         items={tabItems}
         className="mb-6"
       />
+      <style jsx global>
+        {`
+          .ant-tabs-nav::before {
+            border-bottom: 4px solid #f2f2f2 !important;
+            width: 345px;
+          }
+          .ant-tabs-nav .ant-tabs-ink-bar {
+            height: 4px !important;
+            background: #225a7f !important;
+          }
+        `}
+      </style>
     </div>
   );
 };

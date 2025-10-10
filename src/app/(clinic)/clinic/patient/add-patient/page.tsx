@@ -284,7 +284,9 @@ const PatientRegistrationForm: React.FC = () => {
         <div>
           <Form layout="vertical" requiredMark={false} size="large">
             <div>
-              <Title level={5}>Patients Name</Title>
+              <Title className="!text-[#0B121B]" level={4}>
+                Patients Name
+              </Title>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <Form.Item
                   name={"firstName"}
@@ -448,17 +450,12 @@ const PatientRegistrationForm: React.FC = () => {
                 <Input placeholder="e.g jhon32@gmial.com" />
               </Form.Item>
             </div>
-            <div>
+            <div className="custom-checkbox-wrapper">
               <Form.Item
-                required={true}
+                required
                 name={"contactYou"}
                 label={
-                  <Title
-                    style={{
-                      margin: 0,
-                    }}
-                    level={5}
-                  >
+                  <Title style={{ margin: 0 }} level={5}>
                     How would you like us to contact you?
                   </Title>
                 }
@@ -476,7 +473,19 @@ const PatientRegistrationForm: React.FC = () => {
                   defaultValue={["email", "sms"]}
                 />
               </Form.Item>
+
+              <style jsx>{`
+                :global(.ant-checkbox-checked .ant-checkbox-inner) {
+                  background-color: black !important;
+                  border-color: black !important;
+                }
+
+                :global(.ant-checkbox-checked .ant-checkbox-inner::after) {
+                  border-color: white !important;
+                }
+              `}</style>
             </div>
+
             <div>
               <Form.Item
                 required={false}
@@ -540,7 +549,7 @@ const PatientRegistrationForm: React.FC = () => {
             </Form.Item>
             <Form.Item>
               <Button size="large" type="primary" icon={<LiaUserPlusSolid />}>
-                Save
+                Add Patients
               </Button>
             </Form.Item>
           </Form>
@@ -571,11 +580,13 @@ const PatientRegistrationForm: React.FC = () => {
       ),
     },
   ];
- 
+
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8 max-w-6xl  bg-white">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">New Patients</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-[30px]">
+          New Patients
+        </h1>
         <div className="border-b border-gray-200">
           <Tabs
             activeKey={activeTab}
@@ -626,6 +637,23 @@ const PatientRegistrationForm: React.FC = () => {
       */}
       {/* {activeTab !== "patient-info" &&
         tabItems.find((item) => item.key === activeTab)?.children}{" "} */}
+
+      <style jsx global>
+        {`
+          .ant-tabs-nav::before {
+            border-bottom: 4px solid #f2f2f2 !important;
+            width: 327px;
+          }
+          .ant-tabs-nav .ant-tabs-ink-bar {
+            height: 4px !important;
+            background: #225a7f !important;
+          }
+          .border-b {
+            border-bottom-style: var(--tw-border-style) !important;
+            border-bottom-width: 0px !important;
+          }
+        `}
+      </style>
     </div>
   );
 };

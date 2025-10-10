@@ -105,25 +105,36 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
           </Tag>
         );
       },
-      width: 120,
     },
     {
-      title: "Action",
-      dataIndex: "action",
-      render: (_, record) => {
-        const menuItems: MenuProps["items"] = [
-          {
-            key: "view",
-            label: <span onClick={() => showDrawer(record)}>View Details</span>,
-          },
-        ];
-        return (
-          <Dropdown menu={{ items: menuItems }} trigger={["click"]}>
-            <CiMenuKebab style={{ cursor: "pointer" }} />
-          </Dropdown>
-        );
+  title: <span className="block text-right pe-4">Action</span>,
+  dataIndex: "action",
+  align: "center", 
+  width: 80,
+  render: (_, record) => {
+    const menuItems: MenuProps["items"] = [
+      {
+        key: "view",
+        label: (
+          <span
+            className="block text-center pe-4"
+            onClick={() => showDrawer(record)}
+          >
+            View Details
+          </span>
+        ),
       },
-    },
+    ];
+    return (
+      <div className="flex justify-center pe-4">
+        <Dropdown menu={{ items: menuItems }} trigger={["click"]}>
+          <CiMenuKebab style={{ cursor: "pointer" }} />
+        </Dropdown>
+      </div>
+    );
+  },
+}
+
   ];
 
   const paginatedData = data.slice(
@@ -133,7 +144,7 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
 
   return (
     <div>
-      <Title level={3}>Appointments</Title>
+      <Title level={3} style={{marginBottom: "24px"}} color="#0B121B">Appointments</Title>
       <Table
         scroll={{ x: true }}
         style={{
@@ -149,10 +160,10 @@ const AppointmentTable: FC<{ data: AppointmentTableTypes[] }> = ({ data }) => {
               <th
                 {...props}
                 style={{
-                  backgroundColor: "#6B91A31A",
+                  backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />

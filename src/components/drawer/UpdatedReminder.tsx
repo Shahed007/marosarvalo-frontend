@@ -31,18 +31,35 @@ const UpdateReminderForm = () => {
       <Button onClick={() => setOpen(true)} icon={<FiEdit />} />
 
       <Drawer
+        width={567}
         closeIcon={null}
         open={open}
         onClose={() => setOpen(false)}
+        footer={
+          <div className="flex items-center gap-6">
+            <Button block size="large" htmlType="submit" type="primary">
+              Update
+            </Button>
+            <Button
+              onClick={() => setOpen(false)}
+              block
+              size="large"
+              htmlType="button"
+            >
+              Not Now
+            </Button>
+          </div>
+        }
         title={
           <Title
             style={{
               textAlign: "center",
               margin: 0,
             }}
-            level={3}
+            level={2}
+            color="#0B121B"
           >
-            Update Reminder
+            Edit Reminder
           </Title>
         }
       >
@@ -80,7 +97,12 @@ const UpdateReminderForm = () => {
           </Form.Item>
 
           <Form.Item label={<Title level={5}>Message</Title>} name="message">
-            <TextArea rows={3} />
+            <TextArea
+              rows={3}
+              style={{
+                height: "105px",
+              }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -95,24 +117,25 @@ const UpdateReminderForm = () => {
           </Form.Item>
 
           <Form.Item name="body">
-            <TextArea rows={4} />
+            <TextArea
+              rows={6}
+              style={{
+                height: "105px",
+              }}
+            />
           </Form.Item>
-
-          <div className="flex items-center gap-6">
-            <Button block size="large" htmlType="submit" type="primary">
-              Update
-            </Button>
-            <Button
-              onClick={() => setOpen(false)}
-              block
-              size="large"
-              htmlType="button"
-            >
-              Cancel
-            </Button>
-          </div>
         </Form>
       </Drawer>
+      <style jsx>{`
+        :global(.ant-checkbox-checked .ant-checkbox-inner) {
+          background-color: black !important;
+          border-color: black !important;
+        }
+
+        :global(.ant-checkbox-checked .ant-checkbox-inner::after) {
+          border-color: white !important;
+        }
+      `}</style>
     </div>
   );
 };
