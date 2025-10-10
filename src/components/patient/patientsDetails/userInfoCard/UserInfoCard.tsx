@@ -26,7 +26,7 @@ const UserInfoCard: React.FC<UserInfoProps> = ({
     value: React.ReactNode;
     span?: number;
   }> = ({ label, value, span = 6 }) => (
-    <Col span={span}>
+    <Col span={span} className="!p-[11px]">
       <Space direction="vertical" size={4}>
         <Typography  style={{ fontSize: "13px", fontWeight: 400 }}>
           {label}:

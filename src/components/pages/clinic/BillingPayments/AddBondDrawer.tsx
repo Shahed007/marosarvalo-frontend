@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 import { Drawer, Form, Select, Input, Button } from "antd";
 
 const { Option } = Select;
@@ -19,18 +19,24 @@ export default function AddBondDrawer({
 }: AddBondDrawerProps) {
   return (
     <Drawer
-       title={<div className="text-center text-[28px]">Add Bonds</div>}
+      title={
+        <div className="text-center text-[30px] text-[#0B121B]">Add Bonds</div>
+      }
       placement="right"
+      closable={false}
       onClose={onClose}
       open={visible}
       width={500}
       styles={{
         body: { padding: 24 },
         header: {
+          // borderBottom: "1px solid #0B121B",
           borderBottom: "1px solid #e5e7eb",
           padding: "16px 24px",
           textAlign: "center",
           fontSize: 32,
+            width: "430px",
+          margin: "0 auto",
         },
       }}
       footer={
@@ -45,14 +51,14 @@ export default function AddBondDrawer({
           <Button
             type="primary"
             size="large"
-            style={{ minWidth: 120, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={() => form.submit()}
           >
             Add Now
           </Button>
           <Button
             size="large"
-            style={{ minWidth: 120, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={onClose}
           >
             Not Now
@@ -92,6 +98,20 @@ export default function AddBondDrawer({
             <Option value="diagnostics">Diagnostics</Option>
             <Option value="emergery">Emergency Care</Option>
           </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Search Bond"
+          name="SearchBond"
+          rules={[{ required: true, message: "Please Search Bond" }]}
+        >
+          <Input
+            placeholder="Search Bond"
+            size="large"
+            type="text"
+            min={1}
+            max={99}
+          />
         </Form.Item>
 
         <Form.Item

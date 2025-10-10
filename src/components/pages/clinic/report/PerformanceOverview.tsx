@@ -49,94 +49,226 @@ const PerformanceOverview: React.FC<PerformanceOverviewProps> = ({
   attendance,
   patients,
 }) => {
-  // Chart Data Configs
+  // === Revenue Data ===
   const revenueData = {
     labels: revenue.weeklyData.map((d) => d.week),
     datasets: [
       {
         label: "Revenue",
         data: revenue.weeklyData.map((d) => d.value),
-        borderColor: "#225A7F",
-        backgroundColor: "rgba(34,90,127,0.2)",
+        borderColor: "#8AB3CF",
+        backgroundColor: "rgba(138,179,207,0.25)",
         fill: true,
         tension: 0.4,
       },
     ],
   };
 
+  // === Attendance Data ===
   const attendanceData = {
     labels: ["Attended", "Missed"],
     datasets: [
       {
-        label: "Attendance",
         data: [attendance.attended, attendance.missed],
-        backgroundColor: ["#225A7F", "#ccc"],
+        backgroundColor: ["#8AB3CF", "#E5E5E5"],
         borderRadius: 8,
+        barThickness: 40,
       },
     ],
   };
 
+  // === Patients Data ===
   const patientsData = {
     labels: ["Old", "New"],
     datasets: [
       {
-        label: "Patients",
         data: [patients.old, patients.new],
-        backgroundColor: ["#225A7F", "#ccc"],
+        backgroundColor: ["#8AB3CF", "#E5E5E5"],
         borderRadius: 8,
+        barThickness: 40,
       },
     ],
   };
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* Revenue Card */}
-      <Card>
-        <Title level={5}>Total Revenue</Title>
-        <Title level={3}>${revenue.total.toLocaleString()}</Title>
-        <Line
-          data={revenueData}
-          options={{
-            responsive: true,
-            plugins: { legend: { display: false } },
-          }}
-          height={100}
-        />
-      </Card>
+  // === Shared Chart Options ===
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: false },
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        grid: { display: false, drawBorder: false },
+        ticks: { display: false },
+      },
+      x: {
+        grid: { display: false, drawBorder: false },
+        ticks: {
+          font: { size: 12 },
+          color: "#8C8C8C",
+        },
+      },
+    },
+  };
 
-      {/* Attendance Rate */}
-      <Card>
-        <Title level={5}>Appointment Attendance Rate</Title>
-        <Title level={3}>{attendance.rate}%</Title>
-        <Bar
-          data={attendanceData}
-          options={{
-            responsive: true,
-            plugins: { legend: { display: false } },
+  return (
+    <div className="flex flex-wrap  gap-6 w-full">
+      {/* === Revenue Card === */}
+      <Card
+        style={{
+          width: "350px",
+        }}
+      >
+        <Title
+          level={5}
+          style={{
+            fontWeight: 500,
+            fontSize: "16px",
+            color: "#0B121B",
           }}
-          height={120}
-        />
-        <div className="flex justify-around text-xs mt-2">
-          <Text type="secondary">{attendance.attended}% Attended</Text>
-          <Text type="secondary">{attendance.missed}% Missed</Text>
+        >
+          Total Revenue
+        </Title>
+        <Title
+          style={{
+            marginTop: "8px",
+            fontWeight: 700,
+            fontSize: "32px",
+          }}
+        >
+          ${revenue.total.toLocaleString()}
+        </Title>
+        <div style={{ height: 160 }}>
+          <Line
+            data={revenueData}
+            options={{
+              responsive: true,
+              plugins: { legend: { display: false } },
+              maintainAspectRatio: false,
+            }}
+          />
         </div>
       </Card>
 
-      {/* Total Patients */}
-      <Card>
-        <Title level={5}>Total Patients</Title>
-        <Title level={3}>{patients.total.toLocaleString()}</Title>
-        <Bar
-          data={patientsData}
-          options={{
-            responsive: true,
-            plugins: { legend: { display: false } },
-          }}
-          height={120}
-        />
+      {/* === Appointment Attendance Rate === */}
+      <Card
+        style={{
+          borderRadius: 12,
+          textAlign: "center",
+          padding: "16px",
+          width: "350px",
+        }}
+        className="w-full"
+      >
+        <div className="text-left">
+          <Title
+            level={5}
+            style={{
+              fontWeight: 500,
+              fontSize: "16px",
+              color: "#0B121B",
+            }}
+          >
+            Appointment Attendance Rate
+          </Title>
+
+          <Title
+            style={{
+              marginTop: "8px",
+              fontWeight: 700,
+              fontSize: "32px",
+              marginBottom: 20,
+            }}
+          >
+            {attendance.rate}%
+          </Title>
+        </div>
+
+        <div style={{ position: "relative", height: 150, width: "100%" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-around",
+              color: "#1F5B85",
+              fontWeight: 500,
+            }}
+          >
+            <Text>{attendance.attended}%</Text>
+            <Text>{attendance.missed}%</Text>
+          </div>
+
+          <Bar data={attendanceData} options={barOptions} />
+        </div>
+
         <div className="flex justify-around text-xs mt-2">
-          <Text type="secondary">{patients.old}% Old</Text>
-          <Text type="secondary">{patients.new}% New</Text>
+          <Text type="secondary">Attended</Text>
+          <Text type="secondary">Missed</Text>
+        </div>
+      </Card>
+
+      {/* === Total Patients === */}
+      <Card
+        style={{
+          borderRadius: 12,
+          textAlign: "center",
+          padding: "16px",
+          width: "350px",
+        }}
+        className="w-full"
+      >
+        <div className="text-left">
+          <Title
+            level={5}
+            style={{
+              fontWeight: 500,
+              fontSize: "16px",
+              color: "#0B121B",
+            }}
+          >
+            Total Patients
+          </Title>
+
+          <Title
+            style={{
+              marginTop: "8px",
+              fontWeight: 700,
+              fontSize: "32px",
+              marginBottom: 20,
+            }}
+          >
+            {patients.total}
+          </Title>
+        </div>
+
+        <div style={{ position: "relative", height: 150, width: "100%" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-around",
+              color: "#1F5B85",
+              fontWeight: 500,
+            }}
+          >
+            <Text>{patients.old}%</Text>
+            <Text>{patients.new}%</Text>
+          </div>
+
+          <Bar data={patientsData} options={barOptions} />
+        </div>
+
+        <div className="flex justify-around text-xs mt-2">
+          <Text type="secondary">Old</Text>
+          <Text type="secondary">New</Text>
         </div>
       </Card>
     </div>

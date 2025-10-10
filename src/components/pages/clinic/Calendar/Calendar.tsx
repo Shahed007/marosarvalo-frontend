@@ -19,7 +19,6 @@ import {
   UserOutlined,
   MoreOutlined,
   PlusOutlined,
-  CalendarOutlined,
   LeftOutlined,
   RightOutlined,
   SearchOutlined,
@@ -34,8 +33,8 @@ import Title from "antd/es/typography/Title";
 import { usePathname } from "next/navigation";
 import CalanderDetailsDrawer from "@/components/drawer/CalanderDetailsDrawer";
 import CancelAppointmentDrawer from "@/components/drawer/CancelAppointmentDrawer";
-
-const { Header, Content } = Layout;
+import calendarIcon from "@/assets/icons/calendarIcon.png";
+const { Content } = Layout;
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -215,7 +214,6 @@ export default function Calendar() {
     onCloseDrawer();
   };
 
-  // ✅ Cancel Drawer Handlers
   const showCancelDrawer = (apt: Appointment) => {
     setSelectedAppointment(apt);
     setDrawerVisibleForCancel(true);
@@ -266,7 +264,9 @@ export default function Calendar() {
               <div>{spec.name}</div>
               <div className="text-xs text-gray-500 mt-1">
                 <span className="text-gray-400">Today‘s appointment: </span>
-                <span>{getTotalAppointmentsForSpecialist(spec.id)} patient(s)</span>
+                <span>
+                  {getTotalAppointmentsForSpecialist(spec.id)} patient(s)
+                </span>
               </div>
             </div>
           </div>
@@ -305,7 +305,10 @@ export default function Calendar() {
                           <Menu.Item key="view" onClick={() => showDrawer(apt)}>
                             View Details
                           </Menu.Item>
-                          <Menu.Item key="cancel" onClick={() => showCancelDrawer(apt)}>
+                          <Menu.Item
+                            key="cancel"
+                            onClick={() => showCancelDrawer(apt)}
+                          >
                             Cancel Appointment
                           </Menu.Item>
                         </Menu>
@@ -355,39 +358,63 @@ export default function Calendar() {
   return (
     <Layout className="min-h-screen bg-white ">
       {/* 🔎 Search + Add */}
-      <div className="ms-6 ">
-        <Title level={2}>Calendar</Title>
-      </div>
-      <div className="flex flex-wrap gap-2 justify-between items-center p-4 md:p-6 lg:p-8 mb-8 sm:p-6">
-        <Input
-          placeholder="Search patient or type"
-          allowClear
-          size="large"
-          addonAfter={<SearchOutlined />}
-          className="w-full sm:w-auto sm:flex-1"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        <Link
-          href={"/clinic/appointment/add-appointment"}
-          className={`w-full sm:w-auto ${hiddenClass}`}
-        >
-          <Button
-            size="large"
-            type="primary"
-            icon={<PlusOutlined />}
-            className="w-full sm:w-auto mt-2 sm:mt-0"
+      <div className="p-4 sm:p-5 md:p-6 lg:p-8 pb-0 w-full">
+        {/* Title */}
+        <div>
+          <Title
+            level={2}
+            className="!text-[#0B121B] !font-[500] !text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px]"
           >
-            Add New Appointment
-          </Button>
-        </Link>
+            Calendar
+          </Title>
+        </div>
+
+        {/* Search + Button Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-3 sm:mt-6 md:mt-8 lg:mt-10 w-full">
+          {/* Search Input */}
+          <div className="w-full sm:max-w-[400px] md:max-w-[500px] lg:max-w-[625px]">
+            <Input
+              placeholder="Search patient or type"
+              allowClear
+              size="large"
+              addonAfter={<SearchOutlined />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full"
+            />
+          </div>
+
+          {/* Add Appointment Button */}
+          <Link
+            href="/clinic/appointment/add-appointment"
+            className={`w-full sm:w-auto ${hiddenClass}`}
+          >
+            <Button
+              size="large"
+              type="primary"
+              icon={<PlusOutlined />}
+              className="w-full sm:w-auto !px-6 !py-[18px] text-sm sm:text-base mt-2 sm:mt-0"
+            >
+              Add New Appointment
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      {/* 📅 Filters */}
-      <Header className="bg-white p-4 sm:p-4 flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
+      {/* Filters */}
+      <div className="bg-white ms-8 me-8  flex flex-col sm:flex-row sm:justify-center items-center gap-4 rounded-lg">
         <div className="flex flex-row items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
-          <CalendarOutlined className="bg-gray-200 text-gray-600 p-2 rounded-md text-lg" />
+          {/* <CalendarOutlined className="bg-[#E9EAEC] text-gray-600 p-2 rounded-md text-lg" /> */}
+          <div className="bg-[#E9EAEC] rounded-md h-[35px] w-[35px] flex justify-center items-center mt-1">
+            <div>
+              <Image
+                src={calendarIcon}
+                width={19}
+                height={19}
+                alt="calendarIcon"
+              />
+            </div>
+          </div>
           <div className="flex flex-col">
             <Text strong className="text-lg whitespace-nowrap leading-none">
               {totalAppointments} <span>Total Appointments</span>
@@ -422,9 +449,7 @@ export default function Calendar() {
           <div className="w-full sm:w-auto flex justify-center mt-2 sm:mt-0">
             <Switch
               checked={filterView === "Week"}
-              onChange={(checked) =>
-                handleViewChange(checked ? "Week" : "Day")
-              }
+              onChange={(checked) => handleViewChange(checked ? "Week" : "Day")}
               checkedChildren="Week"
               unCheckedChildren="Day"
             />
@@ -447,10 +472,10 @@ export default function Calendar() {
             ))}
           </Select>
         </div>
-      </Header>
+      </div>
 
       {/* Table */}
-      <Content className="p-4 sm:p-6 mt-38 sm:mt-0 mb-12">
+      <Content className="p-3 sm:p-5 md:p-6 lg:p-8 mt-6 sm:mt-10 md:mt-16 lg:mt-0 mb-8 sm:mb-10 md:mb-12 w-full">
         <div className="overflow-x-auto">
           <Card className="rounded-lg border-gray-200">
             <Table

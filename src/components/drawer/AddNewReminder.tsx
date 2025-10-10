@@ -22,6 +22,7 @@ const AddNewReminder = () => {
         New Reminder
       </Button>
       <Drawer
+        width={567}
         footer={
           <div className="flex items-center gap-6">
             <Button block size="large" htmlType="submit" type="primary">
@@ -46,7 +47,8 @@ const AddNewReminder = () => {
               textAlign: "center",
               margin: 0,
             }}
-            level={3}
+            color="#0B121B"
+            level={2}
           >
             New Remainder
           </Title>
@@ -83,7 +85,11 @@ const AddNewReminder = () => {
             />
           </Form.Item>
           <Form.Item label={<Title level={5}>Message</Title>}>
-            <TextArea />
+            <TextArea
+              style={{
+                height: "100px",
+              }}
+            />
           </Form.Item>
           <Form.Item label={<Title level={5}>Communication Preferences</Title>}>
             <Checkbox.Group options={options} defaultValue={["Email"]} />
@@ -92,7 +98,12 @@ const AddNewReminder = () => {
             <Input addonBefore="Subject" placeholder="Enter Subject"></Input>
           </Form.Item>
           <Form.Item>
-            <TextArea placeholder="Say something for client" />
+            <TextArea
+              placeholder="Say something for client"
+              style={{
+                height: "100px",
+              }}
+            />
           </Form.Item>
         </Form>
       </Drawer>

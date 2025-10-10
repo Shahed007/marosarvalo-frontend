@@ -30,7 +30,7 @@ const AdminOverview = () => {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto px-4">
+    <div className="w-full max-w-[1600px] mx-auto">
       {/* Constrain width to match other cards */}
       <AppointmentOverview
         {...sampleData}

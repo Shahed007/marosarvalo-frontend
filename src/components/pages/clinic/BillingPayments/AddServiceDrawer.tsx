@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 
 import { Drawer, Form, Select, Input, Button } from "antd";
 
@@ -12,19 +12,29 @@ interface AddServiceDrawerProps {
   form: any;
 }
 
-export default function AddServiceDrawer({ visible, onClose, onSubmit, form }: AddServiceDrawerProps) {
+export default function AddServiceDrawer({
+  visible,
+  onClose,
+  onSubmit,
+  form,
+}: AddServiceDrawerProps) {
   return (
     <Drawer
-       title={<div className="text-center text-[28px]">Add Services</div>}
+  
+      title={<div className="text-center text-[28px]">Add Services</div>}
       placement="right"
       onClose={onClose}
       open={visible}
       width={500}
+      closable={false}
       styles={{
         body: { padding: 24 },
         header: {
+          // borderBottom: "1px solid #0B121B",
           borderBottom: "1px solid #e5e7eb",
           padding: "16px 24px",
+          width: "430px",
+          margin: "0 auto",
         },
       }}
       footer={
@@ -39,14 +49,14 @@ export default function AddServiceDrawer({ visible, onClose, onSubmit, form }: A
           <Button
             type="primary"
             size="large"
-            style={{ minWidth: 130, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={() => form.submit()}
           >
             Add Now
           </Button>
           <Button
             size="large"
-            style={{ minWidth: 130, height: 44 }}
+            style={{ minWidth: 174, height: 46 }}
             onClick={onClose}
           >
             Not Now
@@ -87,7 +97,7 @@ export default function AddServiceDrawer({ visible, onClose, onSubmit, form }: A
             <Option value="emergency">Emergency Care</Option>
           </Select>
         </Form.Item>
-        
+
         <Form.Item
           label="Amount of the service"
           name="serviceAmount"

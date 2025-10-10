@@ -49,7 +49,6 @@ export const appointmentList: AppointmentListProps[] = [
 const AppointmentListPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // 🔍 Filter data dynamically
   const filteredData = appointmentList.filter((item) =>
     Object.values(item).some((val) =>
       val.toLowerCase().includes(searchQuery.toLowerCase())
@@ -59,20 +58,38 @@ const AppointmentListPage = () => {
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       {/* Page Title */}
-      <Title level={2}>Appointment List</Title>
+      <Title
+        className="!text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px] !font-[500] !text-[#0B121B]"
+      >
+        Appointment List
+      </Title>
 
       {/* Search + Add Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-0 mt-12">
-        <Input
-          placeholder="Search all fields..."
-          suffix={<SearchOutlined />}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full sm:max-w-xs lg:max-w-sm"
-          allowClear
-        />
-        <Link href="/clinic/appointment/add-appointment">
-          <Button type="primary" icon={<FaPlus />}>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-8 mb-0 w-full">
+        {/* Search Input */}
+        <div className="w-full sm:flex-1 sm:max-w-[400px] lg:max-w-[625px]">
+          <Input
+            placeholder="Search patient or type"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
+          />
+        </div>
+
+        {/* Add Button */}
+        <Link
+          href="/clinic/appointment/add-appointment"
+          className="w-full sm:w-auto"
+        >
+          <Button
+            type="primary"
+            size="large"
+            icon={<FaPlus />}
+            className="w-full sm:w-auto !px-6 !py-5 text-sm sm:text-base"
+          >
             Add New Appointment
           </Button>
         </Link>

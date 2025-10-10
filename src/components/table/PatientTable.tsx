@@ -12,12 +12,13 @@ import {
   Space,
   Input,
 } from "antd";
-import type { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import type { ColumnsType } from "antd/es/table";
 import { EyeOutlined, FilterOutlined, SearchOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { LiaUserPlusSolid } from "react-icons/lia";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import CustomPagination from "../shared/CustomPagination";
 
 const { RangePicker } = DatePicker;
 
@@ -44,12 +45,12 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
     null
   );
   const [searchText, setSearchText] = useState<string>("");
-  const [pagination, setPagination] = useState<TablePaginationConfig>({
-    current: 1,
-    pageSize: 10,
-    total: data.length,
-    showSizeChanger: true,
-  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const handlePageChange = (page: number, size?: number) => {
+    setCurrentPage(page);
+    if (size) setPageSize(size);
+  };
 
   // ✅ Apply filters
   const filteredData = data.filter((record) => {
@@ -107,24 +108,27 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       key: "status",
       render: (status: string) =>
         status === "Active" ? (
-          <Tag color="blue">Active</Tag>
+          <Tag color="#E6F7FE" className="!px-4 !py-1 !text-[#007A9C]">
+            Active
+          </Tag>
         ) : (
-          <Tag color="red">Inactive</Tag>
+          <Tag color="#FEF7F7" className="!px-4 !py-1 !text-[#F45B69]">
+            Inactive
+          </Tag>
         ),
     },
     {
-  title: "Action",
-  key: "action",
-  render: (_: any, record: Patient) => (
-    <Link href={`/clinic/patient/${record.id}`}>
-      <Button type="text" icon={<EyeOutlined />} />
-    </Link>
-  ),
-},
-
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Patient) => (
+        <Link href={`/clinic/patient/${record.id}`}>
+          <Button type="text" icon={<EyeOutlined />} />
+        </Link>
+      ),
+    },
   ];
 
-  // ✅ Status Filter Menu
+  //  Status Filter Menu
   const menu = (
     <Menu
       onClick={(e) => setStatusFilter(e.key as "All" | "Active" | "Inactive")}
@@ -144,18 +148,20 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   }
 
   return (
-    <div >
+    <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10 w-full">
         {/* Search Input */}
-        <Input
-          placeholder="Search by name, email, or phone"
-          addonAfter={<SearchOutlined />}
-          size="large"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          allowClear
-          className="w-full sm:w-auto sm:flex-1"
-        />
+        <div className="w-full sm:w-[400px] md:w-[500px] lg:w-[625px]">
+          <Input
+            placeholder="Search by name, email, or phone"
+            addonAfter={<SearchOutlined />}
+            size="large"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            allowClear
+            className="shadow-none"
+          />
+        </div>
 
         {/* New Patient Button */}
         <Link href={patientLink} className="w-full sm:w-auto">
@@ -206,7 +212,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
               <th
                 {...props}
                 style={{
-                  backgroundColor: "#6B91A31A",
+                  backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: "600",
                   color: "#4180AB",
@@ -242,14 +248,14 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         rowKey="id"
         columns={columns}
         dataSource={filteredData}
-        pagination={{
-          ...pagination,
-          total: filteredData.length,
-          onChange: (page, pageSize) => {
-            setPagination({ ...pagination, current: page, pageSize });
-          },
-          style: { marginRight: "16px" },
-        }}
+        pagination={false}
+      />
+      {/* Custom Pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
       />
     </div>
   );
