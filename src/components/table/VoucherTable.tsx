@@ -101,20 +101,25 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
       dataIndex: "amount",
       key: "amount",
       render: (amount) => `$${amount}`,
-      align: "right",
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
-        <Tag color={status === "Active" ? "green" : "red"}>{status}</Tag>
+        <Tag
+          color={status === "Active" ? "#E6F7FE" : "#FEF7F7"}
+          className={`!text-[#007A9C] !px-4 !py-1 !rounded ${
+            status === "Inactive" && "!text-[#F45B69]"
+          }`}
+        >
+          {status}
+        </Tag>
       ),
     },
     {
       title: "Actions",
       key: "actions",
-      align: "center",
       render: (_, record) => (
         <Dropdown
           menu={{ items: getActionItems(record) }}
@@ -130,17 +135,18 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
   return (
     <Card>
       {/* Search Input */}
-      <div style={{ marginBottom: 16 }}>
+      <div className="mb-4 w-full sm:w-[400px] md:w-[500px] lg:w-[625px]">
         <Input
+          size="large"
           placeholder="Search voucher"
-          prefix={<SearchOutlined />}
+          addonAfter={<SearchOutlined style={{ color: "#8c8c8c" }} />}
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
             setCurrentPage(1); // reset page when searching
           }}
-          style={{ width: 300, marginBottom: 16 }}
           allowClear
+          className="w-full"
         />
       </div>
 
@@ -157,8 +163,24 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         dataSource={paginatedData}
         loading={loading}
         rowKey="id"
-        pagination={false} // disable AntD pagination
+        pagination={false}
         scroll={{ x: 800 }}
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  backgroundColor: "#6B91A31A",
+                  padding: "16px",
+                  fontWeight: "600",
+                  color: "#4180AB",
+                  borderBottom: "2px solid #e2e8f0",
+                }}
+              />
+            ),
+          },
+        }}
       />
 
       {/* Edit Voucher Drawer */}
@@ -177,6 +199,16 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         pageSize={pageSize}
         onPageChange={(page) => setCurrentPage(page)}
       />
+      <style jsx global>{`
+        .ant-card.ant-card-bordered {
+          border: 0 !important;
+          padding: 0 !important;
+        }
+        .ant-card .ant-card-body {
+          padding: 0px !important;
+          border-radius: 0 0 8px 8px !important;
+        }
+      `}</style>
     </Card>
   );
 };

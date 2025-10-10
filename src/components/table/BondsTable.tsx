@@ -125,10 +125,10 @@ const BondsTable: React.FC<BondsTableProps> = ({ data, loading = false }) => {
               <th
                 {...props}
                 style={{
-                  backgroundColor: "#6B91A31A",
+                  backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: "600",
-                  color: "#334155",
+                  color: "#4180AB",
                   borderBottom: "2px solid #e2e8f0",
                 }}
               />

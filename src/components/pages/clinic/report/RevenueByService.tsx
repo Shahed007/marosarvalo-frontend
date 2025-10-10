@@ -52,9 +52,9 @@ const RevenueByService: React.FC<RevenueByServiceProps> = ({
       {
         label: "Revenue",
         data: data.map((d) => d.value),
-        backgroundColor: "rgba(34, 90, 127, 0.8)",
+        backgroundColor: "#8AB3CF",
         borderRadius: 4,
-        barThickness: 30,
+        barThickness: 50,
         borderSkipped: false,
       },
     ],
@@ -79,22 +79,22 @@ const RevenueByService: React.FC<RevenueByServiceProps> = ({
     scales: {
       x: {
         grid: { display: false },
-        ticks: { 
+        ticks: {
           font: { size: 12 },
           color: "#666",
         },
       },
       y: {
         beginAtZero: true,
-        grid: { 
+        grid: {
           color: "rgba(0, 0, 0, 0.05)",
           drawBorder: false,
         },
-        ticks: { 
+        ticks: {
           font: { size: 12 },
           color: "#666",
-          callback: function(value: any) {
-            return value === 0 ? '0' : value % 20 === 0 ? value : '';
+          callback: function (value: any) {
+            return value === 0 ? "0" : value % 20 === 0 ? value : "";
           },
           stepSize: 20,
           max: 200,
@@ -107,59 +107,48 @@ const RevenueByService: React.FC<RevenueByServiceProps> = ({
   };
 
   // Generate the y-axis labels as in the image
-  const yAxisLabels = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
 
   return (
-    <Card 
-      className="w-full" 
-      style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}
-    >
+    <Card className="w-full" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <div className="mb-4 md:mb-0">
-          <Text type="secondary" className="text-base">
+          <Text  type="secondary" style={{
+            fontSize: "20px",
+            color: "#4180AB",
+            fontWeight: "600",
+            marginBottom: "12px"
+          }}>
             Revenue by service
           </Text>
-          <Title level={2} className="!m-0 !text-3xl">
+          <Title level={2} className="!m-0 !text-3xl !font-bold !text-[44px]">
             ${totalRevenue.toLocaleString()}
           </Title>
         </div>
-        <Dropdown 
-          menu={{ 
-            items: menuItems, 
+        <Dropdown
+          menu={{
+            items: menuItems,
             onClick: handleMenuClick,
             selectedKeys: [selectedType],
           }}
-          trigger={['click']}
+          trigger={["click"]}
         >
           <Button size="middle" className="flex items-center">
             {selectedType} <DownOutlined className="ml-2" />
           </Button>
         </Dropdown>
       </div>
-      
-      {/* Custom Y-axis labels */}
-      <div className="flex mb-2 pl-12">
-        {yAxisLabels.map((label) => (
-          <div 
-            key={label} 
-            className="flex-1 text-right text-xs text-gray-500 pr-2"
-            style={{ flexBasis: `${100 / yAxisLabels.length}%` }}
-          >
-            {label}
-          </div>
-        ))}
-      </div>
-      
+
+
       {/* Chart container */}
       <div className="w-full h-[300px] md:h-[400px]">
         <Bar data={chartData} options={options} />
       </div>
-      
+
       {/* X-axis labels */}
       <div className="flex mt-2 pl-12">
         {data.map((item, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className="flex-1 text-center text-xs text-gray-500"
             style={{ flexBasis: `${100 / data.length}%` }}
           >

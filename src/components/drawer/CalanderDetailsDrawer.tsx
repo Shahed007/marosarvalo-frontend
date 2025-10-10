@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Drawer, Button, Form, Input, Row, Col, Typography } from "antd";
-
-const { Paragraph } = Typography;
+import { Drawer, Button, Form, Input, Row, Col } from "antd";
 
 interface DetailsDrawerProps {
   open: boolean;
@@ -17,12 +15,15 @@ const CalanderDetailsDrawer = ({ open, onClose }: DetailsDrawerProps) => {
   return (
     <Drawer
       title={
-        <div style={{ textAlign: "center", width: "100%", fontSize: "28px" }}>
+        <div
+          style={{ textAlign: "center", width: "100%", fontSize: "30px" }}
+          className="!font-[500]"
+        >
           View Details
         </div>
       }
       placement="right"
-      closable
+      closable={false}
       onClose={onClose}
       open={open}
       width={800}
@@ -33,7 +34,7 @@ const CalanderDetailsDrawer = ({ open, onClose }: DetailsDrawerProps) => {
             justifyContent: "center",
             gap: 16,
             padding: "16px 24px",
-            marginBottom: "40px"
+            marginBottom: "40px",
           }}
         >
           <Button
@@ -97,10 +98,10 @@ const CalanderDetailsDrawer = ({ open, onClose }: DetailsDrawerProps) => {
         <Row gutter={16}>
           <Col xs={24} md={12}>
             <Form.Item label="Note">
-              <Paragraph>
+              <textarea className="!border-[#E0E0E0] !border !rounded-[12px] !w-[350px] !h-[150px] !p-2">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
                 vulputate libero et velit interdum, ac aliquet odio mattis.
-              </Paragraph>
+              </textarea>
             </Form.Item>
           </Col>
           <Col xs={24} md={12}>

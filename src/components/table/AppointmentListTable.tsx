@@ -10,6 +10,7 @@ export interface AppointmentListProps {
   specialist: string;
   reason: string;
   status: string;
+  cancleReasons?: string;
 }
 
 const AppointmentListTable: FC<{
@@ -41,7 +42,11 @@ const AppointmentListTable: FC<{
       title: "Reason",
       dataIndex: "reason",
       key: "reason",
+      render: (reason: string) => (
+        <span className="text-[#0B121B] font-[700]">{reason || "—"}</span>
+      ),
     },
+
     {
       title: "Status",
       dataIndex: "status",
@@ -52,7 +57,7 @@ const AppointmentListTable: FC<{
       dataIndex: "action",
       key: "action",
       render: () => (
-        <div className="bg-[#F2F2F2] flex justify-center items-center px-2 py-2 rounded-md">
+        <div className="bg-[#F2F2F2] !text-[#0B121B] font-[500] flex justify-center items-center px-2 py-2 rounded-md">
           Available
         </div>
       ),
@@ -84,12 +89,28 @@ const AppointmentListTable: FC<{
         style={{
           borderRadius: "12px",
           overflow: "hidden",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#F1F4F6",
           border: "1px solid #e5e7eb",
           fontFamily: "'Inter', sans-serif",
+          
         }}
         rowClassName={() => "hover:bg-gray-50 transition-colors"}
         columns={columns}
+        components={{
+          header: {
+            cell: (props) => (
+              <th
+                {...props}
+                style={{
+                  backgroundColor: "#F1F4F6",
+                  padding: "16px",
+                  fontWeight: 700,
+                  color: "#4180AB",
+                }}
+              />
+            ),
+          },
+        }}
       />
 
       {/* Custom Pagination */}

@@ -15,25 +15,37 @@
   padding-right: 1rem;
 }
 
-:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active {
-    font-weight: 600 !important;
-    background-color:  !important;
-    border-color: #225a7f !important;
+:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination
+  .ant-pagination-item-active {
+  font-weight: 600 !important;
+  background-color: !important;
+  border-color: #225a7f !important;
 }
 
-:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination .ant-pagination-item-active a {
-    color: #fff !important;
+:where(.css-dev-only-do-not-override-1jgc3a4).ant-pagination
+  .ant-pagination-item-active
+  a {
+  color: #fff !important;
 }
 
 .table-id-column {
   padding-left: 50px !important; /* override default AntD padding */
 }
 
-
-:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline .ant-menu-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline .ant-menu-item-selected::after, :where(.css-dev-only-do-not-override-117qkvj).ant-menu-light>.ant-menu.ant-menu-inline .ant-menu-item-selected::after {
-    transform: scaleY(1) !important;
-    /* opacity: 1; */
-    transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline
+  .ant-menu-selected::after,
+:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light
+  > .ant-menu.ant-menu-inline
+  .ant-menu-selected::after,
+:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light.ant-menu-inline
+  .ant-menu-item-selected::after,
+:where(.css-dev-only-do-not-override-117qkvj).ant-menu-light
+  > .ant-menu.ant-menu-inline
+  .ant-menu-item-selected::after {
+  transform: scaleY(1) !important;
+  /* opacity: 1; */
+  transition: transform 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),
+    opacity 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
 }
 
 .ant-menu-item-selected {
@@ -41,17 +53,16 @@
 }
 
 .ant-menu-item-selected {
-    background-color: #225a7f !important;
-    color: #fff !important;
-  }
+  background-color: #225a7f !important;
+  color: #fff !important;
+}
 
-  /* 👇 REMOVE THE BLUE LINE ON RIGHT */
-  .ant-menu-item-selected::after {
-    display: none !important;
-  }
+/* 👇 REMOVE THE BLUE LINE ON RIGHT */
+.ant-menu-item-selected::after {
+  display: none !important;
+}
 
-
-  /* Add left-side indicator for active menu item */
+/* Add left-side indicator for active menu item */
 .ant-menu-item-selected::before {
   content: "";
   position: absolute;
@@ -59,17 +70,19 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background-color: #225A7F; /* Match your primary color */
+  background-color: #225a7f; /* Match your primary color */
   border-radius: 2px 0 0 2px; /* Optional: rounded corners */
 }
- 
 
-  /* Optional: Fix padding if needed */
-  .ant-menu-item {
-    padding-left: 30px !important;
-  }
+/* Optional: Fix padding if needed */
+.ant-menu-item {
+  padding-left: 30px !important;
+}
 
-
+.ant-tabs-nav .ant-tabs-ink-bar {
+  height: 4px !important;
+  background: #225a7f !important;
+}
 
 /* Connector line from parent to child */
 .ant-menu-submenu-title::before {
@@ -116,12 +129,15 @@
   margin-bottom: 4px;
 }
 
-
 .ant-menu-item:hover ~ svg line,
 .ant-menu-submenu-title:hover + div svg line {
-  stroke: #225A7F;
+  stroke: #225a7f;
   stroke-width: 3;
   transition: all 0.2s ease;
 }
 
-
+.ant-btn-primary,
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  box-shadow: none !important;
+}

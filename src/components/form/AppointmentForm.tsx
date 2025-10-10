@@ -10,13 +10,13 @@ import {
   Row,
   Col,
   Typography,
-
-  Divider,
 } from "antd";
-import { SearchOutlined, UploadOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
+
 // import Calendar from "react-calendar"; // <-- Import react-calendar
-import "react-calendar/dist/Calendar.css"; // Optional base styles (we'll override with Tailwind)
+// import "react-calendar/dist/Calendar.css";
+// Optional base styles (we'll override with Tailwind)
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -82,7 +82,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
   ] as const;
 
   // State for dynamic filtering
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm] = useState("");
   const [selectedDiscipline, setSelectedDiscipline] = useState<
     string | undefined
   >(undefined);
@@ -148,22 +148,23 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
 
   return (
     <div className="p-4 md:p-6 lg:p-8 w-full mx-auto bg-white font-sans">
-      <Title level={2} className="mb-6 text-gray-800">
-        Appointments
-      </Title>
+      <div>
+        <Title className="!text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px] !font-[500] !text-[#0B121B]">
+          Appointments
+        </Title>
+      </div>
 
       {/* Search Bar */}
-      <div className="flex flex-wrap items-center gap-4 mb-8">
+      <div className="flex flex-wrap items-center gap-4 mb-8 mt-10">
         <Input
-          placeholder="Search Patients"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          suffix={<SearchOutlined style={{ color: "#8c8c8c" }} />}
-          style={{ flex: 1, minWidth: 200 }}
-          className="rounded-lg"
+          placeholder="Search patient or type"
+          allowClear
+          size="large"
+          addonAfter={<SearchOutlined />}
+          style={{ width: "625px" }}
         />
         <Button
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-md"
         >
           <span className="mr-1">
@@ -185,7 +186,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         </Button>
         <Button
           type="primary"
-          size="middle"
+          size="large"
           className="bg-blue-100 text-blue-700 border-none hover:bg-blue-200 rounded-lg"
         >
           Generate copy link
@@ -193,6 +194,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
       </div>
 
       <Form
+        className="w-full sm:w-[500px] md:w-[650px] lg:w-[790px]"
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
@@ -205,7 +207,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         }}
       >
         {/* Patient Info */}
-        <Row gutter={16} className="mb-6">
+        <Row gutter={16} className="mb-6 ">
           <Col xs={24} md={12}>
             <Form.Item
               name="patient"
@@ -298,16 +300,21 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         </Row>
 
         {/* Date & Time Selection */}
-        {/* // Replace the entire "Date & Time Selection" section */}
-        <div className="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-3">
-            Select Date and Time
-          </h3>
-          <Row gutter={24}>
+        <h3 className="text-[16px] font-[600] text-[#0B121B] mb-3">
+          Select Date and Time
+        </h3>
+        <div className="bg-white p-4 sm:p-5 rounded-lg border border-gray-200 mb-6">
+          <Row
+            gutter={[
+              { xs: 8, sm: 12, md: 16, lg: 24, xl: 32 }, // horizontal
+              { xs: 8, sm: 12, md: 16, lg: 24, xl: 32 }, // vertical
+            ]}
+            align="top"
+          >
             {/* Custom Calendar */}
-            <Col span={12}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs text-blue-600 font-semibold">
+            <Col xs={24} md={12}>
+              <div className="flex items-center justify-start gap-3 mb-3">
+                <span className="text-xs text-primary font-semibold">
                   • Available
                 </span>
                 <span className="text-xs text-gray-500">• Unavailable</span>
@@ -315,13 +322,13 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
 
               <div className="relative border border-gray-200 rounded-md overflow-hidden bg-white">
                 {/* Month Navigation */}
-                <div className="flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-200">
+                <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-gray-50 border-b border-gray-200">
                   <button
                     onClick={() =>
                       setSelectedDate((prev) => {
-                        const newDate = new Date(prev!);
-                        newDate.setMonth(newDate.getMonth() - 1);
-                        return newDate;
+                        const d = new Date(prev!);
+                        d.setMonth(d.getMonth() - 1);
+                        return d;
                       })
                     }
                     className="p-1 rounded-full hover:bg-gray-200 transition-colors"
@@ -334,25 +341,27 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                       fill="none"
                     >
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M20 10C20 15.5229 15.5229 20 10 20C4.4772 20 0 15.5229 0 10C0 4.4772 4.4772 0 10 0C15.5229 0 20 4.4772 20 10ZM9.7071 7.7071C10.0976 7.3166 10.0976 6.6834 9.7071 6.2929C9.3166 5.9024 8.6834 5.9024 8.2929 6.2929L5.3799 9.2059C5.3649 9.2209 5.3503 9.2363 5.3363 9.252C5.13 9.4352 5 9.7024 5 10C5 10.2976 5.13 10.5648 5.3363 10.748C5.3503 10.7637 5.3649 10.7791 5.3799 10.7941L8.2929 13.7071C8.6834 14.0976 9.3166 14.0976 9.7071 13.7071C10.0976 13.3166 10.0976 12.6834 9.7071 12.2929L8.4142 11L14 11C14.5523 11 15 10.5523 15 10C15 9.4477 14.5523 9 14 9L8.4142 9L9.7071 7.7071Z"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M20 10C20 15.5229 15.5229 20 10 20C4.4772 20 0 15.5229 0 10C0 4.4772 4.4772 0 10 0C15.5229 0 20 4.4772 20 10ZM9.7071 7.7071C10.0976 7.3166 10.0976 6.6834 9.7071 6.2929C9.3166 5.9024 8.6834 5.9024 8.2929 6.2929L5.3799 9.2059C5.13 9.4352 5 9.7024 5 10C5 10.2976 5.13 10.5648 5.3363 10.748L8.2929 13.7071C8.6834 14.0976 9.3166 14.0976 9.7071 13.7071C10.0976 13.3166 10.0976 12.6834 9.7071 12.2929L8.4142 11H14C14.5523 11 15 10.5523 15 10C15 9.4477 14.5523 9 14 9H8.4142L9.7071 7.7071Z"
                         fill="#225A7F"
                       />
                     </svg>
                   </button>
-                  <span className="font-medium text-gray-800 text-sm">
+
+                  <span className="font-medium text-gray-800 text-xs sm:text-sm">
                     {selectedDate?.toLocaleString("en-US", {
                       month: "long",
                       year: "numeric",
                     })}
                   </span>
+
                   <button
                     onClick={() =>
                       setSelectedDate((prev) => {
-                        const newDate = new Date(prev!);
-                        newDate.setMonth(newDate.getMonth() + 1);
-                        return newDate;
+                        const d = new Date(prev!);
+                        d.setMonth(d.getMonth() + 1);
+                        return d;
                       })
                     }
                     className="p-1 rounded-full hover:bg-gray-200 transition-colors"
@@ -365,9 +374,9 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                       fill="none"
                     >
                       <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10ZM10.2929 12.2929C9.9024 12.6834 9.9024 13.3166 10.2929 13.7071C10.6834 14.0976 11.3166 14.0976 11.7071 13.7071L14.6201 10.7941C14.6351 10.7791 14.6497 10.7637 14.6637 10.748C14.87 10.5648 15 10.2976 15 10C15 9.7024 14.87 9.4352 14.6637 9.252C14.6497 9.2363 14.6351 9.2209 14.6201 9.2059L11.7071 6.29289C11.3166 5.90237 10.6834 5.90237 10.2929 6.29289C9.9024 6.68342 9.9024 7.31658 10.2929 7.70711L11.5858 9H6C5.44772 9 5 9.4477 5 10C5 10.5523 5.44772 11 6 11H11.5858L10.2929 12.2929Z"
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10ZM10.2929 12.2929C9.9024 12.6834 9.9024 13.3166 10.2929 13.7071C10.6834 14.0976 11.3166 14.0976 11.7071 13.7071L14.6201 10.7941C14.87 10.5648 15 10.2976 15 10C15 9.7024 14.87 9.4352 14.6637 9.252L11.7071 6.29289C11.3166 5.90237 10.6834 5.90237 10.2929 6.29289C9.9024 6.68342 9.9024 7.31658 10.2929 7.70711L11.5858 9H6C5.44772 9 5 9.4477 5 10C5 10.5523 5.44772 11 6 11H11.5858L10.2929 12.2929Z"
                         fill="#225A7F"
                       />
                     </svg>
@@ -375,7 +384,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                 </div>
 
                 {/* Days of Week */}
-                <div className="grid grid-cols-7 text-center text-xs font-medium text-gray-500 py-2">
+                <div className="grid grid-cols-7 text-center text-[10px] sm:text-xs font-medium text-gray-500 py-2">
                   {["S", "M", "T", "W", "T", "F", "S"].map((day) => (
                     <div key={day} className="px-1">
                       {day}
@@ -384,7 +393,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                 </div>
 
                 {/* Calendar Grid */}
-                <div className="grid grid-cols-7 gap-1 p-2">
+                <div className="grid grid-cols-7 gap-1 p-1 sm:p-2 w-fit mx-auto place-items-center">
                   {Array.from({ length: 35 }, (_, i) => {
                     const day = i + 1;
                     const date = new Date(
@@ -409,7 +418,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
                         }}
                         disabled={!isCurrentMonth}
                         className={`
-                  w-8 h-8 flex items-center justify-center text-sm
+                  w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center text-xs sm:text-sm
                   ${
                     isCurrentMonth
                       ? "cursor-pointer"
@@ -433,21 +442,18 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
             </Col>
 
             {/* Time Slots */}
-            <Col span={12}>
-              <h4 className="text-sm font-medium text-gray-700 mb-2">
-                Available Time Slots
-              </h4>
-              <div className="space-y-2">
-                {timeSlots.map((slot, index) => (
+            <Col xs={24} md={12}>
+              <div className="space-y-2 mt-10 md:mt-[100px]">
+                {timeSlots?.map((slot, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedTimeSlot(slot)}
                     className={`
-              w-full p-2 text-left text-sm border rounded-md transition-colors
+              w-full p-2 text-center text-sm  !text-[#0B121B] bg-[#F2F2F2] rounded-md transition-colors
               ${
                 selectedTimeSlot === slot
-                  ? "border-[#225A7F] bg-blue-50 text-blue-800"
-                  : "border-gray-300 hover:bg-gray-100 text-gray-700"
+                  ? "bg-blue-50 text-[#225A7F] cursor-pointer border-0"
+                  : "border-gray-300 hover:bg-[#225A7F] hover:!text-white cursor-pointer"
               }
             `}
                   >
@@ -459,17 +465,28 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
           </Row>
         </div>
 
-        {/* Documents */}
-        <div className="mb-6">
+        {/* Documents (responsive) */}
+        <div className="mb-6 w-full mx-auto max-w-full sm:max-w-[500px] md:max-w-[650px] lg:max-w-[790px]">
           <h3 className="text-sm font-medium text-gray-700 mb-3">
             Documents (if available)
           </h3>
-          <Form.Item name="documents" valuePropName="fileList">
-            <Upload {...uploadProps} accept=".pdf,.doc,.docx" maxCount={1}>
+
+          <Form.Item
+            name="documents"
+            valuePropName="fileList"
+            className="!mb-0"
+          >
+            <Upload
+              {...uploadProps}
+              accept=".pdf,.doc,.docx"
+              maxCount={1}
+              className="!block w-full"
+              style={{ width: "100%" }}
+            >
               <Button
-                block
-                icon={<UploadOutlined />}
-                className="border-dashed border-2 border-gray-300 text-gray-500 hover:text-gray-700"
+                disabled
+                block // makes the Ant button 100% of the Upload width
+                className="w-full border border-dashed hover:!border-[#CCCCCC] !text-[#9DA0A4] hover:text-[#9DA0A4]"
               >
                 Upload attachment
               </Button>
@@ -482,25 +499,23 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
           <TextArea rows={3} placeholder="Write note here" />
         </Form.Item>
 
-        <Divider />
-
         {/* Action Buttons */}
         <Form.Item>
-          <Row gutter={16}>
-            <Col>
+          <Row gutter={[16, 16]} justify="start">
+            <Col xs={24} sm={12} md={12} lg={6} className="!flex !gap-2">
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="bg-blue-700 hover:bg-blue-800 text-white px-6"
+                className="w-full sm:w-[206px] !rounded-[12px] text-white px-6"
               >
                 Save Now
               </Button>
             </Col>
-            <Col>
+            <Col xs={24} sm={12} md={12} lg={6}>
               <Button
                 size="large"
-                className="border-gray-300 text-gray-700 hover:bg-gray-100 px-6"
+                className="w-full sm:w-[206px] border-gray-300 text-gray-700 hover:bg-gray-100 px-6 !rounded-[12px]"
               >
                 Cancel
               </Button>
