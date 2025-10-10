@@ -38,7 +38,7 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
       placement="right"
       onClose={onClose}
       open={visible}
-      width={480}
+      width={600}
       footer={
         <div
           style={{
@@ -49,9 +49,6 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
-            Cancel
-          </Button>
           <Button
             size="large"
             type="primary"
@@ -59,6 +56,9 @@ const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
             onClick={() => form.submit()}
           >
             Save Now
+          </Button>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
+            Cancel
           </Button>
         </div>
       }

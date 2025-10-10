@@ -75,7 +75,7 @@ const ServicesByType: React.FC<ServicesByTypeProps> = ({
   };
 
   return (
-    <Card style={{ height }} className="rounded-2xl shadow-md">
+    <Card style={{ height }} className="rounded-2xl">
       <Title level={4} className="!text-[#4180AB] !font-semibold">
         {title}
       </Title>

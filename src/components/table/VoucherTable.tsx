@@ -199,6 +199,16 @@ const VoucherTable: React.FC<VoucherTableProps> = ({
         pageSize={pageSize}
         onPageChange={(page) => setCurrentPage(page)}
       />
+      <style jsx global>{`
+        .ant-card.ant-card-bordered {
+          border: 0 !important;
+          padding: 0 !important;
+        }
+        .ant-card .ant-card-body {
+          padding: 0px !important;
+          border-radius: 0 0 8px 8px !important;
+        }
+      `}</style>
     </Card>
   );
 };

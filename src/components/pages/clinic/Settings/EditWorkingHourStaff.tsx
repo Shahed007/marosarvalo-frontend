@@ -79,7 +79,7 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
       placement="right"
       onClose={onClose}
       open={visible}
-      width={600}
+      width={698}
       footer={
         <div
           style={{
@@ -90,24 +90,25 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
-            Cancel
-          </Button>
           <Button
             size="large"
             type="primary"
             style={{ flex: 1 }}
             onClick={() => form.submit()}
           >
-            {mode === "add" ? "Save Now" : "Update Now"}
+            {mode === "add" ? "Save Now" : "Save Now"}
           </Button>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
+            Cancel
+          </Button>
+          
         </div>
       }
     >
       <Form form={form} layout="vertical" onFinish={handleFinish}>
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 24}}>
           <h3 style={{ marginBottom: 16 }}>Working Days & Time</h3>
-          <div style={{ border: "1px solid #d9d9d9", borderRadius: 6 }}>
+          <div>
             {daysOfWeek.map((day) => (
               <div
                 key={day.value}
@@ -115,8 +116,6 @@ const EditWorkingHourStaff: React.FC<EditWorkingHourStaffProps> = ({
                   display: "flex",
                   alignItems: "center",
                   padding: "12px 16px",
-                  borderBottom:
-                    day.value !== "friday" ? "1px solid #f0f0f0" : "none",
                 }}
               >
                 <div style={{ width: 100, fontWeight: 500 }}>{day.label}</div>

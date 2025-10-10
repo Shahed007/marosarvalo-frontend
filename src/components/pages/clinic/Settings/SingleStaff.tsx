@@ -283,9 +283,12 @@ export default function SingleStaff() {
       key: "reason",
     },
     {
-      title: "Actions",
+      title: <div className="text-end">
+        Actions
+      </div>,
       dataIndex: "actions",
       key: "actions",
+      align: "end",
       render: () => (
         <div>
           <Button
@@ -328,7 +331,7 @@ export default function SingleStaff() {
             fontSize: "30px",
             fontWeight: 600,
             color: "#111827",
-            marginBottom: "24px",
+            marginBottom: "25px",
           }}
         >
           Settings-Working Hour
@@ -658,6 +661,20 @@ export default function SingleStaff() {
         onClose={handleCloseEditHolidayDrawer}
         onSave={handleOpenEditHolidayDrawer}
       />
+      <style jsx>{`
+        :global(.ant-card .ant-card-body) {
+          padding: 0 !important;
+        }
+        :global(.ant-tabs-nav)::before {
+          border-bottom: 4px solid #f2f2f2 !important;
+          width: 210px;
+        }
+
+        :global(.ant-tabs-nav .ant-tabs-ink-bar) {
+          height: 4px !important;
+          background: #225a7f !important;
+        }
+      `}</style>
     </div>
   );
 }

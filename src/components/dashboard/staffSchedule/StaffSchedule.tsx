@@ -33,7 +33,7 @@ const StaffSchedule: React.FC<StaffScheduleProps> = ({
           View all
         </Link>
       }
-      className="rounded-2xl shadow-sm"
+      className="rounded-2xl"
     >
       <div className="max-h-[300px] overflow-y-auto pr-2">
         <List

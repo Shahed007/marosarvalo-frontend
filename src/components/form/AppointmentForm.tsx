@@ -303,7 +303,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = () => {
         <h3 className="text-[16px] font-[600] text-[#0B121B] mb-3">
           Select Date and Time
         </h3>
-        <div className="bg-white p-4 sm:p-5 rounded-lg shadow-sm border border-gray-200 mb-6">
+        <div className="bg-white p-4 sm:p-5 rounded-lg border border-gray-200 mb-6">
           <Row
             gutter={[
               { xs: 8, sm: 12, md: 16, lg: 24, xl: 32 }, // horizontal

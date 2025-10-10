@@ -433,12 +433,12 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="Length & Time" name="lengthTime">
-                <Input placeholder="00:00" size="large" disabled />
+                <Input placeholder="00:00" size="large" />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="Price" name="price">
-                <Input placeholder="0.00" size="large" prefix="$" disabled />
+                <Input placeholder="0.00" size="large" prefix="$" />
               </Form.Item>
             </Col>
           </Row>
@@ -559,6 +559,11 @@ const SettingServices: React.FC<ProductTabelProps> = ({ data }) => {
           </Row>
         </Form>
       </Drawer>
+      <style jsx global>{`
+        .ant-card.ant-card-bordered {
+          border: 0 !important;
+        }
+      `}</style>
     </div>
   );
 };

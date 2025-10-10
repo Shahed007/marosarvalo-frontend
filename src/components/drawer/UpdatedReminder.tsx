@@ -126,6 +126,16 @@ const UpdateReminderForm = () => {
           </Form.Item>
         </Form>
       </Drawer>
+      <style jsx>{`
+        :global(.ant-checkbox-checked .ant-checkbox-inner) {
+          background-color: black !important;
+          border-color: black !important;
+        }
+
+        :global(.ant-checkbox-checked .ant-checkbox-inner::after) {
+          border-color: white !important;
+        }
+      `}</style>
     </div>
   );
 };

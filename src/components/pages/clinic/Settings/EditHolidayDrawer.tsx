@@ -29,9 +29,10 @@ const EditHolidayDrawer: React.FC<EditHolidayDrawerProps> = ({
         </div>
       }
       placement="right"
+      closable={false}
       onClose={onClose}
       open={visible}
-      width={480}
+      width={698}
       footer={
         <div
           style={{
@@ -42,9 +43,6 @@ const EditHolidayDrawer: React.FC<EditHolidayDrawerProps> = ({
             marginTop: "24px",
           }}
         >
-          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
-            Cancel
-          </Button>
           <Button
             size="large"
             type="primary"
@@ -52,6 +50,9 @@ const EditHolidayDrawer: React.FC<EditHolidayDrawerProps> = ({
             onClick={() => form.submit()}
           >
             Save Now
+          </Button>
+          <Button size="large" style={{ flex: 1 }} onClick={onClose}>
+            Cancel
           </Button>
         </div>
       }

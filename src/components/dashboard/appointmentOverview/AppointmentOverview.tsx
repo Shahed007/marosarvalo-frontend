@@ -89,7 +89,6 @@ const AppointmentOverview: React.FC<AppointmentOverviewProps> = ({
 
   return (
     <Card
-      className="!shadow-sm"
       style={{ minHeight: 405 }}
       // Custom title with vertical alignment
       title={

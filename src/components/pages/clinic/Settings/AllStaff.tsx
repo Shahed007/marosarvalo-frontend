@@ -45,7 +45,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   const router = useRouter();
   const [form] = Form.useForm();
 
-  // ✅ Apply filters
+  // Apply filters
   const filteredData = data.filter((record) => {
     // Search filter
     const searchLower = searchText.toLowerCase();
