@@ -13,6 +13,7 @@ const StatisticsCard: FC<{
     <Card
       style={{
         padding: "0px",
+        borderRadius: "12px",
       }}
     >
       <div className="flex justify-between">

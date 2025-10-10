@@ -37,7 +37,7 @@ const PopularServices: React.FC<PopularServicesProps> = ({ services }) => {
     datasets: [
       {
         data: services.map((s) => s.value),
-        backgroundColor: "rgba(34, 90, 127, 0.5)", // blue bars
+        backgroundColor: "#8AB3CF", // blue bars
         borderRadius: 10,
         barThickness: 20,
       },

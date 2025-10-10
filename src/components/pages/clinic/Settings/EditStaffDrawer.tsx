@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Drawer, Form, Input, Select } from "antd";
+import { Button, Drawer, Form, Input, Select, Space, Typography } from "antd";
 
 interface EditStaffDrawerProps {
   visible: boolean;
@@ -7,26 +7,34 @@ interface EditStaffDrawerProps {
   onSave: (values: any) => void;
 }
 
-const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => {
+const EditStaffDrawer = ({
+  visible,
+  onClose,
+  onSave,
+}: EditStaffDrawerProps) => {
   const [form] = Form.useForm();
 
   const handleFormSubmit = (values: any) => {
     onSave(values);
     form.resetFields();
   };
+  const { Title } = Typography;
 
   return (
     <Drawer
       title={
-        <div className="text-2xl font-semibold text-center">Edit Staff</div>
+        <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+          Edit Staff
+        </Title>
       }
       placement="right"
+      closable={false}
       onClose={() => {
         onClose();
         form.resetFields();
       }}
       open={visible}
-      width={700}
+      width={650}
       styles={{
         body: { padding: 24 },
         header: {
@@ -37,28 +45,53 @@ const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => 
       footer={
         <div
           style={{
+            textAlign: "center",
             padding: "16px 24px",
-            borderTop: "1px solid #e5e7eb",
+            width: "100%",
           }}
         >
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button
-              type="primary"
-              className="flex-1 min-w-[150px] py-5"
-              onClick={() => form.submit()}
-            >
-              Save Now
-            </Button>
-            <Button
-              className="flex-1 min-w-[150px] py-5"
-              onClick={() => {
-                onClose();
-                form.resetFields();
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
+          <Space
+            className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+            style={{ width: "100%" }}
+          >
+            {/* Save Now button */}
+            <div className="w-full sm:w-auto">
+              <Button
+                type="primary"
+                className="w-full sm:w-auto text-sm sm:text-base"
+                style={{
+                  padding: "12px 16px",
+                  minWidth: "200px",
+                  height: "auto",
+                  fontSize: "inherit",
+                }}
+                size="large"
+                onClick={() => form.submit()}
+              >
+                Save Now
+              </Button>
+            </div>
+
+            {/* Cancel button */}
+            <div className="w-full sm:w-auto">
+              <Button
+                className="w-full sm:w-auto text-sm sm:text-base"
+                style={{
+                  padding: "12px 16px",
+                  minWidth: "200px",
+                  height: "auto",
+                  fontSize: "inherit",
+                }}
+                size="large"
+                onClick={() => {
+                  onClose();
+                  form.resetFields();
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </Space>
         </div>
       }
     >
@@ -148,6 +181,15 @@ const EditStaffDrawer = ({ visible, onClose, onSave }: EditStaffDrawerProps) => 
             rules={[{ required: true, message: "Please enter address" }]}
           >
             <Input placeholder="Address" size="large" />
+          </Form.Item>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <Form.Item
+            label="Set Password"
+            name="password"
+            rules={[{ required: true, message: "Please enter password" }]}
+          >
+            <Input placeholder="Password" size="large" />
           </Form.Item>
         </div>
       </Form>

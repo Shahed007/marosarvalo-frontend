@@ -10,7 +10,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-// Your data
+// Your sample data
 export const appointmentList: AppointmentListProps[] = [
   {
     id: "#12345",
@@ -26,7 +26,7 @@ export const appointmentList: AppointmentListProps[] = [
     patientName: "Aisha Khan",
     specialist: "Dr. Farida Ahmed",
     reason: "Dental Consultation",
-    status: "Confirmed",
+    status: "Pending",
   },
   {
     id: "#12347",
@@ -34,6 +34,14 @@ export const appointmentList: AppointmentListProps[] = [
     patientName: "Karim Rahman",
     specialist: "Shakil ur Rahman",
     reason: "Follow-up Visit",
+    status: "Confirm",
+  },
+  {
+    id: "#12348",
+    time: "9:00 AM - 10:00 AM",
+    patientName: "Nadia Islam",
+    specialist: "Dr. Emily Carter",
+    reason: "Eye Exam",
     status: "Cancelled",
   },
 ];
@@ -41,46 +49,56 @@ export const appointmentList: AppointmentListProps[] = [
 const AppointmentListPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // 🔍 Filter appointments dynamically
   const filteredData = appointmentList.filter((item) =>
-    Object.values(item).some((field) =>
-      String(field).toLowerCase().includes(searchQuery.toLowerCase())
+    Object.values(item).some((val) =>
+      val.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
 
   return (
     <div className="p-4 md:p-6 lg:p-8 mb-8">
       {/* Page Title */}
-      <Title className="" level={2}>Appointment List</Title>
+      <Title
+        className="!text-[20px] sm:!text-[24px] md:!text-[28px] lg:!text-[32px] !font-[500] !text-[#0B121B]"
+      >
+        Appointment List
+      </Title>
 
       {/* Search + Add Button */}
-      <div className="flex flex-col justify-between sm:flex-row sm:items-center gap-4 mb-6 mt-7">
-        <Input
-          size="large"
-          placeholder="Search appointments..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)} // 👈 Connects input
-          addonAfter={<SearchOutlined />}
-          style={{ maxWidth: 420 }}
-          allowClear
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-8 mb-0 w-full">
+        {/* Search Input */}
+        <div className="w-full sm:flex-1 sm:max-w-[400px] lg:max-w-[625px]">
+          <Input
+            placeholder="Search patient or type"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
+          />
+        </div>
+
+        {/* Add Button */}
         <Link
-          href={"/clinic/appointment/add-appointment"}
+          href="/clinic/appointment/add-appointment"
           className="w-full sm:w-auto"
         >
           <Button
             type="primary"
             size="large"
             icon={<FaPlus />}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto !px-6 !py-5 text-sm sm:text-base"
           >
             Add New Appointment
           </Button>
         </Link>
       </div>
 
-      {/* Table */}
-      <AppointmentListTable data={filteredData} loading={false} />
+      {/* Always render the table wrapper */}
+      <div className="overflow-x-auto">
+        <AppointmentListTable data={filteredData} loading={false} />
+      </div>
     </div>
   );
 };

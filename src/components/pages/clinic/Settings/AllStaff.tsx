@@ -7,9 +7,6 @@ import {
   Button,
   Input,
   Select,
-  Space,
-  Row,
-  Col,
   Drawer,
   Form,
   Modal,
@@ -17,12 +14,11 @@ import {
   Tag,
   Dropdown,
   MenuProps,
+  Space,
 } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import {
   SearchOutlined,
-  LeftOutlined,
-  RightOutlined,
   PlusOutlined,
   EyeOutlined,
   DeleteOutlined,
@@ -32,6 +28,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { usePathname, useRouter } from "next/navigation";
 import { FiEdit2 } from "react-icons/fi";
 import EditStaffDrawer from "./EditStaffDrawer"; // Import the component
+import CustomPagination from "@/components/shared/CustomPagination";
 
 interface ProductTabelProps {
   data: AllStaffs[];
@@ -42,14 +39,14 @@ const { Title } = Typography;
 const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   const [searchText, setSearchText] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [pageSize] = useState<number>(10);
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [editStaffDrawer, setEditStaffDrawer] = useState(false);
   const [, setSelectedStaff] = useState<AllStaffs | null>(null);
   const router = useRouter();
   const [form] = Form.useForm();
 
-  // ✅ Apply filters
+  // Apply filters
   const filteredData = data.filter((record) => {
     // Search filter
     const searchLower = searchText.toLowerCase();
@@ -84,10 +81,10 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   };
 
   // Handle page size change
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setCurrentPage(1);
-  };
+  // const handlePageSizeChange = (size: number) => {
+  //   setPageSize(size);
+  //   setCurrentPage(1);
+  // };
 
   // Handle new staff form submission
   const handleFormSubmit = (values: any) => {
@@ -165,7 +162,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
     },
   ];
 
-  // ✅ Table columns for Staff Management
+  //  Table columns for Staff Management
   const columns: ColumnsType<AllStaffs> = [
     {
       title: "Name",
@@ -195,10 +192,16 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      align: "center",
-      render: (status: "Active" | "Inactive") => (
-        <Tag color={status === "Active" ? "green" : "red"}>{status}</Tag>
-      ),
+      render: (status: string) =>
+        status === "Active" ? (
+          <Tag color="#E6F7FE" className="!px-4 !py-1 !text-[#007A9C]">
+            Active
+          </Tag>
+        ) : (
+          <Tag color="#FEF7F7" className="!px-4 !py-1 !text-[#F45B69]">
+            Inactive
+          </Tag>
+        ),
     },
     {
       title: "Action",
@@ -230,23 +233,27 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
   ];
 
   return (
-    <div className="mt-20">
+    <div className="!mt-[32px]">
       <Title level={4}>All Staff</Title>
-      {/* Search + Add Button */}
-      <div className="flex items-center justify-between mb-6">
-        <Input
-          placeholder="Search staff"
-          suffix={<SearchOutlined className="cursor-pointer" />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          style={{ width: 700, borderRadius: "12px" }}
-          allowClear
-          className="!px-2 !py-2"
-        />
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-6 mt-[30px]">
+        {/* Search input */}
+        <div className="w-full sm:w-[400px] lg:w-[625px]">
+          <Input
+            placeholder="Search staff"
+            allowClear
+            size="large"
+            addonAfter={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+
+        {/* Add Staff button */}
         <Button
           type="primary"
+          block
           style={{ borderRadius: "12px" }}
-          className="!px-7 !py-5"
+          className="!py-5 sm:!px-7 sm:!w-auto"
           icon={<PlusOutlined />}
           onClick={() => setDrawerVisible(true)}
         >
@@ -256,6 +263,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
 
       {/* Table */}
       <Table
+        className="!overflow-x-auto"
         style={{
           borderRadius: "12px",
           overflow: "hidden",
@@ -275,7 +283,7 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
                   backgroundColor: "#F1F4F6",
                   padding: "16px",
                   fontWeight: 600,
-                  color: "#334155",
+                  color: "#4180AB",
                 }}
               />
             ),
@@ -294,98 +302,30 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
         }}
       />
 
-      {/* Custom Pagination */}
-      <Row justify="space-between" align="middle" style={{ marginTop: 24 }}>
-        <Col>
-          <Space>
-            <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-              Showing
-            </span>
-            <Select
-              value={pageSize}
-              onChange={handlePageSizeChange}
-              style={{ width: 80, height: 32, borderRadius: "15px" }}
-              size="small"
-            >
-              <Select.Option value={10}>10</Select.Option>
-              <Select.Option value={20}>20</Select.Option>
-              <Select.Option value={50}>50</Select.Option>
-            </Select>
-          </Space>
-        </Col>
-
-        <Col>
-          <span style={{ color: "rgba(0, 0, 0, 0.45)", fontSize: 14 }}>
-            Showing {startIndex + 1} to {endIndex} of {totalRecords} records
-          </span>
-        </Col>
-
-        <Col>
-          <Space>
-            <Button
-              icon={<LeftOutlined />}
-              size="small"
-              type="text"
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            />
-            <Button
-              type={currentPage === 1 ? "primary" : "text"}
-              size="small"
-              onClick={() => handlePageChange(1)}
-            >
-              1
-            </Button>
-            {totalRecords > pageSize && (
-              <Button
-                type={currentPage === 2 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(2)}
-              >
-                2
-              </Button>
-            )}
-            {totalRecords > pageSize * 2 && (
-              <Button
-                type={currentPage === 3 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(3)}
-              >
-                3
-              </Button>
-            )}
-            {totalRecords > pageSize * 3 && (
-              <Button
-                type={currentPage === 4 ? "primary" : "text"}
-                size="small"
-                onClick={() => handlePageChange(4)}
-              >
-                4
-              </Button>
-            )}
-            <Button
-              icon={<RightOutlined />}
-              size="small"
-              type="text"
-              disabled={endIndex >= totalRecords}
-              onClick={() => handlePageChange(currentPage + 1)}
-            />
-          </Space>
-        </Col>
-      </Row>
+      {/* Custom pagination */}
+      <CustomPagination
+        currentPage={currentPage}
+        total={data.length}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
 
       {/* New Staff Drawer */}
       <Drawer
         title={
-          <div className="text-2xl font-semibold text-center">Add Staff</div>
+          <Title level={2} color="#0B121B" style={{ textAlign: "center" }}>
+            Add Staff
+          </Title>
         }
+    
+        closable={false}
         placement="right"
         onClose={() => {
           setDrawerVisible(false);
           form.resetFields();
         }}
         open={drawerVisible}
-        width={700} // ✅ make responsive
+        width={650}
         styles={{
           body: { padding: 24 },
           header: {
@@ -396,28 +336,45 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
         footer={
           <div
             style={{
+              textAlign: "center",
               padding: "16px 24px",
-              borderTop: "1px solid #e5e7eb",
+              width: "100%",
             }}
           >
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button
-                type="primary"
-                className="flex-1 min-w-[150px] py-5"
-                onClick={() => form.submit()}
-              >
-                Submit
-              </Button>
-              <Button
-                className="flex-1 min-w-[150px] py-5"
-                onClick={() => {
-                  setDrawerVisible(false);
-                  form.resetFields();
-                }}
-              >
-                Not Now
-              </Button>
-            </div>
+            <Space
+              className="flex flex-row sm:flex-row justify-center items-center gap-4 w-full"
+              style={{ width: "100%" }}
+            >
+              <div className="w-full sm:w-auto">
+                <Button
+                  type="primary"
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
+                  onClick={() => form.submit()}
+                >
+                  Submit
+                </Button>
+              </div>
+              <div className="w-full sm:w-auto">
+                <Button
+                  className="w-full sm:w-auto text-sm sm:text-base"
+                  style={{
+                    padding: "12px 16px",
+                    minWidth: "200px",
+                    height: "auto",
+                    fontSize: "inherit",
+                  }}
+                  onClick={() => setDrawerVisible(false)}
+                >
+                  Not Now
+                </Button>
+              </div>
+            </Space>
           </div>
         }
       >
@@ -507,6 +464,15 @@ const AllStaff: React.FC<ProductTabelProps> = ({ data }) => {
               rules={[{ required: true, message: "Please enter address" }]}
             >
               <Input placeholder="Address" size="large" />
+            </Form.Item>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: "Please enter password" }]}
+            >
+              <Input placeholder="Password" size="large" />
             </Form.Item>
           </div>
         </Form>

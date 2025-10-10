@@ -1,18 +1,18 @@
 export default function page() {
   return (
-    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8">
-      <div className=" bg-white rounded-lg shadow-sm">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8 mb-8 !border-0">
+      <div className=" bg-white rounded-lg">
         {/* Header */}
-        <div className="border-b border-gray-200 px-6 py-4">
-          <h1 className="text-xl font-semibold text-gray-900">
+        <div className="">
+          <h1 className="text-[32px] font-[510] text-[#0B121B]">
             Settings-Personal Info
           </h1>
         </div>
 
-        <div className="p-6 space-y-8">
+        <div className=" space-y-8">
           {/* Personal Info Section */}
           <div>
-            <h2 className="text-lg font-medium text-primary mb-6">
+            <h2 className="text-[20px] font-medium text-primary mb-6 mt-[32px]">
               Personal Info
             </h2>
 
@@ -93,11 +93,11 @@ export default function page() {
 
           {/* Password Change Section */}
           <div>
-            <h2 className="text-lg font-medium text-primary mb-6">
+            <h2 className="text-[20px] font-medium text-primary mb-6">
               Password change
             </h2>
 
-            <div className="space-y-4 max-w-md">
+            <div className="space-y-4 ">
               {/* Current Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -138,7 +138,20 @@ export default function page() {
 
           {/* Update Button */}
           <div className="pt-4">
-            <button className="bg-primary hover:bg-primary cursor-pointer text-white font-medium py-2 px-6 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            <button
+              className="
+    bg-primary hover:bg-primary
+    text-white font-medium
+    w-[228px] h-[46px]
+    flex flex-col justify-center items-center
+    flex-shrink-0
+    rounded-[12px]
+    px-4 py-3
+    transition-colors duration-200
+    cursor-pointer
+    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+  "
+            >
               Update Now
             </button>
           </div>

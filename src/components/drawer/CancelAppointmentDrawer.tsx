@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { Drawer, Input, Button, Collapse } from "antd";
-import { CloseOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { DownOutlined, UpOutlined } from "@ant-design/icons";
 const { Panel } = Collapse;
 
 const CancelAppointmentDrawer = ({
@@ -36,7 +36,6 @@ const CancelAppointmentDrawer = ({
     onClose();
   };
 
-
   const [activeKeys, setActiveKeys] = useState<string[]>([]);
 
   const onChange = (keys: string | string[]) => {
@@ -50,9 +49,9 @@ const CancelAppointmentDrawer = ({
           style={{
             textAlign: "start",
             width: "100%",
-            fontSize: "20px",
-            fontWeight: "bold",
-            color: "#1f2937",
+            fontSize: "30px",
+            fontWeight: "510",
+            color: "#0B121B",
           }}
         >
           Cancel Appointment
@@ -61,16 +60,8 @@ const CancelAppointmentDrawer = ({
       placement="right"
       onClose={handleCancel}
       open={open}
-      width={400}
+      width={500}
       closable={false}
-      extra={
-        <Button
-          type="text"
-          icon={<CloseOutlined />}
-          onClick={handleCancel}
-          style={{ color: "#6b7280" }}
-        />
-      }
       footer={
         <div
           style={{
@@ -85,7 +76,7 @@ const CancelAppointmentDrawer = ({
             type="primary"
             size="large"
             style={{
-              minWidth: 120,
+              minWidth: 200,
               height: 44,
               borderRadius: "8px",
               fontWeight: 500,
@@ -97,7 +88,7 @@ const CancelAppointmentDrawer = ({
           <Button
             size="large"
             style={{
-              minWidth: 120,
+              minWidth: 200,
               height: 44,
               border: "1px solid #d1d5db",
               borderRadius: "8px",
